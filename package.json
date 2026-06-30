@@ -1,0 +1,20 @@
+{
+  "name": "safetyassuranceglobal-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Public website and governed blog for Safety Assurance Global.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^7.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "typescript": "^5.8.3"
+  }
+}

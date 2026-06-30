@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Blog" description="Safety assurance insights and updates from Safety Assurance Global.">
+  <section class="hero">
+    <div class="container">
+      <h1>SAG Blog</h1>
+      <p>Practical guidance, insights, and updates from our safety assurance specialists.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {approvedPosts.length === 0 ? (
+        <p>No approved posts are available yet.</p>
+      ) : (
+        <div class="grid">
+          {approvedPosts.map((post) => (
+            <article class="card" style="max-width: 100%; margin: 0; padding: 1.2rem;">
+              <h2 style="margin-bottom: 0.35rem; font-size: 1.3rem;">
+                <a href={`/blog/${post.data.slug}/`} style="color: var(--sag-blue-dark);">{post.data.title}</a>
+              </h2>
+              <p style="margin: 0 0 0.5rem; color: var(--sag-gray-700); font-size: 0.95rem;">
+                <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                {' · '}
+                <span>{post.data.author}</span>
+                {' · '}
+                <span>{post.data.category}</span>
+              </p>
+              <p style="margin-top: 0;">{post.data.summary}</p>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
