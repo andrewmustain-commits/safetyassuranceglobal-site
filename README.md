@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Safety Assurance Global Public Website
 
 Safety Assurance Global (SAG) public website built with Astro + TypeScript as a static site, including a governed Markdown blog workflow.
@@ -16,6 +17,33 @@ Safety Assurance Global (SAG) public website built with Astro + TypeScript as a 
 - `src/content.config.ts` — blog content schema and frontmatter validation
 - `docs/blog-publishing-workflow.md` — approval workflow for Marblism/Penny exports
 - `.github/workflows/pr-build.yml` — PR build validation workflow
+=======
+# Safety Assurance Global Site
+
+Astro public website for Safety Assurance Global, optimized for Cloudflare Pages.
+
+## Pages
+
+- Home
+- About
+- Services
+- Industries
+- Training
+- Academy
+- Blog
+- Contact
+- Privacy Policy
+- Terms
+
+## Governed blog publishing
+
+Blog content lives in `content/blog` and is governed by frontmatter `status`:
+
+- `approved`: publicly visible in blog listings and routes
+- `draft`: not publicly routable
+
+See `/docs/blog-publishing-workflow.md` for publishing governance.
+>>>>>>> origin/main
 
 ## Local development
 
@@ -24,6 +52,7 @@ npm install
 npm run dev
 ```
 
+<<<<<<< HEAD
 ## Build
 
 ```bash
@@ -62,3 +91,11 @@ Draft posts (`status: draft`) remain private and are not listed or generated as 
 ## CI validation
 
 Every pull request triggers GitHub Actions workflow `.github/workflows/pr-build.yml` to install dependencies and verify a successful Astro build.
+=======
+## Validation
+
+```bash
+npm run blog:validate
+npm run build
+```
+>>>>>>> origin/main

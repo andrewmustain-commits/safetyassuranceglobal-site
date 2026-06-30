@@ -4,9 +4,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => data.status === 'approved');
+<<<<<<< HEAD
   return posts.map((post) => ({
     params: { slug: post.data.slug },
     props: { post }
+=======
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+>>>>>>> origin/main
   }));
 }
 
@@ -14,6 +21,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
+<<<<<<< HEAD
 <BaseLayout title={post.data.title} description={post.data.summary}>
   <article>
     <p style="margin-bottom: 0.5rem; color: var(--sag-gray-700); font-size: 0.95rem;">
@@ -28,5 +36,12 @@ const { Content } = await render(post);
     <p style="font-size: 0.95rem; color: var(--sag-gray-700);">Tags: {post.data.tags.join(', ')}</p>
     <Content />
     <p><a href="/blog">← Back to blog</a></p>
+=======
+<BaseLayout title={post.data.title}>
+  <article>
+    <h2>{post.data.title}</h2>
+    <p><em>{post.data.pubDate.toISOString().slice(0, 10)}</em></p>
+    <Content />
+>>>>>>> origin/main
   </article>
 </BaseLayout>
