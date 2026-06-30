@@ -1,0 +1,28 @@
+{
+  "name": "safetyassuranceglobal-site",
+  "version": "1.0.0",
+  "description": "Public website and governed blog for Safety Assurance Global.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "blog:validate": "node ./scripts/validate-blog-status.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewmustain-commits/safetyassuranceglobal-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/andrewmustain-commits/safetyassuranceglobal-site/issues"
+  },
+  "homepage": "https://github.com/andrewmustain-commits/safetyassuranceglobal-site#readme",
+  "dependencies": {
+    "astro": "^7.0.4"
+  },
+  "private": true
+}
