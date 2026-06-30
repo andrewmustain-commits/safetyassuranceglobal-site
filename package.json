@@ -1,33 +1,19 @@
 {
   "name": "safetyassuranceglobal-site",
   "version": "1.0.0",
-<<<<<<< HEAD
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
   },
   "license": "UNLICENSED",
-=======
->>>>>>> origin/main
   "description": "Public website and governed blog for Safety Assurance Global.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-<<<<<<< HEAD
     "blog:validate": "node scripts/blog-validate.mjs"
-  },
-  "dependencies": {
-    "astro": "^7.0.4"
-  },
-  "devDependencies": {
-    "@types/node": "^24.0.7",
-    "typescript": "^5.8.3"
-  }
-=======
-    "blog:validate": "node ./scripts/validate-blog-status.mjs"
   },
   "repository": {
     "type": "git",
@@ -35,8 +21,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/andrewmustain-commits/safetyassuranceglobal-site/issues"
   },
@@ -44,6 +28,8 @@
   "dependencies": {
     "astro": "^7.0.4"
   },
-  "private": true
->>>>>>> origin/main
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "typescript": "^5.8.3"
+  }
 }
