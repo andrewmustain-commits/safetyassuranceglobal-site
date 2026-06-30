@@ -55,7 +55,7 @@ Draft posts (`status: draft`) remain private and are not listed or generated as 
    - **Framework preset:** Astro
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
-   - **Node.js version:** 20+
+   - **Node.js version:** 22.12+ (required by Astro 7)
 3. Deploy from your production branch (e.g., `main`).
 4. Ensure Pull Request previews are enabled in Cloudflare Pages settings.
 
