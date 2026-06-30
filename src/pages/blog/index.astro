@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout title="Blog">
+  <h2>Blog</h2>
+  <p>Governed publishing is enabled: only approved content appears below.</p>
+
+  {approvedPosts.length === 0 ? (
+    <p>No approved posts are available.</p>
+  ) : (
+    approvedPosts.map((post) => (
+      <article class="card">
+        <h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+        <p>{post.data.description}</p>
+        <small>{post.data.pubDate.toISOString().slice(0, 10)}</small>
+      </article>
+    ))
+  )}
+</BaseLayout>
