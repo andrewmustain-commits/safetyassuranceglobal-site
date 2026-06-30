@@ -5,7 +5,7 @@ This workflow governs publication of Markdown blog articles exported from Marbli
 ## 1. Export and prepare content
 
 1. Export the article from Marblism/Penny as Markdown.
-2. Save the file in `/home/runner/work/safetyassuranceglobal-site/safetyassuranceglobal-site/src/content/blog/`.
+2. Save the file in `src/content/blog/`.
 3. Ensure frontmatter includes all required fields:
    - `title`
    - `date`
