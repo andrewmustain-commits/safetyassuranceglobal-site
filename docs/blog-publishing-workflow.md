@@ -23,3 +23,13 @@ CI runs:
 
 1. `npm run blog:validate` for frontmatter status compliance.
 2. `npm run build` to ensure the approved-only route generation succeeds.
+
+### Validator behaviour
+
+`scripts/validate-blog-status.mjs` validates each Markdown file in `content/blog`:
+
+- Confirms the file opens with a `---` frontmatter delimiter.
+- Locates the closing `---` to extract only the YAML frontmatter block.
+- Splits on `/\r?\n/` to handle both LF and CRLF line endings.
+- Searches for `status:` only within frontmatter lines (not the Markdown body).
+- Rejects any value other than `approved` or `draft`.
