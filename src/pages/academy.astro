@@ -2,7 +2,19 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Academy">
-  <h2>Academy</h2>
-  <p>The Safety Assurance Global Academy offers structured pathways for professionals at every stage.</p>
+<BaseLayout title="Academy" description="SAG Academy provides structured pathways for developing world-class safety assurance capability.">
+  <section class="hero">
+    <div class="container">
+      <h1>SAG Academy</h1>
+      <p>Our academy delivers structured pathways from foundational assurance literacy to advanced implementation leadership.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid">
+      <div class="card"><h3>Foundation Track</h3><p>Core concepts, terminology, and assurance operating principles.</p></div>
+      <div class="card"><h3>Practitioner Track</h3><p>Applied methods for assurance planning, review, and governance integration.</p></div>
+      <div class="card"><h3>Leadership Track</h3><p>Capability for designing enterprise-level assurance systems and performance oversight.</p></div>
+    </div>
+  </section>
 </BaseLayout>

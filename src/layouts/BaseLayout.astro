@@ -1,48 +1,254 @@
 ---
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = 'Safety Assurance Global provides practical safety assurance consulting, industry programs, and workforce development.' } = Astro.props;
+
+const navigation = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/industries', label: 'Industries' },
+  { href: '/training', label: 'Training' },
+  { href: '/academy', label: 'Academy' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' }
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
     <title>{title} | Safety Assurance Global</title>
-    <style>
-      :root { font-family: Arial, sans-serif; }
-      body { margin: 0; line-height: 1.6; color: #102a43; }
-      header, main, footer { padding: 1rem; max-width: 960px; margin: 0 auto; }
-      nav { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-      a { color: #0057b8; text-decoration: none; }
-      a:hover { text-decoration: underline; }
-      h1, h2 { color: #003366; }
-      .card { border: 1px solid #d9e2ec; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
-    </style>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
-      <h1>Safety Assurance Global</h1>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/services">Services</a>
-        <a href="/industries">Industries</a>
-        <a href="/training">Training</a>
-        <a href="/academy">Academy</a>
-        <a href="/blog">Blog</a>
-        <a href="/contact">Contact</a>
-        <a href="/privacy-policy">Privacy Policy</a>
-        <a href="/terms">Terms</a>
-      </nav>
+      <div class="container header-inner">
+        <a href="/" class="brand">Safety Assurance Global</a>
+        <nav aria-label="Primary navigation">
+          <ul>
+            {navigation.map((item) => (
+              <li>
+                <a href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </header>
-    <main>
+    <main id="main-content">
       <slot />
     </main>
     <footer>
-      <small>© {new Date().getFullYear()} Safety Assurance Global</small>
+      <div class="container footer-inner">
+        <p>© {new Date().getFullYear()} Safety Assurance Global. All rights reserved.</p>
+        <p>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <span aria-hidden="true">•</span>
+          <a href="/terms-of-use">Terms of Use</a>
+        </p>
+      </div>
     </footer>
   </body>
 </html>
+
+<style is:global>
+  :root {
+    --sag-blue: #0c3c78;
+    --sag-blue-dark: #07264d;
+    --sag-blue-light: #2d67a8;
+    --sag-gray-100: #f5f7fa;
+    --sag-gray-300: #d6dde5;
+    --sag-gray-700: #4f5f73;
+    --sag-gray-900: #1a2633;
+    --max-width: 1120px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--sag-gray-900);
+    background: #ffffff;
+    line-height: 1.6;
+  }
+
+  .container {
+    width: min(100% - 2rem, var(--max-width));
+    margin-inline: auto;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--sag-blue-dark);
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    z-index: 999;
+  }
+
+  .skip-link:focus {
+    left: 0.5rem;
+    top: 0.5rem;
+  }
+
+  header {
+    background: linear-gradient(120deg, var(--sag-blue-dark), var(--sag-blue));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .header-inner {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+  }
+
+  nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.375rem;
+    font-size: 0.94rem;
+    font-weight: 500;
+  }
+
+  nav a[aria-current='page'],
+  nav a:hover,
+  nav a:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+  }
+
+  .hero {
+    background: linear-gradient(160deg, var(--sag-gray-100), #ffffff);
+    border-bottom: 1px solid var(--sag-gray-300);
+    padding: 4rem 0 3rem;
+  }
+
+  .hero h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+  }
+
+  .hero p {
+    max-width: 64ch;
+    color: var(--sag-gray-700);
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .section {
+    padding: 3rem 0;
+  }
+
+  .section h2 {
+    margin-top: 0;
+  }
+
+  .grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .card {
+    border: 1px solid var(--sag-gray-300);
+    border-radius: 0.75rem;
+    padding: 1.1rem;
+    background: #fff;
+  }
+
+  .card h3 {
+    margin-top: 0;
+    color: var(--sag-blue-dark);
+  }
+
+  .button {
+    display: inline-block;
+    background: var(--sag-blue);
+    color: white;
+    text-decoration: none;
+    padding: 0.65rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+  }
+
+  .button:hover,
+  .button:focus-visible {
+    background: var(--sag-blue-light);
+    outline: none;
+  }
+
+  article {
+    max-width: min(100% - 2rem, 820px);
+    margin: 0 auto;
+    padding: 2.5rem 0;
+  }
+
+  footer {
+    border-top: 1px solid var(--sag-gray-300);
+    background: var(--sag-gray-100);
+    margin-top: 2rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 1.1rem 0;
+    color: var(--sag-gray-700);
+    font-size: 0.95rem;
+  }
+
+  .footer-inner a {
+    color: var(--sag-blue-dark);
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding-top: 2.75rem;
+    }
+
+    nav ul {
+      gap: 0.2rem;
+    }
+
+    nav a {
+      font-size: 0.88rem;
+    }
+  }
+</style>

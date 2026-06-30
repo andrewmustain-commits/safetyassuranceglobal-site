@@ -1,7 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const blogDir = path.resolve('content/blog');
+const blogDir = path.resolve('src/content/blog');
 const files = (await readdir(blogDir)).filter((file) => file.endsWith('.md'));
 
 for (const file of files) {
