@@ -1,21 +1,171 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const industries = [
+  {
+    title: 'Federal Government',
+    riskContext: 'High-accountability operating environments with formal governance and oversight requirements.',
+    support: 'SAG supports governance design, assurance execution, and transparent operating rhythm alignment.'
+  },
+  {
+    title: 'Construction',
+    riskContext: 'Multi-contractor environments where coordination, handover, and field discipline are essential.',
+    support: 'SAG helps structure practical assurance frameworks and operational control oversight.'
+  },
+  {
+    title: 'Manufacturing',
+    riskContext: 'Production continuity and workforce safety depend on disciplined process execution.',
+    support: 'SAG supports assurance-led process consistency and governance accountability in operations.'
+  },
+  {
+    title: 'Energy',
+    riskContext: 'Asset-intensive operations with high-consequence risk and strict operational requirements.',
+    support: 'SAG helps strengthen governance, evidence pathways, and assurance review practices.'
+  },
+  {
+    title: 'Semiconductor',
+    riskContext: 'Precision environments where quality, safety, and operational reliability are tightly linked.',
+    support: 'SAG provides governance and assurance support for complex technical and operational interfaces.'
+  },
+  {
+    title: 'Transportation',
+    riskContext: 'Distributed operations where decision quality and assurance consistency affect continuity.',
+    support: 'SAG supports role clarity, risk-informed oversight, and enterprise coordination practices.'
+  },
+  {
+    title: 'Critical Infrastructure',
+    riskContext: 'Mission-critical services requiring resilient controls and transparent assurance operations.',
+    support: 'SAG helps organizations align governance, execution discipline, and improvement cycles.'
+  }
+];
 ---
 
 <BaseLayout title="Industries" description="Safety Assurance Global serves high-risk sectors requiring robust operational safety assurance.">
-  <section class="hero">
-    <div class="container">
-      <h1>Industries</h1>
-      <p>SAG supports organizations where assurance quality directly affects people, assets, and continuity.</p>
-    </div>
-  </section>
+  <div class="industries-shell">
+    <Container>
+      <Section class="industries-hero" ariaLabelledby="industries-hero-title">
+        <Badge text="Industries" />
+        <h1 id="industries-hero-title">Priority markets where safety, governance, and assurance are business-critical.</h1>
+        <p>
+          Safety Assurance Global supports high-consequence industries with practical frameworks for governance,
+          assurance delivery, and sustained operational performance.
+        </p>
+        <div class="hero-actions">
+          <Button href="/services">Explore Services</Button>
+          <Button href="/contact" variant="secondary">Contact Us</Button>
+        </div>
+      </Section>
 
-  <section class="section">
-    <div class="container grid">
-      <div class="card"><h3>Energy & Utilities</h3><p>Strengthen control assurance and governance across complex asset portfolios.</p></div>
-      <div class="card"><h3>Infrastructure & Construction</h3><p>Embed safety assurance through planning, delivery, and contractor governance.</p></div>
-      <div class="card"><h3>Transport & Logistics</h3><p>Improve operational assurance for distributed teams and time-critical operations.</p></div>
-      <div class="card"><h3>Manufacturing</h3><p>Reduce operational risk through assurance-led process discipline and competence uplift.</p></div>
-    </div>
-  </section>
+      <Section ariaLabelledby="industries-grid-title">
+        <div class="section-head">
+          <Badge text="Priority Markets" />
+          <h2 id="industries-grid-title">Risk context and support model by industry.</h2>
+        </div>
+        <div class="industries-grid">
+          {industries.map((industry) => (
+            <Card class="industry-card">
+              <h3>{industry.title}</h3>
+              <p><strong>Risk context:</strong> {industry.riskContext}</p>
+              <p><strong>How SAG supports:</strong> {industry.support}</p>
+              <p class="industry-links">
+                <a href="/services">Relevant services</a>
+                <span aria-hidden="true">•</span>
+                <a href="/contact">Contact us</a>
+              </p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+    </Container>
+  </div>
 </BaseLayout>
+
+<style>
+  .industries-shell {
+    padding-bottom: var(--space-4);
+  }
+
+  .industries-hero {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(8, 20, 39, 0.96), rgba(5, 14, 28, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.25rem, 2.6vw, 1.9rem);
+  }
+
+  .industries-hero h1 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.7rem;
+    max-width: 25ch;
+    font-size: clamp(1.95rem, 4vw, 2.7rem);
+  }
+
+  .industries-hero p {
+    max-width: 70ch;
+    margin-bottom: 0;
+  }
+
+  .hero-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    max-width: 38ch;
+    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  }
+
+  .industries-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .industry-card {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .industry-card h3 {
+    margin: 0;
+    font-size: 1.08rem;
+  }
+
+  .industry-card p {
+    margin: 0.65rem 0 0;
+  }
+
+  .industry-card strong {
+    color: var(--color-text-soft);
+  }
+
+  .industry-links {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+  }
+
+  .industry-links a {
+    font-weight: 600;
+  }
+
+  @media (max-width: 760px) {
+    .industries-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
