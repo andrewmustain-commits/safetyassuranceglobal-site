@@ -1,29 +1,185 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const focusAreas = [
+  {
+    title: 'Enterprise Safety Assurance',
+    description: 'Support for assurance operating models in high-consequence and risk-sensitive environments.'
+  },
+  {
+    title: 'Governance & Risk',
+    description: 'Governance-first structures that improve accountability, escalation clarity, and decision quality.'
+  },
+  {
+    title: 'Assurance & Execution',
+    description: 'Practical approaches that connect strategy, field activity, and enterprise oversight.'
+  },
+  {
+    title: 'Training & Capability Development',
+    description: 'Role-based capability pathways through SAG Academy and workforce development initiatives.'
+  }
+];
+
+const principles = [
+  {
+    title: 'Mission-driven practice',
+    description: 'Safety Assurance Global exists to improve safety outcomes through practical, scalable assurance methods.'
+  },
+  {
+    title: 'Governance-first approach',
+    description: 'Programs begin with role clarity, operating rhythm, and transparent decision pathways.'
+  },
+  {
+    title: 'Enterprise alignment',
+    description: 'Consulting, academy pathways, and command support are aligned to one operating narrative.'
+  },
+  {
+    title: 'Practical delivery focus',
+    description: 'Solutions are designed for operational use, measurable follow-through, and continuous improvement.'
+  }
+];
 ---
 
 <BaseLayout title="About" description="Learn about Safety Assurance Global's mission and approach to practical, measurable safety assurance.">
-  <section class="hero">
-    <div class="container">
-      <h1>About Safety Assurance Global</h1>
-      <p>SAG was founded to bridge strategy and execution in safety assurance, helping organizations move from policy to sustained operational confidence.</p>
-    </div>
-  </section>
+  <div class="about-shell">
+    <Container>
+      <Section class="about-hero" ariaLabelledby="about-hero-title">
+        <Badge text="About Safety Assurance Global" />
+        <h1 id="about-hero-title">A governance-first company focused on enterprise safety and assurance performance.</h1>
+        <p>
+          Safety Assurance Global helps organizations bridge strategy and execution through practical governance,
+          risk-informed assurance methods, and capability development for enterprise teams.
+        </p>
+        <div class="hero-actions">
+          <Button href="/services">Explore Services</Button>
+          <Button href="/contact" variant="secondary">Contact Us</Button>
+        </div>
+      </Section>
 
-  <section class="section">
-    <div class="container grid">
-      <div class="card">
-        <h3>Mission</h3>
-        <p>Enable safer outcomes by making assurance practical, scalable, and aligned to operational realities.</p>
-      </div>
-      <div class="card">
-        <h3>Approach</h3>
-        <p>We combine governance design, field-ready tooling, and people capability to deliver lasting impact.</p>
-      </div>
-      <div class="card">
-        <h3>Values</h3>
-        <p>Integrity, clarity, and accountability guide every engagement with clients and partners.</p>
-      </div>
-    </div>
-  </section>
+      <Section ariaLabelledby="mission-title">
+        <div class="section-head">
+          <Badge text="Mission" />
+          <h2 id="mission-title">What Safety Assurance Global does.</h2>
+        </div>
+        <Card class="about-card mission-card">
+          <p>
+            Safety Assurance Global provides enterprise advisory and implementation support across safety, governance,
+            risk, assurance, and workforce development. Our work is focused on helping leaders establish clear
+            accountability, improve decision support, and sustain assurance performance at scale.
+          </p>
+        </Card>
+      </Section>
+
+      <Section ariaLabelledby="focus-title">
+        <div class="section-head">
+          <Badge text="Focus Areas" />
+          <h2 id="focus-title">Enterprise safety, risk, assurance, and training.</h2>
+        </div>
+        <div class="focus-grid">
+          {focusAreas.map((item) => (
+            <Card class="about-card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="principles-title">
+        <div class="section-head">
+          <Badge text="Company Story" />
+          <h2 id="principles-title">How we approach enterprise engagements.</h2>
+        </div>
+        <div class="principles-grid">
+          {principles.map((item) => (
+            <Card class="about-card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+    </Container>
+  </div>
 </BaseLayout>
+
+<style>
+  .about-shell {
+    padding-bottom: var(--space-4);
+  }
+
+  .about-hero {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(8, 20, 39, 0.96), rgba(5, 14, 28, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.25rem, 2.6vw, 1.9rem);
+  }
+
+  .about-hero h1 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.7rem;
+    max-width: 24ch;
+    font-size: clamp(1.95rem, 4vw, 2.7rem);
+  }
+
+  .about-hero p {
+    max-width: 70ch;
+    margin-bottom: 0;
+  }
+
+  .hero-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    max-width: 40ch;
+    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  }
+
+  .focus-grid,
+  .principles-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-card {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .about-card h3 {
+    margin: 0;
+  }
+
+  .about-card p {
+    margin: 0.65rem 0 0;
+  }
+
+  .mission-card {
+    max-width: 82ch;
+  }
+
+  @media (max-width: 720px) {
+    .focus-grid,
+    .principles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
