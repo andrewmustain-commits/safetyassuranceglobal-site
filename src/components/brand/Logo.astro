@@ -1,0 +1,76 @@
+---
+interface Props {
+  href?: string;
+  alt?: string;
+  variant?: 'default' | 'light' | 'dark' | 'white' | 'icon';
+  className?: string;
+  imageClassName?: string;
+  loading?: 'eager' | 'lazy';
+  decoding?: 'async' | 'auto' | 'sync';
+}
+
+const {
+  href = '/',
+  alt = 'Safety Assurance Global',
+  variant = 'default',
+  className = '',
+  imageClassName = '',
+  loading = 'eager',
+  decoding = 'async'
+} = Astro.props;
+
+const srcByVariant: Record<NonNullable<Props['variant']>, string> = {
+  default: '/images/brand/sag-logo.svg',
+  light: '/images/brand/sag-logo-white.svg',
+  white: '/images/brand/sag-logo-white.svg',
+  dark: '/images/brand/sag-logo-dark.svg',
+  icon: '/images/brand/sag-icon.svg'
+};
+
+const src = srcByVariant[variant];
+const isIcon = variant === 'icon';
+const baseImageClass = isIcon ? 'sag-logo-image is-icon' : 'sag-logo-image';
+const imageClass = imageClassName ? `${baseImageClass} ${imageClassName}` : baseImageClass;
+const linkClass = className ? `sag-logo-link ${className}` : 'sag-logo-link';
+---
+
+{
+  href ? (
+    <a href={href} class={linkClass} aria-label="Safety Assurance Global home">
+      <img
+        class={imageClass}
+        src={src}
+        alt={alt}
+        loading={loading}
+        decoding={decoding}
+      />
+    </a>
+  ) : (
+    <img
+      class={imageClass}
+      src={src}
+      alt={alt}
+      loading={loading}
+      decoding={decoding}
+    />
+  )
+}
+
+<style>
+  .sag-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .sag-logo-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: clamp(1.7rem, 3.4vw, 2.2rem);
+  }
+
+  .sag-logo-image.is-icon {
+    height: clamp(1.8rem, 3.6vw, 2.35rem);
+  }
+</style>

@@ -1,0 +1,9 @@
+# Default repository ownership
+* @andrewmustain-commits
+
+# Workflows and repository controls
+.github/ @andrewmustain-commits
+
+# Content governance documentation
+docs/content/ @andrewmustain-commits
+docs/hardening/ @andrewmustain-commits

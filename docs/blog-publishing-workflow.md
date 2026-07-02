@@ -2,6 +2,8 @@
 
 This workflow governs publication of Markdown blog articles exported from Marblism/Penny.
 
+For the full internal governance standards, authority hierarchy, and required reading order, see `docs/content/CONTENT-INDEX.md`.
+
 ## 1. Export and prepare content
 
 1. Export the article from Marblism/Penny as Markdown.

@@ -25,7 +25,7 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
 <BaseLayout title="Home" description="Safety Assurance Global helps leaders build safer operations with practical assurance, training, and governance.">
   <div class="home-shell">
     <div class="container home-stack">
-      <HomeHero />
+      <HomeHero showRegisteredArtwork={true} />
       <CapabilityCards />
       <ServicesOverview />
       <AcademyHighlight />

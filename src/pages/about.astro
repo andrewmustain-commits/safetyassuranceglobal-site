@@ -104,6 +104,57 @@ const principles = [
           ))}
         </div>
       </Section>
+
+      <Section ariaLabelledby="brand-assets-title">
+        <div class="section-head">
+          <Badge text="Brand Assets" />
+          <h2 id="brand-assets-title">Official brand artwork and approved usage assets.</h2>
+        </div>
+        <div class="brand-assets-grid">
+          <Card class="about-card brand-asset-card">
+            <h3>Official Registered Brand Artwork</h3>
+            <p>Use this registered artwork for approved social previews and official external brand representation.</p>
+            <img
+              src="/images/brand/sag-brand-artwork-registered.png"
+              alt="Safety Assurance Global registered trademark artwork"
+              loading="lazy"
+              decoding="async"
+            />
+          </Card>
+
+          <Card class="about-card brand-asset-card">
+            <h3>Primary SVG Logo</h3>
+            <p>The primary vector logo for website interface surfaces, documents, and scalable brand usage.</p>
+            <img
+              src="/images/brand/sag-logo.svg"
+              alt="Safety Assurance Global primary SVG logo"
+              loading="lazy"
+              decoding="async"
+            />
+          </Card>
+
+          <Card class="about-card brand-asset-card">
+            <h3>Alternate Brand Artwork</h3>
+            <p>Alternate branded social card approved for supporting campaign and communications contexts.</p>
+            <img
+              src="/images/brand/social-card.png"
+              alt="Safety Assurance Global alternate brand artwork"
+              loading="lazy"
+              decoding="async"
+            />
+          </Card>
+
+          <Card class="about-card brand-usage-card">
+            <h3>Brand usage notes</h3>
+            <ul>
+              <li>Do not modify brand proportions, orientation, or trademark markings.</li>
+              <li>Maintain clear space around all artwork and logo marks.</li>
+              <li>Use SVG logo files for UI placements and PNG artwork for social cards.</li>
+              <li>Follow approved color and contrast guidance on dark and light backgrounds.</li>
+            </ul>
+          </Card>
+        </div>
+      </Section>
     </Container>
   </div>
 </BaseLayout>
@@ -176,9 +227,40 @@ const principles = [
     max-width: 82ch;
   }
 
+  .brand-assets-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .brand-asset-card {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .brand-asset-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.8rem;
+    border: 1px solid rgba(111, 167, 236, 0.28);
+    background: rgba(5, 14, 28, 0.7);
+  }
+
+  .brand-usage-card ul {
+    margin: 0.6rem 0 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .brand-usage-card li {
+    color: var(--text-secondary);
+  }
+
   @media (max-width: 720px) {
     .focus-grid,
-    .principles-grid {
+    .principles-grid,
+    .brand-assets-grid {
       grid-template-columns: 1fr;
     }
   }
