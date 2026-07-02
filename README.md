@@ -15,7 +15,10 @@ Safety Assurance Global (SAG) public website built with Astro + TypeScript as a 
 - `src/content/blog/` — governed Markdown blog posts
 - `src/content.config.ts` — blog content schema and frontmatter validation
 - `docs/blog-publishing-workflow.md` — approval workflow for Marblism/Penny exports
+- `docs/content/README.md` — internal content governance library overview and reading order
 - `.github/workflows/pr-build.yml` — PR build validation workflow
+
+For internal governance standards and document hierarchy, see `docs/content/README.md`.
 
 ## Local development
 
