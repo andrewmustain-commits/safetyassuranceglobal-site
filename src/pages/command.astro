@@ -1,0 +1,367 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const platformOverview = [
+  {
+    title: 'Unified operational visibility',
+    description: 'A consolidated view of assurance activity, governance priorities, and operational context across teams.'
+  },
+  {
+    title: 'Governance support',
+    description: 'Structured workflows that reinforce decision roles, escalation pathways, and accountability.'
+  },
+  {
+    title: 'Decision support',
+    description: 'Context-aware information and review structures to support timely and consistent decisions.'
+  },
+  {
+    title: 'Enterprise traceability',
+    description: 'Clear records connecting observations, actions, and outcomes for assurance continuity.'
+  },
+  {
+    title: 'Workforce capability integration',
+    description: 'Alignment between operational practice and capability development through SAG Academy pathways.'
+  }
+];
+
+const capabilities = [
+  {
+    title: 'Enterprise Dashboards',
+    description: 'Role-aligned visibility to monitor operational signals and assurance priorities.'
+  },
+  {
+    title: 'Decision Integrity',
+    description: 'Structured governance checkpoints to improve consistency and accountability in decisions.'
+  },
+  {
+    title: 'Assessment Management',
+    description: 'Coordinated assessment workflows for planning, review, and follow-through.'
+  },
+  {
+    title: 'Evidence & Traceability',
+    description: 'Organized assurance records that support transparency and operational learning.'
+  },
+  {
+    title: 'Academy Integration',
+    description: 'Connection to learning pathways that reinforce role-based capability in day-to-day operations.'
+  },
+  {
+    title: 'Reporting & Analytics',
+    description: 'Reporting frameworks that help leadership track trends, priorities, and action status.'
+  }
+];
+
+const benefits = [
+  'Centralized visibility',
+  'Consistent governance',
+  'Better decision support',
+  'Enterprise scalability',
+  'Audit readiness'
+];
+
+const roadmapItems = [
+  'Expanded cross-team coordination views for multi-site assurance programs.',
+  'Richer workflow templates to support broader governance operating patterns.',
+  'Additional analytics layers for long-range planning and capability forecasting.'
+];
+---
+
+<BaseLayout title="SAG Command" description="SAG Command is the operational command center for enterprise safety, governance, risk, assurance, and workforce capability.">
+  <div class="command-shell">
+    <Container>
+      <Section class="command-hero" ariaLabelledby="command-hero-title">
+        <Badge text="SAG Command" />
+        <h1 id="command-hero-title">Enterprise Command Center for Safety, Risk, Governance, and Assurance</h1>
+        <p>
+          SAG Command provides a unified operational layer for governance execution, risk-informed decision support,
+          assurance traceability, and workforce capability alignment.
+        </p>
+        <div class="hero-actions">
+          <Button href="/contact">Request a Demonstration</Button>
+          <Button href="/contact" variant="secondary">Contact Us</Button>
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="platform-overview-title">
+        <div class="section-head">
+          <Badge text="Platform Overview" />
+          <h2 id="platform-overview-title">Operational clarity across governance and assurance workflows.</h2>
+        </div>
+        <div class="overview-grid">
+          {platformOverview.map((item) => (
+            <Card class="command-card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="core-capabilities-title">
+        <div class="section-head">
+          <Badge text="Core Capabilities" />
+          <h2 id="core-capabilities-title">A practical platform capability set for enterprise operations.</h2>
+        </div>
+        <div class="capability-grid">
+          {capabilities.map((item) => (
+            <Card class="command-card capability-card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="fit-together-title">
+        <div class="section-head">
+          <Badge text="How It Fits Together" />
+          <h2 id="fit-together-title">Consulting, Academy, and Command operate as one delivery continuum.</h2>
+        </div>
+        <ol class="fit-flow">
+          <li>
+            <Card as="div" class="flow-card">
+              <h3>Safety Assurance Global Consulting</h3>
+              <p>Defines governance priorities, assurance scope, and operating requirements.</p>
+            </Card>
+          </li>
+          <li>
+            <Card as="div" class="flow-card">
+              <h3>SAG Academy</h3>
+              <p>Builds role-based capability so teams can execute responsibilities with consistency.</p>
+            </Card>
+          </li>
+          <li>
+            <Card as="div" class="flow-card">
+              <h3>SAG Command</h3>
+              <p>Supports day-to-day execution, tracking, and governance follow-through in operations.</p>
+            </Card>
+          </li>
+        </ol>
+      </Section>
+
+      <Section ariaLabelledby="benefits-title">
+        <div class="section-head">
+          <Badge text="Benefits" />
+          <h2 id="benefits-title">Outcomes centered on visibility, consistency, and assurance discipline.</h2>
+        </div>
+        <div class="benefits-grid">
+          {benefits.map((item) => (
+            <Card as="div" class="benefit-card">
+              <h3>{item}</h3>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="future-vision-title">
+        <div class="section-head">
+          <Badge text="Future Vision" />
+          <h2 id="future-vision-title">Roadmap concepts under consideration for future evolution.</h2>
+        </div>
+        <Card as="div" class="roadmap-card">
+          <p class="roadmap-note">
+            The items below are roadmap concepts, not statements of currently available features.
+          </p>
+          <ul>
+            {roadmapItems.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </Card>
+      </Section>
+
+      <Section class="command-cta" ariaLabelledby="command-cta-title">
+        <Badge text="Call to Action" />
+        <h2 id="command-cta-title">See how SAG Command can support your enterprise operating model.</h2>
+        <p>
+          Connect with Safety Assurance Global to discuss demonstration options, platform fit, and capability development pathways.
+        </p>
+        <div class="cta-actions">
+          <Button href="/contact">Request a Demonstration</Button>
+          <Button href="/contact" variant="secondary">Contact Safety Assurance Global</Button>
+          <Button href="/academy" variant="secondary">Explore the Academy</Button>
+        </div>
+      </Section>
+    </Container>
+  </div>
+</BaseLayout>
+
+<style>
+  .command-shell {
+    padding-bottom: var(--space-4);
+  }
+
+  .command-hero {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(8, 20, 39, 0.96), rgba(5, 14, 28, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.25rem, 2.6vw, 1.9rem);
+  }
+
+  .command-hero h1 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.7rem;
+    max-width: 24ch;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  .command-hero p {
+    max-width: 72ch;
+    margin-bottom: 0;
+  }
+
+  .hero-actions,
+  .cta-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    max-width: 42ch;
+    font-size: clamp(1.4rem, 2.4vw, 1.95rem);
+  }
+
+  .overview-grid,
+  .capability-grid,
+  .benefits-grid {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .overview-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .capability-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .command-card,
+  .flow-card,
+  .benefit-card,
+  .roadmap-card {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .command-card h3,
+  .flow-card h3,
+  .benefit-card h3 {
+    margin: 0;
+    font-size: 1.03rem;
+  }
+
+  .command-card p,
+  .flow-card p {
+    margin: 0.7rem 0 0;
+  }
+
+  .fit-flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-1);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fit-flow li {
+    margin: 0;
+  }
+
+  .flow-card {
+    min-height: 100%;
+  }
+
+  .benefit-card {
+    display: flex;
+    align-items: center;
+    min-height: 90px;
+  }
+
+  .roadmap-note {
+    margin: 0;
+    color: var(--color-accent-green);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.76rem;
+    font-weight: 600;
+  }
+
+  .roadmap-card ul {
+    margin: 0.8rem 0 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .command-cta {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(150deg, rgba(9, 24, 46, 0.95), rgba(6, 16, 31, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.4vw, 1.75rem);
+  }
+
+  .command-cta h2 {
+    margin-top: 0.8rem;
+    margin-bottom: 0.75rem;
+    max-width: 30ch;
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+  }
+
+  .command-cta p {
+    max-width: 70ch;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 1200px) {
+    .overview-grid,
+    .benefits-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 980px) {
+    .capability-grid,
+    .fit-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .overview-grid,
+    .benefits-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .overview-grid,
+    .capability-grid,
+    .fit-flow,
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
