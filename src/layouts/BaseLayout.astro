@@ -187,11 +187,11 @@ const ogImage = new URL(image, Astro.url.origin).href;
       </Container>
     </footer>
     <script>
-      const nav = document.querySelector('.primary-nav');
-      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.querySelector<HTMLElement>('.primary-nav');
+      const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
 
       if (nav && toggle) {
-        const setState = (open) => {
+        const setState = (open: boolean) => {
           nav.dataset.open = String(open);
           toggle.setAttribute('aria-expanded', String(open));
         };
@@ -200,7 +200,7 @@ const ogImage = new URL(image, Astro.url.origin).href;
           setState(nav.dataset.open !== 'true');
         });
 
-        nav.querySelectorAll('a').forEach((link) => {
+        nav.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
           link.addEventListener('click', () => setState(false));
         });
 

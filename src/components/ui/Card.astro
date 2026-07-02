@@ -1,13 +1,14 @@
 ---
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'article'> {
   as?: 'article' | 'div' | 'section';
-  class?: string;
 }
 
-const { as = 'article', class: className } = Astro.props;
+const { as = 'article', class: className, ...attrs } = Astro.props as Props;
 const Tag = as;
 ---
 
-<Tag class:list={['ui-card', className]}>
+<Tag class:list={['ui-card', className]} {...attrs}>
   <slot />
 </Tag>
