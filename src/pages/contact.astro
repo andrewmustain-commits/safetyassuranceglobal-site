@@ -1,9 +1,214 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const pathways = [
+  {
+    title: 'Consulting',
+    description: 'Discuss governance design, assurance delivery, and operational risk support for your organization.'
+  },
+  {
+    title: 'SAG Academy',
+    description: 'Explore role-based training and workforce development pathways for enterprise teams.'
+  },
+  {
+    title: 'SAG Command',
+    description: 'Request a platform demonstration focused on command-center coordination and assurance visibility.'
+  },
+  {
+    title: 'Partnerships',
+    description: 'Coordinate strategic partnership conversations aligned to safety and assurance priorities.'
+  },
+  {
+    title: 'Government / Infrastructure',
+    description: 'Start public-sector or infrastructure-focused discussions with traceable governance requirements.'
+  }
+];
 ---
 
-<BaseLayout title="Contact">
-  <h2>Contact</h2>
-  <p>For project enquiries, partnership discussions, or training requests, please reach out through the official Safety Assurance Global contact channels.</p>
-  <p>Our team will respond with the most appropriate next steps.</p>
+<BaseLayout title="Contact" description="Request a consultation with Safety Assurance Global for enterprise safety, governance, assurance, and capability initiatives.">
+  <div class="contact-shell">
+    <Container>
+      <Section class="contact-hero" ariaLabelledby="contact-hero-title">
+        <Badge text="Request a Consultation" />
+        <h1 id="contact-hero-title">Request a Consultation</h1>
+        <p>
+          Connect with Safety Assurance Global to discuss your operating context, governance priorities,
+          and practical next steps for safety assurance and capability development.
+        </p>
+        <div class="hero-actions">
+          <Button href="#contact-pathways">Start an Inquiry</Button>
+          <Button href="mailto:contact@safetyassuranceglobal.com" variant="secondary">Email the Team</Button>
+        </div>
+      </Section>
+
+      <Section id="contact-pathways" ariaLabelledby="pathways-title">
+        <div class="section-head">
+          <Badge text="Inquiry Pathways" />
+          <h2 id="pathways-title">Select the pathway that matches your request.</h2>
+        </div>
+        <div class="pathways-grid">
+          {pathways.map((pathway) => (
+            <Card class="contact-card">
+              <h3>{pathway.title}</h3>
+              <p>{pathway.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="expectations-title">
+        <div class="section-head">
+          <Badge text="Response Expectations" />
+          <h2 id="expectations-title">Clear communication and governance-aligned engagement.</h2>
+        </div>
+        <Card class="contact-card expectations-card">
+          <p>
+            Initial responses are typically provided within standard business hours. If your inquiry is urgent,
+            include priority context in your message so the appropriate team can coordinate next steps.
+          </p>
+          <p>
+            Safety Assurance Global applies professional governance principles to all engagements, including clarity
+            of scope, role accountability, and controlled handling of shared information.
+          </p>
+        </Card>
+      </Section>
+
+      <Section class="contact-details" ariaLabelledby="details-title">
+        <Badge text="Contact Details" />
+        <h2 id="details-title">Talk with the right team.</h2>
+        <div class="details-grid">
+          <Card class="contact-card">
+            <h3>General Inquiries</h3>
+            <p><a href="mailto:contact@safetyassuranceglobal.com">contact@safetyassuranceglobal.com</a></p>
+            <p>Use for consulting, partnerships, and program inquiries.</p>
+          </Card>
+          <Card class="contact-card">
+            <h3>Academy Inquiries</h3>
+            <p><a href="mailto:academy@safetyassuranceglobal.com">academy@safetyassuranceglobal.com</a></p>
+            <p>Use for training pathways, enterprise learning, and development planning.</p>
+          </Card>
+          <Card class="contact-card">
+            <h3>Command Demonstrations</h3>
+            <p><a href="mailto:command@safetyassuranceglobal.com">command@safetyassuranceglobal.com</a></p>
+            <p>Use for SAG Command platform demonstrations and capability fit discussions.</p>
+          </Card>
+        </div>
+        <div class="cta-actions">
+          <Button href="mailto:contact@safetyassuranceglobal.com">Contact Safety Assurance Global</Button>
+          <Button href="/services" variant="secondary">Explore Services</Button>
+          <Button href="/academy" variant="secondary">Explore Academy</Button>
+          <Button href="/command" variant="secondary">Explore SAG Command</Button>
+        </div>
+      </Section>
+    </Container>
+  </div>
 </BaseLayout>
+
+<style>
+  .contact-shell {
+    padding-bottom: var(--space-4);
+  }
+
+  .contact-hero {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(8, 20, 39, 0.96), rgba(5, 14, 28, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.25rem, 2.6vw, 1.9rem);
+  }
+
+  .contact-hero h1 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.7rem;
+    max-width: 18ch;
+    font-size: clamp(2rem, 4vw, 2.65rem);
+  }
+
+  .contact-hero p {
+    max-width: 68ch;
+    margin-bottom: 0;
+  }
+
+  .hero-actions,
+  .cta-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    max-width: 42ch;
+    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  }
+
+  .pathways-grid,
+  .details-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .contact-card {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .contact-card h3 {
+    margin: 0;
+    font-size: 1.04rem;
+  }
+
+  .contact-card p {
+    margin: 0.65rem 0 0;
+  }
+
+  .contact-card a {
+    font-weight: 600;
+  }
+
+  .expectations-card {
+    max-width: 78ch;
+  }
+
+  .contact-details {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(150deg, rgba(9, 24, 46, 0.95), rgba(6, 16, 31, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.4vw, 1.75rem);
+  }
+
+  .contact-details h2 {
+    margin-top: 0.8rem;
+    margin-bottom: 0.75rem;
+    max-width: 26ch;
+    font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+  }
+
+  @media (max-width: 980px) {
+    .pathways-grid,
+    .details-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pathways-grid,
+    .details-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
