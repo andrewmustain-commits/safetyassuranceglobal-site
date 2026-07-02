@@ -29,6 +29,7 @@ const navigation = [
 const currentPath = Astro.url.pathname;
 const normalizedPath = currentPath !== '/' && currentPath.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
 const isHome = normalizedPath === '/';
+const normalizeHref = (value: string) => (value !== '/' && value.endsWith('/') ? value.slice(0, -1) : value);
 
 const breadcrumbLabelMap: Record<string, string> = {
   about: 'About',
@@ -92,7 +93,13 @@ const ogImage = new URL(image, Astro.url.origin).href;
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header">
       <Container class="header-inner">
-        <a href="/" class="brand">Safety Assurance Global</a>
+        <a href="/" class="brand" aria-label="Safety Assurance Global home">
+          <span class="brand-mark" aria-hidden="true">SAG</span>
+          <span class="brand-copy">
+            <span class="brand-title">Safety Assurance Global</span>
+            <span class="brand-kicker">Institutional Assurance Command</span>
+          </span>
+        </a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav-list">
           Menu
         </button>
@@ -100,7 +107,7 @@ const ogImage = new URL(image, Astro.url.origin).href;
           <ul id="primary-nav-list">
             {navigation.map((item) => (
               <li>
-                <a href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>{item.label}</a>
+                <a href={item.href} aria-current={normalizeHref(item.href) === normalizedPath ? 'page' : undefined}>{item.label}</a>
               </li>
             ))}
           </ul>
@@ -143,6 +150,7 @@ const ogImage = new URL(image, Astro.url.origin).href;
     <footer class="site-footer">
       <Container class="footer-shell">
         <section class="footer-company" aria-labelledby="footer-company-title">
+          <p class="footer-lede">Enterprise Assurance Institution</p>
           <h2 id="footer-company-title">Safety Assurance Global</h2>
           <p>
             Enterprise advisory, learning, and operational command support for safety, governance, and assurance.
