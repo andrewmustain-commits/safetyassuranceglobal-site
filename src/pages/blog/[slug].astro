@@ -1,6 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => data.status === 'approved');
@@ -12,21 +16,198 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const relatedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
+  .filter((entry) => entry.id !== post.id && entry.data.category === post.data.category)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.summary}>
-  <article>
-    <p style="margin-bottom: 0.5rem; color: var(--sag-gray-700); font-size: 0.95rem;">
-      <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-      {' · '}
-      <span>{post.data.author}</span>
-      {' · '}
-      <span>{post.data.category}</span>
-    </p>
-    <h1 style="margin-top: 0;">{post.data.title}</h1>
-    <p style="color: var(--sag-gray-700);">{post.data.summary}</p>
-    <p style="font-size: 0.95rem; color: var(--sag-gray-700);">Tags: {post.data.tags.join(', ')}</p>
-    <Content />
-    <p><a href="/blog">← Back to blog</a></p>
-  </article>
+  <div class="blog-post-shell">
+    <Container>
+      <Section class="blog-post-section" ariaLabelledby="post-title">
+        <Card class="blog-post-card" as="article">
+          <div class="post-header">
+            <Badge text="Approved Post" />
+            <p class="post-meta">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+              {' · '}
+              <span>{post.data.author}</span>
+              {' · '}
+              <span>{post.data.category}</span>
+            </p>
+            <h1 id="post-title">{post.data.title}</h1>
+            <p class="post-summary">{post.data.summary}</p>
+            <div class="tags-row" aria-label="Post tags">
+              {post.data.tags.map((tag) => (
+                <span class="tag-chip">{tag}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="post-content">
+            <Content />
+          </div>
+
+          <p class="post-back-link"><a href="/blog">Back to blog</a></p>
+        </Card>
+      </Section>
+
+      {relatedPosts.length > 0 && (
+        <Section ariaLabelledby="related-title">
+          <div class="section-head">
+            <Badge text="Related" />
+            <h2 id="related-title">More in {post.data.category}</h2>
+          </div>
+          <div class="related-grid">
+            {relatedPosts.map((entry) => (
+              <Card class="related-card" as="article">
+                <p class="post-meta">
+                  <time datetime={entry.data.date.toISOString()}>
+                    {entry.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </time>
+                </p>
+                <h3><a href={`/blog/${entry.data.slug}/`}>{entry.data.title}</a></h3>
+                <p>{entry.data.summary}</p>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      )}
+    </Container>
+  </div>
 </BaseLayout>
+
+<style>
+  .blog-post-shell {
+    padding-bottom: var(--space-4);
+  }
+
+  .blog-post-card,
+  .related-card {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .post-header {
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid rgba(111, 167, 236, 0.24);
+  }
+
+  .post-meta {
+    margin: 0.7rem 0 0;
+    color: var(--color-text-soft);
+    font-size: 0.86rem;
+  }
+
+  .post-header h1 {
+    margin: 0.8rem 0 0;
+    font-size: clamp(1.95rem, 3.6vw, 2.7rem);
+    max-width: 28ch;
+  }
+
+  .post-summary {
+    margin: 0.85rem 0 0;
+    font-size: 1.05rem;
+    max-width: 72ch;
+  }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.85rem;
+  }
+
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(111, 224, 190, 0.52);
+    background: rgba(111, 224, 190, 0.14);
+    color: var(--color-accent-green-strong);
+    font-size: 0.73rem;
+    line-height: 1;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .post-content :global(h2),
+  .post-content :global(h3) {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-1);
+  }
+
+  .post-content :global(p),
+  .post-content :global(li) {
+    color: var(--color-text-muted);
+  }
+
+  .post-content :global(a) {
+    color: var(--color-link);
+  }
+
+  .post-content :global(a:hover),
+  .post-content :global(a:focus-visible) {
+    color: var(--color-link-hover);
+  }
+
+  .post-back-link {
+    margin-top: var(--space-3);
+  }
+
+  .post-back-link a {
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  }
+
+  .related-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .related-card h3 {
+    margin: 0.6rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.3;
+  }
+
+  .related-card h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .related-card h3 a:hover,
+  .related-card h3 a:focus-visible {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+  }
+
+  .related-card p {
+    margin: 0.6rem 0 0;
+  }
+
+  @media (max-width: 860px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
