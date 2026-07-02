@@ -1,0 +1,110 @@
+<section class="home-hero section-shell" aria-labelledby="home-hero-title">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">SAFETY ASSURANCE GLOBAL</p>
+      <h1 id="home-hero-title">Safety assurance command center for high-consequence operations.</h1>
+      <p>
+        Align governance, field execution, and capability development through one practical operating model.
+        SAG helps leadership teams create clarity, accountability, and sustained assurance performance.
+      </p>
+      <div class="hero-actions">
+        <a class="button-primary" href="/contact">Book a consultation</a>
+        <a class="button-secondary" href="/services">Explore services</a>
+      </div>
+    </div>
+
+    <aside class="hero-panel" aria-label="Operational focus areas">
+      <h2>Operational Focus</h2>
+      <ul>
+        <li>Governance and oversight design</li>
+        <li>Assurance framework implementation</li>
+        <li>Workforce capability uplift</li>
+        <li>Continuous performance visibility</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .home-hero {
+    margin-top: 2rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1.2rem;
+  }
+
+  .hero-copy {
+    background: linear-gradient(145deg, rgba(8, 24, 45, 0.96), rgba(6, 17, 34, 0.98));
+    border: 1px solid rgba(88, 151, 230, 0.35);
+    box-shadow: 0 14px 36px rgba(3, 10, 22, 0.5);
+    border-radius: 1rem;
+    padding: clamp(1.4rem, 3vw, 2.1rem);
+  }
+
+  .eyebrow {
+    margin: 0 0 0.6rem;
+    color: var(--home-accent-green);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.76rem;
+  }
+
+  .hero-copy h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.9rem);
+    line-height: 1.16;
+    max-width: 20ch;
+  }
+
+  .hero-copy p {
+    margin: 1rem 0 0;
+    color: var(--home-text-muted);
+    max-width: 66ch;
+  }
+
+  .hero-actions {
+    margin-top: 1.4rem;
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-panel {
+    background: rgba(8, 20, 39, 0.85);
+    border: 1px solid rgba(111, 220, 190, 0.25);
+    border-radius: 1rem;
+    padding: 1.3rem;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  }
+
+  .hero-panel h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .hero-panel ul {
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .hero-panel li {
+    color: var(--home-text-muted);
+    border: 1px solid rgba(111, 220, 190, 0.2);
+    border-radius: 0.7rem;
+    padding: 0.6rem 0.7rem;
+    background: rgba(111, 220, 190, 0.06);
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

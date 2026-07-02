@@ -1,37 +1,130 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import CapabilityCards from '../components/home/CapabilityCards.astro';
+import ServicesOverview from '../components/home/ServicesOverview.astro';
+import AcademyHighlight from '../components/home/AcademyHighlight.astro';
+import CommandPreview from '../components/home/CommandPreview.astro';
+import BlogPreview from '../components/home/BlogPreview.astro';
+import ContactCta from '../components/home/ContactCta.astro';
+
+const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3)
+  .map((post) => ({
+    slug: post.data.slug,
+    title: post.data.title,
+    summary: post.data.summary,
+    author: post.data.author,
+    date: post.data.date,
+    category: post.data.category
+  }));
 ---
 
 <BaseLayout title="Home" description="Safety Assurance Global helps leaders build safer operations with practical assurance, training, and governance.">
-  <section class="hero">
-    <div class="container">
-      <h1>Trusted safety assurance for critical operations.</h1>
-      <p>Safety Assurance Global (SAG) supports organizations with governance, risk-informed strategy, practical training, and execution frameworks that improve safety outcomes at scale.</p>
+  <div class="home-shell">
+    <div class="container home-stack">
+      <HomeHero />
+      <CapabilityCards />
+      <ServicesOverview />
+      <AcademyHighlight />
+      <CommandPreview />
+      <BlogPreview posts={approvedPosts} />
+      <ContactCta />
     </div>
-  </section>
-
-  <section class="section">
-    <div class="container grid">
-      <div class="card">
-        <h3>Strategic Advisory</h3>
-        <p>Executive-level guidance to build resilient safety assurance systems and clear accountability.</p>
-      </div>
-      <div class="card">
-        <h3>Operational Enablement</h3>
-        <p>Hands-on support for assurance planning, program implementation, and measurable control effectiveness.</p>
-      </div>
-      <div class="card">
-        <h3>Capability Building</h3>
-        <p>Role-based learning pathways and practitioner coaching through SAG Training and Academy programs.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="background: var(--sag-gray-100);">
-    <div class="container">
-      <h2>Built for high-consequence environments</h2>
-      <p>SAG partners with regulated and risk-sensitive sectors where safety governance, competence, and operational assurance are business-critical.</p>
-      <p><a class="button" href="/contact">Speak with our team</a></p>
-    </div>
-  </section>
+  </div>
 </BaseLayout>
+
+<style is:global>
+  .home-shell {
+    background:
+      radial-gradient(circle at 10% -5%, rgba(61, 129, 214, 0.22), transparent 28%),
+      radial-gradient(circle at 92% 9%, rgba(74, 203, 170, 0.14), transparent 24%),
+      linear-gradient(180deg, #050c17 0%, #071326 56%, #08152a 100%);
+    border-top: 1px solid rgba(100, 150, 220, 0.24);
+    border-bottom: 1px solid rgba(100, 150, 220, 0.2);
+  }
+
+  .home-stack {
+    --home-text: #e7effd;
+    --home-text-soft: #cad8f2;
+    --home-text-muted: #adc2df;
+    --home-accent-blue: #61a7ff;
+    --home-accent-green: #6fe0be;
+    color: var(--home-text);
+    padding: 1.5rem 0 3rem;
+    display: grid;
+    gap: 1.05rem;
+  }
+
+  .home-stack h1,
+  .home-stack h2,
+  .home-stack h3 {
+    color: var(--home-text);
+    font-family: 'Segoe UI', 'Avenir Next', 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .home-stack p {
+    color: var(--home-text-muted);
+  }
+
+  .section-shell {
+    padding: clamp(1.05rem, 1.7vw, 1.35rem);
+    border-radius: 1rem;
+    background: rgba(5, 14, 28, 0.55);
+    border: 1px solid rgba(84, 145, 227, 0.22);
+    backdrop-filter: blur(2px);
+  }
+
+  .button-primary,
+  .button-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 0.7rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 0.58rem 0.84rem;
+    transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+  }
+
+  .button-primary {
+    color: #04273f;
+    background: linear-gradient(140deg, #67e2bf, #8af0cf);
+    border: 1px solid rgba(118, 228, 194, 0.55);
+  }
+
+  .button-primary:hover,
+  .button-primary:focus-visible {
+    background: linear-gradient(140deg, #6fe9c6, #9af5d8);
+    outline: none;
+  }
+
+  .button-secondary {
+    color: var(--home-text);
+    background: rgba(97, 167, 255, 0.12);
+    border: 1px solid rgba(97, 167, 255, 0.45);
+  }
+
+  .button-secondary:hover,
+  .button-secondary:focus-visible {
+    background: rgba(111, 224, 190, 0.16);
+    border-color: rgba(111, 224, 190, 0.5);
+    outline: none;
+  }
+
+  @media (max-width: 720px) {
+    .home-stack {
+      padding: 1.1rem 0 2rem;
+      gap: 0.85rem;
+    }
+
+    .section-shell {
+      padding: 0.95rem;
+    }
+  }
+</style>

@@ -1,0 +1,88 @@
+<section class="section-shell" aria-labelledby="capability-title">
+  <div class="section-head">
+    <p class="section-label">Assurance Capability</p>
+    <h2 id="capability-title">Credibility built through operating discipline.</h2>
+  </div>
+
+  <div class="cards-grid">
+    <article class="panel-card">
+      <h3>Governance-First Delivery</h3>
+      <p>Operating models aligned to roles, escalation pathways, and measurable accountability.</p>
+    </article>
+    <article class="panel-card">
+      <h3>Evidence-Driven Assurance</h3>
+      <p>Practical control design with clear evidence pathways for monitoring and review.</p>
+    </article>
+    <article class="panel-card">
+      <h3>Execution in Complex Environments</h3>
+      <p>Methods adapted for regulated, distributed, and high-dependency operating contexts.</p>
+    </article>
+    <article class="panel-card">
+      <h3>Capability Development</h3>
+      <p>Leader and practitioner uplift through structured learning and field application.</p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .section-label {
+    margin: 0;
+    color: var(--home-accent-green);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+  }
+
+  .section-head h2 {
+    margin: 0;
+    max-width: 28ch;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  }
+
+  .cards-grid {
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .panel-card {
+    background: rgba(8, 20, 39, 0.86);
+    border: 1px solid rgba(74, 137, 221, 0.28);
+    border-radius: 0.9rem;
+    padding: 1.05rem;
+    box-shadow: 0 8px 20px rgba(2, 8, 19, 0.35);
+  }
+
+  .panel-card h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .panel-card p {
+    margin: 0.6rem 0 0;
+    color: var(--home-text-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 1080px) {
+    .cards-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

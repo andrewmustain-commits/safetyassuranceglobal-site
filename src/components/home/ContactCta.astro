@@ -1,0 +1,67 @@
+<section class="section-shell" aria-labelledby="contact-cta-title">
+  <div class="cta-shell">
+    <div>
+      <p class="section-label">Consultation</p>
+      <h2 id="contact-cta-title">Ready to strengthen assurance performance across your operation?</h2>
+      <p>
+        Start with a focused consultation to align governance priorities, operating risks, and practical delivery pathways.
+      </p>
+    </div>
+    <div class="cta-actions">
+      <a class="button-primary" href="/contact">Speak with the SAG team</a>
+      <a class="button-secondary" href="/about">Learn about SAG</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-shell {
+    display: grid;
+    grid-template-columns: 1.45fr auto;
+    gap: 1rem;
+    align-items: center;
+    border-radius: 1rem;
+    border: 1px solid rgba(84, 145, 227, 0.32);
+    background: linear-gradient(150deg, rgba(9, 24, 46, 0.96), rgba(6, 16, 31, 0.98));
+    box-shadow: 0 14px 34px rgba(3, 10, 20, 0.45);
+    padding: clamp(1.15rem, 2.5vw, 1.8rem);
+  }
+
+  .section-label {
+    margin: 0;
+    color: var(--home-accent-green);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+  }
+
+  .cta-shell h2 {
+    margin: 0.5rem 0 0;
+    font-size: clamp(1.3rem, 2.3vw, 1.85rem);
+    max-width: 32ch;
+  }
+
+  .cta-shell p {
+    margin: 0.75rem 0 0;
+    color: var(--home-text-muted);
+    max-width: 64ch;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 980px) {
+    .cta-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-actions {
+      justify-content: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,79 @@
+<section class="section-shell" aria-labelledby="command-title">
+  <div class="command-wrap">
+    <div>
+      <p class="section-label">SAG Command</p>
+      <h2 id="command-title">SAG Command introduces a single coordination layer for assurance execution.</h2>
+    </div>
+
+    <div class="command-grid">
+      <article class="command-card">
+        <h3>Role Clarity</h3>
+        <p>Map responsibilities and review ownership to reduce ambiguity during high-consequence decisions.</p>
+      </article>
+      <article class="command-card">
+        <h3>Operating Rhythm</h3>
+        <p>Run consistent cycles for planning, review, escalation, and corrective action follow-through.</p>
+      </article>
+      <article class="command-card">
+        <h3>Executive Visibility</h3>
+        <p>Create transparent reporting pathways that connect field activity to strategic oversight.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .command-wrap {
+    border-radius: 1rem;
+    border: 1px solid rgba(84, 145, 227, 0.26);
+    background: rgba(6, 16, 31, 0.86);
+    padding: clamp(1.1rem, 2.5vw, 1.7rem);
+  }
+
+  .section-label {
+    margin: 0;
+    color: var(--home-accent-green);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+  }
+
+  .command-wrap h2 {
+    margin: 0.5rem 0 0;
+    font-size: clamp(1.35rem, 2.3vw, 1.82rem);
+    max-width: 36ch;
+  }
+
+  .command-grid {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .command-card {
+    margin: 0;
+    border: 1px solid rgba(111, 220, 190, 0.22);
+    background: rgba(111, 220, 190, 0.05);
+    border-radius: 0.8rem;
+    padding: 0.8rem;
+  }
+
+  .command-card h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .command-card p {
+    margin: 0.55rem 0 0;
+    color: var(--home-text-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 980px) {
+    .command-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
