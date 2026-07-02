@@ -65,8 +65,8 @@ This standard defines required article front matter metadata for Safety Assuranc
 - Required (Yes/No): Yes
 - Data type: String
 - Allowed values: Only approved values from CONTROLLED-VOCABULARY.md categories.
-- Validation rules: Must exactly match controlled vocabulary value and capitalization standard.
-- Example: Assurance
+- Validation rules: Must exactly match an approved controlled vocabulary category value.
+- Example: Corporate Governance
 
 ### knowledgeDomain
 - Purpose: Subject domain classification for internal knowledge architecture.

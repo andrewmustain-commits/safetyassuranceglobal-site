@@ -10,6 +10,67 @@
 ## Purpose
 This document provides the frozen Article Template v1.0 for governed Markdown content. It standardizes front matter, structure, and quality requirements to support consistency, review readiness, and repository compatibility.
 
+## Document Authority
+This document defines the canonical implementation standard for governed content within the Safety Assurance Global content ecosystem.
+ARTICLE-TEMPLATE.md is the canonical implementation standard.
+
+If this document conflicts with higher-authority governance documents, the following precedence applies:
+
+1. CONTENT-GOVERNANCE-STANDARD.md
+2. BLOG-STYLE-GUIDE.md
+3. METADATA-STANDARD.md
+4. ARTICLE-TEMPLATE.md (this document)
+
+All exceptions must follow approved change control.
+
+## Controlled Values
+Approved values for front matter fields are defined as follows:
+
+category:
+- Federal Contracting
+- Workplace Safety
+- Regulatory Compliance
+- Risk Management
+- Corporate Governance
+- Leadership & Strategy
+
+reviewStatus:
+- draft
+- review
+- approved
+- published
+- periodic-review
+- updated
+- archived
+
+featured:
+- true
+- false
+
+## Review Gate
+No article may be published until all of the following are complete:
+
+- Metadata validation
+- Technical review
+- Regulatory review (when applicable)
+- Executive approval
+- Review checklist completion
+- Repository validation
+
+## AI-Assisted Content
+AI may assist in drafting.
+
+AI shall not:
+
+- approve content
+- publish content
+- bypass review
+- invent citations
+- invent regulations
+- fabricate case studies
+
+Human approval is mandatory.
+
 ## Usage Instructions
 1. Copy the complete YAML front matter template exactly.
 2. Populate all required fields before requesting review.
@@ -117,8 +178,8 @@ author: "Safety Assurance Global"
 createdDate: "2026-07-01"
 publishDate: "2026-07-15"
 lastModified: "2026-07-15"
-category: "assurance"
-knowledgeDomain: "governance"
+category: "Corporate Governance"
+knowledgeDomain: "Governance"
 tags: ["readiness", "assurance", "governance"]
 description: "A governance-focused framework for operational readiness in assurance programs."
 seoTitle: "Operational Readiness Framework for Assurance Programs"
@@ -171,3 +232,9 @@ Readiness improves when governance standards are operationalized, not treated as
 - `METADATA-STANDARD.md`
 - `CONTROLLED-VOCABULARY.md`
 - `REVIEW-CHECKLIST.md`
+
+## Version History
+
+| Version | Date | Summary |
+|----------|------|---------|
+| 1.0.0 | 2026-07-01 | Initial governed article template |

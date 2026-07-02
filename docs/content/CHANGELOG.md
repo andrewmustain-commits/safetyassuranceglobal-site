@@ -12,6 +12,21 @@ This changelog tracks approved updates to the governed content library under `/d
 
 ## Version History
 
+### Version 1.0.1
+- Date: 2026-07-02
+- Milestone: CONTENT-001B
+- Summary: Normalized governance vocabulary across canonical standards and froze the content governance baseline.
+- Updated Documents:
+	- ARTICLE-TEMPLATE.md
+	- CONTROLLED-VOCABULARY.md
+	- METADATA-STANDARD.md
+	- CONTENT-GOVERNANCE-STANDARD.md
+	- AI-CONTENT-GOVERNANCE.md
+- Approval Reference:
+	- CONTENT-001B
+	- Executive Approval
+	- 2026-07-02
+
 ### Version 1.0.0
 - Date: 2026-07-01
 - Milestone: CONTENT-001

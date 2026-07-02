@@ -23,7 +23,7 @@ AI may be used to:
 AI may not:
 - Publish content directly.
 - Invent citations, sources, or references.
-- Invent regulations, legal requirements, or compliance obligations.
+- Invent regulations or compliance obligations.
 - Bypass technical, legal, or executive review steps.
 - Override governance rules, controlled vocabulary, or metadata requirements.
 - Introduce copyrighted material without explicit approval and rights verification.

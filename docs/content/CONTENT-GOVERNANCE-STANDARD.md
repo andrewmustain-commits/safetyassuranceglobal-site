@@ -30,9 +30,11 @@ This standard does not authorize direct publication actions or deployment overri
 
 ## Document Status Definitions
 - Draft: Working state; not approved for publication.
-- In Review: Under formal review by designated reviewers.
+- Review: Under formal review by designated reviewers.
 - Approved: Authorized for publication workflow progression.
 - Published: Live in approved publishing channel after all controls pass.
+- Periodic Review: Scheduled reassessment state for published content.
+- Updated: Approved post-publication revision state.
 - Archived: Retained for record; no longer active.
 
 ## Content Hierarchy

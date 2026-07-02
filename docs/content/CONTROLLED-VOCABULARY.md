@@ -9,16 +9,12 @@
 
 ## Categories
 Approved values for `category`:
-- Assurance
-- Governance
-- Compliance
-- Risk
-- Operations
-- Training
-- Technology
-- Leadership
-- Case Study
-- Regulatory Update
+- Federal Contracting
+- Workplace Safety
+- Regulatory Compliance
+- Risk Management
+- Corporate Governance
+- Leadership & Strategy
 
 ## Knowledge Domains
 Approved values for `knowledgeDomain`:
@@ -117,4 +113,4 @@ Naming conventions for governed content assets:
 	- Avoid near-duplicate variants
 
 ## Freeze Statement
-This vocabulary is frozen under CONTENT-001 baseline governance. Additions, removals, or modifications require documented change control and Executive Reviewer approval.
+This vocabulary is frozen under CONTENT-001B baseline governance. Additions, removals, or modifications require documented change control and Executive Reviewer approval.
