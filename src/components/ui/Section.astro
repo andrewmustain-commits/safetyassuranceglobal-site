@@ -1,0 +1,14 @@
+---
+interface Props {
+  as?: 'section' | 'div' | 'article';
+  class?: string;
+  ariaLabelledby?: string;
+}
+
+const { as = 'section', class: className, ariaLabelledby } = Astro.props;
+const Tag = as;
+---
+
+<Tag class:list={['ui-section', className]} aria-labelledby={ariaLabelledby}>
+  <slot />
+</Tag>
