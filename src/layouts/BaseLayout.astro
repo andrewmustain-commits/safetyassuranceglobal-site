@@ -11,16 +11,50 @@ const { title, description = 'Safety Assurance Global provides practical safety 
 
 const navigation = [
   { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
   { href: '/industries', label: 'Industries' },
-  { href: '/training', label: 'Training' },
   { href: '/academy', label: 'Academy' },
+  { href: '/command', label: 'SAG Command' },
+  { href: '/training', label: 'Training' },
+  { href: '/about', label: 'About' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' }
 ];
 
 const currentPath = Astro.url.pathname;
+const normalizedPath = currentPath !== '/' && currentPath.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
+const isHome = normalizedPath === '/';
+
+const breadcrumbLabelMap: Record<string, string> = {
+  about: 'About',
+  services: 'Services',
+  industries: 'Industries',
+  academy: 'Academy',
+  command: 'SAG Command',
+  training: 'Training',
+  blog: 'Blog',
+  contact: 'Contact',
+  'privacy-policy': 'Privacy Policy',
+  'terms-of-use': 'Terms of Use',
+  terms: 'Terms'
+};
+
+const pathParts = normalizedPath.split('/').filter(Boolean);
+
+const toTitleCase = (value: string) =>
+  value
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+const breadcrumbs = pathParts.map((segment, index) => {
+  const href = `/${pathParts.slice(0, index + 1).join('/')}/`;
+  const isLast = index === pathParts.length - 1;
+  const mapped = breadcrumbLabelMap[segment];
+  const label = isLast && !mapped ? title : mapped ?? toTitleCase(segment);
+  return { href, label, isLast };
+});
+
+const hideUnifiedCta = ['/privacy-policy', '/terms-of-use', '/terms'].includes(normalizedPath);
 ---
 
 <!doctype html>
@@ -37,8 +71,11 @@ const currentPath = Astro.url.pathname;
     <header class="site-header">
       <Container class="header-inner">
         <a href="/" class="brand">Safety Assurance Global</a>
-        <nav aria-label="Primary navigation" class="primary-nav">
-          <ul>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav-list">
+          Menu
+        </button>
+        <nav aria-label="Primary navigation" class="primary-nav" data-open="false">
+          <ul id="primary-nav-list">
             {navigation.map((item) => (
               <li>
                 <a href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>{item.label}</a>
@@ -49,17 +86,100 @@ const currentPath = Astro.url.pathname;
       </Container>
     </header>
     <main id="main-content" class="site-main">
+      {!isHome && (
+        <Container>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/">Home</a></li>
+              {breadcrumbs.map((crumb) => (
+                <li aria-current={crumb.isLast ? 'page' : undefined}>
+                  {crumb.isLast ? <span>{crumb.label}</span> : <a href={crumb.href}>{crumb.label}</a>}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </Container>
+      )}
       <slot />
+      {!hideUnifiedCta && (
+        <section class="site-cross-cta" aria-labelledby="site-cross-cta-title">
+          <Container class="site-cross-cta-inner">
+            <div>
+              <p class="site-cross-eyebrow">Explore Safety Assurance Global</p>
+              <h2 id="site-cross-cta-title">Connect services, capability development, and command-center operations.</h2>
+            </div>
+            <div class="site-cross-actions">
+              <a class="ui-button ui-button-secondary" href="/services">Services</a>
+              <a class="ui-button ui-button-secondary" href="/academy">Academy</a>
+              <a class="ui-button ui-button-secondary" href="/command">SAG Command</a>
+              <a class="ui-button ui-button-primary" href="/contact">Contact</a>
+            </div>
+          </Container>
+        </section>
+      )}
     </main>
     <footer class="site-footer">
-      <Container class="footer-inner">
-        <p>© {new Date().getFullYear()} Safety Assurance Global. All rights reserved.</p>
-        <p>
-          <a href="/privacy-policy">Privacy Policy</a>
-          <span aria-hidden="true">•</span>
-          <a href="/terms-of-use">Terms of Use</a>
-        </p>
+      <Container class="footer-shell">
+        <section class="footer-company" aria-labelledby="footer-company-title">
+          <h2 id="footer-company-title">Safety Assurance Global</h2>
+          <p>
+            Enterprise advisory, learning, and operational command support for safety, governance, and assurance.
+          </p>
+        </section>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <section>
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/about">About</a></li>
+              <li><a href="/industries">Industries</a></li>
+              <li><a href="/blog">Blog</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3>Solutions</h3>
+            <ul>
+              <li><a href="/services">Services</a></li>
+              <li><a href="/academy">Academy</a></li>
+              <li><a href="/command">SAG Command</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3>Policies</h3>
+            <ul>
+              <li><a href="/privacy-policy">Privacy Policy</a></li>
+              <li><a href="/terms-of-use">Terms of Use</a></li>
+            </ul>
+          </section>
+        </nav>
+        <p class="footer-meta">© {new Date().getFullYear()} Safety Assurance Global. All rights reserved.</p>
       </Container>
     </footer>
+    <script>
+      const nav = document.querySelector('.primary-nav');
+      const toggle = document.querySelector('.nav-toggle');
+
+      if (nav && toggle) {
+        const setState = (open) => {
+          nav.dataset.open = String(open);
+          toggle.setAttribute('aria-expanded', String(open));
+        };
+
+        toggle.addEventListener('click', () => {
+          setState(nav.dataset.open !== 'true');
+        });
+
+        nav.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => setState(false));
+        });
+
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 860) {
+            setState(false);
+          }
+        });
+      }
+    </script>
   </body>
 </html>
