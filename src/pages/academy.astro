@@ -1,20 +1,328 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const learningPathways = [
+  {
+    title: 'Foundations',
+    description: 'Core safety assurance language, operating principles, and role clarity for enterprise teams.'
+  },
+  {
+    title: 'Practitioner',
+    description: 'Applied methods for planning, evidence management, and practical assurance execution.'
+  },
+  {
+    title: 'Specialist',
+    description: 'Focused capability building for domain-specific safety and governance responsibilities.'
+  },
+  {
+    title: 'Leadership',
+    description: 'Program-level design and oversight to improve consistency across assurance functions.'
+  },
+  {
+    title: 'Executive',
+    description: 'Strategic governance and risk-oriented decision support for executive accountability.'
+  },
+  {
+    title: 'Professional Development',
+    description: 'Ongoing learning pathways to sustain workforce capability and assurance maturity.'
+  }
+];
+
+const programAreas = [
+  {
+    title: 'Occupational Health & Safety',
+    description: 'Training grounded in practical workplace safety governance and risk controls.'
+  },
+  {
+    title: 'Process Safety Management',
+    description: 'Programs focused on process hazards, control integrity, and operational discipline.'
+  },
+  {
+    title: 'Risk Management & Resilience',
+    description: 'Learning experiences to strengthen risk-informed planning and resilience capability.'
+  },
+  {
+    title: 'Infrastructure Assurance',
+    description: 'Assurance education for infrastructure teams managing complex assets and operations.'
+  },
+  {
+    title: 'Emergency Management',
+    description: 'Preparedness and response training aligned to enterprise governance requirements.'
+  },
+  {
+    title: 'AI, Safety Analytics & Digital Assurance',
+    description: 'Practical education on digital tools, analytics, and technology-enabled assurance workflows.'
+  }
+];
+
+const learningExperience = [
+  {
+    title: 'Self-paced learning',
+    description: 'Flexible modules for professionals balancing operational priorities and development goals.'
+  },
+  {
+    title: 'Instructor-led training',
+    description: 'Facilitated sessions that translate concepts into actionable assurance practices.'
+  },
+  {
+    title: 'Assessments',
+    description: 'Knowledge checks and practical evaluations to reinforce applied competence.'
+  },
+  {
+    title: 'Certificates',
+    description: 'Completion certificates for defined learning pathways and program participation.'
+  },
+  {
+    title: 'Enterprise workforce development',
+    description: 'Structured learning alignment to support enterprise-wide capability uplift.'
+  }
+];
+
+const whyAcademy = [
+  {
+    title: 'Evidence-based learning',
+    description: 'Curricula are designed around practical field realities and measurable assurance behaviors.'
+  },
+  {
+    title: 'Governance-first approach',
+    description: 'Programs reinforce clear accountability and decision pathways across operating contexts.'
+  },
+  {
+    title: 'Professional development',
+    description: 'Pathways are structured for progression from foundational capability to leadership readiness.'
+  },
+  {
+    title: 'Integration with SAG Command',
+    description: 'Learning outcomes can align with SAG Command execution rhythms and implementation practices.'
+  },
+  {
+    title: 'Alignment with Safety Assurance Global consulting',
+    description: 'Academy pathways complement consulting engagements with practical capability reinforcement.'
+  }
+];
 ---
 
 <BaseLayout title="Academy" description="SAG Academy provides structured pathways for developing world-class safety assurance capability.">
-  <section class="hero">
-    <div class="container">
-      <h1>SAG Academy</h1>
-      <p>Our academy delivers structured pathways from foundational assurance literacy to advanced implementation leadership.</p>
-    </div>
-  </section>
+  <div class="academy-shell">
+    <Container>
+      <Section class="academy-hero" ariaLabelledby="academy-hero-title">
+        <Badge text="SAG Academy" />
+        <h1 id="academy-hero-title">Safety Assurance Global Academy</h1>
+        <p>Enterprise education for safety, governance, and infrastructure professionals.</p>
+        <div class="hero-actions">
+          <Button href="#program-areas">Explore Programs</Button>
+          <Button href="/contact" variant="secondary">Contact Us</Button>
+        </div>
+      </Section>
 
-  <section class="section">
-    <div class="container grid">
-      <div class="card"><h3>Foundation Track</h3><p>Core concepts, terminology, and assurance operating principles.</p></div>
-      <div class="card"><h3>Practitioner Track</h3><p>Applied methods for assurance planning, review, and governance integration.</p></div>
-      <div class="card"><h3>Leadership Track</h3><p>Capability for designing enterprise-level assurance systems and performance oversight.</p></div>
-    </div>
-  </section>
+      <Section ariaLabelledby="pathways-title">
+        <div class="section-head">
+          <Badge text="Learning Pathways" />
+          <h2 id="pathways-title">Progressive pathways for enterprise capability development.</h2>
+        </div>
+        <div class="pathways-grid">
+          {learningPathways.map((pathway) => (
+            <Card class="academy-card">
+              <h3>{pathway.title}</h3>
+              <p>{pathway.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="program-areas-title" class="program-areas" id="program-areas">
+        <div class="section-head">
+          <Badge text="Program Areas" />
+          <h2 id="program-areas-title">Training domains aligned to safety and governance practice.</h2>
+        </div>
+        <div class="program-grid">
+          {programAreas.map((program) => (
+            <Card class="academy-card">
+              <h3>{program.title}</h3>
+              <p>{program.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="learning-experience-title">
+        <div class="section-head">
+          <Badge text="Learning Experience" />
+          <h2 id="learning-experience-title">Flexible delivery and practical assessment for enterprise teams.</h2>
+        </div>
+        <div class="experience-grid">
+          {learningExperience.map((item) => (
+            <Card class="academy-card experience-card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="why-academy-title">
+        <div class="section-head">
+          <Badge text="Why Choose the Academy" />
+          <h2 id="why-academy-title">A professional learning platform connected to operational outcomes.</h2>
+        </div>
+        <div class="why-grid">
+          {whyAcademy.map((item) => (
+            <Card class="academy-card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section class="academy-cta" ariaLabelledby="academy-cta-title">
+        <Badge text="Call to Action" />
+        <h2 id="academy-cta-title">Advance assurance capability across your workforce.</h2>
+        <p>
+          Engage the SAG Academy team to align learning pathways with your operating model and development priorities.
+        </p>
+        <div class="cta-actions">
+          <Button href="#program-areas">Explore Programs</Button>
+          <Button href="/contact" variant="secondary">Request Enterprise Training</Button>
+          <Button href="/contact" variant="secondary">Contact the Academy</Button>
+        </div>
+      </Section>
+    </Container>
+  </div>
 </BaseLayout>
+
+<style>
+  .academy-shell {
+    padding-bottom: var(--space-4);
+  }
+
+  .academy-hero {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(8, 20, 39, 0.96), rgba(5, 14, 28, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.25rem, 2.6vw, 1.9rem);
+  }
+
+  .academy-hero h1 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.7rem;
+    max-width: 24ch;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  .academy-hero p {
+    max-width: 66ch;
+    margin-bottom: 0;
+  }
+
+  .hero-actions,
+  .cta-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    max-width: 40ch;
+    font-size: clamp(1.4rem, 2.4vw, 1.95rem);
+  }
+
+  .pathways-grid,
+  .program-grid,
+  .experience-grid,
+  .why-grid {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .pathways-grid,
+  .program-grid,
+  .why-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .experience-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .academy-card {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .academy-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .academy-card p {
+    margin: 0.7rem 0 0;
+  }
+
+  .experience-card h3 {
+    font-size: 0.98rem;
+  }
+
+  .academy-cta {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(150deg, rgba(9, 24, 46, 0.95), rgba(6, 16, 31, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.4vw, 1.75rem);
+  }
+
+  .academy-cta h2 {
+    margin-top: 0.8rem;
+    margin-bottom: 0.75rem;
+    max-width: 30ch;
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+  }
+
+  .academy-cta p {
+    max-width: 70ch;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 1200px) {
+    .experience-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 1050px) {
+    .pathways-grid,
+    .program-grid,
+    .why-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .experience-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pathways-grid,
+    .program-grid,
+    .experience-grid,
+    .why-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
