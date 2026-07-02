@@ -1,21 +1,353 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const serviceAreas = [
+  {
+    title: 'Enterprise Safety Assurance',
+    description: 'Enterprise-wide safety assurance design across governance, controls, and performance visibility.'
+  },
+  {
+    title: 'Process Safety Management',
+    description: 'Structured process safety methods to support risk-informed decision making and control effectiveness.'
+  },
+  {
+    title: 'Infrastructure Assurance',
+    description: 'Assurance support for infrastructure programs where asset reliability and operational safety intersect.'
+  },
+  {
+    title: 'Government Contracting Support',
+    description: 'Practical advisory for public-sector engagements requiring traceable governance and assurance discipline.'
+  },
+  {
+    title: 'Training & Workforce Development',
+    description: 'Capability uplift through role-based training pathways aligned to assurance responsibilities.'
+  },
+  {
+    title: 'Executive Governance & Risk Advisory',
+    description: 'Board and executive support for clear accountability, oversight rhythms, and strategic risk alignment.'
+  }
+];
+
+const industries = [
+  'Federal Government',
+  'Construction',
+  'Manufacturing',
+  'Energy',
+  'Semiconductor',
+  'Transportation',
+  'Critical Infrastructure'
+];
+
+const engagementProcess = [
+  'Discovery',
+  'Assessment',
+  'Analysis',
+  'Recommendations',
+  'Implementation Support',
+  'Continuous Improvement'
+];
+
+const whySag = [
+  {
+    title: 'Evidence-based methodology',
+    description: 'Assurance activities are grounded in observed operating conditions and verifiable evidence pathways.'
+  },
+  {
+    title: 'Governance-first approach',
+    description: 'Governance design comes first so responsibilities, decisions, and escalation are consistently applied.'
+  },
+  {
+    title: 'Enterprise scalability',
+    description: 'Engagements are structured to support multi-site and multi-team operating environments.'
+  },
+  {
+    title: 'Independent assessment philosophy',
+    description: 'Assessment practices prioritize objectivity, transparency, and practical improvement pathways.'
+  },
+  {
+    title: 'Integration with SAG Academy',
+    description: 'Service delivery can connect to SAG Academy pathways for sustained team capability development.'
+  },
+  {
+    title: 'Integration with SAG Command',
+    description: 'Programs can align with SAG Command operating rhythms for implementation visibility and follow-through.'
+  }
+];
 ---
 
 <BaseLayout title="Services" description="Explore Safety Assurance Global services including governance advisory, assurance design, and implementation support.">
-  <section class="hero">
-    <div class="container">
-      <h1>Services</h1>
-      <p>From strategy through delivery, SAG provides end-to-end safety assurance services tailored to your operating context.</p>
-    </div>
-  </section>
+  <div class="services-shell">
+    <Container>
+      <Section class="services-hero" ariaLabelledby="services-hero-title">
+        <Badge text="Enterprise Advisory" />
+        <h1 id="services-hero-title">Enterprise Safety, Risk &amp; Governance</h1>
+        <p>
+          Safety Assurance Global supports enterprise teams with practical safety assurance, governance design,
+          and risk advisory aligned to complex operational environments.
+        </p>
+        <div class="hero-actions">
+          <Button href="/contact">Request a Consultation</Button>
+          <Button href="/contact" variant="secondary">Contact Us</Button>
+        </div>
+      </Section>
 
-  <section class="section">
-    <div class="container grid">
-      <div class="card"><h3>Safety Governance Design</h3><p>Define ownership, standards, and escalation structures that support consistent assurance performance.</p></div>
-      <div class="card"><h3>Assurance Frameworks</h3><p>Develop fit-for-purpose assurance models with measurable controls and evidence pathways.</p></div>
-      <div class="card"><h3>Independent Reviews</h3><p>Deliver targeted diagnostics and maturity assessments to identify priority improvements.</p></div>
-      <div class="card"><h3>Program Mobilization</h3><p>Translate strategy into practical implementation roadmaps and governance rhythms.</p></div>
-    </div>
-  </section>
+      <Section ariaLabelledby="core-services-title">
+        <div class="section-head">
+          <Badge text="Core Service Areas" />
+          <h2 id="core-services-title">Specialized enterprise service lines.</h2>
+        </div>
+        <div class="services-grid">
+          {serviceAreas.map((service) => (
+            <Card class="service-card">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="industries-title">
+        <div class="section-head">
+          <Badge text="Industries Served" />
+          <h2 id="industries-title">Operational sectors we support.</h2>
+        </div>
+        <div class="industries-grid">
+          {industries.map((industry) => (
+            <Card as="div" class="industry-card">
+              <h3>{industry}</h3>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section ariaLabelledby="engagement-process-title">
+        <div class="section-head">
+          <Badge text="Engagement Process" />
+          <h2 id="engagement-process-title">A structured delivery timeline for enterprise assurance.</h2>
+        </div>
+        <ol class="timeline">
+          {engagementProcess.map((step, index) => (
+            <li>
+              <Card as="div" class="timeline-item">
+                <p class="step-number">Step {index + 1}</p>
+                <h3>{step}</h3>
+              </Card>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section ariaLabelledby="why-sag-title">
+        <div class="section-head">
+          <Badge text="Why Safety Assurance Global" />
+          <h2 id="why-sag-title">Enterprise assurance philosophy grounded in practical execution.</h2>
+        </div>
+        <div class="why-grid">
+          {whySag.map((item) => (
+            <Card class="why-card" id={item.title === 'Integration with SAG Command' ? 'sag-command' : undefined}>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section class="consultation-cta" ariaLabelledby="consultation-title">
+        <Badge text="Consultation" />
+        <h2 id="consultation-title">Plan your next assurance step with the SAG team.</h2>
+        <p>
+          Discuss your operating context, governance priorities, and delivery needs with Safety Assurance Global.
+        </p>
+        <div class="cta-actions">
+          <Button href="/contact">Request Consultation</Button>
+          <Button href="/contact" variant="secondary">Contact Information</Button>
+          <Button href="/academy" variant="secondary">SAG Academy</Button>
+          <Button href="/services#sag-command" variant="secondary">SAG Command</Button>
+        </div>
+      </Section>
+    </Container>
+  </div>
 </BaseLayout>
+
+<style>
+  .services-shell {
+    padding-bottom: var(--space-4);
+  }
+
+  .services-hero {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(8, 20, 39, 0.96), rgba(5, 14, 28, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.25rem, 2.6vw, 1.9rem);
+  }
+
+  .services-hero h1 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.7rem;
+    max-width: 22ch;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  .services-hero p {
+    max-width: 70ch;
+    margin-bottom: 0;
+  }
+
+  .hero-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    max-width: 38ch;
+    font-size: clamp(1.4rem, 2.4vw, 1.95rem);
+  }
+
+  .services-grid,
+  .industries-grid,
+  .why-grid {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .service-card,
+  .industry-card,
+  .why-card,
+  .timeline-item {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .service-card h3,
+  .industry-card h3,
+  .why-card h3,
+  .timeline-item h3 {
+    margin: 0;
+  }
+
+  .service-card p,
+  .why-card p {
+    margin: 0.7rem 0 0;
+  }
+
+  .industries-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .industry-card {
+    display: flex;
+    align-items: center;
+    min-height: 88px;
+  }
+
+  .industry-card h3 {
+    font-size: 1rem;
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-1);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .timeline li {
+    margin: 0;
+  }
+
+  .timeline-item {
+    min-height: 100%;
+    padding-top: 1rem;
+  }
+
+  .step-number {
+    margin: 0 0 0.45rem;
+    color: var(--color-accent-green);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .why-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .consultation-cta {
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(150deg, rgba(9, 24, 46, 0.95), rgba(6, 16, 31, 0.98));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.4vw, 1.75rem);
+  }
+
+  .consultation-cta h2 {
+    margin-top: 0.8rem;
+    margin-bottom: 0.75rem;
+    max-width: 28ch;
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+  }
+
+  .consultation-cta p {
+    max-width: 66ch;
+    margin-bottom: 0;
+  }
+
+  .cta-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  @media (max-width: 1100px) {
+    .services-grid,
+    .why-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .industries-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .timeline {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .industries-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .services-grid,
+    .industries-grid,
+    .timeline,
+    .why-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
