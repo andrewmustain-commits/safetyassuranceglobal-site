@@ -36,3 +36,22 @@ Recommendation-only gaps:
 2. Add CODEOWNERS in a separate approved change.
 3. Add PR and issue templates in a separate approved change.
 4. Optionally update .gitignore with *.zip and normalized directory patterns.
+
+## Entry 2026-07-02 — HARDEN-001A Repository Safety Controls
+
+### Actions Completed
+- Updated .gitignore to add zip artifact exclusion and normalize key directory exclusions.
+- Added .github/CODEOWNERS for baseline ownership controls.
+- Added pull request template for safety and validation checks.
+- Added issue template for governed content tasks.
+
+### Files Added
+- .github/CODEOWNERS
+- .github/pull_request_template.md
+- .github/ISSUE_TEMPLATE/content-task.md
+
+### Files Updated
+- .gitignore
+
+### Validation Scope
+- Build and git-state checks run after file creation.
