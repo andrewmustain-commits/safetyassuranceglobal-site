@@ -1,6 +1,14 @@
+---
+interface Props {
+  showRegisteredArtwork?: boolean;
+}
+
+const { showRegisteredArtwork = true } = Astro.props;
+---
+
 <section class="home-hero section-shell" aria-labelledby="home-hero-title">
   <div class="hero-grid">
-    <div class="hero-copy">
+    <div class:list={["hero-copy", showRegisteredArtwork && "has-brand-artwork"]}>
       <p class="eyebrow">SAFETY ASSURANCE GLOBAL</p>
       <h1 id="home-hero-title">Safety assurance command center for high-consequence operations.</h1>
       <p>
@@ -38,6 +46,7 @@
 
   .hero-copy {
     position: relative;
+    overflow: hidden;
     background:
       radial-gradient(circle at 14% -12%, rgba(105, 174, 255, 0.2), transparent 36%),
       linear-gradient(148deg, rgba(9, 25, 46, 0.97), rgba(5, 15, 29, 0.98));
@@ -54,6 +63,12 @@
     width: 2px;
     border-radius: 999px;
     background: linear-gradient(180deg, rgba(234, 216, 168, 0.78), rgba(105, 174, 255, 0.06));
+    z-index: 1;
+  }
+
+  .hero-copy > * {
+    position: relative;
+    z-index: 2;
   }
 
   .eyebrow {
@@ -113,6 +128,25 @@
     border-radius: 0.7rem;
     padding: 0.6rem 0.7rem;
     background: rgba(111, 220, 190, 0.08);
+  }
+
+  @media (min-width: 961px) {
+    .hero-copy.has-brand-artwork::after {
+      content: '';
+      position: absolute;
+      right: -6%;
+      bottom: -14%;
+      width: min(52%, 30rem);
+      aspect-ratio: 3 / 2;
+      background-image: url('/images/brand/sag-brand-artwork-registered.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom right;
+      opacity: 0.24;
+      filter: saturate(0.82) contrast(1.02);
+      pointer-events: none;
+      z-index: 0;
+    }
   }
 
   @media (max-width: 960px) {
