@@ -12,6 +12,21 @@ This changelog tracks approved updates to the governed content library under `/d
 
 ## Version History
 
+### Version 1.0.2
+- Date: 2026-07-02
+- Milestone: CONTENT-002B
+- Summary: Authorized SAG-BLOG-2026-001 publication package for GitHub/Astro merge using approved Marblism v1.0.1 article package.
+- Updated Documents:
+	- src/content/blog/infrastructure-of-integrity-risk-governance.md
+	- docs/publication-records/SAG-BLOG-2026-001-publication-record.md
+	- docs/content-index/SAG-BLOG-2026-001-index-entry.md
+	- CHANGELOG.md
+- Approval Reference:
+	- SAG-BLOG-2026-001
+	- CONTENT-002B
+	- Approved for Publication
+	- Ready for GitHub/Astro merge
+
 ### Version 1.0.1
 - Date: 2026-07-02
 - Milestone: CONTENT-001B
