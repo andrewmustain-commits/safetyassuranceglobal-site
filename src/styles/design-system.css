@@ -69,6 +69,11 @@ a:focus-visible {
   color: var(--color-link-hover);
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-accent-green);
+  outline-offset: 2px;
+}
+
 h1,
 h2,
 h3,
@@ -276,6 +281,10 @@ p {
   gap: var(--space-1);
 }
 
+.site-cross-actions .ui-button {
+  min-height: 42px;
+}
+
 .site-footer {
   margin-top: var(--space-3);
   border-top: var(--border-subtle);
@@ -326,6 +335,13 @@ p {
 .footer-nav a:focus-visible {
   color: var(--color-link-hover);
   text-decoration: underline;
+}
+
+.site-header a,
+.site-footer a,
+.breadcrumbs a,
+.site-cross-cta a {
+  text-underline-offset: 0.2em;
 }
 
 .footer-meta {

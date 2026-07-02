@@ -5,9 +5,14 @@ import Container from '../components/ui/Container.astro';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = 'Safety Assurance Global provides practical safety assurance consulting, industry programs, and workforce development.' } = Astro.props;
+const {
+  title,
+  description = 'Safety Assurance Global provides practical safety assurance consulting, industry programs, and workforce development.',
+  image = '/social-card-default.png'
+} = Astro.props;
 
 const navigation = [
   { href: '/', label: 'Home' },
@@ -55,6 +60,8 @@ const breadcrumbs = pathParts.map((segment, index) => {
 });
 
 const hideUnifiedCta = ['/privacy-policy', '/terms-of-use', '/terms'].includes(normalizedPath);
+const canonicalUrl = Astro.url.href;
+const ogImage = new URL(image, Astro.url.origin).href;
 ---
 
 <!doctype html>
@@ -63,6 +70,21 @@ const hideUnifiedCta = ['/privacy-policy', '/terms-of-use', '/terms'].includes(n
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Safety Assurance Global" />
+    <meta property="og:title" content={`${title} | Safety Assurance Global`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | Safety Assurance Global`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <meta name="generator" content={Astro.generator} />
     <title>{title} | Safety Assurance Global</title>
   </head>
