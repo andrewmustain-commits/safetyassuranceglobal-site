@@ -1,34 +1,55 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
 ---
 
-<BaseLayout title="Privacy Policy" description="Privacy policy for the Safety Assurance Global website.">
-  <article>
-    <h1>Privacy Policy</h1>
-    <p>We collect only the information you choose to provide through inquiry pathways or direct contact links.</p>
-    <h2>Use of information</h2>
-    <p>Any information submitted through a future form integration will be used to respond to your request, manage the relationship, and maintain basic operational records.</p>
-    <h2>Third-party services</h2>
-    <p>If the site later adds a backend or anti-spam service, the policy will be updated before launch to reflect that integration.</p>
-    <h2>Contact</h2>
-    <p>Questions about this policy can be directed to contact@safetyassuranceglobal.com.</p>
-  </article>
-</BaseLayout>---
-import BaseLayout from '../layouts/BaseLayout.astro';
----
+<BaseLayout title="Privacy Policy" description="Privacy policy for Safety Assurance Global website visitors and inquiry submitters.">
+  <Container>
+    <Section ariaLabelledby="privacy-title">
+      <h1 id="privacy-title">Privacy Policy</h1>
+      <p>Safety Assurance Global LLC handles inquiry and website information in a controlled and transparent manner.</p>
+    </Section>
 
-<BaseLayout title="Privacy Policy" description="Privacy policy for Safety Assurance Global website visitors and customers.">
-  <article>
-    <h1>Privacy Policy</h1>
-    <p>Safety Assurance Global values your privacy and handles personal information in a responsible and transparent manner.</p>
-    <h2>Information we collect</h2>
-    <p>We may collect contact details and inquiry context that you voluntarily provide through direct communication channels.</p>
-    <h2>How we use information</h2>
-    <p>Information is used to respond to requests, provide services, and improve our website and client engagement experience.</p>
-    <h2>Data handling</h2>
-    <p>We maintain reasonable safeguards to protect data and limit access to authorized personnel only.</p>
-    <h2>Your choices</h2>
-    <p>You may request updates or deletion of your personal information by contacting us at <a href="mailto:privacy@safetyassuranceglobal.com">privacy@safetyassuranceglobal.com</a>.</p>
-  </article>
+    <Section ariaLabelledby="privacy-collection-title">
+      <h2 id="privacy-collection-title">Information We Collect</h2>
+      <p>We collect information you voluntarily provide through inquiry forms or direct contact channels.</p>
+    </Section>
+
+    <Section ariaLabelledby="privacy-use-title">
+      <h2 id="privacy-use-title">How We Use Information</h2>
+      <p>Information is used to respond to inquiries, evaluate service fit, and support legitimate business communication.</p>
+    </Section>
+
+    <Section ariaLabelledby="privacy-sharing-title">
+      <h2 id="privacy-sharing-title">Sharing and Processing</h2>
+      <p>
+        Inquiry data may be processed by approved service providers used for intake delivery. We do not publish
+        private inquiry content and limit processing to business-response needs.
+      </p>
+    </Section>
+
+    <Section ariaLabelledby="privacy-security-title">
+      <h2 id="privacy-security-title">Security and Retention</h2>
+      <p>
+        We apply reasonable administrative and technical safeguards and retain records only as needed for business,
+        legal, and operational purposes.
+      </p>
+    </Section>
+
+    <Section ariaLabelledby="privacy-contact-title">
+      <h2 id="privacy-contact-title">Privacy Contact</h2>
+      <p>For privacy questions, contact <a href="mailto:privacy@safetyassuranceglobal.com">privacy@safetyassuranceglobal.com</a>.</p>
+    </Section>
+
+    <Section ariaLabelledby="privacy-review-title">
+      <NoticePanel tone="warning" title="Legal Review Flag" id="privacy-review-title">
+        <p>
+          This policy was structurally reviewed for consistency and branding alignment. Substantive legal terms require
+          attorney review before final production approval.
+        </p>
+      </NoticePanel>
+    </Section>
+  </Container>
 </BaseLayout>
