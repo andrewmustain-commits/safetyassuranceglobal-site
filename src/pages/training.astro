@@ -5,87 +5,120 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
 
-const trainingFormats = [
-  'Awareness training',
-  'Site-specific training',
-  'Professional development',
-  'Readiness-focused training',
-  'Employer-supported training'
+const deliveryModes = [
+  {
+    title: 'Corporate delivery',
+    detail: 'Programs scoped for employer teams, operations groups, and project organizations with readiness goals.'
+  },
+  {
+    title: 'Onsite delivery',
+    detail: 'Site-aware delivery aligned to operational constraints, safety controls, and role responsibilities.'
+  },
+  {
+    title: 'Custom workforce programs',
+    detail: 'Role-based pathways built from training-needs assessments and assurance findings.'
+  }
+];
+
+const controls = [
+  'Training-needs assessments before final scope',
+  'Role-based delivery planning and prerequisites review',
+  'Status controls per program before publication',
+  'Inquiry and proposal process before commitment',
+  'Conservative public language for approvals and certification claims'
 ];
 ---
 
-<BaseLayout title="Training" description="Safety Assurance Global training for awareness, readiness, site-specific learning, and professional development.">
+<BaseLayout
+  title="Training"
+  description="Workforce training that supports Safety Assurance Global consulting and independent assurance delivery through corporate, onsite, and custom programs."
+>
   <Container>
-    <Section class="training-hero" ariaLabelledby="training-title">
-      <Badge text="Training" />
-      <h1 id="training-title">Training that supports readiness without claiming accreditation.</h1>
-      <p>We keep training distinct from institutional governance, Course Factory development, SAG Command, and any credentialing systems. Public language stays within the evidence that is approved for release.</p>
-      <div class="hero-actions">
-        <Button href="/maritime-training">Explore maritime training</Button>
+    <Section class="hero-panel" ariaLabelledby="training-title">
+      <Badge text="Training Hub" />
+      <h1 id="training-title">Training that supports assurance and operational readiness.</h1>
+      <p>
+        Safety Assurance Global presents training as a supporting capability within consulting and independent
+        assurance delivery. Training is scoped through inquiry, role requirements, and readiness outcomes.
+      </p>
+      <div class="ui-actions">
+        <Button href="/maritime-training">Explore Maritime Training</Button>
         <Button href="/contact" variant="secondary">Request a Consultation</Button>
       </div>
     </Section>
 
-    <Section ariaLabelledby="formats-title">
-      <div class="section-head">
-        <Badge text="Permitted language" />
-        <h2 id="formats-title">Training formats available on the public site.</h2>
-      </div>
-      <div class="format-grid">
-        {trainingFormats.map((format) => <Card><h3>{format}</h3></Card>)}
+    <Section ariaLabelledby="training-delivery-title">
+      <SectionHeader
+        badge="Delivery Model"
+        id="training-delivery-title"
+        title="Corporate, onsite, and custom program delivery options."
+      />
+      <div class="grid-three">
+        {deliveryModes.map((mode) => (
+          <Card>
+            <h3>{mode.title}</h3>
+            <p>{mode.detail}</p>
+          </Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="distinction-title">
-      <div class="section-head">
-        <Badge text="Boundary Control" />
-        <h2 id="distinction-title">What this page does not claim.</h2>
+    <Section ariaLabelledby="training-process-title">
+      <SectionHeader
+        badge="Inquiry Process"
+        id="training-process-title"
+        title="How training scope is confirmed."
+      />
+      <div class="grid-two">
+        <Card>
+          <h3>1. Clarify workforce objectives</h3>
+          <p>Confirm roles, risk profile, and expected readiness outcomes.</p>
+        </Card>
+        <Card>
+          <h3>2. Confirm delivery constraints</h3>
+          <p>Define onsite, corporate, and custom requirements, including delivery status and prerequisites.</p>
+        </Card>
+        <Card>
+          <h3>3. Align with assurance priorities</h3>
+          <p>Connect training scope to verified control gaps and operational-improvement priorities.</p>
+        </Card>
+        <Card>
+          <h3>4. Finalize scope and proposal</h3>
+          <p>Issue a controlled scope with delivery assumptions and status qualifiers.</p>
+        </Card>
       </div>
+    </Section>
+
+    <Section ariaLabelledby="training-controls-title">
+      <SectionHeader
+        badge="Delivery Status Controls"
+        id="training-controls-title"
+        title="Controls used to keep public training claims accurate."
+      />
       <Card>
-        <p>This page does not claim USCG approval, STCW approval, OSHA authorization, accreditation, license issuance, or certification authority. It describes training as workforce development and compliance support only.</p>
+        <ul>
+          {controls.map((control) => (
+            <li>{control}</li>
+          ))}
+        </ul>
       </Card>
+    </Section>
+
+    <Section ariaLabelledby="training-boundary-title">
+      <SectionHeader
+        badge="Boundary Notice"
+        id="training-boundary-title"
+        title="Public training language is intentionally conservative."
+      />
+      <NoticePanel tone="warning" title="Qualification Notice" class="qualification-notice">
+        <p>
+          This site does not publish unsupported claims about open enrollment, credential issuance, accreditation,
+          recognition, or certification authority. Delivery status is confirmed per program before enrollment or contract award.
+        </p>
+      </NoticePanel>
     </Section>
   </Container>
 </BaseLayout>
-
-<style>
-  .training-hero {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .training-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 19ch;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
-  .format-grid {
-    display: grid;
-    gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (max-width: 860px) {
-    .format-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
