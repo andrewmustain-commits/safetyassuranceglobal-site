@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const topics = [
+  'Maritime compliance readiness',
+  'Operational readiness for marine teams',
+  'Safety and risk awareness',
+  'QA/QC and contractor assurance awareness',
+  'Incident and emergency preparedness'
+];
+---
+
+<BaseLayout title="Maritime Training" description="Maritime-specific training for ports, shipyards, vessel operators, and marine contractors.">
+  <Container>
+    <Section class="training-hero" ariaLabelledby="maritime-training-title">
+      <Badge text="Maritime Training" />
+      <h1 id="maritime-training-title">Maritime training for readiness, awareness, and workforce development.</h1>
+      <p>The maritime training offer stays within permitted language: awareness training, site-specific training, employer-supported learning, and readiness-focused support.</p>
+      <div class="hero-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="topics-title">
+      <div class="section-head">
+        <Badge text="Topics" />
+        <h2 id="topics-title">Common maritime topics.</h2>
+      </div>
+      <div class="topic-grid">
+        {topics.map((topic) => <Card><h3>{topic}</h3></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="not-claimed-title">
+      <div class="section-head">
+        <Badge text="Boundary Control" />
+        <h2 id="not-claimed-title">What we do not claim here.</h2>
+      </div>
+      <Card>
+        <p>We do not claim USCG approval, STCW approval, OSHA authorization, accreditation, or certification authority unless a documented approval exists in the claims register and public evidence package.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .training-hero {
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
+  }
+
+  .training-hero h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 20ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: var(--space-2);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .topic-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 860px) {
+    .topic-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
