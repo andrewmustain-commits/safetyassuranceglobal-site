@@ -4,130 +4,72 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import { serviceDetails } from '../data/services';
 
-const serviceGroups = [
-  {
-    title: 'Readiness and Assurance',
-    problem: 'Teams need a clearer view of whether operations, documentation, and controls are actually ready.',
-    whatSAGDoes: 'We assess readiness, verify evidence, support independent assurance, and build a prioritized action path.',
-    outputs: ['Operational readiness assessments', 'Independent assurance', 'Program assurance', 'Compliance readiness'],
-    cta: '/contact',
-    ctaLabel: 'Request a Consultation'
-  },
-  {
-    title: 'Quality and Contractor Control',
-    problem: 'Owners need evidence that field work, vendors, and contractors are meeting expectations consistently.',
-    whatSAGDoes: 'We review QA/QC controls, field verification practices, contractor oversight, and evidence readiness.',
-    outputs: ['QA/QC', 'Contractor assurance', 'Field verification', 'Evidence readiness'],
-    cta: '/request-proposal',
-    ctaLabel: 'Request a Proposal'
-  },
-  {
-    title: 'Safety and Risk',
-    problem: 'Leadership needs practical support for incident response, preparedness, and day-to-day safety management.',
-    whatSAGDoes: 'We support safety and risk management, incident investigation, emergency preparedness, and embedded HSE support.',
-    outputs: ['Safety and risk management', 'Incident investigation', 'Emergency preparedness', 'Embedded HSE support'],
-    cta: '/contact',
-    ctaLabel: 'Request a Consultation'
-  }
-];
+const serviceAreas = serviceDetails.map((service) => ({
+  href: `/services/${service.slug}`,
+  title: service.title,
+  summary: service.summary,
+  problem: service.customerProblem,
+  result: service.expectedResult
+}));
 ---
 
-<BaseLayout title="Services" description="Safety Assurance Global services for readiness, assurance, QA/QC, contractor control, and safety and risk management.">
+<BaseLayout
+  title="Services"
+  description="Operational-readiness, independent-assurance, maritime-compliance, QA/QC, contractor-assurance, and safety-risk services for maritime and critical infrastructure."
+>
   <Container>
-    <Section class="services-hero" ariaLabelledby="services-title">
-      <Badge text="Professional Services" />
-      <h1 id="services-title">Services organized around operational outcomes.</h1>
-      <p>Safety Assurance Global sells consulting and professional services first. Each engagement starts with the buyer problem, the evidence gap, and the operating outcome that needs to improve.</p>
-      <div class="hero-actions">
+    <Section class="hero-panel" ariaLabelledby="services-title">
+      <p class="ui-badge">Services Architecture</p>
+      <h1 id="services-title">Service pathways organized around customer problems and decision outcomes.</h1>
+      <p>
+        Safety Assurance Global provides consulting and independent-assurance services that help organizations
+        verify readiness, improve controls, and prioritize practical risk-reduction actions.
+      </p>
+      <div class="ui-actions">
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
     </Section>
 
-    {serviceGroups.map((group) => (
-      <Section ariaLabelledby={group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-title'}>
-        <div class="section-head">
-          <Badge text={group.title} />
-          <h2 id={group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-title'}>{group.title}</h2>
-        </div>
-        <div class="service-grid">
+    <Section ariaLabelledby="services-priority-title">
+      <SectionHeader
+        badge="Priority Service Areas"
+        id="services-priority-title"
+        title="Commercial architecture for Phase 3."
+      />
+      <div class="grid-two">
+        {serviceAreas.map((service) => (
           <Card>
-            <h3>Customer problem</h3>
-            <p>{group.problem}</p>
+            <h3><a href={service.href}>{service.title}</a></h3>
+            <p><strong>Customer problem:</strong> {service.problem}</p>
+            <p><strong>Expected result:</strong> {service.result}</p>
+            <p><a href={service.href}>View service detail</a></p>
           </Card>
-          <Card>
-            <h3>What SAG does</h3>
-            <p>{group.whatSAGDoes}</p>
-          </Card>
-          <Card>
-            <h3>Typical outputs</h3>
-            <ul>
-              {group.outputs.map((output) => <li>{output}</li>)}
-            </ul>
-          </Card>
-          <Card>
-            <h3>Appropriate CTA</h3>
-            <p><a href={group.cta}>{group.ctaLabel}</a></p>
-          </Card>
-        </div>
-      </Section>
-    ))}
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="services-commercial-title">
+      <SectionHeader
+        badge="Commercial Guidance"
+        id="services-commercial-title"
+        title="How to engage for service scoping."
+      />
+      <div class="grid-two">
+        <Card>
+          <h3>Consultation pathway</h3>
+          <p>Use consultation for early scope, constraints, and readiness-priority alignment.</p>
+          <p><a href="/contact">Start consultation intake</a>.</p>
+        </Card>
+        <Card>
+          <h3>Proposal pathway</h3>
+          <p>Use proposal intake when procurement context, schedule, and delivery model require structured scoping.</p>
+          <p><a href="/request-proposal">Start proposal intake</a>.</p>
+        </Card>
+      </div>
+    </Section>
   </Container>
 </BaseLayout>
-
-<style>
-  .services-hero {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .services-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 19ch;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
-  .section-head h2 {
-    margin: 0;
-    font-size: clamp(1.25rem, 2.2vw, 1.8rem);
-  }
-
-  .service-grid {
-    display: grid;
-    gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .service-grid h3 {
-    margin-bottom: 0.5rem;
-  }
-
-  .service-grid ul {
-    margin: 0;
-    padding-left: 1.1rem;
-  }
-
-  @media (max-width: 860px) {
-    .service-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

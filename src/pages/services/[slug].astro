@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import { serviceDetails, serviceBySlug } from '../../data/services';
+
+export function getStaticPaths() {
+  return serviceDetails.map((service) => ({ params: { slug: service.slug } }));
+}
+
+const slug = Astro.params.slug as keyof typeof serviceBySlug;
+const service = serviceBySlug[slug];
+
+if (!service) {
+  throw new Error(`Unknown service slug: ${slug}`);
+}
+---
+
+<BaseLayout title={service.title} description={service.summary}>
+  <Container>
+    <Section class="hero-panel" ariaLabelledby="service-title">
+      <p class="ui-badge">Service</p>
+      <h1 id="service-title">{service.title}</h1>
+      <p>{service.summary}</p>
+      <div class="ui-actions">
+        <Button href={service.cta.href}>{service.cta.label}</Button>
+        <Button href="/services" variant="secondary">Back to Services</Button>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="service-problem-title">
+      <SectionHeader badge="Customer Problem" id="service-problem-title" title="Why organizations request this service." />
+      <Card><p>{service.customerProblem}</p></Card>
+    </Section>
+
+    <Section ariaLabelledby="service-audience-title">
+      <SectionHeader badge="Who It Is For" id="service-audience-title" title="Typical service stakeholders." />
+      <div class="grid-two">
+        {service.audience.map((item) => (
+          <Card><h3>{item}</h3></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="service-scope-title">
+      <SectionHeader badge="Scope of Work" id="service-scope-title" title="Core scope elements." />
+      <Card>
+        <ul>
+          {service.scopeOfWork.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="service-process-title">
+      <SectionHeader badge="Engagement Process" id="service-process-title" title="How delivery is typically structured." />
+      <Card>
+        <ol>
+          {service.engagementProcess.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ol>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="service-evidence-title">
+      <SectionHeader badge="Evidence Reviewed" id="service-evidence-title" title="Artifacts commonly reviewed." />
+      <Card>
+        <ul>
+          {service.evidenceReviewed.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="service-deliverables-title">
+      <SectionHeader badge="Typical Deliverables" id="service-deliverables-title" title="Common outputs provided." />
+      <div class="grid-two">
+        {service.deliverables.map((item) => (
+          <Card><h3>{item}</h3></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="service-result-title">
+      <SectionHeader badge="Expected Result" id="service-result-title" title="Decision support this service is designed to provide." />
+      <Card><p>{service.expectedResult}</p></Card>
+    </Section>
+
+    <Section ariaLabelledby="service-related-title">
+      <SectionHeader badge="Related Services" id="service-related-title" title="Adjacent support areas." />
+      <div class="grid-two">
+        {service.relatedServices.map((item) => (
+          <Card>
+            <h3><a href={item.href}>{item.label}</a></h3>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="service-training-title">
+      <SectionHeader badge="Relevant Training" id="service-training-title" title="Training pathways that can support this service." />
+      <Card><p><a href={service.trainingLink.href}>{service.trainingLink.label}</a></p></Card>
+    </Section>
+
+    <Section ariaLabelledby="service-cta-title">
+      <div class="cta-band">
+        <SectionHeader badge="Next Step" id="service-cta-title" title="Discuss scope and readiness priorities." />
+        <div class="ui-actions">
+          <Button href={service.cta.href}>{service.cta.label}</Button>
+          <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+        </div>
+      </div>
+    </Section>
+  </Container>
+</BaseLayout>
