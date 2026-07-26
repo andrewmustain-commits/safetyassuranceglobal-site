@@ -1,98 +1,91 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const trainingFormats = [
+  'Awareness training',
+  'Site-specific training',
+  'Professional development',
+  'Readiness-focused training',
+  'Employer-supported training'
+];
 ---
 
-<BaseLayout title="Training" description="Practical safety assurance training programs for leaders, practitioners, and operational teams.">
-  <section class="hero training-hero">
-    <div class="container">
-      <p class="training-eyebrow">Executive Education</p>
-      <h1>Training</h1>
-      <p>Role-based programs that build confidence in assurance methods, governance responsibilities, and operational decision-making.</p>
-    </div>
-  </section>
+<BaseLayout title="Training" description="Safety Assurance Global training for awareness, readiness, site-specific learning, and professional development.">
+  <Container>
+    <Section class="training-hero" ariaLabelledby="training-title">
+      <Badge text="Training" />
+      <h1 id="training-title">Training that supports readiness without claiming accreditation.</h1>
+      <p>We keep training distinct from institutional governance, Course Factory development, SAG Command, and any credentialing systems. Public language stays within the evidence that is approved for release.</p>
+      <div class="hero-actions">
+        <Button href="/maritime-training">Explore maritime training</Button>
+        <Button href="/contact" variant="secondary">Request a Consultation</Button>
+      </div>
+    </Section>
 
-  <section class="section training-programs">
-    <div class="container">
-      <div class="training-section-head">
-        <p class="training-section-label">Program Formats</p>
-        <h2>Professional pathways for leaders and assurance teams.</h2>
+    <Section ariaLabelledby="formats-title">
+      <div class="section-head">
+        <Badge text="Permitted language" />
+        <h2 id="formats-title">Training formats available on the public site.</h2>
       </div>
-      <div class="grid">
-        <div class="card training-card"><h3>Executive Briefings</h3><p>Focused sessions for leaders on accountability, assurance governance, and decision quality.</p></div>
-        <div class="card training-card"><h3>Practitioner Bootcamps</h3><p>Hands-on training in assurance planning, evidence management, and review techniques.</p></div>
-        <div class="card training-card"><h3>Team Workshops</h3><p>Scenario-based facilitation to align cross-functional teams around practical controls.</p></div>
+      <div class="format-grid">
+        {trainingFormats.map((format) => <Card><h3>{format}</h3></Card>)}
       </div>
-    </div>
-  </section>
+    </Section>
+
+    <Section ariaLabelledby="distinction-title">
+      <div class="section-head">
+        <Badge text="Boundary Control" />
+        <h2 id="distinction-title">What this page does not claim.</h2>
+      </div>
+      <Card>
+        <p>This page does not claim USCG approval, STCW approval, OSHA authorization, accreditation, license issuance, or certification authority. It describes training as workforce development and compliance support only.</p>
+      </Card>
+    </Section>
+  </Container>
 </BaseLayout>
 
 <style>
   .training-hero {
-    position: relative;
-    overflow: hidden;
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
   }
 
-  .training-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0.8rem auto 0.8rem clamp(0.8rem, 3vw, 1.2rem);
-    width: 2px;
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(234, 216, 168, 0.88), rgba(105, 174, 255, 0.08));
+  .training-hero h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 19ch;
   }
 
-  .training-eyebrow {
-    margin: 0 0 0.6rem;
-    color: var(--color-accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.11em;
-    font-size: 0.75rem;
-    font-weight: 650;
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: var(--space-2);
   }
 
-  .training-programs {
-    padding-top: var(--space-5);
-  }
-
-  .training-section-head {
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
     margin-bottom: var(--space-2);
-    padding-bottom: 0.72rem;
-    border-bottom: 1px solid rgba(141, 184, 240, 0.24);
   }
 
-  .training-section-label {
-    margin: 0;
-    color: var(--color-accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.74rem;
-    font-weight: 650;
+  .format-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .training-section-head h2 {
-    margin: 0.58rem 0 0;
-    max-width: 30ch;
-    font-size: clamp(1.35rem, 2.6vw, 1.92rem);
-  }
-
-  .training-card {
-    position: relative;
-    border-color: rgba(138, 182, 242, 0.4);
-    background: linear-gradient(175deg, rgba(8, 21, 40, 0.92), rgba(6, 16, 31, 0.9));
-  }
-
-  .training-card::before {
-    content: '';
-    position: absolute;
-    left: 1rem;
-    top: 0.78rem;
-    width: 2.15rem;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(234, 216, 168, 0.88), rgba(234, 216, 168, 0.08));
-  }
-
-  .training-card h3 {
-    margin-top: 0.3rem;
+  @media (max-width: 860px) {
+    .format-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

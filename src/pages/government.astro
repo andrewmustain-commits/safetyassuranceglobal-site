@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const points = [
+  'Government contracting interest',
+  'Maritime and critical-infrastructure support',
+  'Operational readiness',
+  'Program assurance',
+  'QA/QC and contractor oversight',
+  'Safety and compliance support'
+];
+---
+
+<BaseLayout title="Government" description="Evidence-controlled support for government organizations seeking maritime and critical infrastructure assurance services.">
+  <Container>
+    <Section class="government-hero" ariaLabelledby="government-title">
+      <Badge text="Government" />
+      <h1 id="government-title">Evidence-controlled support for government buyers.</h1>
+      <p>Safety Assurance Global positions government support carefully. We can discuss contracting interest and operational support, but we do not imply endorsement, current award, procurement eligibility, or federal authorization without evidence.</p>
+      <div class="hero-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="focus-title">
+      <div class="section-head">
+        <Badge text="Support Areas" />
+        <h2 id="focus-title">What the public page may say.</h2>
+      </div>
+      <div class="point-grid">
+        {points.map((point) => <Card><h3>{point}</h3></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="limits-title">
+      <div class="section-head">
+        <Badge text="Claim Limits" />
+        <h2 id="limits-title">What we do not say without evidence.</h2>
+      </div>
+      <Card>
+        <p>We do not imply agency endorsement, current contract awards, past performance, procurement eligibility, or veteran-owned status unless the claims register and public evidence package explicitly support it.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .government-hero {
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
+  }
+
+  .government-hero h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 20ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: var(--space-2);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .point-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 860px) {
+    .point-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
