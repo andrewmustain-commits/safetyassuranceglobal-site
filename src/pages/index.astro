@@ -6,115 +6,248 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
 
 const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3)
+  .slice(0, 2)
   .map((post) => ({
     slug: post.data.slug,
     title: post.data.title,
     summary: post.data.summary,
-    author: post.data.author,
     date: post.data.date,
     category: post.data.category
   }));
+
+const audiences = [
+  'Shipyards',
+  'Ports and marine terminals',
+  'Vessel operators',
+  'Marine contractors',
+  'Government organizations',
+  'Critical-infrastructure leaders'
+];
+
+const problems = [
+  'Readiness is assumed, but evidence is fragmented across teams and contractors.',
+  'Safety, QA/QC, compliance, and risk controls are not consistently verified in operations.',
+  'Leadership needs independent visibility into what is working, what is missing, and what to prioritize next.'
+];
+
+const services = [
+  'Operational-readiness assessments',
+  'Independent assurance and evidence review',
+  'Safety and risk-management support',
+  'QA/QC and contractor assurance',
+  'Compliance-readiness support',
+  'Incident investigation and corrective-action support'
+];
+
+const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'];
+
+const deliverables = [
+  'Assurance Case',
+  'Evidence Package',
+  'Readiness Score',
+  'Corrective-Action Roadmap',
+  'Validation Report',
+  'Closeout Report'
+];
 ---
 
-<BaseLayout title="Home" description="Safety Assurance Global helps maritime and critical infrastructure teams improve compliance, readiness, QA/QC, contractor performance, and risk control.">
+<BaseLayout
+  title="Home"
+  description="Safety Assurance Global is a maritime and critical-infrastructure consulting, operational-readiness, safety, risk-management, QA/QC, compliance, and independent-assurance company that also provides workforce training."
+>
   <Container>
-    <Section class="home-hero" ariaLabelledby="home-hero-title">
-      <Badge text="Independent Assurance" />
-      <h1 id="home-hero-title">Independent Assurance for Maritime and Critical Infrastructure</h1>
+    <Section class="hero-panel" ariaLabelledby="home-hero-title">
+      <Badge text="Independent Assurance for Maritime and Critical Infrastructure" />
+      <h1 id="home-hero-title">Turn operational risk into verified readiness.</h1>
       <p>
-        Safety Assurance Global helps ports, shipyards, vessel operators, marine contractors, government organizations,
-        and critical-infrastructure teams improve compliance, operational readiness, QA/QC, contractor performance,
-        and risk control.
+        Safety Assurance Global helps shipyards, ports, vessel operators, contractors, government organizations,
+        and critical-infrastructure leaders assess risk, strengthen controls, verify evidence, and improve
+        operational readiness.
       </p>
-      <div class="home-actions">
+      <div class="ui-actions">
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/maritime" variant="secondary">Explore Maritime Services</Button>
       </div>
     </Section>
 
-    <Section ariaLabelledby="maritime-intro-title">
-      <div class="section-head">
-        <Badge text="Maritime Assurance" />
-        <h2 id="maritime-intro-title">A consulting-led way to improve readiness without overclaiming capability.</h2>
+    <Section ariaLabelledby="home-audience-title">
+      <SectionHeader
+        badge="Who We Serve"
+        id="home-audience-title"
+        title="Operating teams responsible for high-consequence work."
+      />
+      <div class="grid-three">
+        {audiences.map((audience) => (
+          <Card>
+            <h3>{audience}</h3>
+          </Card>
+        ))}
       </div>
-      <div class="content-grid two-up">
+    </Section>
+
+    <Section ariaLabelledby="home-problems-title">
+      <SectionHeader
+        badge="Problems We Solve"
+        id="home-problems-title"
+        title="Common readiness and assurance gaps we help address."
+      />
+      <div class="grid-three">
+        {problems.map((problem) => (
+          <Card>
+            <p>{problem}</p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="home-services-title">
+      <SectionHeader
+        badge="Core Services"
+        id="home-services-title"
+        title="Consulting and assurance services aligned to operational outcomes."
+      />
+      <div class="grid-three">
+        {services.map((service) => (
+          <Card>
+            <h3>{service}</h3>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="home-maritime-title">
+      <SectionHeader
+        badge="Maritime Focus"
+        id="home-maritime-title"
+        title="Maritime-first execution with support for critical infrastructure."
+      />
+      <div class="grid-two">
         <Card>
-          <h3>What buyers are usually trying to solve</h3>
-          <p>They need a partner that can verify readiness, uncover control gaps, and support disciplined improvement across field operations and leadership oversight.</p>
+          <h3>Maritime market pathways</h3>
+          <p>
+            Dedicated pathways for shipyards, ports and marine terminals, vessel operators, marine contractors,
+            government maritime programs, and workforce training buyers.
+          </p>
         </Card>
         <Card>
-          <h3>What SAG does</h3>
-          <p>We assess the current state, verify evidence, prioritize corrective action, and support practical assurance work that teams can sustain.</p>
+          <h3>Why this matters</h3>
+          <p>
+            Maritime operations often depend on contractor coordination, field quality controls, and
+            readiness verification under time pressure.
+          </p>
         </Card>
       </div>
     </Section>
 
-    <Section ariaLabelledby="core-services-title">
-      <div class="section-head">
-        <Badge text="Core Services" />
-        <h2 id="core-services-title">The services most buyers need first.</h2>
-      </div>
-      <div class="content-grid three-up">
-        <Card><h3>Maritime compliance readiness</h3><p>Support for documentation, evidence, and operating controls that need to be in place before review or deployment.</p></Card>
-        <Card><h3>Operational readiness assessments</h3><p>Structured review of execution readiness, operating discipline, and decision-making support.</p></Card>
-        <Card><h3>QA/QC and contractor assurance</h3><p>Verification support for field execution, vendor controls, and traceable evidence of performance.</p></Card>
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="industries-title">
-      <div class="section-head">
-        <Badge text="Industries Served" />
-        <h2 id="industries-title">Focused on maritime and high-consequence operations.</h2>
-      </div>
-      <div class="content-grid three-up">
-        <Card><h3>Ports and marine terminals</h3></Card>
-        <Card><h3>Shipyards and vessel operators</h3></Card>
-        <Card><h3>Government and critical infrastructure</h3></Card>
+    <Section ariaLabelledby="home-lifecycle-title">
+      <SectionHeader
+        badge="Assurance Lifecycle"
+        id="home-lifecycle-title"
+        title="A staged method from discovery through sustained control."
+      />
+      <div class="grid-four">
+        {lifecycle.map((step) => (
+          <Card>
+            <h3>{step}</h3>
+          </Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="method-title">
-      <div class="section-head">
-        <Badge text="Safety Assurance Method" />
-        <h2 id="method-title">Discover → Assess → Verify → Prioritize → Improve → Validate → Assure → Sustain</h2>
+    <Section ariaLabelledby="home-deliverables-title">
+      <SectionHeader
+        badge="Typical Deliverables"
+        id="home-deliverables-title"
+        title="Outputs designed for decisions, oversight, and execution follow-through."
+      />
+      <div class="grid-three">
+        {deliverables.map((deliverable) => (
+          <Card>
+            <h3>{deliverable}</h3>
+          </Card>
+        ))}
       </div>
-      <Card>
-        <p>Outputs are built around an assurance case, evidence package, dashboard, readiness score, and roadmap. The method is designed to support practical decision-making, not to imply universal approval or guaranteed outcomes.</p>
-      </Card>
     </Section>
 
-    <Section ariaLabelledby="training-title">
-      <div class="section-head">
-        <Badge text="Maritime Training" />
-        <h2 id="training-title">Workforce development that stays within evidence-controlled language.</h2>
+    <Section ariaLabelledby="home-training-title">
+      <SectionHeader
+        badge="Training Support"
+        id="home-training-title"
+        title="Workforce training supports consulting and assurance delivery."
+      />
+      <div class="grid-two">
+        <Card>
+          <h3>Training as a supporting capability</h3>
+          <p>
+            Training is presented as part of workforce readiness support and does not replace consulting,
+            independent assurance, or operational governance.
+          </p>
+        </Card>
+        <Card>
+          <h3>Controlled delivery model</h3>
+          <p>
+            Delivery format and availability are confirmed through inquiry and scope review, with conservative
+            status controls for each program area.
+          </p>
+          <p><a href="/maritime-training">Review maritime training details</a>.</p>
+        </Card>
       </div>
-      <Card>
-        <p>Safety Assurance Global provides awareness training, site-specific training, professional development, and readiness-focused support without claiming approval, accreditation, or certification authority.</p>
-        <p><a href="/training">Explore training offerings</a> or <a href="/maritime-training">review maritime-specific training</a>.</p>
-      </Card>
     </Section>
 
-    <Section ariaLabelledby="value-title">
-      <div class="section-head">
-        <Badge text="Why Independent Assurance Matters" />
-        <h2 id="value-title">It gives leadership a clearer basis for action.</h2>
+    <Section ariaLabelledby="home-government-title">
+      <SectionHeader
+        badge="Government and Prime Contractor Support"
+        id="home-government-title"
+        title="Conservative, evidence-based support posture for public-sector work."
+      />
+      <NoticePanel tone="info" title="Qualification Notice" class="qualification-notice">
+        <p>
+          Government-facing language is limited to supported capabilities. Public content does not imply agency
+          endorsement, contract award, or regulatory authority.
+        </p>
+      </NoticePanel>
+    </Section>
+
+    <Section ariaLabelledby="home-evidence-title">
+      <SectionHeader
+        badge="Representative Evidence"
+        id="home-evidence-title"
+        title="What engagements typically review and produce."
+      />
+      <div class="grid-two">
+        <Card class="evidence-panel">
+          <h3>Evidence reviewed</h3>
+          <ul>
+            <li>Operational procedures and controls</li>
+            <li>Training and competency records</li>
+            <li>QA/QC and contractor oversight artifacts</li>
+            <li>Readiness and incident-response documentation</li>
+          </ul>
+        </Card>
+        <Card class="trust-panel">
+          <h3>Evidence produced</h3>
+          <ul>
+            <li>Assurance findings and gap analysis</li>
+            <li>Prioritized corrective-action roadmap</li>
+            <li>Validation and closeout reporting</li>
+          </ul>
+        </Card>
       </div>
-      <Card>
-        <p>Independent assurance helps teams see what is actually in place, what is missing, and what should be addressed next. That makes it easier to manage risk, align contractors, and protect operations without relying on unsupported claims.</p>
-      </Card>
     </Section>
 
     {approvedPosts.length > 0 && (
-      <Section ariaLabelledby="insights-title">
-        <div class="section-head">
-          <Badge text="Latest Approved Insights" />
-          <h2 id="insights-title">Recent approved publications.</h2>
-        </div>
-        <div class="content-grid three-up">
+      <Section ariaLabelledby="home-insights-title">
+        <SectionHeader
+          badge="Insights"
+          id="home-insights-title"
+          title="Recent approved insights."
+        />
+        <div class="grid-two">
           {approvedPosts.map((post) => (
             <Card as="article">
               <p class="insight-meta">
@@ -130,79 +263,27 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
       </Section>
     )}
 
-    <Section class="home-consultation" ariaLabelledby="consultation-title">
-      <Badge text="Consultation" />
-      <h2 id="consultation-title">Start with a focused conversation about your operating context.</h2>
-      <p>We can help you scope the right assurance, readiness, or training engagement without overbuilding the solution.</p>
-      <div class="home-actions">
-        <Button href="/contact">Request a Consultation</Button>
-        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+    <Section ariaLabelledby="home-final-cta-title">
+      <div class="cta-band">
+        <SectionHeader
+          badge="Next Step"
+          id="home-final-cta-title"
+          title="Start with a focused readiness and assurance discussion."
+          intro="We will confirm scope, evidence expectations, and delivery options before engagement."
+        />
+        <div class="ui-actions">
+          <Button href="/contact">Request a Consultation</Button>
+          <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+        </div>
       </div>
     </Section>
   </Container>
 </BaseLayout>
 
 <style>
-  .home-hero,
-  .home-consultation {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .home-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2.1rem, 4.2vw, 3.2rem);
-    max-width: 16ch;
-  }
-
-  .home-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
-  .section-head h2 {
-    margin: 0;
-    font-size: clamp(1.3rem, 2.2vw, 1.82rem);
-  }
-
-  .content-grid {
-    display: grid;
-    gap: var(--space-2);
-  }
-
-  .two-up {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .three-up {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .insight-meta {
     margin: 0 0 0.6rem;
     color: var(--color-text-soft);
     font-size: 0.84rem;
-  }
-
-  .home-consultation {
-    margin-bottom: 0;
-  }
-
-  @media (max-width: 860px) {
-    .two-up,
-    .three-up {
-      grid-template-columns: 1fr;
-    }
   }
 </style>
