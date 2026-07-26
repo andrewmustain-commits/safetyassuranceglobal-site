@@ -23,6 +23,10 @@ function existsForRoute(route) {
   return fs.existsSync(path.join(distRoot, normalized));
 }
 
+function existsForAsset(link) {
+  return fs.existsSync(path.join(distRoot, link));
+}
+
 if (!fs.existsSync(distRoot)) {
   console.error('dist/ not found. Run npm run build first.');
   process.exit(1);
@@ -53,6 +57,14 @@ for (const link of links) {
   }
 
   if (link === '/rss.xml') {
+    continue;
+  }
+
+  // If the link points to a file asset, verify file existence instead of route existence.
+  if (path.extname(link)) {
+    if (!existsForAsset(link)) {
+      broken.push(link);
+    }
     continue;
   }
 

@@ -5,23 +5,7 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
-import LeadForm from '../components/forms/LeadForm.astro';
-
-const serviceOptions = [
-  { value: 'maritime-compliance-readiness', label: 'Maritime compliance readiness' },
-  { value: 'operational-readiness', label: 'Operational readiness assessments' },
-  { value: 'qa-qc-contractor-assurance', label: 'QA/QC and contractor assurance' },
-  { value: 'safety-risk-management', label: 'Safety and risk management' },
-  { value: 'training', label: 'Training' },
-  { value: 'other', label: 'Other' }
-];
-
-const timeframeOptions = [
-  { value: 'immediate', label: 'Immediate' },
-  { value: '1-2-weeks', label: '1-2 weeks' },
-  { value: 'within-month', label: 'Within a month' },
-  { value: 'exploring', label: 'Exploring options' }
-];
+import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
 ---
 
 <BaseLayout title="Contact" description="Contact Safety Assurance Global to request a consultation or start a controlled inquiry.">
@@ -29,7 +13,7 @@ const timeframeOptions = [
     <Section class="contact-hero" ariaLabelledby="contact-title">
       <Badge text="Contact" />
       <h1 id="contact-title">Request a Consultation</h1>
-      <p>Use this page for controlled inquiry intake. The form is frontend-only until a safe backend integration is approved.</p>
+      <p>Use this page for consultation and teaming inquiries through the governed intake path.</p>
       <div class="hero-actions">
         <Button href="/request-proposal">Request a Proposal</Button>
         <Button href="mailto:contact@safetyassuranceglobal.com" variant="secondary">Email the team</Button>
@@ -37,14 +21,7 @@ const timeframeOptions = [
     </Section>
 
     <Section ariaLabelledby="contact-lead-title">
-      <LeadForm
-        id="contact-lead"
-        title="Inquiry form"
-        description="Fields support accessible validation, a hidden honeypot, and a neutral pre-launch status message rather than a false success response."
-        submitLabel="Submit Inquiry"
-        serviceOptions={serviceOptions}
-        timeframeOptions={timeframeOptions}
-      />
+      <ContactInquiryForm />
     </Section>
 
     <Section ariaLabelledby="details-title">
