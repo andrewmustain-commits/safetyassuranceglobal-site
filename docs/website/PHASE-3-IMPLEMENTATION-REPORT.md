@@ -107,8 +107,8 @@ Phase 3 focused on conversion-pathway architecture, service and industry depth r
 
 ## Commit SHAs
 
-- WEB-009 services architecture and priority service pages: pending
-- WEB-010 industries architecture and priority industry pages: pending
-- WEB-011 government and about pages: pending
-- WEB-012 contact and proposal forms: pending
-- WEB-013 legal review and Phase 3 documentation: pending
+- WEB-009 services architecture and priority service pages: 48d9b05
+- WEB-010 industries architecture and priority industry pages: 7225e37
+- WEB-011 government and about pages: dc3b732
+- WEB-012 contact and proposal forms: 921fdf7
+- WEB-013 legal review and Phase 3 documentation: cdfa2bd
