@@ -7,21 +7,24 @@ import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 ---
 
-<BaseLayout title="Command" description="SAG Command remains a gated internal concept and is not presented here as a fully operational public system.">
+<BaseLayout title="Command" description="Legacy route retained for compatibility. Review the conservative SAG Command status page.">
   <Container>
     <Section class="transition-hero" ariaLabelledby="command-title">
-      <Badge text="Gated Concept" />
-      <h1 id="command-title">SAG Command is not part of the public Phase 2 offer.</h1>
-      <p>This page avoids product-style claims and only confirms that command-system concepts remain gated pending executive decision and evidence review.</p>
+      <Badge text="Legacy Route" />
+      <h1 id="command-title">This legacy route points to the current SAG Command public status page.</h1>
+      <p>The current conservative public treatment is published at /sag-command.</p>
       <div class="hero-actions">
-        <Button href="/method">Review method</Button>
-        <Button href="/contact" variant="secondary">Request a Consultation</Button>
+        <Button href="/sag-command">Go to SAG Command Status</Button>
+        <Button href="/contact" variant="secondary">Discuss an Assurance Technology Pilot</Button>
       </div>
     </Section>
 
     <Section>
       <Card>
-        <p>The public site does not present SAG Command as an operational integrated system, and it does not invite demonstration requests as a public CTA.</p>
+        <p>
+          This route is retained for compatibility and should redirect to /sag-command in edge configuration.
+          No commercial-availability claim is made here.
+        </p>
       </Card>
     </Section>
   </Container>
