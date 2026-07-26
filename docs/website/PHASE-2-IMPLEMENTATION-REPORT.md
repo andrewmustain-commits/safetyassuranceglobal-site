@@ -177,4 +177,4 @@ Branch: website/public-site-full-refresh
 - WEB-006 maritime hub and assurance method: 39dcf79
 - WEB-007 training and maritime training: 5711604
 - WEB-008 SAG Command public disposition and Phase 2 report: 2012d7e
-- WEB-008 follow-up intake copy hardening: pending
+- WEB-008 follow-up intake copy hardening: be040d7
