@@ -1,0 +1,145 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.status === 'approved');
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const relatedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
+  .filter((entry) => entry.id !== post.id && entry.data.category === post.data.category)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout title={post.data.title} description={post.data.summary}>
+  <Container>
+    <Section class="insight-shell" ariaLabelledby="insight-title">
+      <Card as="article" class="insight-card">
+        <div class="post-header">
+          <Badge text="Approved Insight" />
+          <p class="post-meta">
+            <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+            {' · '}
+            <span>{post.data.author}</span>
+            {' · '}
+            <span>{post.data.category}</span>
+          </p>
+          <h1 id="insight-title">{post.data.title}</h1>
+          <p class="post-summary">{post.data.summary}</p>
+        </div>
+
+        <div class="post-content">
+          <Content />
+        </div>
+
+        <p class="post-back-link"><a href="/insights">Back to insights</a></p>
+      </Card>
+    </Section>
+
+    {relatedPosts.length > 0 && (
+      <Section ariaLabelledby="related-title">
+        <div class="section-head">
+          <Badge text="Related" />
+          <h2 id="related-title">More in {post.data.category}</h2>
+        </div>
+        <div class="related-grid">
+          {relatedPosts.map((entry) => (
+            <Card as="article" class="related-card">
+              <p class="post-meta">
+                <time datetime={entry.data.date.toISOString()}>{entry.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+              </p>
+              <h3><a href={`/insights/${entry.data.slug}`}>{entry.data.title}</a></h3>
+              <p>{entry.data.summary}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+    )}
+  </Container>
+</BaseLayout>
+
+<style>
+  .insight-card,
+  .related-card {
+    border-color: rgba(111, 167, 236, 0.3);
+    background: rgba(8, 20, 39, 0.9);
+  }
+
+  .post-header {
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid rgba(111, 167, 236, 0.24);
+  }
+
+  .post-meta {
+    margin: 0.7rem 0 0;
+    color: var(--color-text-soft);
+    font-size: 0.86rem;
+  }
+
+  .post-header h1 {
+    margin: 0.8rem 0 0;
+    font-size: clamp(1.95rem, 3.6vw, 2.7rem);
+    max-width: 28ch;
+  }
+
+  .post-summary {
+    margin: 0.85rem 0 0;
+    font-size: 1.05rem;
+    max-width: 72ch;
+  }
+
+  .post-content :global(h2),
+  .post-content :global(h3) {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-1);
+  }
+
+  .post-content :global(p),
+  .post-content :global(li) {
+    color: var(--color-text-muted);
+  }
+
+  .post-content :global(a) {
+    color: var(--color-link);
+  }
+
+  .post-back-link {
+    margin-top: var(--space-3);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  }
+
+  .related-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 900px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

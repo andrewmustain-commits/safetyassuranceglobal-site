@@ -6,261 +6,80 @@ import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 
-const focusAreas = [
-  {
-    title: 'Enterprise Safety Assurance',
-    description: 'Support for assurance operating models in high-consequence and risk-sensitive environments.'
-  },
-  {
-    title: 'Governance & Risk',
-    description: 'Governance-first structures that improve accountability, escalation clarity, and decision quality.'
-  },
-  {
-    title: 'Assurance & Execution',
-    description: 'Practical approaches that connect strategy, field activity, and enterprise oversight.'
-  },
-  {
-    title: 'Training & Capability Development',
-    description: 'Role-based capability pathways through SAG Academy and workforce development initiatives.'
-  }
-];
-
-const principles = [
-  {
-    title: 'Mission-driven practice',
-    description: 'Safety Assurance Global exists to improve safety outcomes through practical, scalable assurance methods.'
-  },
-  {
-    title: 'Governance-first approach',
-    description: 'Programs begin with role clarity, operating rhythm, and transparent decision pathways.'
-  },
-  {
-    title: 'Enterprise alignment',
-    description: 'Consulting, academy pathways, and command support are aligned to one operating narrative.'
-  },
-  {
-    title: 'Practical delivery focus',
-    description: 'Solutions are designed for operational use, measurable follow-through, and continuous improvement.'
-  }
-];
 ---
 
-<BaseLayout title="About" description="Learn about Safety Assurance Global's mission and approach to practical, measurable safety assurance.">
-  <div class="about-shell">
-    <Container>
-      <Section class="about-hero" ariaLabelledby="about-hero-title">
-        <Badge text="About Safety Assurance Global" />
-        <h1 id="about-hero-title">A governance-first company focused on enterprise safety and assurance performance.</h1>
-        <p>
-          Safety Assurance Global helps organizations bridge strategy and execution through practical governance,
-          risk-informed assurance methods, and capability development for enterprise teams.
-        </p>
-        <div class="hero-actions">
-          <Button href="/services">Explore Services</Button>
-          <Button href="/contact" variant="secondary">Contact Us</Button>
-        </div>
-      </Section>
+<BaseLayout title="About" description="Learn how Safety Assurance Global delivers independent assurance for maritime and critical infrastructure buyers.">
+  <Container>
+    <Section class="about-hero" ariaLabelledby="about-title">
+      <Badge text="About SAG" />
+      <h1 id="about-title">Independent assurance with a consulting-first delivery model.</h1>
+      <p>Safety Assurance Global helps organizations improve readiness, quality, and control without presenting software platforms or integrated systems as the core offer.</p>
+      <div class="hero-actions">
+        <Button href="/services">Explore Services</Button>
+        <Button href="/contact" variant="secondary">Request a Consultation</Button>
+      </div>
+    </Section>
 
-      <Section ariaLabelledby="mission-title">
-        <div class="section-head">
-          <Badge text="Mission" />
-          <h2 id="mission-title">What Safety Assurance Global does.</h2>
-        </div>
-        <Card class="about-card mission-card">
-          <p>
-            Safety Assurance Global provides enterprise advisory and implementation support across safety, governance,
-            risk, assurance, and workforce development. Our work is focused on helping leaders establish clear
-            accountability, improve decision support, and sustain assurance performance at scale.
-          </p>
-        </Card>
-      </Section>
+    <Section ariaLabelledby="values-title">
+      <div class="section-head">
+        <Badge text="What We Stand For" />
+        <h2 id="values-title">Evidence, clarity, and disciplined execution.</h2>
+      </div>
+      <div class="about-grid">
+        <Card><h3>Independent</h3><p>We assess what is actually happening and avoid overstating outcomes or public capabilities.</p></Card>
+        <Card><h3>Practical</h3><p>We focus on the next action, the next control, and the next improvement a team can sustain.</p></Card>
+        <Card><h3>Controlled</h3><p>Public claims remain aligned to the claims register, and unsupported systems stay out of the sales narrative.</p></Card>
+      </div>
+    </Section>
 
-      <Section ariaLabelledby="focus-title">
-        <div class="section-head">
-          <Badge text="Focus Areas" />
-          <h2 id="focus-title">Enterprise safety, risk, assurance, and training.</h2>
-        </div>
-        <div class="focus-grid">
-          {focusAreas.map((item) => (
-            <Card class="about-card">
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      <Section ariaLabelledby="principles-title">
-        <div class="section-head">
-          <Badge text="Company Story" />
-          <h2 id="principles-title">How we approach enterprise engagements.</h2>
-        </div>
-        <div class="principles-grid">
-          {principles.map((item) => (
-            <Card class="about-card">
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      <Section ariaLabelledby="brand-assets-title">
-        <div class="section-head">
-          <Badge text="Brand Assets" />
-          <h2 id="brand-assets-title">Official brand artwork and approved usage assets.</h2>
-        </div>
-        <div class="brand-assets-grid">
-          <Card class="about-card brand-asset-card">
-            <h3>Official Registered Brand Artwork</h3>
-            <p>Use this registered artwork for approved social previews and official external brand representation.</p>
-            <img
-              src="/images/brand/sag-brand-artwork-registered.png"
-              alt="Safety Assurance Global registered trademark artwork"
-              loading="lazy"
-              decoding="async"
-            />
-          </Card>
-
-          <Card class="about-card brand-asset-card">
-            <h3>Primary SVG Logo</h3>
-            <p>The primary vector logo for website interface surfaces, documents, and scalable brand usage.</p>
-            <img
-              src="/images/brand/sag-logo.svg"
-              alt="Safety Assurance Global primary SVG logo"
-              loading="lazy"
-              decoding="async"
-            />
-          </Card>
-
-          <Card class="about-card brand-asset-card">
-            <h3>Alternate Brand Artwork</h3>
-            <p>Alternate branded social card approved for supporting campaign and communications contexts.</p>
-            <img
-              src="/images/brand/social-card.png"
-              alt="Safety Assurance Global alternate brand artwork"
-              loading="lazy"
-              decoding="async"
-            />
-          </Card>
-
-          <Card class="about-card brand-usage-card">
-            <h3>Brand usage notes</h3>
-            <ul>
-              <li>Do not modify brand proportions, orientation, or trademark markings.</li>
-              <li>Maintain clear space around all artwork and logo marks.</li>
-              <li>Use SVG logo files for UI placements and PNG artwork for social cards.</li>
-              <li>Follow approved color and contrast guidance on dark and light backgrounds.</li>
-            </ul>
-          </Card>
-        </div>
-      </Section>
-    </Container>
-  </div>
+    <Section ariaLabelledby="what-title">
+      <div class="section-head">
+        <Badge text="What SAG Does" />
+        <h2 id="what-title">Consulting, assurance, and training support.</h2>
+      </div>
+      <Card>
+        <p>Our work typically includes maritime compliance readiness, operational readiness, QA/QC, contractor assurance, safety and risk management, incident investigation, emergency preparedness, embedded HSE support, and workforce training.</p>
+      </Card>
+    </Section>
+  </Container>
 </BaseLayout>
 
 <style>
-  .about-shell {
-    padding-bottom: var(--space-4);
-  }
-
   .about-hero {
-    border: var(--border-strong);
-    border-radius: var(--radius-lg);
-    background: linear-gradient(145deg, rgba(8, 20, 39, 0.96), rgba(5, 14, 28, 0.98));
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
     box-shadow: var(--shadow-panel);
-    padding: clamp(1.25rem, 2.6vw, 1.9rem);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
   }
 
   .about-hero h1 {
     margin-top: 0.75rem;
-    margin-bottom: 0.7rem;
-    max-width: 24ch;
-    font-size: clamp(1.95rem, 4vw, 2.7rem);
-  }
-
-  .about-hero p {
-    max-width: 70ch;
-    margin-bottom: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 20ch;
   }
 
   .hero-actions {
-    margin-top: var(--space-3);
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1);
+    gap: 0.7rem;
+    margin-top: var(--space-2);
   }
 
   .section-head {
     display: grid;
-    gap: 0.6rem;
+    gap: 0.5rem;
     margin-bottom: var(--space-2);
   }
 
-  .section-head h2 {
-    margin: 0;
-    max-width: 40ch;
-    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
-  }
-
-  .focus-grid,
-  .principles-grid {
+  .about-grid {
     display: grid;
     gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .about-card {
-    border-color: rgba(111, 167, 236, 0.3);
-    background: rgba(8, 20, 39, 0.9);
-  }
-
-  .about-card h3 {
-    margin: 0;
-  }
-
-  .about-card p {
-    margin: 0.65rem 0 0;
-  }
-
-  .mission-card {
-    max-width: 82ch;
-  }
-
-  .brand-assets-grid {
-    display: grid;
-    gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .brand-asset-card {
-    display: grid;
-    gap: 0.85rem;
-  }
-
-  .brand-asset-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 0.8rem;
-    border: 1px solid rgba(111, 167, 236, 0.28);
-    background: rgba(5, 14, 28, 0.7);
-  }
-
-  .brand-usage-card ul {
-    margin: 0.6rem 0 0;
-    padding-left: 1.1rem;
-    display: grid;
-    gap: 0.5rem;
-  }
-
-  .brand-usage-card li {
-    color: var(--text-secondary);
-  }
-
-  @media (max-width: 720px) {
-    .focus-grid,
-    .principles-grid,
-    .brand-assets-grid {
+  @media (max-width: 860px) {
+    .about-grid {
       grid-template-columns: 1fr;
     }
   }

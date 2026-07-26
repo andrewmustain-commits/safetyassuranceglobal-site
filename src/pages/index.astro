@@ -1,13 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HomeHero from '../components/home/HomeHero.astro';
-import CapabilityCards from '../components/home/CapabilityCards.astro';
-import ServicesOverview from '../components/home/ServicesOverview.astro';
-import AcademyHighlight from '../components/home/AcademyHighlight.astro';
-import CommandPreview from '../components/home/CommandPreview.astro';
-import BlogPreview from '../components/home/BlogPreview.astro';
-import ContactCta from '../components/home/ContactCta.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
 
 const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -22,16 +20,189 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
   }));
 ---
 
-<BaseLayout title="Home" description="Safety Assurance Global helps leaders build safer operations with practical assurance, training, and governance.">
-  <div class="home-shell">
-    <div class="container home-stack">
-      <HomeHero showRegisteredArtwork={true} />
-      <CapabilityCards />
-      <ServicesOverview />
-      <AcademyHighlight />
-      <CommandPreview />
-      <BlogPreview posts={approvedPosts} />
-      <ContactCta />
-    </div>
-  </div>
+<BaseLayout title="Home" description="Safety Assurance Global helps maritime and critical infrastructure teams improve compliance, readiness, QA/QC, contractor performance, and risk control.">
+  <Container>
+    <Section class="home-hero" ariaLabelledby="home-hero-title">
+      <Badge text="Independent Assurance" />
+      <h1 id="home-hero-title">Independent Assurance for Maritime and Critical Infrastructure</h1>
+      <p>
+        Safety Assurance Global helps ports, shipyards, vessel operators, marine contractors, government organizations,
+        and critical-infrastructure teams improve compliance, operational readiness, QA/QC, contractor performance,
+        and risk control.
+      </p>
+      <div class="home-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/maritime" variant="secondary">Explore Maritime Services</Button>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="maritime-intro-title">
+      <div class="section-head">
+        <Badge text="Maritime Assurance" />
+        <h2 id="maritime-intro-title">A consulting-led way to improve readiness without overclaiming capability.</h2>
+      </div>
+      <div class="content-grid two-up">
+        <Card>
+          <h3>What buyers are usually trying to solve</h3>
+          <p>They need a partner that can verify readiness, uncover control gaps, and support disciplined improvement across field operations and leadership oversight.</p>
+        </Card>
+        <Card>
+          <h3>What SAG does</h3>
+          <p>We assess the current state, verify evidence, prioritize corrective action, and support practical assurance work that teams can sustain.</p>
+        </Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="core-services-title">
+      <div class="section-head">
+        <Badge text="Core Services" />
+        <h2 id="core-services-title">The services most buyers need first.</h2>
+      </div>
+      <div class="content-grid three-up">
+        <Card><h3>Maritime compliance readiness</h3><p>Support for documentation, evidence, and operating controls that need to be in place before review or deployment.</p></Card>
+        <Card><h3>Operational readiness assessments</h3><p>Structured review of execution readiness, operating discipline, and decision-making support.</p></Card>
+        <Card><h3>QA/QC and contractor assurance</h3><p>Verification support for field execution, vendor controls, and traceable evidence of performance.</p></Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="industries-title">
+      <div class="section-head">
+        <Badge text="Industries Served" />
+        <h2 id="industries-title">Focused on maritime and high-consequence operations.</h2>
+      </div>
+      <div class="content-grid three-up">
+        <Card><h3>Ports and marine terminals</h3></Card>
+        <Card><h3>Shipyards and vessel operators</h3></Card>
+        <Card><h3>Government and critical infrastructure</h3></Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="method-title">
+      <div class="section-head">
+        <Badge text="Safety Assurance Method" />
+        <h2 id="method-title">Discover → Assess → Verify → Prioritize → Improve → Validate → Assure → Sustain</h2>
+      </div>
+      <Card>
+        <p>Outputs are built around an assurance case, evidence package, dashboard, readiness score, and roadmap. The method is designed to support practical decision-making, not to imply universal approval or guaranteed outcomes.</p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="training-title">
+      <div class="section-head">
+        <Badge text="Maritime Training" />
+        <h2 id="training-title">Workforce development that stays within evidence-controlled language.</h2>
+      </div>
+      <Card>
+        <p>Safety Assurance Global provides awareness training, site-specific training, professional development, and readiness-focused support without claiming approval, accreditation, or certification authority.</p>
+        <p><a href="/training">Explore training offerings</a> or <a href="/maritime-training">review maritime-specific training</a>.</p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="value-title">
+      <div class="section-head">
+        <Badge text="Why Independent Assurance Matters" />
+        <h2 id="value-title">It gives leadership a clearer basis for action.</h2>
+      </div>
+      <Card>
+        <p>Independent assurance helps teams see what is actually in place, what is missing, and what should be addressed next. That makes it easier to manage risk, align contractors, and protect operations without relying on unsupported claims.</p>
+      </Card>
+    </Section>
+
+    {approvedPosts.length > 0 && (
+      <Section ariaLabelledby="insights-title">
+        <div class="section-head">
+          <Badge text="Latest Approved Insights" />
+          <h2 id="insights-title">Recent approved publications.</h2>
+        </div>
+        <div class="content-grid three-up">
+          {approvedPosts.map((post) => (
+            <Card as="article">
+              <p class="insight-meta">
+                <span>{post.category}</span>
+                {' · '}
+                <time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+              </p>
+              <h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3>
+              <p>{post.summary}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
+    )}
+
+    <Section class="home-consultation" ariaLabelledby="consultation-title">
+      <Badge text="Consultation" />
+      <h2 id="consultation-title">Start with a focused conversation about your operating context.</h2>
+      <p>We can help you scope the right assurance, readiness, or training engagement without overbuilding the solution.</p>
+      <div class="home-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+      </div>
+    </Section>
+  </Container>
 </BaseLayout>
+
+<style>
+  .home-hero,
+  .home-consultation {
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
+  }
+
+  .home-hero h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2.1rem, 4.2vw, 3.2rem);
+    max-width: 16ch;
+  }
+
+  .home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: var(--space-2);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.2vw, 1.82rem);
+  }
+
+  .content-grid {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .two-up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .three-up {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .insight-meta {
+    margin: 0 0 0.6rem;
+    color: var(--color-text-soft);
+    font-size: 0.84rem;
+  }
+
+  .home-consultation {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 860px) {
+    .two-up,
+    .three-up {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
