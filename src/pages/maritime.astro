@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const audiences = ['Ports and marine terminals', 'Shipyards', 'Vessel operators', 'Marine contractors', 'Government maritime organizations'];
+const focusAreas = ['Maritime compliance readiness', 'Cybersecurity and safety-management readiness', 'Operational readiness', 'QA/QC and contractor assurance', 'Incident and emergency preparedness', 'Onsite and workforce training'];
+---
+
+<BaseLayout title="Maritime" description="Maritime assurance consulting for ports, shipyards, vessel operators, marine contractors, and government maritime organizations.">
+  <Container>
+    <Section class="maritime-hero" ariaLabelledby="maritime-title">
+      <Badge text="Maritime" />
+      <h1 id="maritime-title">Independent assurance for maritime operations.</h1>
+      <p>This is the primary market-entry page for ports, terminals, shipyards, vessel operators, marine contractors, and government maritime organizations.</p>
+      <div class="hero-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/services" variant="secondary">See services</Button>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="audiences-title">
+      <div class="section-head">
+        <Badge text="Who We Support" />
+        <h2 id="audiences-title">The operating teams most often using this page.</h2>
+      </div>
+      <div class="audience-grid">
+        {audiences.map((audience) => <Card><h3>{audience}</h3></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="focus-title">
+      <div class="section-head">
+        <Badge text="Focus Areas" />
+        <h2 id="focus-title">What the maritime engagement usually covers.</h2>
+      </div>
+      <div class="focus-grid">
+        {focusAreas.map((focus) => <Card><h3>{focus}</h3></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="claims-title">
+      <div class="section-head">
+        <Badge text="Boundary Control" />
+        <h2 id="claims-title">What this page does not say.</h2>
+      </div>
+      <Card>
+        <p>We do not state that SAG provides regulatory approval, certification authority, Coast Guard approval, or accredited training unless the claims register and supporting evidence explicitly permit it.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .maritime-hero {
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
+  }
+
+  .maritime-hero h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 18ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: var(--space-2);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .audience-grid,
+  .focus-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 860px) {
+    .audience-grid,
+    .focus-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
+
+const serviceOptions = [
+  { value: 'maritime-compliance-readiness', label: 'Maritime compliance readiness' },
+  { value: 'operational-readiness', label: 'Operational readiness assessments' },
+  { value: 'program-assurance', label: 'Program assurance' },
+  { value: 'qa-qc', label: 'QA/QC' },
+  { value: 'contractor-assurance', label: 'Contractor assurance' },
+  { value: 'training', label: 'Training' }
+];
+
+const timeframeOptions = [
+  { value: 'immediate', label: 'Immediate' },
+  { value: '1-2-weeks', label: '1-2 weeks' },
+  { value: 'within-month', label: 'Within a month' },
+  { value: 'exploring', label: 'Exploring options' }
+];
+---
+
+<BaseLayout title="Request a Proposal" description="Request a proposal from Safety Assurance Global for maritime and critical infrastructure consulting.">
+  <Container>
+    <Section class="proposal-hero" ariaLabelledby="proposal-title">
+      <Badge text="Request a Proposal" />
+      <h1 id="proposal-title">Start a proposal-ready conversation.</h1>
+      <p>Use this workflow when you need a clearer scope, timeline, and engagement structure. The form is a controlled frontend placeholder until a backend is approved.</p>
+      <div class="hero-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="mailto:contact@safetyassuranceglobal.com" variant="secondary">Email the team</Button>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="proposal-lead-title">
+      <LeadForm
+        id="proposal-lead"
+        title="Proposal intake"
+        description="Tell us the operating context, service interest, location, and timeframe so we can shape a safe response."
+        submitLabel="Submit Proposal Request"
+        serviceOptions={serviceOptions}
+        timeframeOptions={timeframeOptions}
+      />
+    </Section>
+
+    <Section ariaLabelledby="proposal-expectations-title">
+      <div class="section-head">
+        <Badge text="What Happens Next" />
+        <h2 id="proposal-expectations-title">Controlled proposal handling.</h2>
+      </div>
+      <Card>
+        <p>We review the request, confirm fit, and then decide whether the next step should be a consultation, an evidence-gathering conversation, or a scoped proposal. No false success message is shown because the form is not connected to a backend yet.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .proposal-hero {
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
+  }
+
+  .proposal-hero h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 19ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: var(--space-2);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: var(--space-2);
+  }
+</style>

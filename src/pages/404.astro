@@ -7,28 +7,29 @@ import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 ---
 
-<BaseLayout title="Command" description="SAG Command remains a gated internal concept and is not presented here as a fully operational public system.">
+<BaseLayout title="Page not found" description="The page you requested was not found. Return to the Safety Assurance Global home page or explore the primary routes.">
   <Container>
-    <Section class="transition-hero" ariaLabelledby="command-title">
-      <Badge text="Gated Concept" />
-      <h1 id="command-title">SAG Command is not part of the public Phase 2 offer.</h1>
-      <p>This page avoids product-style claims and only confirms that command-system concepts remain gated pending executive decision and evidence review.</p>
+    <Section class="error-hero" ariaLabelledby="error-title">
+      <Badge text="404" />
+      <h1 id="error-title">Page not found</h1>
+      <p>The route may have moved or never existed. Use the links below to continue browsing.</p>
       <div class="hero-actions">
-        <Button href="/method">Review method</Button>
-        <Button href="/contact" variant="secondary">Request a Consultation</Button>
+        <Button href="/">Home</Button>
+        <Button href="/maritime" variant="secondary">Maritime</Button>
+        <Button href="/contact" variant="secondary">Contact</Button>
       </div>
     </Section>
 
     <Section>
       <Card>
-        <p>The public site does not present SAG Command as an operational integrated system, and it does not invite demonstration requests as a public CTA.</p>
+        <p>If you were expecting a service page, try <a href="/services">Services</a> or <a href="/request-proposal">Request a Proposal</a>.</p>
       </Card>
     </Section>
   </Container>
 </BaseLayout>
 
 <style>
-  .transition-hero {
+  .error-hero {
     border: var(--border-luminous);
     border-radius: var(--radius-xl);
     background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
@@ -36,10 +37,9 @@ import Badge from '../components/ui/Badge.astro';
     padding: clamp(1.2rem, 2.8vw, 2rem);
   }
 
-  .transition-hero h1 {
+  .error-hero h1 {
     margin-top: 0.75rem;
     font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 18ch;
   }
 
   .hero-actions {

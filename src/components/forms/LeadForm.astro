@@ -1,0 +1,148 @@
+---
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  submitLabel: string;
+  serviceOptions: Option[];
+  timeframeOptions: Option[];
+  note?: string;
+}
+
+const {
+  id,
+  title,
+  description,
+  submitLabel,
+  serviceOptions,
+  timeframeOptions,
+  note = 'This form is a frontend-only placeholder and does not submit data yet.'
+} = Astro.props as Props;
+
+const fieldIds = {
+  name: `${id}-name`,
+  organization: `${id}-organization`,
+  email: `${id}-email`,
+  phone: `${id}-phone`,
+  serviceInterest: `${id}-service-interest`,
+  location: `${id}-location`,
+  projectSummary: `${id}-project-summary`,
+  timeframe: `${id}-timeframe`,
+  consent: `${id}-consent`,
+  website: `${id}-website`,
+  status: `${id}-status`
+};
+---
+
+<section class="lead-form-shell" aria-labelledby={`${id}-title`}>
+  <div class="lead-form-intro">
+    <p class="lead-form-eyebrow" id={`${id}-title`}>{title}</p>
+    <p class="lead-form-description">{description}</p>
+  </div>
+
+  <form class="lead-form" data-lead-form data-placeholder-note={note} novalidate>
+    <input id={fieldIds.website} name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
+
+    <div class="lead-form-grid">
+      <label class="lead-field" for={fieldIds.name}>
+        <span>Name</span>
+        <input id={fieldIds.name} name="name" type="text" autocomplete="name" required />
+      </label>
+
+      <label class="lead-field" for={fieldIds.organization}>
+        <span>Organization</span>
+        <input id={fieldIds.organization} name="organization" type="text" autocomplete="organization" required />
+      </label>
+
+      <label class="lead-field" for={fieldIds.email}>
+        <span>Email</span>
+        <input id={fieldIds.email} name="email" type="email" autocomplete="email" required />
+      </label>
+
+      <label class="lead-field" for={fieldIds.phone}>
+        <span>Phone, optional</span>
+        <input id={fieldIds.phone} name="phone" type="tel" autocomplete="tel" />
+      </label>
+
+      <label class="lead-field" for={fieldIds.serviceInterest}>
+        <span>Service interest</span>
+        <select id={fieldIds.serviceInterest} name="service-interest" required>
+          <option value="">Select a service</option>
+          {serviceOptions.map((option) => <option value={option.value}>{option.label}</option>)}
+        </select>
+      </label>
+
+      <label class="lead-field" for={fieldIds.timeframe}>
+        <span>Desired timeframe</span>
+        <select id={fieldIds.timeframe} name="timeframe" required>
+          <option value="">Select a timeframe</option>
+          {timeframeOptions.map((option) => <option value={option.value}>{option.label}</option>)}
+        </select>
+      </label>
+
+      <label class="lead-field lead-field-full" for={fieldIds.location}>
+        <span>Location</span>
+        <input id={fieldIds.location} name="location" type="text" autocomplete="address-level2" required />
+      </label>
+
+      <label class="lead-field lead-field-full" for={fieldIds.projectSummary}>
+        <span>Project summary</span>
+        <textarea id={fieldIds.projectSummary} name="project-summary" rows="5" required></textarea>
+      </label>
+
+      <label class="lead-field lead-field-full lead-checkbox" for={fieldIds.consent}>
+        <input id={fieldIds.consent} name="consent" type="checkbox" required />
+        <span>I acknowledge that this site will only use the information I provide for an inquiry response.</span>
+      </label>
+    </div>
+
+    <p class="lead-form-status" id={fieldIds.status} data-form-status aria-live="polite"></p>
+
+    <div class="lead-form-actions">
+      <button class="ui-button ui-button-primary" type="submit">{submitLabel}</button>
+      <p class="lead-form-note">{note}</p>
+    </div>
+  </form>
+</section>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-lead-form]');
+
+  forms.forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const note = form.dataset.placeholderNote || 'This form is a frontend-only placeholder.';
+    const requiredFields = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('[required]');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const honeypot = form.querySelector<HTMLInputElement>('input[name="website"]');
+      if (honeypot?.value) {
+        if (status) {
+          status.textContent = 'Submission blocked by spam protection.';
+        }
+        return;
+      }
+
+      const invalidFields = Array.from(requiredFields).filter((field) => !field.checkValidity());
+
+      if (invalidFields.length > 0) {
+        invalidFields[0].focus();
+        if (status) {
+          status.textContent = 'Please complete the required fields before continuing.';
+        }
+        form.reportValidity();
+        return;
+      }
+
+      if (status) {
+        status.textContent = note;
+      }
+    });
+  });
+</script>

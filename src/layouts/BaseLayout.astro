@@ -11,19 +11,19 @@ interface Props {
 
 const {
   title,
-  description = 'Safety Assurance Global provides practical safety assurance consulting, industry programs, and workforce development.',
+  description = 'Safety Assurance Global provides independent assurance for maritime and critical infrastructure teams.',
   image = '/images/brand/sag-brand-artwork-registered.png'
 } = Astro.props;
 
 const navigation = [
   { href: '/', label: 'Home' },
+  { href: '/maritime', label: 'Maritime' },
   { href: '/services', label: 'Services' },
-  { href: '/industries', label: 'Industries' },
-  { href: '/academy', label: 'Academy' },
-  { href: '/command', label: 'SAG Command' },
   { href: '/training', label: 'Training' },
+  { href: '/industries', label: 'Industries' },
+  { href: '/government', label: 'Government' },
   { href: '/about', label: 'About' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/insights', label: 'Insights' },
   { href: '/contact', label: 'Contact' }
 ];
 
@@ -34,16 +34,21 @@ const normalizeHref = (value: string) => (value !== '/' && value.endsWith('/') ?
 
 const breadcrumbLabelMap: Record<string, string> = {
   about: 'About',
+  maritime: 'Maritime',
   services: 'Services',
   industries: 'Industries',
-  academy: 'Academy',
-  command: 'SAG Command',
+  government: 'Government',
+  method: 'Method',
   training: 'Training',
-  blog: 'Blog',
+  insights: 'Insights',
+  blog: 'Insights',
+  'maritime-training': 'Maritime Training',
   contact: 'Contact',
+  'request-proposal': 'Request a Proposal',
   'privacy-policy': 'Privacy Policy',
   'terms-of-use': 'Terms of Use',
-  terms: 'Terms'
+  terms: 'Terms',
+  '404': '404'
 };
 
 const pathParts = normalizedPath.split('/').filter(Boolean);
@@ -61,7 +66,7 @@ const breadcrumbs = pathParts.map((segment, index) => {
   return { href, label, isLast };
 });
 
-const hideUnifiedCta = ['/privacy-policy', '/terms-of-use', '/terms'].includes(normalizedPath);
+const hideUnifiedCta = ['/privacy-policy', '/terms-of-use', '/terms', '/request-proposal', '/404'].includes(normalizedPath);
 const canonicalUrl = Astro.url.href;
 const ogImage = new URL(image, Astro.url.origin).href;
 const logoUrl = new URL('/images/brand/sag-logo.svg', Astro.url.origin).href;
@@ -107,6 +112,7 @@ const organizationStructuredData = {
     <header class="site-header">
       <Container class="header-inner">
         <Logo className="brand" imageClassName="brand-logo" />
+        <a class="ui-button ui-button-primary header-cta" href="/contact">Request a Consultation</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav-list">
           Menu
         </button>
@@ -142,13 +148,13 @@ const organizationStructuredData = {
           <Container class="site-cross-cta-inner">
             <div>
               <p class="site-cross-eyebrow">Explore Safety Assurance Global</p>
-              <h2 id="site-cross-cta-title">Connect services, capability development, and command-center operations.</h2>
+              <h2 id="site-cross-cta-title">Independent assurance, practical training, and clear next steps.</h2>
             </div>
             <div class="site-cross-actions">
+              <a class="ui-button ui-button-primary" href="/contact">Request a Consultation</a>
+              <a class="ui-button ui-button-secondary" href="/request-proposal">Request a Proposal</a>
               <a class="ui-button ui-button-secondary" href="/services">Services</a>
-              <a class="ui-button ui-button-secondary" href="/academy">Academy</a>
-              <a class="ui-button ui-button-secondary" href="/command">SAG Command</a>
-              <a class="ui-button ui-button-primary" href="/contact">Contact</a>
+              <a class="ui-button ui-button-secondary" href="/maritime">Maritime</a>
             </div>
           </Container>
         </section>
@@ -157,29 +163,35 @@ const organizationStructuredData = {
     <footer class="site-footer">
       <Container class="footer-shell">
         <section class="footer-company" aria-labelledby="footer-company-title">
-          <p class="footer-lede">Enterprise Assurance Institution</p>
+          <p class="footer-lede">Independent Assurance for Maritime and Critical Infrastructure</p>
           <h2 id="footer-company-title" class="visually-hidden">Safety Assurance Global</h2>
           <Logo className="footer-logo-link" imageClassName="footer-logo" loading="lazy" />
           <p>
-            Enterprise advisory, learning, and operational command support for safety, governance, and assurance.
+            Consulting and professional services for maritime compliance readiness, operational readiness, QA/QC, contractor assurance, and safety risk management.
           </p>
+          <div class="footer-company-actions">
+            <a class="ui-button ui-button-primary" href="/contact">Request a Consultation</a>
+            <a class="ui-button ui-button-secondary" href="/request-proposal">Request a Proposal</a>
+          </div>
         </section>
         <nav class="footer-nav" aria-label="Footer navigation">
           <section>
             <h3>Quick Links</h3>
             <ul>
               <li><a href="/">Home</a></li>
+              <li><a href="/maritime">Maritime</a></li>
               <li><a href="/about">About</a></li>
               <li><a href="/industries">Industries</a></li>
-              <li><a href="/blog">Blog</a></li>
+              <li><a href="/insights">Insights</a></li>
             </ul>
           </section>
           <section>
             <h3>Solutions</h3>
             <ul>
               <li><a href="/services">Services</a></li>
-              <li><a href="/academy">Academy</a></li>
-              <li><a href="/command">SAG Command</a></li>
+              <li><a href="/training">Training</a></li>
+              <li><a href="/government">Government</a></li>
+              <li><a href="/method">Method</a></li>
               <li><a href="/contact">Contact</a></li>
             </ul>
           </section>

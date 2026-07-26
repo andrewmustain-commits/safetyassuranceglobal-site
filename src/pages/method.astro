@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const steps = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'];
+const outputs = ['Assurance Case', 'Evidence Package', 'Dashboard', 'Readiness Score', 'Roadmap'];
+---
+
+<BaseLayout title="Method" description="Safety Assurance Global method for discovery, assessment, verification, improvement, validation, assurance, and sustainment.">
+  <Container>
+    <Section class="method-hero" ariaLabelledby="method-title">
+      <Badge text="Method" />
+      <h1 id="method-title">A professional delivery method for assurance work.</h1>
+      <p>The method is the way SAG structures consulting: Discover → Assess → Verify → Prioritize → Improve → Validate → Assure → Sustain.</p>
+      <div class="hero-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/services" variant="secondary">Review services</Button>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="steps-title">
+      <div class="section-head">
+        <Badge text="Lifecycle" />
+        <h2 id="steps-title">The approved lifecycle.</h2>
+      </div>
+      <div class="step-grid">
+        {steps.map((step, index) => <Card><h3>{index + 1}. {step}</h3></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="outputs-title">
+      <div class="section-head">
+        <Badge text="Outputs" />
+        <h2 id="outputs-title">What clients receive.</h2>
+      </div>
+      <div class="output-grid">
+        {outputs.map((output) => <Card><h3>{output}</h3></Card>)}
+      </div>
+      <Card>
+        <p>These outputs describe SAG’s professional delivery method. They do not imply universal validation, regulatory acceptance, or guaranteed outcomes.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .method-hero {
+    border: var(--border-luminous);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    box-shadow: var(--shadow-panel);
+    padding: clamp(1.2rem, 2.8vw, 2rem);
+  }
+
+  .method-hero h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 18ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: var(--space-2);
+  }
+
+  .section-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .step-grid,
+  .output-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 860px) {
+    .step-grid,
+    .output-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
