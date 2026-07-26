@@ -163,6 +163,9 @@ Branch: website/public-site-full-refresh
 - src/pages/maritime-training.astro
 - src/pages/sag-command.astro
 - src/pages/command.astro
+- src/pages/contact.astro
+- src/pages/request-proposal.astro
+- src/components/forms/LeadForm.astro
 - public/_redirects
 - docs/website/PHASE-2-DECISION-LOG.md
 - docs/website/PHASE-2-IMPLEMENTATION-REPORT.md
@@ -173,4 +176,5 @@ Branch: website/public-site-full-refresh
 - WEB-005 homepage rebuild: d4d6dac
 - WEB-006 maritime hub and assurance method: 39dcf79
 - WEB-007 training and maritime training: 5711604
-- WEB-008 SAG Command public disposition and Phase 2 report: pending
+- WEB-008 SAG Command public disposition and Phase 2 report: 2012d7e
+- WEB-008 follow-up intake copy hardening: pending

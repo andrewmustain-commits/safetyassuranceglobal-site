@@ -21,7 +21,7 @@ const {
   submitLabel,
   serviceOptions,
   timeframeOptions,
-  note = 'This form is a frontend-only placeholder and does not submit data yet.'
+  note = 'Inquiry intake is currently in pre-launch mode and does not submit data yet.'
 } = Astro.props as Props;
 
 const fieldIds = {
@@ -45,7 +45,7 @@ const fieldIds = {
     <p class="lead-form-description">{description}</p>
   </div>
 
-  <form class="lead-form" data-lead-form data-placeholder-note={note} novalidate>
+  <form class="lead-form" data-lead-form data-intake-note={note} novalidate>
     <input id={fieldIds.website} name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
 
     <div class="lead-form-grid">
@@ -115,7 +115,7 @@ const fieldIds = {
 
   forms.forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-form-status]');
-    const note = form.dataset.placeholderNote || 'This form is a frontend-only placeholder.';
+    const note = form.dataset.intakeNote || 'Inquiry intake is currently in pre-launch mode.';
     const requiredFields = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('[required]');
 
     form.addEventListener('submit', (event) => {
