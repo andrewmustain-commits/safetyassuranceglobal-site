@@ -14,112 +14,138 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
     slug: post.data.slug,
     title: post.data.title,
     summary: post.data.summary,
-    author: post.data.author,
     date: post.data.date,
     category: post.data.category
   }));
+
+const services = [
+  ['MA', 'Maritime Assurance', 'Independent review of compliance readiness, operating controls, and evidence across maritime environments.'],
+  ['OR', 'Operational Readiness', 'Structured assessments that reveal execution gaps before mobilization, review, or deployment.'],
+  ['QC', 'QA/QC & Contractor Assurance', 'Field-focused verification of contractor controls, documentation, quality, and traceable performance evidence.'],
+  ['SG', 'Safety Governance', 'Executive-level governance, accountability, and management-system support for high-consequence operations.'],
+  ['RC', 'Risk & Compliance', 'Practical risk, regulatory, and control reviews that help leaders prioritize defensible corrective action.'],
+  ['IR', 'Independent Reviews', 'Objective assessments, incident reviews, and decision support without unsupported approval claims.']
+];
+
+const industries = [
+  ['Ports & Marine Terminals', 'Assurance support for complex port, terminal, cargo, and contractor interfaces.'],
+  ['Shipyards & Vessel Operations', 'Readiness, compliance, and field assurance for shipyard and vessel operating environments.'],
+  ['Government & Public Infrastructure', 'Evidence-based support for public owners, agencies, and regulated infrastructure programs.'],
+  ['Construction & Critical Infrastructure', 'Independent oversight for high-risk construction and essential operating assets.'],
+  ['Energy & Process Industries', 'Governance, readiness, and assurance support for complex process and energy operations.'],
+  ['Manufacturing & Industrial Operations', 'Control verification and performance improvement for high-consequence industrial work.']
+];
 ---
 
-<BaseLayout title="Home" description="Safety Assurance Global helps maritime and critical infrastructure teams improve compliance, readiness, QA/QC, contractor performance, and risk control.">
-  <Container>
-    <Section class="home-hero" ariaLabelledby="home-hero-title">
-      <Badge text="Independent Assurance" />
-      <h1 id="home-hero-title">Independent Assurance for Maritime and Critical Infrastructure</h1>
-      <p>
-        Safety Assurance Global helps ports, shipyards, vessel operators, marine contractors, government organizations,
-        and critical-infrastructure teams improve compliance, operational readiness, QA/QC, contractor performance,
-        and risk control.
-      </p>
-      <div class="home-actions">
-        <Button href="/contact">Request a Consultation</Button>
-        <Button href="/maritime" variant="secondary">Explore Maritime Services</Button>
+<BaseLayout title="Home" description="Safety Assurance Global provides independent assurance, operational readiness, QA/QC, contractor assurance, and safety governance for maritime and critical infrastructure organizations.">
+  <Container class="homepage-shell">
+    <Section class="executive-hero" ariaLabelledby="home-hero-title">
+      <div class="hero-copy">
+        <Badge text="Independent Assurance" />
+        <p class="hero-kicker">Safety Assurance Global</p>
+        <h1 id="home-hero-title">Independent Assurance for Maritime & High-Consequence Operations</h1>
+        <p class="hero-lede">
+          We help owners, contractors, and government organizations strengthen operational readiness through independent
+          assurance, quality oversight, safety governance, and evidence-based risk management.
+        </p>
+        <div class="hero-actions">
+          <Button href="/contact">Book a Consultation</Button>
+          <Button href="/services" variant="secondary">Explore Services</Button>
+        </div>
+        <div class="hero-proof" aria-label="Safety Assurance Global differentiators">
+          <span>Veteran-Owned</span>
+          <span>Evidence-Based</span>
+          <span>Maritime Focused</span>
+        </div>
       </div>
+
+      <aside class="hero-brand" aria-label="Safety Assurance Global brand mark">
+        <div class="brand-halo"></div>
+        <img src="/images/brand/sag-logo.svg" alt="Safety Assurance Global logo" width="330" height="330" />
+        <p>Increase operational readiness through independent assurance supported by measurable evidence.</p>
+      </aside>
     </Section>
 
-    <Section ariaLabelledby="maritime-intro-title">
-      <div class="section-head">
-        <Badge text="Maritime Assurance" />
-        <h2 id="maritime-intro-title">A consulting-led way to improve readiness without overclaiming capability.</h2>
-      </div>
-      <div class="content-grid two-up">
-        <Card>
-          <h3>What buyers are usually trying to solve</h3>
-          <p>They need a partner that can verify readiness, uncover control gaps, and support disciplined improvement across field operations and leadership oversight.</p>
-        </Card>
-        <Card>
-          <h3>What SAG does</h3>
-          <p>We assess the current state, verify evidence, prioritize corrective action, and support practical assurance work that teams can sustain.</p>
-        </Card>
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="core-services-title">
-      <div class="section-head">
+    <Section ariaLabelledby="services-title">
+      <div class="section-heading">
         <Badge text="Core Services" />
-        <h2 id="core-services-title">The services most buyers need first.</h2>
+        <div>
+          <h2 id="services-title">Assurance services built for consequential work.</h2>
+          <p>Focused support for organizations that need clearer evidence, stronger controls, and defensible decisions.</p>
+        </div>
       </div>
-      <div class="content-grid three-up">
-        <Card><h3>Maritime compliance readiness</h3><p>Support for documentation, evidence, and operating controls that need to be in place before review or deployment.</p></Card>
-        <Card><h3>Operational readiness assessments</h3><p>Structured review of execution readiness, operating discipline, and decision-making support.</p></Card>
-        <Card><h3>QA/QC and contractor assurance</h3><p>Verification support for field execution, vendor controls, and traceable evidence of performance.</p></Card>
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="industries-title">
-      <div class="section-head">
-        <Badge text="Industries Served" />
-        <h2 id="industries-title">Focused on maritime and high-consequence operations.</h2>
-      </div>
-      <div class="content-grid three-up">
-        <Card><h3>Ports and marine terminals</h3></Card>
-        <Card><h3>Shipyards and vessel operators</h3></Card>
-        <Card><h3>Government and critical infrastructure</h3></Card>
+      <div class="service-grid">
+        {services.map(([code, title, description]) => (
+          <Card class="service-card">
+            <span class="service-code" aria-hidden="true">{code}</span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+            <a href="/services">Learn more <span aria-hidden="true">→</span></a>
+          </Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="method-title">
-      <div class="section-head">
-        <Badge text="Safety Assurance Method" />
-        <h2 id="method-title">Discover → Assess → Verify → Prioritize → Improve → Validate → Assure → Sustain</h2>
+    <Section class="industries-panel" ariaLabelledby="industries-title">
+      <div class="section-heading">
+        <Badge text="Industries" />
+        <div>
+          <h2 id="industries-title">Maritime, infrastructure, and industrial operations.</h2>
+          <p>SAG is positioned for environments where readiness, quality, and accountability directly affect performance.</p>
+        </div>
       </div>
-      <Card>
-        <p>Outputs are built around an assurance case, evidence package, dashboard, readiness score, and roadmap. The method is designed to support practical decision-making, not to imply universal approval or guaranteed outcomes.</p>
-      </Card>
+      <div class="industry-grid">
+        {industries.map(([title, description], index) => (
+          <a class="industry-card" href="/industries">
+            <span class="industry-number">0{index + 1}</span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </a>
+        ))}
+      </div>
     </Section>
 
-    <Section ariaLabelledby="training-title">
-      <div class="section-head">
-        <Badge text="Maritime Training" />
-        <h2 id="training-title">Workforce development that stays within evidence-controlled language.</h2>
+    <Section class="method-panel" ariaLabelledby="method-title">
+      <div class="method-intro">
+        <Badge text="The SAG Assurance Method" />
+        <h2 id="method-title">A disciplined path from uncertainty to sustained assurance.</h2>
+        <p>Every engagement is organized around practical evidence, prioritized action, and measurable operational improvement.</p>
+        <Button href="/method" variant="secondary">View Our Method</Button>
       </div>
-      <Card>
-        <p>Safety Assurance Global provides awareness training, site-specific training, professional development, and readiness-focused support without claiming approval, accreditation, or certification authority.</p>
-        <p><a href="/training">Explore training offerings</a> or <a href="/maritime-training">review maritime-specific training</a>.</p>
-      </Card>
+      <ol class="method-steps">
+        {['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'].map((step, index) => (
+          <li><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>
+        ))}
+      </ol>
     </Section>
 
-    <Section ariaLabelledby="value-title">
-      <div class="section-head">
-        <Badge text="Why Independent Assurance Matters" />
-        <h2 id="value-title">It gives leadership a clearer basis for action.</h2>
+    <Section ariaLabelledby="academy-title">
+      <div class="academy-feature">
+        <div>
+          <Badge text="SAG Academy" />
+          <h2 id="academy-title">Professional development remains available as a dedicated experience.</h2>
+          <p>
+            Explore maritime training, workforce development, and readiness-focused learning without distracting from the
+            homepage's consulting and assurance mission.
+          </p>
+        </div>
+        <Button href="/academy" variant="secondary">Visit the Academy</Button>
       </div>
-      <Card>
-        <p>Independent assurance helps teams see what is actually in place, what is missing, and what should be addressed next. That makes it easier to manage risk, align contractors, and protect operations without relying on unsupported claims.</p>
-      </Card>
     </Section>
 
     {approvedPosts.length > 0 && (
       <Section ariaLabelledby="insights-title">
-        <div class="section-head">
-          <Badge text="Latest Approved Insights" />
-          <h2 id="insights-title">Recent approved publications.</h2>
+        <div class="section-heading">
+          <Badge text="Insights" />
+          <div>
+            <h2 id="insights-title">Approved perspectives for leaders and operators.</h2>
+          </div>
         </div>
-        <div class="content-grid three-up">
+        <div class="insight-grid">
           {approvedPosts.map((post) => (
-            <Card as="article">
+            <Card as="article" class="insight-card">
               <p class="insight-meta">
                 <span>{post.category}</span>
-                {' · '}
                 <time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
               </p>
               <h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3>
@@ -130,12 +156,14 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
       </Section>
     )}
 
-    <Section class="home-consultation" ariaLabelledby="consultation-title">
-      <Badge text="Consultation" />
-      <h2 id="consultation-title">Start with a focused conversation about your operating context.</h2>
-      <p>We can help you scope the right assurance, readiness, or training engagement without overbuilding the solution.</p>
-      <div class="home-actions">
-        <Button href="/contact">Request a Consultation</Button>
+    <Section class="final-cta" ariaLabelledby="consultation-title">
+      <div>
+        <Badge text="Start the Conversation" />
+        <h2 id="consultation-title">Ready to improve operational readiness?</h2>
+        <p>Start with a focused consultation about your risks, evidence, contractors, and operating context.</p>
+      </div>
+      <div class="hero-actions">
+        <Button href="/contact">Book a Consultation</Button>
         <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
     </Section>
@@ -143,66 +171,384 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
 </BaseLayout>
 
 <style>
-  .home-hero,
-  .home-consultation {
-    border: var(--border-luminous);
+  .homepage-shell {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .executive-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    overflow: hidden;
+    min-height: 610px;
+    padding: clamp(2rem, 6vw, 5.5rem);
+    border: 1px solid rgba(202, 164, 79, 0.48);
     border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
+    background:
+      radial-gradient(circle at 75% 40%, rgba(36, 116, 125, 0.22), transparent 30%),
+      linear-gradient(125deg, rgba(5, 17, 35, 0.99), rgba(8, 30, 53, 0.96) 52%, rgba(7, 20, 34, 0.98));
     box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
   }
 
-  .home-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2.1rem, 4.2vw, 3.2rem);
-    max-width: 16ch;
+  .executive-hero::before,
+  .executive-hero::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
   }
 
-  .home-actions {
+  .executive-hero::before {
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(to right, black, transparent 85%);
+  }
+
+  .executive-hero::after {
+    right: -10%;
+    bottom: -50%;
+    width: 620px;
+    height: 620px;
+    border: 1px solid rgba(202, 164, 79, 0.18);
+    border-radius: 50%;
+  }
+
+  .hero-copy,
+  .hero-brand {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-copy {
+    align-self: center;
+  }
+
+  .hero-kicker {
+    margin: 1.2rem 0 0;
+    color: var(--color-accent);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .hero-copy h1 {
+    max-width: 13ch;
+    margin: 0.7rem 0 1.25rem;
+    font-size: clamp(2.6rem, 6vw, 5.8rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .hero-lede {
+    max-width: 720px;
+    color: rgba(235, 242, 248, 0.82);
+    font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+    line-height: 1.7;
+  }
+
+  .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
+    gap: 0.8rem;
+    margin-top: 1.8rem;
   }
 
-  .section-head {
+  .hero-proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    margin-top: 2rem;
+    color: rgba(255,255,255,.66);
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .hero-proof span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .hero-proof span::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 14px rgba(202, 164, 79, .65);
+  }
+
+  .hero-brand {
     display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
+    place-items: center;
+    align-content: center;
+    text-align: center;
   }
 
-  .section-head h2 {
+  .hero-brand img {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 330px);
+    height: auto;
+    filter: drop-shadow(0 26px 38px rgba(0,0,0,.38));
+  }
+
+  .hero-brand p {
+    max-width: 28ch;
+    margin-top: 1.6rem;
+    color: rgba(235, 242, 248, 0.68);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .brand-halo {
+    position: absolute;
+    width: min(88%, 380px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(202, 164, 79, .26);
+    border-radius: 50%;
+    box-shadow: inset 0 0 70px rgba(25, 105, 115, .13), 0 0 100px rgba(25, 105, 115, .14);
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    margin-bottom: 1.6rem;
+  }
+
+  .section-heading h2,
+  .method-intro h2,
+  .academy-feature h2,
+  .final-cta h2 {
     margin: 0;
-    font-size: clamp(1.3rem, 2.2vw, 1.82rem);
+    font-size: clamp(1.8rem, 3vw, 3.2rem);
+    line-height: 1.08;
   }
 
-  .content-grid {
+  .section-heading p,
+  .method-intro p,
+  .academy-feature p,
+  .final-cta p {
+    max-width: 760px;
+    color: var(--color-text-soft);
+  }
+
+  .service-grid,
+  .industry-grid,
+  .insight-grid {
     display: grid;
-    gap: var(--space-2);
-  }
-
-  .two-up {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .three-up {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .service-card {
+    position: relative;
+    min-height: 260px;
+    padding: 1.45rem;
+    transition: transform .2s ease, border-color .2s ease, background .2s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(202, 164, 79, .55);
+    background: linear-gradient(155deg, rgba(14, 38, 63, .98), rgba(7, 20, 35, .98));
+  }
+
+  .service-code {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 1.3rem;
+    border: 1px solid rgba(202, 164, 79, .45);
+    border-radius: 50%;
+    color: var(--color-accent);
+    font-size: .72rem;
+    font-weight: 850;
+    letter-spacing: .08em;
+  }
+
+  .service-card h3,
+  .industry-card h3,
+  .insight-card h3 {
+    margin: 0 0 .7rem;
+  }
+
+  .service-card p,
+  .industry-card p,
+  .insight-card p {
+    color: var(--color-text-soft);
+  }
+
+  .service-card a {
+    display: inline-block;
+    margin-top: .4rem;
+    color: var(--color-accent);
+    font-weight: 760;
+    text-decoration: none;
+  }
+
+  .industries-panel,
+  .method-panel,
+  .academy-feature,
+  .final-cta {
+    border: 1px solid rgba(202, 164, 79, .22);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, rgba(11, 31, 52, .93), rgba(5, 15, 28, .97));
+    box-shadow: var(--shadow-panel);
+  }
+
+  .industries-panel,
+  .method-panel {
+    padding: clamp(1.4rem, 4vw, 3rem);
+  }
+
+  .industry-card {
+    position: relative;
+    display: block;
+    min-height: 220px;
+    padding: 1.35rem;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,.025);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+
+  .industry-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(45, 154, 160, .55);
+  }
+
+  .industry-number {
+    display: block;
+    margin-bottom: 2.4rem;
+    color: var(--color-accent);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .13em;
+  }
+
+  .method-panel {
+    display: grid;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .method-steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .method-steps li {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: 1rem;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,.025);
+    font-weight: 760;
+  }
+
+  .method-steps span {
+    color: var(--color-accent);
+    font-size: .72rem;
+    letter-spacing: .08em;
+  }
+
+  .academy-feature,
+  .final-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
   }
 
   .insight-meta {
-    margin: 0 0 0.6rem;
-    color: var(--color-text-soft);
-    font-size: 0.84rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 1rem;
+    color: var(--color-accent);
+    font-size: .78rem;
+    font-weight: 760;
+    letter-spacing: .08em;
+    text-transform: uppercase;
   }
 
-  .home-consultation {
+  .final-cta {
     margin-bottom: 0;
+    border-color: rgba(202, 164, 79, .46);
+    background:
+      radial-gradient(circle at 85% 50%, rgba(32, 123, 130, .2), transparent 28%),
+      linear-gradient(135deg, rgba(11, 34, 58, .98), rgba(5, 16, 29, .99));
   }
 
-  @media (max-width: 860px) {
-    .two-up,
-    .three-up {
+  @media (max-width: 980px) {
+    .executive-hero,
+    .method-panel {
       grid-template-columns: 1fr;
+    }
+
+    .hero-brand {
+      display: none;
+    }
+
+    .service-grid,
+    .industry-grid,
+    .insight-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .executive-hero {
+      min-height: auto;
+      padding: 1.5rem;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2.45rem, 13vw, 4.2rem);
+    }
+
+    .section-heading {
+      grid-template-columns: 1fr;
+      gap: .8rem;
+    }
+
+    .service-grid,
+    .industry-grid,
+    .insight-grid,
+    .method-steps {
+      grid-template-columns: 1fr;
+    }
+
+    .academy-feature,
+    .final-cta {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .hero-actions {
+      width: 100%;
     }
   }
 </style>
