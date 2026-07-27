@@ -4,83 +4,88 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
+const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'];
 ---
 
-<BaseLayout title="About" description="Learn how Safety Assurance Global delivers independent assurance for maritime and critical infrastructure buyers.">
+<BaseLayout
+  title="About"
+  description="Safety Assurance Global is an independent-assurance and consulting organization focused on maritime and critical infrastructure readiness, safety, risk, QA/QC, and compliance support."
+>
   <Container>
-    <Section class="about-hero" ariaLabelledby="about-title">
-      <Badge text="About SAG" />
-      <h1 id="about-title">Independent assurance with a consulting-first delivery model.</h1>
-      <p>Safety Assurance Global helps organizations improve readiness, quality, and control without presenting software platforms or integrated systems as the core offer.</p>
-      <div class="hero-actions">
+    <HeroSection
+      id="about-title"
+      badge="About Safety Assurance Global"
+      title="Independent assurance for maritime and critical infrastructure operations."
+    >
+      <p>
+        Safety Assurance Global is a consulting and independent-assurance organization focused on operational
+        readiness, safety, risk management, QA/QC, contractor assurance, compliance readiness, and workforce
+        training support.
+      </p>
+      <div class="ui-actions">
         <Button href="/services">Explore Services</Button>
         <Button href="/contact" variant="secondary">Request a Consultation</Button>
       </div>
-    </Section>
+    </HeroSection>
 
-    <Section ariaLabelledby="values-title">
-      <div class="section-head">
-        <Badge text="What We Stand For" />
-        <h2 id="values-title">Evidence, clarity, and disciplined execution.</h2>
-      </div>
-      <div class="about-grid">
-        <Card><h3>Independent</h3><p>We assess what is actually happening and avoid overstating outcomes or public capabilities.</p></Card>
-        <Card><h3>Practical</h3><p>We focus on the next action, the next control, and the next improvement a team can sustain.</p></Card>
-        <Card><h3>Controlled</h3><p>Public claims remain aligned to the claims register, and unsupported systems stay out of the sales narrative.</p></Card>
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="what-title">
-      <div class="section-head">
-        <Badge text="What SAG Does" />
-        <h2 id="what-title">Consulting, assurance, and training support.</h2>
-      </div>
+    <Section ariaLabelledby="about-purpose-title">
+      <SectionHeader badge="Company Purpose" id="about-purpose-title" title="Help organizations turn risk into disciplined readiness decisions." />
       <Card>
-        <p>Our work typically includes maritime compliance readiness, operational readiness, QA/QC, contractor assurance, safety and risk management, incident investigation, emergency preparedness, embedded HSE support, and workforce training.</p>
+        <p>
+          Our purpose is to strengthen operational control performance through evidence-first review, practical
+          corrective-action planning, and sustained assurance governance.
+        </p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="about-philosophy-title">
+      <SectionHeader badge="Assurance Philosophy" id="about-philosophy-title" title="Evidence before assumption." />
+      <div class="grid-two">
+        <Card>
+          <h3>Evidence-first approach</h3>
+          <p>We prioritize what can be verified through records, controls, and operational observation.</p>
+        </Card>
+        <Card>
+          <h3>Execution-focused improvement</h3>
+          <p>We emphasize practical action plans that teams can implement and sustain in real operations.</p>
+        </Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="about-focus-title">
+      <SectionHeader badge="Market Focus" id="about-focus-title" title="Maritime and critical-infrastructure support." />
+      <div class="grid-two">
+        <Card>
+          <h3>Maritime focus</h3>
+          <p>Support for shipyards, ports and terminals, vessel operators, and marine-contractor environments.</p>
+        </Card>
+        <Card>
+          <h3>Critical-infrastructure focus</h3>
+          <p>Support for high-consequence operations requiring reliable readiness and assurance controls.</p>
+        </Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="about-lifecycle-title">
+      <SectionHeader badge="Assurance Lifecycle" id="about-lifecycle-title" title="The method used to structure engagement delivery." />
+      <div class="grid-four">
+        {lifecycle.map((step) => (
+          <Card><h3>{step}</h3></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="about-posture-title">
+      <SectionHeader badge="Ownership and Delivery Posture" id="about-posture-title" title="Public claim limits and verified positioning." />
+      <Card>
+        <p>
+          This site publishes conservative, verified claims only. It does not publish unsupported biographies,
+          credentials, board titles, geographic-reach assertions, or authority claims without explicit evidence approval.
+        </p>
       </Card>
     </Section>
   </Container>
 </BaseLayout>
-
-<style>
-  .about-hero {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .about-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 20ch;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
-  .about-grid {
-    display: grid;
-    gap: var(--space-2);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  @media (max-width: 860px) {
-    .about-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

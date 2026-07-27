@@ -4,88 +4,135 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
-const steps = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'];
-const outputs = ['Assurance Case', 'Evidence Package', 'Dashboard', 'Readiness Score', 'Roadmap'];
+const lifecycle = [
+  {
+    name: 'Discover',
+    actions: 'Confirm operating context, risk profile, stakeholders, and mission-critical outcomes.',
+    outputs: 'Engagement charter and initial evidence request map.'
+  },
+  {
+    name: 'Assess',
+    actions: 'Review current-state controls, documentation, field practices, and governance alignment.',
+    outputs: 'Baseline assessment summary and gap register.'
+  },
+  {
+    name: 'Verify',
+    actions: 'Test evidence quality and traceability through interviews, records, and selected field checks.',
+    outputs: 'Evidence-quality findings and verification notes.'
+  },
+  {
+    name: 'Prioritize',
+    actions: 'Rank control gaps by impact, urgency, and implementation feasibility.',
+    outputs: 'Risk-ranked corrective-action roadmap.'
+  },
+  {
+    name: 'Improve',
+    actions: 'Support remediation planning, ownership assignment, and milestone definition.',
+    outputs: 'Improvement plan and accountability matrix.'
+  },
+  {
+    name: 'Validate',
+    actions: 'Re-check completed actions and measure progress against defined acceptance criteria.',
+    outputs: 'Validation Report with residual-risk observations.'
+  },
+  {
+    name: 'Assure',
+    actions: 'Consolidate verified findings into decision-ready assurance outputs for leadership.',
+    outputs: 'Assurance Case and Evidence Package.'
+  },
+  {
+    name: 'Sustain',
+    actions: 'Define cadence, monitoring expectations, and future review checkpoints.',
+    outputs: 'Closeout Report and sustainment plan.'
+  }
+];
+
+const namedOutputs = [
+  'Assurance Case',
+  'Evidence Package',
+  'Readiness Score',
+  'Dashboard',
+  'Corrective-Action Roadmap',
+  'Validation Report',
+  'Closeout Report'
+];
 ---
 
-<BaseLayout title="Method" description="Safety Assurance Global method for discovery, assessment, verification, improvement, validation, assurance, and sustainment.">
+<BaseLayout
+  title="Method"
+  description="Discover, Assess, Verify, Prioritize, Improve, Validate, Assure, and Sustain: Safety Assurance Global's structured assurance lifecycle."
+>
   <Container>
-    <Section class="method-hero" ariaLabelledby="method-title">
-      <Badge text="Method" />
-      <h1 id="method-title">A professional delivery method for assurance work.</h1>
-      <p>The method is the way SAG structures consulting: Discover → Assess → Verify → Prioritize → Improve → Validate → Assure → Sustain.</p>
-      <div class="hero-actions">
+    <HeroSection
+      id="method-title"
+      badge="Assurance Method"
+      title="A staged lifecycle for evidence-driven readiness decisions."
+    >
+      <p>
+        The Safety Assurance Global method is consulting-led and evidence-focused. It connects operational reality,
+        verified controls, and prioritized improvement actions without implying automated or universal software delivery.
+      </p>
+      <div class="ui-actions">
         <Button href="/contact">Request a Consultation</Button>
-        <Button href="/services" variant="secondary">Review services</Button>
+        <Button href="/services" variant="secondary">Review Services</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="method-lifecycle-title">
+      <SectionHeader
+        badge="Lifecycle"
+        id="method-lifecycle-title"
+        title="Discover -> Assess -> Verify -> Prioritize -> Improve -> Validate -> Assure -> Sustain"
+      />
+      <div class="method-stack">
+        {lifecycle.map((phase, index) => (
+          <Card>
+            <h3>{index + 1}. {phase.name}</h3>
+            <p><strong>Actions:</strong> {phase.actions}</p>
+            <p><strong>Outputs:</strong> {phase.outputs}</p>
+          </Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="steps-title">
-      <div class="section-head">
-        <Badge text="Lifecycle" />
-        <h2 id="steps-title">The approved lifecycle.</h2>
-      </div>
-      <div class="step-grid">
-        {steps.map((step, index) => <Card><h3>{index + 1}. {step}</h3></Card>)}
+    <Section ariaLabelledby="method-outputs-title">
+      <SectionHeader
+        badge="Primary Outputs"
+        id="method-outputs-title"
+        title="Tangible deliverables leadership teams can review and act on."
+      />
+      <div class="grid-three">
+        {namedOutputs.map((output) => (
+          <Card>
+            <h3>{output}</h3>
+          </Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="outputs-title">
-      <div class="section-head">
-        <Badge text="Outputs" />
-        <h2 id="outputs-title">What clients receive.</h2>
-      </div>
-      <div class="output-grid">
-        {outputs.map((output) => <Card><h3>{output}</h3></Card>)}
-      </div>
-      <Card>
-        <p>These outputs describe SAG’s professional delivery method. They do not imply universal validation, regulatory acceptance, or guaranteed outcomes.</p>
-      </Card>
+    <Section ariaLabelledby="method-boundary-title">
+      <SectionHeader
+        badge="Scope Control"
+        id="method-boundary-title"
+        title="Public method language remains conservative and evidence-safe."
+      />
+      <NoticePanel tone="warning" title="Qualification Notice" class="qualification-notice">
+        <p>
+          Method outputs describe consulting and assurance delivery. They do not imply regulatory approval,
+          guaranteed outcomes, or commercially available software automation.
+        </p>
+      </NoticePanel>
     </Section>
   </Container>
 </BaseLayout>
 
 <style>
-  .method-hero {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .method-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 18ch;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
-  .step-grid,
-  .output-grid {
+  .method-stack {
     display: grid;
     gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (max-width: 860px) {
-    .step-grid,
-    .output-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

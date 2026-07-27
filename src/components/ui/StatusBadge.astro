@@ -1,0 +1,31 @@
+---
+interface Props {
+  status:
+    | 'Available Now'
+    | 'Available by Arrangement'
+    | 'Corporate Delivery Available'
+    | 'Controlled Pilot'
+    | 'In Development'
+    | 'Coming Soon'
+    | 'Partner-Delivered'
+    | 'Not Currently Open for Enrollment'
+    | 'Executive Confirmation Required';
+  class?: string;
+}
+
+const { status, class: className } = Astro.props;
+
+const classMap: Record<Props['status'], string> = {
+  'Available Now': 'status-available-now',
+  'Available by Arrangement': 'status-available-by-arrangement',
+  'Corporate Delivery Available': 'status-corporate-delivery-available',
+  'Controlled Pilot': 'status-controlled-pilot',
+  'In Development': 'status-in-development',
+  'Coming Soon': 'status-coming-soon',
+  'Partner-Delivered': 'status-partner-delivered',
+  'Not Currently Open for Enrollment': 'status-not-currently-open-for-enrollment',
+  'Executive Confirmation Required': 'status-executive-confirmation-required'
+};
+---
+
+<span class:list={['status-badge', classMap[status], className]}>{status}</span>

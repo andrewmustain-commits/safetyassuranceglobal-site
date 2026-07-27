@@ -1,34 +1,53 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
 ---
 
-<BaseLayout title="Terms of Use" description="Terms of use for the Safety Assurance Global website.">
-  <article>
-    <h1>Terms of Use</h1>
-    <p>By using this website, you agree to lawful use and to rely on published material only within its stated scope.</p>
-    <h2>General information</h2>
-    <p>Website content is provided for general information and may be updated without notice.</p>
-    <h2>No professional guarantee</h2>
-    <p>Published material does not guarantee a specific result, certification, regulatory outcome, or commercial award.</p>
-    <h2>External links</h2>
-    <p>We are not responsible for the content or availability of external resources linked from this site.</p>
-  </article>
-</BaseLayout>---
-import BaseLayout from '../layouts/BaseLayout.astro';
----
+<BaseLayout title="Terms of Use" description="Terms of use for the Safety Assurance Global public website.">
+  <Container>
+    <Section ariaLabelledby="terms-title">
+      <h1 id="terms-title">Terms of Use</h1>
+      <p>By using this website, you agree to lawful use of published materials within their stated scope.</p>
+    </Section>
 
-<BaseLayout title="Terms of Use" description="Terms of use for the Safety Assurance Global website.">
-  <article>
-    <h1>Terms of Use</h1>
-    <p>By using this website, you agree to these terms and all applicable laws and regulations.</p>
-    <h2>Use of content</h2>
-    <p>All content is provided for general information and may not be reproduced or redistributed without prior written permission.</p>
-    <h2>Limitation of liability</h2>
-    <p>Safety Assurance Global is not liable for decisions made solely from information published on this site.</p>
-    <h2>External links</h2>
-    <p>Our website may reference external resources; we are not responsible for their content or availability.</p>
-    <h2>Changes to terms</h2>
-    <p>We may update these terms periodically. Continued use of the site indicates acceptance of any updates.</p>
-  </article>
+    <Section ariaLabelledby="terms-information-title">
+      <h2 id="terms-information-title">Informational Nature of Content</h2>
+      <p>
+        Website content is provided for general informational purposes and does not guarantee specific operational,
+        contractual, regulatory, certification, or procurement outcomes.
+      </p>
+    </Section>
+
+    <Section ariaLabelledby="terms-use-title">
+      <h2 id="terms-use-title">Use Restrictions</h2>
+      <p>
+        You may not misuse this site, attempt unauthorized access, or represent website content as verified beyond its
+        stated context and qualification notices.
+      </p>
+    </Section>
+
+    <Section ariaLabelledby="terms-liability-title">
+      <h2 id="terms-liability-title">Limitations</h2>
+      <p>
+        Safety Assurance Global LLC is not liable for decisions made solely from website material without independent
+        review of your specific operational context.
+      </p>
+    </Section>
+
+    <Section ariaLabelledby="terms-updates-title">
+      <h2 id="terms-updates-title">Updates</h2>
+      <p>These terms may be updated periodically. Continued use indicates acceptance of the current published version.</p>
+    </Section>
+
+    <Section ariaLabelledby="terms-review-title">
+      <NoticePanel tone="warning" title="Legal Review Flag" id="terms-review-title">
+        <p>
+          Formatting and consistency issues were corrected in this phase. Substantive legal language should be reviewed
+          by counsel before final production signoff.
+        </p>
+      </NoticePanel>
+    </Section>
+  </Container>
 </BaseLayout>

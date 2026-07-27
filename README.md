@@ -33,23 +33,35 @@ npm run dev
 npm run build
 ```
 
-## Governed blog publishing
+## Governed Insights publishing
 
-The blog only publishes posts with `status: approved`.
+Public Insights routes publish only posts with `status: published`.
 
-Required blog frontmatter:
+Required frontmatter includes:
 
 - `title`
-- `date`
+- `slug`
+- `description`
 - `author`
+- `publishedAt`
+- `status`
 - `category`
 - `tags`
-- `summary`
-- `status`
+- `featured`
 - `source`
-- `slug`
+- `claimsReview`
+- `legalReview`
+- `executiveApproval`
+- `redirectFrom`
 
-Draft posts (`status: draft`) remain private and are not listed or generated as public pages.
+Non-public states (`draft`, review states, `approved`, `archived`) remain excluded from public Insights routes.
+
+Governance commands:
+
+- `npm run blog:status`
+- `npm run blog:claims`
+- `npm run blog:validate`
+- `npm run blog:import -- <path>`
 
 ## Cloudflare Pages deployment
 

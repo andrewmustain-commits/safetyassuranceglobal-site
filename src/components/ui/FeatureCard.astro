@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Card from './Card.astro';
+
+interface Props extends HTMLAttributes<'article'> {
+  as?: 'article' | 'div' | 'section';
+}
+
+const { as = 'article', class: className, ...attrs } = Astro.props as Props;
+---
+
+<Card as={as} class:list={['ui-card-interactive', className]} {...attrs}>
+  <slot />
+</Card>

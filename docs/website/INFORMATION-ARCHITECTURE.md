@@ -5,23 +5,31 @@ Phase: 1 of 5
 
 ## Existing Route Map (Current Build)
 
+- `/404`
 - `/`
 - `/about`
 - `/academy`
 - `/blog`
-- `/blog/infrastructure-of-integrity-risk-governance`
 - `/blog/measuring-assurance-framework-performance`
 - `/blog/public-site-launch`
 - `/command`
 - `/contact`
+- `/government`
 - `/industries`
+- `/insights`
+- `/insights/measuring-assurance-framework-performance`
+- `/insights/public-site-launch`
+- `/maritime`
+- `/maritime-training`
+- `/method`
 - `/privacy-policy`
+- `/request-proposal`
 - `/services`
 - `/terms`
 - `/terms-of-use`
 - `/training`
 
-Current route count: 15
+Current route count: 23
 
 ## Proposed Final Primary Navigation
 
@@ -38,7 +46,7 @@ Current route count: 15
 Primary CTA (global):
 - Request a Consultation
 
-## Proposed Route Map
+## Approved Proposed Route Map
 
 - `/`
 - `/maritime`

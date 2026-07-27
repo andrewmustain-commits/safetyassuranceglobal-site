@@ -4,95 +4,174 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
-const audiences = ['Ports and marine terminals', 'Shipyards', 'Vessel operators', 'Marine contractors', 'Government maritime organizations'];
-const focusAreas = ['Maritime compliance readiness', 'Cybersecurity and safety-management readiness', 'Operational readiness', 'QA/QC and contractor assurance', 'Incident and emergency preparedness', 'Onsite and workforce training'];
+const pathways = [
+  {
+    audience: 'Shipyards',
+    challenge: 'Coordinating safety, quality, contractor execution, and turnover readiness across concurrent work fronts.',
+    approach: 'Independent readiness review, QA/QC sampling, contractor-assurance checks, and corrective-action prioritization.',
+    evidence: 'Work-pack controls, inspection logs, permit records, closeout evidence, and contractor documentation.',
+    deliverables: 'Assurance findings, risk-ranked action list, QA/QC readiness summary, and validation follow-up plan.',
+    outcome: 'Clearer confidence in field execution quality and reduced readiness uncertainty before critical milestones.',
+    cta: '/contact'
+  },
+  {
+    audience: 'Ports and marine terminals',
+    challenge: 'Maintaining operational continuity while strengthening safety-management and emergency-readiness controls.',
+    approach: 'Operational-readiness and safety-management review aligned to terminal realities and contractor interfaces.',
+    evidence: 'Operating procedures, drill records, contractor onboarding controls, and incident-management artifacts.',
+    deliverables: 'Readiness gap assessment, prioritized control-improvement roadmap, and validation checkpoints.',
+    outcome: 'Improved operational preparedness and more defensible oversight evidence.',
+    cta: '/contact'
+  },
+  {
+    audience: 'Vessel operators',
+    challenge: 'Balancing day-to-day operations with reliable safety, compliance-readiness, and incident-response performance.',
+    approach: 'Targeted assurance support for operational controls, risk management, and incident-response readiness.',
+    evidence: 'Safety procedures, risk registers, corrective-action histories, and training/competency records.',
+    deliverables: 'Control-gap analysis, readiness scorecard, and prioritized action plan.',
+    outcome: 'Better decision support for readiness and operational-risk reduction.',
+    cta: '/contact'
+  },
+  {
+    audience: 'Marine contractors',
+    challenge: 'Demonstrating reliable control of field execution, subcontractor quality, and safety performance.',
+    approach: 'Contractor-assurance and QA/QC review with emphasis on traceable evidence and corrective discipline.',
+    evidence: 'Subcontractor controls, field verification records, QA/QC artifacts, and incident-prevention measures.',
+    deliverables: 'Contractor-assurance summary, improvement roadmap, and validation report.',
+    outcome: 'Stronger evidence of execution control for owners and prime stakeholders.',
+    cta: '/request-proposal'
+  },
+  {
+    audience: 'Government maritime programs',
+    challenge: 'Needing conservative, evidence-based support without overstating capability or implying endorsement.',
+    approach: 'Independent assurance and readiness support framed to documented scope and approved public language.',
+    evidence: 'Program controls, oversight records, readiness documentation, and accepted compliance artifacts.',
+    deliverables: 'Assurance case inputs, evidence package structure, and corrective-action priorities.',
+    outcome: 'More transparent readiness posture for internal and external oversight.',
+    cta: '/government'
+  },
+  {
+    audience: 'Workforce training buyers',
+    challenge: 'Aligning workforce development with real operational risks instead of generic training content.',
+    approach: 'Role-based and site-aware training support integrated with consulting and assurance priorities.',
+    evidence: 'Role/task requirements, incident trends, workforce feedback, and competency observations.',
+    deliverables: 'Training-needs summary, delivery recommendation, and readiness-aligned learning roadmap.',
+    outcome: 'Training effort tied to measurable readiness and risk-control objectives.',
+    cta: '/maritime-training'
+  }
+];
+
+const focusAreas = [
+  'Shipyard assurance',
+  'Port and terminal readiness',
+  'Vessel-operator support',
+  'Marine-contractor oversight',
+  'Maritime safety management',
+  'Maritime risk management',
+  'QA/QC',
+  'Compliance readiness',
+  'Maritime cybersecurity readiness',
+  'Safety-management readiness',
+  'Contractor assurance',
+  'Emergency preparedness',
+  'Drills and exercises',
+  'Incident investigation',
+  'Workforce training',
+  'Government maritime support'
+];
 ---
 
-<BaseLayout title="Maritime" description="Maritime assurance consulting for ports, shipyards, vessel operators, marine contractors, and government maritime organizations.">
+<BaseLayout
+  title="Maritime"
+  description="Independent maritime assurance and readiness consulting for shipyards, ports, vessel operators, marine contractors, government maritime programs, and workforce training buyers."
+>
   <Container>
-    <Section class="maritime-hero" ariaLabelledby="maritime-title">
-      <Badge text="Maritime" />
-      <h1 id="maritime-title">Independent assurance for maritime operations.</h1>
-      <p>This is the primary market-entry page for ports, terminals, shipyards, vessel operators, marine contractors, and government maritime organizations.</p>
-      <div class="hero-actions">
+    <HeroSection
+      id="maritime-title"
+      badge="Maritime Hub"
+      title="Maritime assurance services built for operational reality."
+    >
+      <p>
+        Safety Assurance Global supports maritime organizations with consulting, readiness, risk, QA/QC,
+        compliance-readiness, contractor-assurance, and workforce-training support grounded in verifiable evidence.
+      </p>
+      <div class="ui-actions">
         <Button href="/contact">Request a Consultation</Button>
-        <Button href="/services" variant="secondary">See services</Button>
+        <Button href="/services" variant="secondary">Review Services</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="maritime-focus-title">
+      <SectionHeader
+        badge="Coverage"
+        id="maritime-focus-title"
+        title="Priority maritime areas covered in Phase 2."
+      />
+      <div class="grid-four">
+        {focusAreas.map((item) => (
+          <Card>
+            <h3>{item}</h3>
+          </Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="audiences-title">
-      <div class="section-head">
-        <Badge text="Who We Support" />
-        <h2 id="audiences-title">The operating teams most often using this page.</h2>
+    <Section ariaLabelledby="maritime-pathways-title">
+      <SectionHeader
+        badge="Pathways"
+        id="maritime-pathways-title"
+        title="Audience-specific pathways with practical engagement detail."
+      />
+      <div class="pathway-stack">
+        {pathways.map((pathway) => (
+          <Card class="pathway-card">
+            <h3>{pathway.audience}</h3>
+            <div class="grid-two pathway-grid">
+              <div>
+                <h4>Customer challenge</h4>
+                <p>{pathway.challenge}</p>
+              </div>
+              <div>
+                <h4>SAG approach</h4>
+                <p>{pathway.approach}</p>
+              </div>
+              <div>
+                <h4>Evidence reviewed</h4>
+                <p>{pathway.evidence}</p>
+              </div>
+              <div>
+                <h4>Typical deliverables</h4>
+                <p>{pathway.deliverables}</p>
+              </div>
+            </div>
+            <h4>Expected outcome</h4>
+            <p>{pathway.outcome}</p>
+            <div class="ui-actions">
+              <Button href={pathway.cta}>Continue</Button>
+            </div>
+          </Card>
+        ))}
       </div>
-      <div class="audience-grid">
-        {audiences.map((audience) => <Card><h3>{audience}</h3></Card>)}
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="focus-title">
-      <div class="section-head">
-        <Badge text="Focus Areas" />
-        <h2 id="focus-title">What the maritime engagement usually covers.</h2>
-      </div>
-      <div class="focus-grid">
-        {focusAreas.map((focus) => <Card><h3>{focus}</h3></Card>)}
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="claims-title">
-      <div class="section-head">
-        <Badge text="Boundary Control" />
-        <h2 id="claims-title">What this page does not say.</h2>
-      </div>
-      <Card>
-        <p>We do not state that SAG provides regulatory approval, certification authority, Coast Guard approval, or accredited training unless the claims register and supporting evidence explicitly permit it.</p>
-      </Card>
     </Section>
   </Container>
 </BaseLayout>
 
 <style>
-  .maritime-hero {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .maritime-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 18ch;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
-  .audience-grid,
-  .focus-grid {
+  .pathway-stack {
     display: grid;
     gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media (max-width: 860px) {
-    .audience-grid,
-    .focus-grid {
-      grid-template-columns: 1fr;
-    }
+  .pathway-card h4 {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+    color: var(--color-text-soft);
+  }
+
+  .pathway-grid {
+    margin-bottom: var(--space-1);
   }
 </style>

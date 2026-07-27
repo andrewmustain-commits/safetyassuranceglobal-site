@@ -1,0 +1,21 @@
+---
+import Section from './Section.astro';
+import Badge from './Badge.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  badge?: string;
+  intro?: string;
+  class?: string;
+}
+
+const { id, title, badge, intro, class: className } = Astro.props;
+---
+
+<Section class:list={['hero-panel', className]} ariaLabelledby={id}>
+  {badge && <Badge text={badge} />}
+  <h1 id={id}>{title}</h1>
+  {intro && <p>{intro}</p>}
+  <slot />
+</Section>

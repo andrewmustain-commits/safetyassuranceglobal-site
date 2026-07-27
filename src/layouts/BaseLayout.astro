@@ -7,12 +7,18 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  canonical?: string;
+  ogType?: 'website' | 'article';
+  noIndex?: boolean;
 }
 
 const {
   title,
   description = 'Safety Assurance Global provides independent assurance for maritime and critical infrastructure teams.',
-  image = '/images/brand/sag-brand-artwork-registered.png'
+  image = '/images/brand/sag-brand-artwork-registered.png',
+  canonical,
+  ogType = 'website',
+  noIndex = false
 } = Astro.props;
 
 const navigation = [
@@ -39,6 +45,7 @@ const breadcrumbLabelMap: Record<string, string> = {
   industries: 'Industries',
   government: 'Government',
   method: 'Method',
+  'sag-command': 'SAG Command',
   training: 'Training',
   insights: 'Insights',
   blog: 'Insights',
@@ -52,6 +59,7 @@ const breadcrumbLabelMap: Record<string, string> = {
 };
 
 const pathParts = normalizedPath.split('/').filter(Boolean);
+const currentYear = new Date().getFullYear();
 
 const toTitleCase = (value: string) =>
   value
@@ -67,7 +75,7 @@ const breadcrumbs = pathParts.map((segment, index) => {
 });
 
 const hideUnifiedCta = ['/privacy-policy', '/terms-of-use', '/terms', '/request-proposal', '/404'].includes(normalizedPath);
-const canonicalUrl = Astro.url.href;
+const canonicalUrl = canonical ? new URL(canonical, Astro.url.origin).href : Astro.url.href;
 const ogImage = new URL(image, Astro.url.origin).href;
 const logoUrl = new URL('/images/brand/sag-logo.svg', Astro.url.origin).href;
 const organizationStructuredData = {
@@ -88,10 +96,11 @@ const organizationStructuredData = {
     <link rel="icon" type="image/png" href="/images/brand/favicon.png" />
     <link rel="apple-touch-icon" href="/images/brand/apple-touch-icon.png" />
     <meta name="description" content={description} />
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index,follow'} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title="Safety Assurance Global Insights RSS" href="/rss.xml" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Safety Assurance Global" />
     <meta property="og:title" content={`${title} | Safety Assurance Global`} />
     <meta property="og:description" content={description} />
@@ -112,19 +121,20 @@ const organizationStructuredData = {
     <header class="site-header">
       <Container class="header-inner">
         <Logo className="brand" imageClassName="brand-logo" />
-        <a class="ui-button ui-button-primary header-cta" href="/contact">Request a Consultation</a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav-list">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav-list" aria-label="Open navigation" data-nav-toggle>
           Menu
         </button>
-        <nav aria-label="Primary navigation" class="primary-nav" data-open="false">
+        <nav aria-label="Primary navigation" class="primary-nav" data-open="false" data-primary-nav>
           <ul id="primary-nav-list">
             {navigation.map((item) => (
               <li>
                 <a href={item.href} aria-current={normalizeHref(item.href) === normalizedPath ? 'page' : undefined}>{item.label}</a>
               </li>
             ))}
+            <li class="mobile-nav-cta"><a class="ui-button ui-button-primary" href="/contact">Request a Consultation</a></li>
           </ul>
         </nav>
+        <a class="ui-button ui-button-primary header-cta" href="/contact">Request a Consultation</a>
       </Container>
     </header>
     <main id="main-content" class="site-main">
@@ -147,14 +157,12 @@ const organizationStructuredData = {
         <section class="site-cross-cta" aria-labelledby="site-cross-cta-title">
           <Container class="site-cross-cta-inner">
             <div>
-              <p class="site-cross-eyebrow">Explore Safety Assurance Global</p>
-              <h2 id="site-cross-cta-title">Independent assurance, practical training, and clear next steps.</h2>
+              <p class="site-cross-eyebrow">Independent Assurance</p>
+              <h2 id="site-cross-cta-title">Turn operational risk into verified readiness.</h2>
             </div>
             <div class="site-cross-actions">
               <a class="ui-button ui-button-primary" href="/contact">Request a Consultation</a>
-              <a class="ui-button ui-button-secondary" href="/request-proposal">Request a Proposal</a>
-              <a class="ui-button ui-button-secondary" href="/services">Services</a>
-              <a class="ui-button ui-button-secondary" href="/maritime">Maritime</a>
+              <a class="ui-button ui-button-secondary" href="/maritime">Explore Maritime Services</a>
             </div>
           </Container>
         </section>
@@ -164,10 +172,11 @@ const organizationStructuredData = {
       <Container class="footer-shell">
         <section class="footer-company" aria-labelledby="footer-company-title">
           <p class="footer-lede">Independent Assurance for Maritime and Critical Infrastructure</p>
-          <h2 id="footer-company-title" class="visually-hidden">Safety Assurance Global</h2>
+          <h2 id="footer-company-title" class="visually-hidden">Safety Assurance Global LLC</h2>
           <Logo className="footer-logo-link" imageClassName="footer-logo" loading="lazy" />
           <p>
-            Consulting and professional services for maritime compliance readiness, operational readiness, QA/QC, contractor assurance, and safety risk management.
+            Safety Assurance Global LLC is a maritime and critical-infrastructure consulting, operational-readiness,
+            safety, risk-management, QA/QC, compliance, and independent-assurance company that also provides workforce training.
           </p>
           <div class="footer-company-actions">
             <a class="ui-button ui-button-primary" href="/contact">Request a Consultation</a>
@@ -180,18 +189,18 @@ const organizationStructuredData = {
             <ul>
               <li><a href="/">Home</a></li>
               <li><a href="/maritime">Maritime</a></li>
-              <li><a href="/about">About</a></li>
+              <li><a href="/services">Services</a></li>
+              <li><a href="/training">Training</a></li>
               <li><a href="/industries">Industries</a></li>
-              <li><a href="/insights">Insights</a></li>
             </ul>
           </section>
           <section>
-            <h3>Solutions</h3>
+            <h3>Sectors and Methods</h3>
             <ul>
-              <li><a href="/services">Services</a></li>
-              <li><a href="/training">Training</a></li>
               <li><a href="/government">Government</a></li>
+              <li><a href="/about">About</a></li>
               <li><a href="/method">Method</a></li>
+              <li><a href="/insights">Insights</a></li>
               <li><a href="/contact">Contact</a></li>
             </ul>
           </section>
@@ -203,30 +212,62 @@ const organizationStructuredData = {
             </ul>
           </section>
         </nav>
-        <p class="footer-meta">© {new Date().getFullYear()} All rights reserved.</p>
+        <p class="footer-meta">© {currentYear} Safety Assurance Global LLC. All rights reserved.</p>
       </Container>
     </footer>
     <script>
-      const nav = document.querySelector<HTMLElement>('.primary-nav');
-      const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+      const nav = document.querySelector('[data-primary-nav]');
+      const toggle = document.querySelector('[data-nav-toggle]');
 
-      if (nav && toggle) {
+      if (nav instanceof HTMLElement && toggle instanceof HTMLButtonElement) {
+        const navLinks = Array.from(nav.querySelectorAll('a'));
+
         const setState = (open: boolean) => {
           nav.dataset.open = String(open);
           toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
         };
 
+        const closeNav = () => setState(false);
+
         toggle.addEventListener('click', () => {
-          setState(nav.dataset.open !== 'true');
+          const open = nav.dataset.open !== 'true';
+          setState(open);
+
+          if (open && navLinks[0] instanceof HTMLElement) {
+            navLinks[0].focus();
+          }
         });
 
-        nav.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
-          link.addEventListener('click', () => setState(false));
+        navLinks.forEach((link) => {
+          link.addEventListener('click', closeNav);
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && nav.dataset.open === 'true') {
+            closeNav();
+            toggle.focus();
+          }
+        });
+
+        document.addEventListener('click', (event) => {
+          if (nav.dataset.open !== 'true') {
+            return;
+          }
+
+          const target = event.target;
+          if (!(target instanceof Node)) {
+            return;
+          }
+
+          if (!nav.contains(target) && !toggle.contains(target)) {
+            closeNav();
+          }
         });
 
         window.addEventListener('resize', () => {
-          if (window.innerWidth > 860) {
-            setState(false);
+          if (window.innerWidth > 920) {
+            closeNav();
           }
         });
       }

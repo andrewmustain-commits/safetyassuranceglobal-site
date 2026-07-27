@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import StatusBadge from '../components/ui/StatusBadge.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const currentScope = [
+  'Supports internal assurance-analysis workflows used within consulting delivery.',
+  'Assists preparation of evidence structures and review checklists.',
+  'Used in controlled contexts to improve consistency of assurance work products.'
+];
+
+const pilotScope = [
+  'Selected engagements may evaluate pilot workflows under explicit scope controls.',
+  'Pilot use is limited and requires direct agreement on boundaries and objectives.',
+  'Pilot outcomes are reviewed manually as part of consulting governance.'
+];
+
+const inDevelopment = [
+  'Additional workflow modules',
+  'Expanded reporting views for assurance tracking',
+  'Operational hardening for broader controlled use'
+];
+
+const futureConcepts = [
+  'Future concepts are directional only and not commitments.',
+  'No roadmap dates, availability guarantees, or production claims are made on this page.'
+];
+---
+
+<BaseLayout
+  title="SAG Command"
+  description="Conservative public status page for SAG Command as an internal assurance environment and controlled pilot capability."
+>
+  <Container>
+    <HeroSection
+      id="sag-command-title"
+      badge="SAG Command"
+      title="Assurance technology support in a controlled public posture."
+    >
+      <StatusBadge status="In Development" />
+      <p>
+        SAG Command is presented as an assurance technology support environment subordinate to consulting and
+        independent assurance services. It is not presented as broadly commercially available production software.
+      </p>
+      <div class="ui-actions">
+        <Button href="/contact">Discuss an Assurance Technology Pilot</Button>
+        <Button href="/method" variant="secondary">Review Assurance Method</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="sag-command-status-title">
+      <NoticePanel tone="warning" title="Public Status Notice" class="qualification-notice" id="sag-command-status-title">
+        <p>
+          Public status is set to In Development. Controlled Pilot usage may be available by arrangement.
+          Commercial production availability is not claimed on this page.
+        </p>
+      </NoticePanel>
+    </Section>
+
+    <Section ariaLabelledby="sag-current-title">
+      <SectionHeader badge="Current Operational Functionality" id="sag-current-title" title="What is currently in use." />
+      <div class="grid-three">
+        {currentScope.map((item) => (
+          <Card><p>{item}</p></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="sag-pilot-title">
+      <SectionHeader badge="Controlled-Pilot Functionality" id="sag-pilot-title" title="What may be used in controlled pilot engagements." />
+      <div class="grid-three">
+        {pilotScope.map((item) => (
+          <Card><p>{item}</p></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="sag-dev-title">
+      <SectionHeader badge="In-Development Functionality" id="sag-dev-title" title="Capabilities still under development." />
+      <div class="grid-three">
+        {inDevelopment.map((item) => (
+          <Card><p>{item}</p></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="sag-future-title">
+      <SectionHeader badge="Future Concepts" id="sag-future-title" title="Directional concepts only." />
+      <Card>
+        <ul>
+          {futureConcepts.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>

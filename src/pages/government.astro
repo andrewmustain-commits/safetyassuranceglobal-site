@@ -4,89 +4,107 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
-const points = [
-  'Government contracting interest',
-  'Maritime and critical-infrastructure support',
-  'Operational readiness',
-  'Program assurance',
-  'QA/QC and contractor oversight',
-  'Safety and compliance support'
+const audiences = [
+  'Contracting officers',
+  'Program managers',
+  'Prime contractors',
+  'Small-business specialists',
+  'Public infrastructure owners',
+  'Port authorities',
+  'Engineering teams',
+  'Construction teams'
+];
+
+const missionSupport = [
+  'Operational-readiness support',
+  'Independent assurance and evidence review',
+  'QA/QC and contractor-assurance support',
+  'Field assurance and validation support',
+  'Workforce training support aligned to assurance objectives'
 ];
 ---
 
-<BaseLayout title="Government" description="Evidence-controlled support for government organizations seeking maritime and critical infrastructure assurance services.">
+<BaseLayout
+  title="Government"
+  description="Conservative, evidence-based government and infrastructure support for readiness, assurance, QA/QC, and contractor oversight."
+>
   <Container>
-    <Section class="government-hero" ariaLabelledby="government-title">
-      <Badge text="Government" />
-      <h1 id="government-title">Evidence-controlled support for government buyers.</h1>
-      <p>Safety Assurance Global positions government support carefully. We can discuss contracting interest and operational support, but we do not imply endorsement, current award, procurement eligibility, or federal authorization without evidence.</p>
-      <div class="hero-actions">
+    <HeroSection
+      id="government-title"
+      badge="Government and Infrastructure"
+      title="Conservative support posture for public-sector and infrastructure programs."
+    >
+      <p>
+        Safety Assurance Global provides consulting and independent-assurance support for maritime and
+        critical-infrastructure programs. Public claims remain limited to verified, capability-oriented language.
+      </p>
+      <div class="ui-actions">
         <Button href="/contact">Request a Consultation</Button>
-        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+        <Button href="/request-proposal" variant="secondary">Teaming or Proposal Inquiry</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="government-audience-title">
+      <SectionHeader badge="Audience" id="government-audience-title" title="Stakeholders this page supports." />
+      <div class="grid-four">
+        {audiences.map((audience) => (
+          <Card><h3>{audience}</h3></Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="focus-title">
-      <div class="section-head">
-        <Badge text="Support Areas" />
-        <h2 id="focus-title">What the public page may say.</h2>
-      </div>
-      <div class="point-grid">
-        {points.map((point) => <Card><h3>{point}</h3></Card>)}
+    <Section ariaLabelledby="government-capabilities-title">
+      <SectionHeader
+        badge="Mission Support"
+        id="government-capabilities-title"
+        title="Maritime and infrastructure support capabilities."
+      />
+      <div class="grid-two">
+        {missionSupport.map((item) => (
+          <Card><p>{item}</p></Card>
+        ))}
       </div>
     </Section>
 
-    <Section ariaLabelledby="limits-title">
-      <div class="section-head">
-        <Badge text="Claim Limits" />
-        <h2 id="limits-title">What we do not say without evidence.</h2>
-      </div>
+    <Section ariaLabelledby="government-prime-title">
+      <SectionHeader
+        badge="Prime-Contractor Support"
+        id="government-prime-title"
+        title="Support available for prime-led and multi-party execution environments."
+      />
       <Card>
-        <p>We do not imply agency endorsement, current contract awards, past performance, procurement eligibility, or veteran-owned status unless the claims register and public evidence package explicitly support it.</p>
+        <p>
+          Support is focused on control verification, readiness evidence, QA/QC oversight, and contractor-assurance
+          discipline. No contract vehicle, award, or agency-customer claim is made on this page.
+        </p>
       </Card>
+    </Section>
+
+    <Section ariaLabelledby="government-capability-statement-title">
+      <SectionHeader
+        badge="Capability Statement"
+        id="government-capability-statement-title"
+        title="Current public approach"
+      />
+      <Card>
+        <p>
+          A capability-statement download is not published because no approved current file is available in the
+          repository. Use consultation or teaming inquiry pathways for capability discussion.
+        </p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="government-claims-title">
+      <NoticePanel tone="warning" title="Government Claims Control" class="qualification-notice" id="government-claims-title">
+        <p>
+          This page does not publish UEI, CAGE, NAICS, PSC, set-aside status, contract vehicles, awards, clearances,
+          agency customers, or endorsements. Those claims require explicit evidence approval before publication.
+        </p>
+      </NoticePanel>
     </Section>
   </Container>
 </BaseLayout>
-
-<style>
-  .government-hero {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .government-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 20ch;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
-  .point-grid {
-    display: grid;
-    gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (max-width: 860px) {
-    .point-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

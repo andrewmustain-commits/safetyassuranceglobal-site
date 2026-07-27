@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import HeroSection from '../../components/ui/HeroSection.astro';
+import CTASection from '../../components/ui/CTASection.astro';
+import { industryDetails, industryBySlug } from '../../data/industries';
+
+export function getStaticPaths() {
+  return industryDetails.map((industry) => ({ params: { slug: industry.slug } }));
+}
+
+const slug = Astro.params.slug as keyof typeof industryBySlug;
+const industry = industryBySlug[slug];
+
+if (!industry) {
+  throw new Error(`Unknown industry slug: ${slug}`);
+}
+---
+
+<BaseLayout title={industry.title} description={industry.operatingContext}>
+  <Container>
+    <HeroSection id="industry-title" badge="Industry" title={industry.title}>
+      <p>{industry.operatingContext}</p>
+      <div class="ui-actions">
+        <Button href={industry.cta.href}>{industry.cta.label}</Button>
+        <Button href="/industries" variant="secondary">Back to Industries</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="industry-risk-title">
+      <SectionHeader badge="Common Risks" id="industry-risk-title" title="Operational risks frequently observed." />
+      <div class="grid-two">
+        {industry.commonRisks.map((risk) => (
+          <Card><p>{risk}</p></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="industry-gaps-title">
+      <SectionHeader badge="Typical Assurance Gaps" id="industry-gaps-title" title="Control and evidence gaps that often need attention." />
+      <div class="grid-two">
+        {industry.assuranceGaps.map((gap) => (
+          <Card><p>{gap}</p></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="industry-services-title">
+      <SectionHeader badge="Relevant SAG Services" id="industry-services-title" title="Most relevant service pathways." />
+      <div class="grid-two">
+        {industry.relevantServices.map((service) => (
+          <Card>
+            <h3><a href={service.href}>{service.label}</a></h3>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="industry-evidence-title">
+      <SectionHeader badge="Evidence Typically Reviewed" id="industry-evidence-title" title="Records and controls usually examined." />
+      <Card>
+        <ul>
+          {industry.evidenceReviewed.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="industry-deliverables-title">
+      <SectionHeader badge="Typical Deliverables" id="industry-deliverables-title" title="Decision-ready outputs commonly produced." />
+      <div class="grid-two">
+        {industry.deliverables.map((item) => (
+          <Card><h3>{item}</h3></Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="industry-support-title">
+      <SectionHeader badge="Expected Decision Support" id="industry-support-title" title="How this supports leadership decision-making." />
+      <Card><p>{industry.decisionSupport}</p></Card>
+    </Section>
+
+    <CTASection id="industry-cta-title" badge="Next Step" title="Discuss scope, controls, and assurance priorities.">
+      <div class="ui-actions">
+        <Button href={industry.cta.href}>{industry.cta.label}</Button>
+        <Button href="/contact" variant="secondary">Request a Consultation</Button>
+      </div>
+    </CTASection>
+  </Container>
+</BaseLayout>

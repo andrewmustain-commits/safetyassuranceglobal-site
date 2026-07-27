@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/ui/Container.astro';
+import Section from '../../../components/ui/Section.astro';
+import Card from '../../../components/ui/Card.astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import HeroSection from '../../../components/ui/HeroSection.astro';
+import { isPublishedInsight, normalizeTaxonomySlug } from '../../../lib/insights';
+
+const publishedPosts = (await getCollection('blog')).filter(isPublishedInsight);
+const tagMap = new Map<string, { name: string; count: number }>();
+
+for (const post of publishedPosts) {
+  for (const rawTag of post.data.tags) {
+    const name = rawTag.trim();
+    const slug = normalizeTaxonomySlug(name);
+    const existing = tagMap.get(slug);
+    if (existing) {
+      existing.count += 1;
+    } else {
+      tagMap.set(slug, { name, count: 1 });
+    }
+  }
+}
+
+const tags = Array.from(tagMap.entries())
+  .map(([slug, value]) => ({ slug, ...value }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<BaseLayout title="Insight Tags" description="Browse published insights by topic tag." canonical="/insights/tag/">
+  <Container>
+    <HeroSection id="tags-title" badge="Insights" title="Insight Tags">
+      <p>Browse published insight topics.</p>
+      <p><a href="/insights/">Back to insights</a></p>
+    </HeroSection>
+
+    <Section ariaLabelledby="tags-list-title">
+      <SectionHeader id="tags-list-title" badge="Tags" title="Tags" />
+      {tags.length === 0 ? (
+        <Card as="div"><p>No published tags are available yet.</p></Card>
+      ) : (
+        <div class="taxonomy-grid">
+          {tags.map((tag) => (
+            <Card as="article" class="taxonomy-card">
+              <h3><a href={`/insights/tag/${tag.slug}/`}>{tag.name}</a></h3>
+              <p>{tag.count} published {tag.count === 1 ? 'article' : 'articles'}</p>
+            </Card>
+          ))}
+        </div>
+      )}
+    </Section>
+  </Container>
+</BaseLayout>
