@@ -7,14 +7,14 @@ import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 
-const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved' || data.status === 'published'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
   .slice(0, 3)
   .map((post) => ({
     slug: post.data.slug,
     title: post.data.title,
-    summary: post.data.summary,
-    date: post.data.date,
+    summary: post.data.description,
+    date: post.data.publishedAt,
     category: post.data.category
   }));
 
