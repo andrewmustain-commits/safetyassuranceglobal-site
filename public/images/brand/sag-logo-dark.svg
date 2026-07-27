@@ -1,5 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80" role="img" aria-label="Safety Assurance Global dark logo">
-  <rect width="320" height="80" fill="#111111" rx="10" />
-  <circle cx="40" cy="40" r="22" fill="#4DD0E1" />
-  <text x="78" y="49" fill="#F5F5F5" font-size="24" font-family="Arial, sans-serif" font-weight="700">SAG</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="112" viewBox="0 0 520 112" role="img" aria-labelledby="title desc">
+  <title id="title">Safety Assurance Global</title>
+  <desc id="desc">Dark shield and compass brand mark with Safety Assurance Global wordmark</desc>
+  <g transform="translate(4 4)">
+    <path d="M52 2 96 18v31c0 27-17 46-44 59C25 95 8 76 8 49V18L52 2Z" fill="#0B2638" stroke="#9A772D" stroke-width="3"/>
+    <path d="M52 20v66M26 53h52" stroke="#D8C58D" stroke-width="3" opacity=".86"/>
+    <circle cx="52" cy="53" r="23" fill="none" stroke="#D8C58D" stroke-width="3"/>
+    <path d="m52 31 8 22-8 22-8-22 8-22Z" fill="#9A772D"/>
+    <path d="M38 82h28" stroke="#D8C58D" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="124" y="47" fill="#0B2638" font-size="30" font-weight="800" letter-spacing="1.2">SAFETY ASSURANCE</text>
+    <text x="124" y="80" fill="#8A6826" font-size="25" font-weight="700" letter-spacing="7">GLOBAL</text>
+    <path d="M124 93h370" stroke="#2D7680" stroke-width="2"/>
+  </g>
 </svg>

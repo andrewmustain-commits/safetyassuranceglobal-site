@@ -20,11 +20,11 @@ const {
 } = Astro.props;
 
 const srcByVariant: Record<NonNullable<Props['variant']>, string> = {
-  default: '/images/brand/sag-logo.svg',
-  light: '/images/brand/sag-logo-white.svg',
-  white: '/images/brand/sag-logo-white.svg',
-  dark: '/images/brand/sag-logo-dark.svg',
-  icon: '/images/brand/sag-icon.svg'
+  default: '/images/brand/sag-logo-v2.svg',
+  light: '/images/brand/sag-logo-white.svg?v=20260727-2',
+  white: '/images/brand/sag-logo-white.svg?v=20260727-2',
+  dark: '/images/brand/sag-logo-dark.svg?v=20260727-2',
+  icon: '/images/brand/sag-icon.svg?v=20260727-2'
 };
 
 const src = srcByVariant[variant];
@@ -67,7 +67,7 @@ const linkClass = className ? `sag-logo-link ${className}` : 'sag-logo-link';
     display: block;
     width: auto;
     max-width: 100%;
-    height: clamp(1.7rem, 3.4vw, 2.2rem);
+    height: clamp(2.2rem, 4.4vw, 3rem);
   }
 
   .sag-logo-image.is-icon {
