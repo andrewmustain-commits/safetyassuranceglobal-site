@@ -98,17 +98,17 @@ const validatePayload = (payload: IntakePayload) => {
 };
 
 export const onRequestPost = async (context: PagesContext<Env>) => {
-  const maxBytes = Number(context.env.FORM_MAX_BODY_BYTES || MAX_DEFAULT);
-  const contentLength = Number(context.request.headers.get('content-length') || '0');
-
-  if (contentLength > maxBytes) {
-    return badRequest('Submission is too large.', 413);
-  }
+  const rawMaxBytes = Number(context.env.FORM_MAX_BODY_BYTES);
+  const maxBytes = Number.isFinite(rawMaxBytes) && rawMaxBytes > 0 ? rawMaxBytes : MAX_DEFAULT;
 
   let payload: IntakePayload;
 
   try {
-    payload = (await context.request.json()) as IntakePayload;
+    const buffer = await context.request.arrayBuffer();
+    if (buffer.byteLength > maxBytes) {
+      return badRequest('Submission is too large.', 413);
+    }
+    payload = JSON.parse(new TextDecoder().decode(buffer)) as IntakePayload;
   } catch {
     return badRequest('Invalid request payload.');
   }
