@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import FeatureCard from './FeatureCard.astro';
+
+interface Props extends HTMLAttributes<'article'> {
+  icon?: string;
+  iconLabel?: string;
+  as?: 'article' | 'div' | 'section';
+}
+
+const { icon, iconLabel, as = 'article', class: className, ...attrs } = Astro.props as Props;
+---
+
+<FeatureCard as={as} class:list={['icon-card', className]} {...attrs}>
+  {icon && (
+    <span class="icon-card-mark" aria-hidden={iconLabel ? undefined : 'true'} aria-label={iconLabel}>
+      {icon}
+    </span>
+  )}
+  <slot />
+</FeatureCard>

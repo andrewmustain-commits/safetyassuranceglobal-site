@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import FeatureCard from './FeatureCard.astro';
+
+interface Props extends HTMLAttributes<'article'> {
+  as?: 'article' | 'div' | 'section';
+}
+
+const { as = 'article', class: className, ...attrs } = Astro.props as Props;
+---
+
+<FeatureCard as={as} class:list={['industry-card', className]} {...attrs}>
+  <slot />
+</FeatureCard>

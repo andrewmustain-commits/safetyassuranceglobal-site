@@ -4,10 +4,11 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import StatusBadge from '../components/ui/StatusBadge.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+import CTASection from '../components/ui/CTASection.astro';
 
 const audiences = [
   'Shipyard safety and operations teams',
@@ -48,9 +49,11 @@ const categories = [
   description="Maritime workforce training support with controlled delivery statuses and inquiry-based scope confirmation."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="maritime-training-title">
-      <Badge text="Maritime Training" />
-      <h1 id="maritime-training-title">Maritime workforce training aligned to readiness priorities.</h1>
+    <HeroSection
+      id="maritime-training-title"
+      badge="Maritime Training"
+      title="Maritime workforce training aligned to readiness priorities."
+    >
       <p>
         Maritime training is delivered as a supporting capability for consulting and assurance engagements.
         Program scope, availability, and delivery format are confirmed before enrollment or contract award.
@@ -59,7 +62,7 @@ const categories = [
         <Button href="/contact">Training Inquiry</Button>
         <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="mt-who-title">
       <SectionHeader badge="Who Training Is For" id="mt-who-title" title="Priority maritime audiences." />
@@ -167,18 +170,15 @@ const categories = [
       </div>
     </Section>
 
-    <Section ariaLabelledby="mt-cta-title">
-      <div class="cta-band">
-        <SectionHeader
-          badge="Training Inquiry"
-          id="mt-cta-title"
-          title="Discuss maritime training scope and delivery options."
-        />
-        <div class="ui-actions">
-          <Button href="/contact">Training Inquiry</Button>
-        </div>
+    <CTASection
+      id="mt-cta-title"
+      badge="Training Inquiry"
+      title="Discuss maritime training scope and delivery options."
+    >
+      <div class="ui-actions">
+        <Button href="/contact">Training Inquiry</Button>
       </div>
-    </Section>
+    </CTASection>
 
     <Section ariaLabelledby="mt-disclaimer-title">
       <NoticePanel tone="warning" title="Required Disclaimer" class="qualification-notice" id="mt-disclaimer-title">

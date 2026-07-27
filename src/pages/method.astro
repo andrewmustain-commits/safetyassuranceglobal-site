@@ -4,9 +4,9 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
 const lifecycle = [
   {
@@ -67,9 +67,11 @@ const namedOutputs = [
   description="Discover, Assess, Verify, Prioritize, Improve, Validate, Assure, and Sustain: Safety Assurance Global's structured assurance lifecycle."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="method-title">
-      <Badge text="Assurance Method" />
-      <h1 id="method-title">A staged lifecycle for evidence-driven readiness decisions.</h1>
+    <HeroSection
+      id="method-title"
+      badge="Assurance Method"
+      title="A staged lifecycle for evidence-driven readiness decisions."
+    >
       <p>
         The Safety Assurance Global method is consulting-led and evidence-focused. It connects operational reality,
         verified controls, and prioritized improvement actions without implying automated or universal software delivery.
@@ -78,7 +80,7 @@ const namedOutputs = [
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/services" variant="secondary">Review Services</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="method-lifecycle-title">
       <SectionHeader

@@ -4,10 +4,10 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import StatusBadge from '../components/ui/StatusBadge.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
 const currentScope = [
   'Supports internal assurance-analysis workflows used within consulting delivery.',
@@ -38,9 +38,11 @@ const futureConcepts = [
   description="Conservative public status page for SAG Command as an internal assurance environment and controlled pilot capability."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="sag-command-title">
-      <Badge text="SAG Command" />
-      <h1 id="sag-command-title">Assurance technology support in a controlled public posture.</h1>
+    <HeroSection
+      id="sag-command-title"
+      badge="SAG Command"
+      title="Assurance technology support in a controlled public posture."
+    >
       <StatusBadge status="In Development" />
       <p>
         SAG Command is presented as an assurance technology support environment subordinate to consulting and
@@ -50,7 +52,7 @@ const futureConcepts = [
         <Button href="/contact">Discuss an Assurance Technology Pilot</Button>
         <Button href="/method" variant="secondary">Review Assurance Method</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="sag-command-status-title">
       <NoticePanel tone="warning" title="Public Status Notice" class="qualification-notice" id="sag-command-status-title">

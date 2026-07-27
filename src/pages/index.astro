@@ -5,18 +5,19 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+import CTASection from '../components/ui/CTASection.astro';
 
-const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved'))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+const publishedPosts = (await getCollection('blog', ({ data }) => data.status === 'published'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
   .slice(0, 2)
   .map((post) => ({
     slug: post.data.slug,
     title: post.data.title,
-    summary: post.data.summary,
-    date: post.data.date,
+    description: post.data.description,
+    publishedAt: post.data.publishedAt,
     category: post.data.category
   }));
 
@@ -61,9 +62,11 @@ const deliverables = [
   description="Safety Assurance Global is a maritime and critical-infrastructure consulting, operational-readiness, safety, risk-management, QA/QC, compliance, and independent-assurance company that also provides workforce training."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="home-hero-title">
-      <Badge text="Independent Assurance for Maritime and Critical Infrastructure" />
-      <h1 id="home-hero-title">Turn operational risk into verified readiness.</h1>
+    <HeroSection
+      id="home-hero-title"
+      badge="Independent Assurance for Maritime and Critical Infrastructure"
+      title="Turn operational risk into verified readiness."
+    >
       <p>
         Safety Assurance Global helps shipyards, ports, vessel operators, contractors, government organizations,
         and critical-infrastructure leaders assess risk, strengthen controls, verify evidence, and improve
@@ -73,7 +76,7 @@ const deliverables = [
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/maritime" variant="secondary">Explore Maritime Services</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="home-audience-title">
       <SectionHeader
@@ -240,43 +243,40 @@ const deliverables = [
       </div>
     </Section>
 
-    {approvedPosts.length > 0 && (
+    {publishedPosts.length > 0 && (
       <Section ariaLabelledby="home-insights-title">
         <SectionHeader
           badge="Insights"
           id="home-insights-title"
-          title="Recent approved insights."
+          title="Recent published insights."
         />
         <div class="grid-two">
-          {approvedPosts.map((post) => (
+          {publishedPosts.map((post) => (
             <Card as="article">
               <p class="insight-meta">
                 <span>{post.category}</span>
                 {' · '}
-                <time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+                <time datetime={post.publishedAt.toISOString()}>{post.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
               </p>
               <h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3>
-              <p>{post.summary}</p>
+              <p>{post.description}</p>
             </Card>
           ))}
         </div>
       </Section>
     )}
 
-    <Section ariaLabelledby="home-final-cta-title">
-      <div class="cta-band">
-        <SectionHeader
-          badge="Next Step"
-          id="home-final-cta-title"
-          title="Start with a focused readiness and assurance discussion."
-          intro="We will confirm scope, evidence expectations, and delivery options before engagement."
-        />
-        <div class="ui-actions">
-          <Button href="/contact">Request a Consultation</Button>
-          <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
-        </div>
+    <CTASection
+      id="home-final-cta-title"
+      badge="Next Step"
+      title="Start with a focused readiness and assurance discussion."
+      intro="We will confirm scope, evidence expectations, and delivery options before engagement."
+    >
+      <div class="ui-actions">
+        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
-    </Section>
+    </CTASection>
   </Container>
 </BaseLayout>
 

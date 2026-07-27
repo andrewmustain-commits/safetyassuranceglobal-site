@@ -5,6 +5,8 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+import ServiceCard from '../components/ui/ServiceCard.astro';
 import { serviceDetails } from '../data/services';
 
 const serviceAreas = serviceDetails.map((service) => ({
@@ -21,9 +23,11 @@ const serviceAreas = serviceDetails.map((service) => ({
   description="Operational-readiness, independent-assurance, maritime-compliance, QA/QC, contractor-assurance, and safety-risk services for maritime and critical infrastructure."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="services-title">
-      <p class="ui-badge">Services Architecture</p>
-      <h1 id="services-title">Service pathways organized around customer problems and decision outcomes.</h1>
+    <HeroSection
+      id="services-title"
+      badge="Services Architecture"
+      title="Service pathways organized around customer problems and decision outcomes."
+    >
       <p>
         Safety Assurance Global provides consulting and independent-assurance services that help organizations
         verify readiness, improve controls, and prioritize practical risk-reduction actions.
@@ -32,7 +36,7 @@ const serviceAreas = serviceDetails.map((service) => ({
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="services-priority-title">
       <SectionHeader
@@ -42,12 +46,12 @@ const serviceAreas = serviceDetails.map((service) => ({
       />
       <div class="grid-two">
         {serviceAreas.map((service) => (
-          <Card>
+          <ServiceCard>
             <h3><a href={service.href}>{service.title}</a></h3>
             <p><strong>Customer problem:</strong> {service.problem}</p>
             <p><strong>Expected result:</strong> {service.result}</p>
             <p><a href={service.href}>View service detail</a></p>
-          </Card>
+          </ServiceCard>
         ))}
       </div>
     </Section>

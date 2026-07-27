@@ -1,0 +1,21 @@
+---
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  badge?: string;
+  intro?: string;
+  class?: string;
+}
+
+const { id, title, badge = 'Next Step', intro, class: className } = Astro.props;
+---
+
+<Section ariaLabelledby={id}>
+  <div class:list={['cta-band', className]}>
+    <SectionHeader id={id} badge={badge} title={title} intro={intro} />
+    <slot />
+  </div>
+</Section>

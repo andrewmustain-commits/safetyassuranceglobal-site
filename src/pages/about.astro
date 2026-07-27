@@ -5,6 +5,7 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
 const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'];
 ---
@@ -14,9 +15,11 @@ const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Val
   description="Safety Assurance Global is an independent-assurance and consulting organization focused on maritime and critical infrastructure readiness, safety, risk, QA/QC, and compliance support."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="about-title">
-      <p class="ui-badge">About Safety Assurance Global</p>
-      <h1 id="about-title">Independent assurance for maritime and critical infrastructure operations.</h1>
+    <HeroSection
+      id="about-title"
+      badge="About Safety Assurance Global"
+      title="Independent assurance for maritime and critical infrastructure operations."
+    >
       <p>
         Safety Assurance Global is a consulting and independent-assurance organization focused on operational
         readiness, safety, risk management, QA/QC, contractor assurance, compliance readiness, and workforce
@@ -26,7 +29,7 @@ const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Val
         <Button href="/services">Explore Services</Button>
         <Button href="/contact" variant="secondary">Request a Consultation</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="about-purpose-title">
       <SectionHeader badge="Company Purpose" id="about-purpose-title" title="Help organizations turn risk into disciplined readiness decisions." />

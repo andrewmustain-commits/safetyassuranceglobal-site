@@ -1,0 +1,31 @@
+---
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+
+interface StatItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  id: string;
+  badge: string;
+  title: string;
+  stats: StatItem[];
+  class?: string;
+}
+
+const { id, badge, title, stats, class: className } = Astro.props as Props;
+---
+
+<Section ariaLabelledby={id} class={className}>
+  <SectionHeader id={id} badge={badge} title={title} />
+  <div class="stats-grid" role="list">
+    {stats.map((stat) => (
+      <article class="stats-card" role="listitem">
+        <p class="stats-value">{stat.value}</p>
+        <p class="stats-label">{stat.label}</p>
+      </article>
+    ))}
+  </div>
+</Section>

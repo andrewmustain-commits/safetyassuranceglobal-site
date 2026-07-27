@@ -5,6 +5,8 @@ import Section from '../../components/ui/Section.astro';
 import Card from '../../components/ui/Card.astro';
 import Button from '../../components/ui/Button.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
+import HeroSection from '../../components/ui/HeroSection.astro';
+import CTASection from '../../components/ui/CTASection.astro';
 import { industryDetails, industryBySlug } from '../../data/industries';
 
 export function getStaticPaths() {
@@ -21,15 +23,13 @@ if (!industry) {
 
 <BaseLayout title={industry.title} description={industry.operatingContext}>
   <Container>
-    <Section class="hero-panel" ariaLabelledby="industry-title">
-      <p class="ui-badge">Industry</p>
-      <h1 id="industry-title">{industry.title}</h1>
+    <HeroSection id="industry-title" badge="Industry" title={industry.title}>
       <p>{industry.operatingContext}</p>
       <div class="ui-actions">
         <Button href={industry.cta.href}>{industry.cta.label}</Button>
         <Button href="/industries" variant="secondary">Back to Industries</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="industry-risk-title">
       <SectionHeader badge="Common Risks" id="industry-risk-title" title="Operational risks frequently observed." />
@@ -85,14 +85,11 @@ if (!industry) {
       <Card><p>{industry.decisionSupport}</p></Card>
     </Section>
 
-    <Section ariaLabelledby="industry-cta-title">
-      <div class="cta-band">
-        <SectionHeader badge="Next Step" id="industry-cta-title" title="Discuss scope, controls, and assurance priorities." />
-        <div class="ui-actions">
-          <Button href={industry.cta.href}>{industry.cta.label}</Button>
-          <Button href="/contact" variant="secondary">Request a Consultation</Button>
-        </div>
+    <CTASection id="industry-cta-title" badge="Next Step" title="Discuss scope, controls, and assurance priorities.">
+      <div class="ui-actions">
+        <Button href={industry.cta.href}>{industry.cta.label}</Button>
+        <Button href="/contact" variant="secondary">Request a Consultation</Button>
       </div>
-    </Section>
+    </CTASection>
   </Container>
 </BaseLayout>

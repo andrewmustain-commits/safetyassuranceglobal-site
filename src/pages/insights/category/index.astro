@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/ui/Container.astro';
+import Section from '../../../components/ui/Section.astro';
+import Card from '../../../components/ui/Card.astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import HeroSection from '../../../components/ui/HeroSection.astro';
+import { isPublishedInsight, normalizeTaxonomySlug } from '../../../lib/insights';
+
+const publishedPosts = (await getCollection('blog')).filter(isPublishedInsight);
+const categoryMap = new Map<string, { name: string; count: number }>();
+
+for (const post of publishedPosts) {
+  const name = post.data.category.trim();
+  const slug = normalizeTaxonomySlug(name);
+  const existing = categoryMap.get(slug);
+  if (existing) {
+    existing.count += 1;
+  } else {
+    categoryMap.set(slug, { name, count: 1 });
+  }
+}
+
+const categories = Array.from(categoryMap.entries())
+  .map(([slug, value]) => ({ slug, ...value }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<BaseLayout title="Insight Categories" description="Browse published insights by category." canonical="/insights/category/">
+  <Container>
+    <HeroSection id="categories-title" badge="Insights" title="Insight Categories">
+      <p>Browse published insight categories.</p>
+      <p><a href="/insights/">Back to insights</a></p>
+    </HeroSection>
+
+    <Section ariaLabelledby="categories-list-title">
+      <SectionHeader id="categories-list-title" badge="Categories" title="Categories" />
+      {categories.length === 0 ? (
+        <Card as="div"><p>No published categories are available yet.</p></Card>
+      ) : (
+        <div class="taxonomy-grid">
+          {categories.map((category) => (
+            <Card as="article" class="taxonomy-card">
+              <h3><a href={`/insights/category/${category.slug}/`}>{category.name}</a></h3>
+              <p>{category.count} published {category.count === 1 ? 'article' : 'articles'}</p>
+            </Card>
+          ))}
+        </div>
+      )}
+    </Section>
+  </Container>
+</BaseLayout>

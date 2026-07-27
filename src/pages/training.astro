@@ -4,9 +4,9 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
 const deliveryModes = [
   {
@@ -37,9 +37,11 @@ const controls = [
   description="Workforce training that supports Safety Assurance Global consulting and independent assurance delivery through corporate, onsite, and custom programs."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="training-title">
-      <Badge text="Training Hub" />
-      <h1 id="training-title">Training that supports assurance and operational readiness.</h1>
+    <HeroSection
+      id="training-title"
+      badge="Training Hub"
+      title="Training that supports assurance and operational readiness."
+    >
       <p>
         Safety Assurance Global presents training as a supporting capability within consulting and independent
         assurance delivery. Training is scoped through inquiry, role requirements, and readiness outcomes.
@@ -48,7 +50,7 @@ const controls = [
         <Button href="/maritime-training">Explore Maritime Training</Button>
         <Button href="/contact" variant="secondary">Request a Consultation</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="training-delivery-title">
       <SectionHeader

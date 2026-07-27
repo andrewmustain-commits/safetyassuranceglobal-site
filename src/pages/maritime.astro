@@ -4,8 +4,8 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
 const pathways = [
   {
@@ -89,9 +89,11 @@ const focusAreas = [
   description="Independent maritime assurance and readiness consulting for shipyards, ports, vessel operators, marine contractors, government maritime programs, and workforce training buyers."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="maritime-title">
-      <Badge text="Maritime Hub" />
-      <h1 id="maritime-title">Maritime assurance services built for operational reality.</h1>
+    <HeroSection
+      id="maritime-title"
+      badge="Maritime Hub"
+      title="Maritime assurance services built for operational reality."
+    >
       <p>
         Safety Assurance Global supports maritime organizations with consulting, readiness, risk, QA/QC,
         compliance-readiness, contractor-assurance, and workforce-training support grounded in verifiable evidence.
@@ -100,7 +102,7 @@ const focusAreas = [
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/services" variant="secondary">Review Services</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="maritime-focus-title">
       <SectionHeader

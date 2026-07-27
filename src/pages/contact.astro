@@ -4,31 +4,27 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
 ---
 
 <BaseLayout title="Contact" description="Contact Safety Assurance Global to request a consultation or start a controlled inquiry.">
   <Container>
-    <Section class="contact-hero" ariaLabelledby="contact-title">
-      <Badge text="Contact" />
-      <h1 id="contact-title">Request a Consultation</h1>
+    <HeroSection id="contact-title" badge="Contact" title="Request a Consultation">
       <p>Use this page for consultation and teaming inquiries through the governed intake path.</p>
-      <div class="hero-actions">
+      <div class="ui-actions">
         <Button href="/request-proposal">Request a Proposal</Button>
         <Button href="mailto:contact@safetyassuranceglobal.com" variant="secondary">Email the team</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="contact-lead-title">
       <ContactInquiryForm />
     </Section>
 
     <Section ariaLabelledby="details-title">
-      <div class="section-head">
-        <Badge text="Contact Details" />
-        <h2 id="details-title">Reach the right team.</h2>
-      </div>
+      <SectionHeader id="details-title" badge="Contact Details" title="Reach the right team." />
       <div class="details-grid">
         <Card>
           <h3>General inquiries</h3>
@@ -44,33 +40,6 @@ import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
 </BaseLayout>
 
 <style>
-  .contact-hero {
-    border: var(--border-luminous);
-    border-radius: var(--radius-xl);
-    background: linear-gradient(160deg, rgba(9, 24, 45, 0.95), rgba(5, 13, 24, 0.96));
-    box-shadow: var(--shadow-panel);
-    padding: clamp(1.2rem, 2.8vw, 2rem);
-  }
-
-  .contact-hero h1 {
-    margin-top: 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    max-width: 18ch;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: var(--space-2);
-  }
-
-  .section-head {
-    display: grid;
-    gap: 0.5rem;
-    margin-bottom: var(--space-2);
-  }
-
   .details-grid {
     display: grid;
     gap: var(--space-2);

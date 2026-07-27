@@ -1,0 +1,31 @@
+---
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+
+interface Testimonial {
+  quote: string;
+  attribution: string;
+}
+
+interface Props {
+  id: string;
+  badge: string;
+  title: string;
+  items: Testimonial[];
+  class?: string;
+}
+
+const { id, badge, title, items, class: className } = Astro.props as Props;
+---
+
+<Section ariaLabelledby={id} class={className}>
+  <SectionHeader id={id} badge={badge} title={title} />
+  <div class="testimonial-grid">
+    {items.map((item) => (
+      <blockquote class="testimonial-card">
+        <p>{item.quote}</p>
+        <cite>{item.attribution}</cite>
+      </blockquote>
+    ))}
+  </div>
+</Section>

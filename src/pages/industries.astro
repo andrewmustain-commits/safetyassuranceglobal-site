@@ -5,6 +5,8 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+import IndustryCard from '../components/ui/IndustryCard.astro';
 import { industryDetails } from '../data/industries';
 
 const priorityIndustries = industryDetails.map((industry) => ({
@@ -27,9 +29,11 @@ const additionalTargets = [
   description="Industry-focused assurance support for maritime and critical-infrastructure operating environments."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="industries-title">
-      <p class="ui-badge">Industries Architecture</p>
-      <h1 id="industries-title">Industry pathways for maritime and critical-infrastructure buyers.</h1>
+    <HeroSection
+      id="industries-title"
+      badge="Industries Architecture"
+      title="Industry pathways for maritime and critical-infrastructure buyers."
+    >
       <p>
         Industry support is organized around operating context, common risk patterns, and the assurance evidence
         needed for stronger decisions.
@@ -38,17 +42,17 @@ const additionalTargets = [
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/government" variant="secondary">Government and Infrastructure Support</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="industries-priority-title">
       <SectionHeader badge="Priority Industry Routes" id="industries-priority-title" title="Phase 3 buyer-specific routes." />
       <div class="grid-two">
         {priorityIndustries.map((industry) => (
-          <Card>
+          <IndustryCard>
             <h3><a href={industry.href}>{industry.title}</a></h3>
             <p>{industry.context}</p>
             <p><a href={industry.href}>View industry detail</a></p>
-          </Card>
+          </IndustryCard>
         ))}
       </div>
     </Section>

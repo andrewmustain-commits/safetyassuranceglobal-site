@@ -6,6 +6,7 @@ import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
 
 const audiences = [
   'Contracting officers',
@@ -32,9 +33,11 @@ const missionSupport = [
   description="Conservative, evidence-based government and infrastructure support for readiness, assurance, QA/QC, and contractor oversight."
 >
   <Container>
-    <Section class="hero-panel" ariaLabelledby="government-title">
-      <p class="ui-badge">Government and Infrastructure</p>
-      <h1 id="government-title">Conservative support posture for public-sector and infrastructure programs.</h1>
+    <HeroSection
+      id="government-title"
+      badge="Government and Infrastructure"
+      title="Conservative support posture for public-sector and infrastructure programs."
+    >
       <p>
         Safety Assurance Global provides consulting and independent-assurance support for maritime and
         critical-infrastructure programs. Public claims remain limited to verified, capability-oriented language.
@@ -43,7 +46,7 @@ const missionSupport = [
         <Button href="/contact">Request a Consultation</Button>
         <Button href="/request-proposal" variant="secondary">Teaming or Proposal Inquiry</Button>
       </div>
-    </Section>
+    </HeroSection>
 
     <Section ariaLabelledby="government-audience-title">
       <SectionHeader badge="Audience" id="government-audience-title" title="Stakeholders this page supports." />

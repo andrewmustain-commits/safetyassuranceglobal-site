@@ -1,0 +1,15 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  href?: string;
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const { href, class: className, type = 'button' } = Astro.props;
+---
+
+<Button href={href} variant="secondary" class={className} type={type}>
+  <slot />
+</Button>

@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/ui/Container.astro';
+import Section from '../../../components/ui/Section.astro';
+import Card from '../../../components/ui/Card.astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import HeroSection from '../../../components/ui/HeroSection.astro';
+import {
+  isPublishedInsight,
+  sortByPublishedDateDesc,
+  normalizeTaxonomySlug,
+  estimateReadingMinutes
+} from '../../../lib/insights';
+
+type CategoryProps = {
+  categoryName: string;
+  categorySlug: string;
+  posts: Awaited<ReturnType<typeof getCollection>>;
+};
+
+export async function getStaticPaths() {
+  const publishedPosts = sortByPublishedDateDesc((await getCollection('blog')).filter(isPublishedInsight));
+  const byCategory = new Map<string, { name: string; posts: typeof publishedPosts }>();
+
+  for (const post of publishedPosts) {
+    const name = post.data.category.trim();
+    const slug = normalizeTaxonomySlug(name);
+    const existing = byCategory.get(slug);
+    if (existing) {
+      existing.posts.push(post);
+    } else {
+      byCategory.set(slug, { name, posts: [post] });
+    }
+  }
+
+  return Array.from(byCategory.entries()).map(([categorySlug, value]) => ({
+    params: { category: categorySlug },
+    props: {
+      categoryName: value.name,
+      categorySlug,
+      posts: value.posts
+    }
+  }));
+}
+
+const { categoryName, categorySlug, posts } = Astro.props as CategoryProps;
+---
+
+<BaseLayout
+  title={`${categoryName} Insights`}
+  description={`Published insights in the ${categoryName} category.`}
+  canonical={`/insights/category/${categorySlug}/`}
+>
+  <Container>
+    <HeroSection id="category-title" badge="Category" title={categoryName}>
+      <p>{posts.length} published {posts.length === 1 ? 'article' : 'articles'} in this category.</p>
+      <p><a href="/insights/">Back to insights</a></p>
+    </HeroSection>
+
+    <Section ariaLabelledby="category-list-title">
+      <SectionHeader id="category-list-title" badge="Published" title="Published articles" />
+      {posts.length === 0 ? (
+        <Card as="div"><p>No published articles are currently assigned to this category.</p></Card>
+      ) : (
+        <div class="posts-grid">
+          {posts.map((post) => (
+            <Card as="article" class="post-card">
+              <p class="meta-row">
+                <time datetime={post.data.publishedAt.toISOString()}>
+                  {post.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+                {' · '}
+                <span>{estimateReadingMinutes(post.body)} min read</span>
+              </p>
+              <h3><a href={`/insights/${post.data.slug}/`}>{post.data.title}</a></h3>
+              <p>{post.data.description}</p>
+            </Card>
+          ))}
+        </div>
+      )}
+    </Section>
+  </Container>
+</BaseLayout>
