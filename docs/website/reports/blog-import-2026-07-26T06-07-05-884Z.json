@@ -1,0 +1,14 @@
+{
+  "importedAt": "2026-07-26T06:07:05.884Z",
+  "sourcePath": "content/intake/penny-operational-readiness-before-mobilization.md",
+  "intakeRoot": "content/intake",
+  "importedCount": 1,
+  "records": [
+    {
+      "source": "content/intake/penny-operational-readiness-before-mobilization.md",
+      "target": "src/content/blog/operational-readiness-what-maritime-leaders-should-verify-before-mobilization.md",
+      "slug": "operational-readiness-what-maritime-leaders-should-verify-before-mobilization",
+      "status": "draft"
+    }
+  ]
+}

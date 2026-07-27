@@ -1,15 +1,27 @@
 ---
 title: "Draft: Pilot Checklist for Assurance Workshops"
-date: 2026-06-15
+slug: pilot-checklist-for-assurance-workshops
+description: Internal draft checklist used to test workshop flow before public release.
 author: SAG Program Team
+publishedAt: 2026-06-15
+status: draft
 category: Training
 tags:
   - workshop
   - facilitation
-summary: Internal draft checklist used to test workshop flow before public release.
-status: draft
+featured: false
 source: Marblism/Penny export
-slug: pilot-checklist-for-assurance-workshops
+claimsReview:
+  required: false
+  disposition: not-required
+legalReview:
+  required: false
+  disposition: not-required
+executiveApproval:
+  required: false
+  disposition: pending
+draftReason: Internal workflow validation content not approved for publication.
+redirectFrom: []
 ---
 
 This draft article is intentionally not approved for publication.
