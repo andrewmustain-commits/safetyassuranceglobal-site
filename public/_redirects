@@ -1,5 +1,5 @@
 /blog /insights 301
 /blog/* /insights/:splat 301
 /terms /terms-of-use 301
-/academy /training 301
+/academy /institute 301
 /command /sag-command 301

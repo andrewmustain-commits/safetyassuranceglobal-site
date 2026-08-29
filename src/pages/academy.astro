@@ -7,23 +7,33 @@ import Button from '../components/ui/Button.astro';
 import HeroSection from '../components/ui/HeroSection.astro';
 ---
 
-<BaseLayout title="Training" description="Training now lives on the public training routes. This page remains as a safe transition page for older links.">
+<BaseLayout
+  title="Institute of Assurance"
+  description="The former Academy route now points visitors to the Safety Assurance Global Institute of Assurance and current public training pages."
+  noIndex={true}
+>
   <Container>
     <HeroSection
       id="academy-title"
-      badge="Legacy Route"
-      title="Training has moved to the public training routes."
+      badge="Route Transition"
+      title="SAG learning now operates under the Institute of Assurance identity."
     >
-      <p>The public site no longer presents Academy as a fully operational integrated system. Use the training pages for the current public offer.</p>
+      <p>
+        The Academy name has been superseded in the public experience by the Safety Assurance Global Institute of Assurance,
+        SAG's governed learning and workforce-development division. Existing links are preserved here for continuity.
+      </p>
       <div class="ui-actions">
-        <Button href="/training">Go to Training</Button>
-        <Button href="/maritime-training" variant="secondary">Maritime Training</Button>
+        <Button href="/institute">Visit the Institute</Button>
+        <Button href="/training" variant="secondary">Explore Training</Button>
       </div>
     </HeroSection>
 
     <Section>
       <Card>
-        <p>This transition page avoids unsupported claims and simply points visitors to the public training offer.</p>
+        <p>
+          Program availability, delivery status, assessments, enrollment, and credential decisions remain subject to the
+          applicable governance process and are not implied by this transition page.
+        </p>
       </Card>
     </Section>
   </Container>

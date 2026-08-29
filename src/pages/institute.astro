@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import NoticePanel from '../components/ui/NoticePanel.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const focusAreas = [
+  {
+    title: 'Assurance Foundations',
+    detail: 'Learning designed to strengthen evidence-based thinking, control verification, risk awareness, and operational decision-making.'
+  },
+  {
+    title: 'Workforce Readiness',
+    detail: 'Role-aware development aligned to operational responsibilities, field conditions, and organization-specific readiness needs.'
+  },
+  {
+    title: 'Sector Learning',
+    detail: 'Programs organized around maritime, construction, critical infrastructure, occupational safety, quality, leadership, and related assurance disciplines.'
+  }
+];
+---
+
+<BaseLayout
+  title="Institute of Assurance"
+  description="The Safety Assurance Global Institute of Assurance is SAG's governed learning and workforce-development division, supporting assurance, readiness, safety, quality, risk, and professional development."
+>
+  <Container>
+    <HeroSection
+      id="institute-title"
+      badge="Institute of Assurance"
+      title="Governed learning for assurance, readiness, and high-consequence work."
+    >
+      <p>
+        The Safety Assurance Global Institute of Assurance is the governed learning and workforce-development division
+        of Safety Assurance Global. It connects professional development with the same evidence-first principles used
+        across SAG assurance, safety, risk, QA/QC, and operational-readiness work.
+      </p>
+      <div class="ui-actions">
+        <Button href="/training">Explore Training</Button>
+        <Button href="/contact" variant="secondary">Discuss Workforce Needs</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="institute-purpose-title">
+      <SectionHeader
+        badge="Purpose"
+        id="institute-purpose-title"
+        title="Build capability without separating learning from operational reality."
+      />
+      <Card>
+        <p>
+          Institute programs are intended to support organizations and professionals who need stronger assurance
+          judgment, safer execution, better quality controls, and clearer readiness evidence. Public offerings are
+          presented only when their delivery status and applicable prerequisites are confirmed.
+        </p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="institute-focus-title">
+      <SectionHeader
+        badge="Learning Focus"
+        id="institute-focus-title"
+        title="A workforce-development system centered on assurance."
+      />
+      <div class="grid-three">
+        {focusAreas.map((area) => (
+          <Card>
+            <h3>{area.title}</h3>
+            <p>{area.detail}</p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="institute-relationship-title">
+      <SectionHeader
+        badge="SAG Relationship"
+        id="institute-relationship-title"
+        title="Learning is governed as part of the broader SAG assurance mission."
+      />
+      <div class="grid-two">
+        <Card>
+          <h3>Assurance informs learning</h3>
+          <p>Training priorities can be shaped by verified control gaps, role requirements, readiness findings, and operating context.</p>
+        </Card>
+        <Card>
+          <h3>Learning supports readiness</h3>
+          <p>Programs are structured to reinforce practical performance, decision quality, accountability, and sustained operational improvement.</p>
+        </Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="institute-boundary-title">
+      <SectionHeader
+        badge="Governance Boundary"
+        id="institute-boundary-title"
+        title="Public status is intentionally controlled."
+      />
+      <NoticePanel tone="warning" title="Program and Credential Status">
+        <p>
+          This public page does not represent every Institute program as open for enrollment and does not claim external
+          accreditation, licensure, regulatory approval, or automatic credential issuance. Availability, delivery status,
+          assessment requirements, and any credential decision are confirmed through the applicable governed process.
+        </p>
+      </NoticePanel>
+    </Section>
+  </Container>
+</BaseLayout>
