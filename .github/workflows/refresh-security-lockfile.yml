@@ -25,8 +25,11 @@ jobs:
           node-version: 24
           cache: npm
 
-      - name: Refresh Astro to patched baseline
-        run: npm install astro@7.2.8 --save-exact
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Apply non-breaking audit fixes
+        run: npm audit fix
 
       - name: Build hardened dependency set
         run: npm run build
@@ -34,10 +37,10 @@ jobs:
       - name: Validate generated links
         run: npm run validate:links
 
-      - name: Record audit result
-        run: npm audit || true
+      - name: Verify audit result
+        run: npm audit
 
-      - name: Commit regenerated manifest and lockfile
+      - name: Commit remediated manifest and lockfile
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -46,5 +49,5 @@ jobs:
             echo "No dependency changes to commit."
             exit 0
           fi
-          git commit -m "chore: refresh security lockfile"
+          git commit -m "chore: apply dependency audit fixes"
           git push origin HEAD:website/security-hardening-v5
