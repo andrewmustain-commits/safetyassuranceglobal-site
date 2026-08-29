@@ -30,26 +30,26 @@ const missionSupport = [
 
 <BaseLayout
   title="Government"
-  description="Conservative, evidence-based government and infrastructure support for readiness, assurance, QA/QC, and contractor oversight."
+  description="Government and infrastructure support for readiness, assurance, QA/QC, contractor oversight, and evidence-based risk management."
 >
   <Container>
     <HeroSection
       id="government-title"
-      badge="Government and Infrastructure"
-      title="Conservative support posture for public-sector and infrastructure programs."
+      badge="Government & Public Infrastructure"
+      title="Independent assurance support for public-sector and infrastructure programs."
     >
       <p>
-        Safety Assurance Global provides consulting and independent-assurance support for maritime and
-        critical-infrastructure programs. Public claims remain limited to verified, capability-oriented language.
+        Safety Assurance Global supports public owners, agencies, prime contractors, and infrastructure teams with
+        operational-readiness, independent-assurance, QA/QC, contractor-assurance, and evidence-based risk support.
       </p>
       <div class="ui-actions">
-        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/capabilities">View Capabilities</Button>
         <Button href="/request-proposal" variant="secondary">Teaming or Proposal Inquiry</Button>
       </div>
     </HeroSection>
 
     <Section ariaLabelledby="government-audience-title">
-      <SectionHeader badge="Audience" id="government-audience-title" title="Stakeholders this page supports." />
+      <SectionHeader badge="Who We Support" id="government-audience-title" title="Stakeholders across public-sector and infrastructure delivery." />
       <div class="grid-four">
         {audiences.map((audience) => (
           <Card><h3>{audience}</h3></Card>
@@ -61,7 +61,7 @@ const missionSupport = [
       <SectionHeader
         badge="Mission Support"
         id="government-capabilities-title"
-        title="Maritime and infrastructure support capabilities."
+        title="Assurance capabilities for complex programs and operating environments."
       />
       <div class="grid-two">
         {missionSupport.map((item) => (
@@ -72,37 +72,39 @@ const missionSupport = [
 
     <Section ariaLabelledby="government-prime-title">
       <SectionHeader
-        badge="Prime-Contractor Support"
+        badge="Prime & Teaming Support"
         id="government-prime-title"
-        title="Support available for prime-led and multi-party execution environments."
+        title="Support for prime-led, owner-led, and multi-party execution environments."
       />
       <Card>
         <p>
-          Support is focused on control verification, readiness evidence, QA/QC oversight, and contractor-assurance
-          discipline. No contract vehicle, award, or agency-customer claim is made on this page.
+          SAG can support programs that require control verification, readiness evidence, QA/QC oversight,
+          contractor-assurance discipline, field validation, or independent review within a defined scope of work.
         </p>
       </Card>
     </Section>
 
     <Section ariaLabelledby="government-capability-statement-title">
       <SectionHeader
-        badge="Capability Statement"
+        badge="Capabilities Statement"
         id="government-capability-statement-title"
-        title="Current public approach"
+        title="Review SAG's current public capability profile."
       />
       <Card>
         <p>
-          A capability-statement download is not published because no approved current file is available in the
-          repository. Use consultation or teaming inquiry pathways for capability discussion.
+          The August 2026 capabilities statement summarizes SAG's company overview, core capabilities,
+          requirement-to-evidence delivery cycle, relevant individual experience base, differentiators,
+          corporate data, points of contact, and delivery boundaries.
         </p>
+        <p><a href="/capabilities">Open the SAG capabilities statement</a>.</p>
       </Card>
     </Section>
 
     <Section ariaLabelledby="government-claims-title">
-      <NoticePanel tone="warning" title="Government Claims Control" class="qualification-notice" id="government-claims-title">
+      <NoticePanel tone="warning" title="Public Claims Notice" class="qualification-notice" id="government-claims-title">
         <p>
-          This page does not publish UEI, CAGE, NAICS, PSC, set-aside status, contract vehicles, awards, clearances,
-          agency customers, or endorsements. Those claims require explicit evidence approval before publication.
+          Contract vehicles, awards, agency relationships, set-aside status, identifiers, certifications, and other
+          procurement-specific representations are published only when supported by current approved evidence.
         </p>
       </NoticePanel>
     </Section>

@@ -46,8 +46,8 @@ const pathways = [
   },
   {
     audience: 'Government maritime programs',
-    challenge: 'Needing conservative, evidence-based support without overstating capability or implying endorsement.',
-    approach: 'Independent assurance and readiness support framed to documented scope and approved public language.',
+    challenge: 'Needing evidence-based readiness, assurance, and oversight support within a defined program scope.',
+    approach: 'Independent assurance and readiness support aligned to program controls, oversight needs, and accepted evidence.',
     evidence: 'Program controls, oversight records, readiness documentation, and accepted compliance artifacts.',
     deliverables: 'Assurance case inputs, evidence package structure, and corrective-action priorities.',
     outcome: 'More transparent readiness posture for internal and external oversight.',
@@ -55,8 +55,8 @@ const pathways = [
   },
   {
     audience: 'Workforce training buyers',
-    challenge: 'Aligning workforce development with real operational risks instead of generic training content.',
-    approach: 'Role-based and site-aware training support integrated with consulting and assurance priorities.',
+    challenge: 'Aligning workforce development with operational risks instead of generic training content.',
+    approach: 'Role-based and site-aware training support connected to consulting and assurance priorities.',
     evidence: 'Role/task requirements, incident trends, workforce feedback, and competency observations.',
     deliverables: 'Training-needs summary, delivery recommendation, and readiness-aligned learning roadmap.',
     outcome: 'Training effort tied to measurable readiness and risk-control objectives.',
@@ -91,12 +91,12 @@ const focusAreas = [
   <Container>
     <HeroSection
       id="maritime-title"
-      badge="Maritime Hub"
-      title="Maritime assurance services built for operational reality."
+      badge="Maritime Assurance"
+      title="Independent assurance for maritime operations, projects, and readiness."
     >
       <p>
-        Safety Assurance Global supports maritime organizations with consulting, readiness, risk, QA/QC,
-        compliance-readiness, contractor-assurance, and workforce-training support grounded in verifiable evidence.
+        Safety Assurance Global supports shipyards, ports, vessel operators, marine contractors, and public-sector
+        maritime programs with readiness, risk, QA/QC, contractor-assurance, compliance-readiness, and workforce support.
       </p>
       <div class="ui-actions">
         <Button href="/contact">Request a Consultation</Button>
@@ -106,9 +106,9 @@ const focusAreas = [
 
     <Section ariaLabelledby="maritime-focus-title">
       <SectionHeader
-        badge="Coverage"
+        badge="Maritime Capabilities"
         id="maritime-focus-title"
-        title="Priority maritime areas covered in Phase 2."
+        title="Support across critical maritime operating and project environments."
       />
       <div class="grid-four">
         {focusAreas.map((item) => (
@@ -121,9 +121,9 @@ const focusAreas = [
 
     <Section ariaLabelledby="maritime-pathways-title">
       <SectionHeader
-        badge="Pathways"
+        badge="How We Support You"
         id="maritime-pathways-title"
-        title="Audience-specific pathways with practical engagement detail."
+        title="Practical engagement paths by maritime operating context."
       />
       <div class="pathway-stack">
         {pathways.map((pathway) => (
@@ -150,7 +150,7 @@ const focusAreas = [
             <h4>Expected outcome</h4>
             <p>{pathway.outcome}</p>
             <div class="ui-actions">
-              <Button href={pathway.cta}>Continue</Button>
+              <Button href={pathway.cta}>Discuss This Need</Button>
             </div>
           </Card>
         ))}

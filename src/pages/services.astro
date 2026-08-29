@@ -20,35 +20,36 @@ const serviceAreas = serviceDetails.map((service) => ({
 
 <BaseLayout
   title="Services"
-  description="Operational-readiness, independent-assurance, maritime-compliance, QA/QC, contractor-assurance, and safety-risk services for maritime and critical infrastructure."
+  description="Maritime-first operational-readiness, independent-assurance, QA/QC, contractor-assurance, safety, risk, and governance services for high-consequence operations."
 >
   <Container>
     <HeroSection
       id="services-title"
-      badge="Services Architecture"
-      title="Service pathways organized around customer problems and decision outcomes."
+      badge="Maritime-First Assurance Services"
+      title="Practical assurance support for complex, high-consequence operations."
     >
       <p>
-        Safety Assurance Global provides consulting and independent-assurance services that help organizations
-        verify readiness, improve controls, and prioritize practical risk-reduction actions.
+        Maritime is Safety Assurance Global's primary market. SAG helps owners, contractors, and public-sector
+        organizations verify readiness, strengthen controls, improve quality oversight, and prioritize defensible
+        risk-reduction actions, with related capability available for other defined high-consequence sectors.
       </p>
       <div class="ui-actions">
-        <Button href="/contact">Request a Consultation</Button>
+        <Button href="/maritime">Explore Maritime Services</Button>
         <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
     </HeroSection>
 
     <Section ariaLabelledby="services-priority-title">
       <SectionHeader
-        badge="Priority Service Areas"
+        badge="Core Service Areas"
         id="services-priority-title"
-        title="Commercial architecture for Phase 3."
+        title="Choose the service path that best matches your operating challenge."
       />
       <div class="grid-two">
         {serviceAreas.map((service) => (
           <ServiceCard>
             <h3><a href={service.href}>{service.title}</a></h3>
-            <p><strong>Customer problem:</strong> {service.problem}</p>
+            <p><strong>Customer challenge:</strong> {service.problem}</p>
             <p><strong>Expected result:</strong> {service.result}</p>
             <p><a href={service.href}>View service detail</a></p>
           </ServiceCard>
@@ -58,22 +59,29 @@ const serviceAreas = serviceDetails.map((service) => ({
 
     <Section ariaLabelledby="services-commercial-title">
       <SectionHeader
-        badge="Commercial Guidance"
+        badge="How to Engage"
         id="services-commercial-title"
-        title="How to engage for service scoping."
+        title="Start with the level of scoping that fits your need."
       />
       <div class="grid-two">
         <Card>
-          <h3>Consultation pathway</h3>
-          <p>Use consultation for early scope, constraints, and readiness-priority alignment.</p>
-          <p><a href="/contact">Start consultation intake</a>.</p>
+          <h3>Consultation</h3>
+          <p>Best for early-stage scope definition, readiness concerns, assurance priorities, or a focused operational challenge.</p>
+          <p><a href="/contact">Start a consultation</a>.</p>
         </Card>
         <Card>
-          <h3>Proposal pathway</h3>
-          <p>Use proposal intake when procurement context, schedule, and delivery model require structured scoping.</p>
-          <p><a href="/request-proposal">Start proposal intake</a>.</p>
+          <h3>Proposal request</h3>
+          <p>Best when procurement context, schedule, deliverables, or delivery model require a structured response.</p>
+          <p><a href="/request-proposal">Start a proposal request</a>.</p>
         </Card>
       </div>
+      <Card>
+        <p>
+          Service descriptions are capability statements, not claims of universal certification, accreditation,
+          regulatory approval, licensure, or authority. Each engagement is scoped to the applicable jurisdiction,
+          client requirements, personnel qualifications, and available evidence.
+        </p>
+      </Card>
     </Section>
   </Container>
 </BaseLayout>
