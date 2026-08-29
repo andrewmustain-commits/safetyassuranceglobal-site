@@ -1,34 +1,37 @@
 ---
 const projectTypes = [
-  'Program Assurance',
-  'Operational Readiness',
-  'Compliance and QA/QC',
-  'Contractor Assurance',
-  'Safety and Risk Management',
-  'Emergency Preparedness',
-  'Other'
+  'Maritime or Port Operations',
+  'Shipyard or Vessel Operations',
+  'Government or Public Infrastructure',
+  'Construction or Capital Project',
+  'Critical Infrastructure or Facility',
+  'Industrial or Process Operations',
+  'Training or Workforce Development',
+  'Other Defined Scope'
 ];
 
 const serviceNeeded = [
+  'Maritime Assurance',
   'Operational Readiness',
   'Independent Assurance',
-  'Maritime Compliance',
-  'QA/QC',
+  'QA/QC and Quality Oversight',
   'Contractor Assurance',
   'Safety and Risk Management',
+  'Compliance Readiness',
   'Incident Investigation',
   'Embedded HSE Support',
   'Emergency Preparedness',
-  'Program Assurance'
+  'Program Assurance',
+  'Training and Workforce Development'
 ];
 
-const schedules = ['Immediate', 'Within 30 days', 'Within 90 days', 'Quarter planning', 'Exploratory'];
+const schedules = ['Immediate or urgent planning', 'Within 30 days', 'Within 90 days', 'Future quarter planning', 'Exploratory or pre-solicitation'];
 ---
 
 <section class="lead-form-shell" aria-labelledby="proposal-form-title">
   <div class="lead-form-intro">
-    <p class="lead-form-eyebrow" id="proposal-form-title">Proposal intake</p>
-    <p class="lead-form-description">Submit a commercially scoped request for proposal review.</p>
+    <p class="lead-form-eyebrow" id="proposal-form-title">Proposal Intake</p>
+    <p class="lead-form-description">Provide enough context for SAG to evaluate capability fit, operating conditions, procurement requirements, and the responsible next step.</p>
   </div>
 
   <form class="lead-form" id="proposal-form" data-intake-form data-form-type="proposal" novalidate>
@@ -56,9 +59,9 @@ const schedules = ['Immediate', 'Within 30 days', 'Within 90 days', 'Quarter pla
       </label>
 
       <label class="lead-field" for="proposal-project-type">
-        <span>Project or Program Type</span>
+        <span>Operating Environment or Project Type</span>
         <select id="proposal-project-type" name="projectType" required aria-describedby="proposal-status">
-          <option value="">Select project type</option>
+          <option value="">Select operating environment</option>
           {projectTypes.map((item) => <option value={item}>{item}</option>)}
         </select>
       </label>
@@ -72,7 +75,7 @@ const schedules = ['Immediate', 'Within 30 days', 'Within 90 days', 'Quarter pla
       </label>
 
       <label class="lead-field" for="proposal-location">
-        <span>Project Location</span>
+        <span>Project or Operating Location</span>
         <input id="proposal-location" name="projectLocation" type="text" autocomplete="address-level2" required aria-describedby="proposal-status" />
       </label>
 
@@ -85,13 +88,13 @@ const schedules = ['Immediate', 'Within 30 days', 'Within 90 days', 'Quarter pla
       </label>
 
       <label class="lead-field lead-field-full" for="proposal-scope">
-        <span>Brief Scope</span>
-        <textarea id="proposal-scope" name="briefScope" rows="5" required aria-describedby="proposal-status"></textarea>
+        <span>Brief Scope and Required Outcome</span>
+        <textarea id="proposal-scope" name="briefScope" rows="5" required aria-describedby="proposal-status" placeholder="Describe the work, operating environment, known hazards or controls, expected deliverables, and desired outcome."></textarea>
       </label>
 
       <label class="lead-field lead-field-full" for="proposal-procurement-context">
         <span>Procurement or Teaming Context</span>
-        <textarea id="proposal-procurement-context" name="procurementContext" rows="4" required aria-describedby="proposal-status"></textarea>
+        <textarea id="proposal-procurement-context" name="procurementContext" rows="4" required aria-describedby="proposal-status" placeholder="Include RFP/RFQ details, prime/subcontract context, teaming needs, key dates, or direct commercial procurement information where applicable."></textarea>
       </label>
 
       <label class="lead-field lead-field-full lead-checkbox" for="proposal-privacy">

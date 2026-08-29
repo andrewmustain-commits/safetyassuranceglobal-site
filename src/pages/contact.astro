@@ -9,15 +9,40 @@ import HeroSection from '../components/ui/HeroSection.astro';
 import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
 ---
 
-<BaseLayout title="Contact" description="Contact Safety Assurance Global to request a consultation or start a controlled inquiry.">
+<BaseLayout title="Contact" description="Contact Safety Assurance Global for maritime assurance, government and commercial consulting, teaming, training, and workforce-development inquiries.">
   <Container>
-    <HeroSection id="contact-title" badge="Contact" title="Request a Consultation">
-      <p>Use this page for consultation and teaming inquiries through the governed intake path.</p>
+    <HeroSection id="contact-title" badge="Start an Engagement" title="Talk with SAG about your operating challenge.">
+      <p>
+        Maritime is our primary market. Use this intake path for maritime assurance, operational readiness, QA/QC,
+        contractor assurance, government or commercial support, teaming, training, and other defined high-consequence needs.
+      </p>
       <div class="ui-actions">
         <Button href="/request-proposal">Request a Proposal</Button>
-        <Button href="mailto:contact@safetyassuranceglobal.com" variant="secondary">Email the team</Button>
+        <Button href="mailto:contact@safetyassuranceglobal.com" variant="secondary">Email the Team</Button>
       </div>
     </HeroSection>
+
+    <Section ariaLabelledby="contact-paths-title">
+      <SectionHeader id="contact-paths-title" badge="Choose the Right Path" title="A clear starting point for buyers, partners, and workforce inquiries." />
+      <div class="details-grid">
+        <Card>
+          <h3>Maritime & operational assurance</h3>
+          <p>Ports, terminals, shipyards, vessel operations, contractors, readiness, safety, quality, and evidence-focused assurance needs.</p>
+        </Card>
+        <Card>
+          <h3>Government & public infrastructure</h3>
+          <p>Capability discussions, procurement support, teaming conversations, and scoped assurance or readiness requirements.</p>
+        </Card>
+        <Card>
+          <h3>Commercial & industrial</h3>
+          <p>Defined safety, risk, QA/QC, contractor-assurance, operational-readiness, and high-consequence operating support.</p>
+        </Card>
+        <Card>
+          <h3>Institute & workforce development</h3>
+          <p>Training, workforce-readiness, and governed learning inquiries. Program availability and credential status are confirmed separately.</p>
+        </Card>
+      </div>
+    </Section>
 
     <Section ariaLabelledby="contact-lead-title">
       <ContactInquiryForm />
@@ -31,24 +56,20 @@ import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
           <p><a href="mailto:contact@safetyassuranceglobal.com">contact@safetyassuranceglobal.com</a></p>
         </Card>
         <Card>
-          <h3>Proposal requests</h3>
-          <p><a href="/request-proposal">Request a proposal workflow</a></p>
+          <h3>Proposal-ready scopes</h3>
+          <p><a href="/request-proposal">Use the proposal request workflow</a> when you already know the project, schedule, location, or procurement context.</p>
         </Card>
+      </div>
+      <div class="engagement-note">
+        <strong>Scope boundary:</strong> Submission starts an intake review only. It does not represent acceptance of work, contractual commitment, regulatory approval, credential issuance, or confirmation that SAG is qualified for every requested scope or jurisdiction.
       </div>
     </Section>
   </Container>
 </BaseLayout>
 
 <style>
-  .details-grid {
-    display: grid;
-    gap: var(--space-2);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (max-width: 860px) {
-    .details-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+  .details-grid { display:grid; gap:var(--space-2); grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .engagement-note { margin-top:var(--space-2); padding:1rem 1.1rem; border:1px solid rgba(245,158,11,.35); border-radius:var(--radius-md); background:rgba(180,83,9,.09); color:var(--color-text-muted); }
+  .engagement-note strong { color:#fbbf24; }
+  @media (max-width:860px) { .details-grid { grid-template-columns:1fr; } }
 </style>
