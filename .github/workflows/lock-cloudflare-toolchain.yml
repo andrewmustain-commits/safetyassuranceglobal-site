@@ -25,6 +25,7 @@ jobs:
           node-version: '24'
           cache: npm
 
+      # workerd's exact postinstall version is approved in package.json allowScripts.
       - name: Lock Wrangler in project dependencies
         run: npm install --save-dev --save-exact wrangler@4.127.1
 
