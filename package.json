@@ -17,7 +17,8 @@
     "blog:claims": "node scripts/blog-claims.mjs",
     "blog:status": "node scripts/blog-status.mjs",
     "blog:import": "node scripts/blog-import.mjs",
-    "validate:links": "node scripts/validate-dist-links.mjs"
+    "validate:links": "node scripts/validate-dist-links.mjs",
+    "validate:structured-data": "node scripts/validate-structured-data.mjs"
   },
   "repository": {
     "type": "git",
