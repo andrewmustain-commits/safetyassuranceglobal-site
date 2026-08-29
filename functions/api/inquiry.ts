@@ -1,6 +1,7 @@
 type Env = {
   FORM_WEBHOOK_URL?: string;
   FORM_WEBHOOK_AUTH_TOKEN?: string;
+  TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
   FORM_MAX_BODY_BYTES?: string;
 };
@@ -64,6 +65,15 @@ const jsonResponse = (body: Record<string, unknown>, status: number) =>
 
 const badRequest = (message: string, status = 400) => jsonResponse({ ok: false, message }, status);
 const okResponse = (message: string) => jsonResponse({ ok: true, message }, 200);
+
+const getTurnstileState = (env: Env) => {
+  const siteKey = asString(env.TURNSTILE_SITE_KEY);
+  const secretKey = asString(env.TURNSTILE_SECRET_KEY);
+  const enabled = Boolean(siteKey && secretKey);
+  const misconfigured = Boolean(siteKey) !== Boolean(secretKey);
+
+  return { siteKey, secretKey, enabled, misconfigured };
+};
 
 const isJsonRequest = (request: Request) => {
   const contentType = request.headers.get('content-type')?.toLowerCase() ?? '';
@@ -175,6 +185,28 @@ const getSecureWebhookUrl = (value: string | undefined) => {
   }
 };
 
+export const onRequestGet = async (context: PagesContext<Env>) => {
+  if (!isSameOriginBrowserRequest(context.request)) {
+    return badRequest('Cross-site request is not allowed.', 403);
+  }
+
+  const turnstile = getTurnstileState(context.env);
+  if (turnstile.misconfigured) {
+    return badRequest('Spam protection is not fully configured for this environment.', 503);
+  }
+
+  return jsonResponse(
+    {
+      ok: true,
+      turnstile: {
+        enabled: turnstile.enabled,
+        siteKey: turnstile.enabled ? turnstile.siteKey : null
+      }
+    },
+    200
+  );
+};
+
 export const onRequestPost = async (context: PagesContext<Env>) => {
   if (!isJsonRequest(context.request)) {
     return badRequest('Content-Type must be application/json.', 415);
@@ -213,15 +245,22 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
     return badRequest(validationError);
   }
 
-  const turnstileSecret = context.env.TURNSTILE_SECRET_KEY;
-  if (turnstileSecret) {
+  const turnstile = getTurnstileState(context.env);
+  if (turnstile.misconfigured) {
+    return badRequest(
+      'Spam protection is not fully configured for this environment. Please email contact@safetyassuranceglobal.com.',
+      503
+    );
+  }
+
+  if (turnstile.enabled) {
     const token = asString(payload.turnstileToken);
     if (!token) {
       return badRequest('Spam verification token missing.');
     }
 
     const ip = context.request.headers.get('cf-connecting-ip');
-    const passed = await verifyTurnstile(token, turnstileSecret, ip);
+    const passed = await verifyTurnstile(token, turnstile.secretKey, ip);
     if (!passed) {
       return badRequest('Spam verification failed.', 403);
     }
@@ -285,7 +324,7 @@ export const onRequestOptions = async () =>
   new Response(null, {
     status: 204,
     headers: {
-      allow: 'POST, OPTIONS',
+      allow: 'GET, POST, OPTIONS',
       'cache-control': 'no-store, max-age=0',
       'x-content-type-options': 'nosniff'
     }
