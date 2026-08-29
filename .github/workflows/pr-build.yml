@@ -27,6 +27,9 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
+      - name: Validate brand assets
+        run: npm run validate:brand-assets
+
       - name: Static Astro diagnostics
         run: npm run check
 
