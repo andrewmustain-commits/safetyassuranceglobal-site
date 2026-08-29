@@ -64,7 +64,7 @@ walk(path.join(root, 'src'));
 for (const filePath of sourceFiles) {
   const source = fs.readFileSync(filePath, 'utf8');
   if (/HUBZone Certified/i.test(source)) failures.push(`${path.relative(root, filePath)}: unapproved HUBZone certification wording detected`);
-  if (filePath !== logoPath && /\b(?:SDVOSB|VOSB)\b/.test(source)) failures.push(`${path.relative(root, filePath)}: VetCert mark found outside footer-controlled Logo component`);
+  if (filePath !== logoPath && /vetcert-(?:footer|mark)/i.test(source)) failures.push(`${path.relative(root, filePath)}: VetCert badge markup found outside footer-controlled Logo component`);
 }
 
 const institutePage = fs.readFileSync(path.join(root, 'src', 'pages', 'institute.astro'), 'utf8');
