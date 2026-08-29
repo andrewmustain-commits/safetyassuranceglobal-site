@@ -1,14 +1,90 @@
 ---
-interface Props { href?: string; alt?: string; variant?: 'default' | 'light' | 'dark' | 'white' | 'icon'; className?: string; imageClassName?: string; loading?: 'eager' | 'lazy'; decoding?: 'async' | 'auto' | 'sync'; attribution?: boolean; }
-const { href='/', alt='Safety Assurance Global', variant='default', className='', imageClassName='', loading='eager', decoding='async', attribution=true } = Astro.props;
-const srcByVariant: Record<NonNullable<Props['variant']>, string> = { default:'/images/brand/sag-logo-v2.svg', light:'/images/brand/sag-logo-white.svg?v=20260727-2', white:'/images/brand/sag-logo-white.svg?v=20260727-2', dark:'/images/brand/sag-logo-dark.svg?v=20260727-2', icon:'/images/brand/sag-icon.svg?v=20260727-2' };
-const src=srcByVariant[variant]; const isIcon=variant==='icon'; const baseImageClass=isIcon?'sag-logo-image is-icon':'sag-logo-image'; const imageClass=imageClassName?`${baseImageClass} ${imageClassName}`:baseImageClass; const linkClass=className?`sag-logo-link ${className}`:'sag-logo-link';
-const image=<img class={imageClass} src={src} alt={alt} loading={loading} decoding={decoding} />;
+interface Props {
+  href?: string;
+  alt?: string;
+  variant?: 'default' | 'light' | 'dark' | 'white' | 'icon';
+  className?: string;
+  imageClassName?: string;
+  loading?: 'eager' | 'lazy';
+  decoding?: 'async' | 'auto' | 'sync';
+  attribution?: boolean;
+}
+
+const {
+  href = '/',
+  alt = 'Safety Assurance Global',
+  variant = 'default',
+  className = '',
+  imageClassName = '',
+  loading = 'eager',
+  decoding = 'async',
+  attribution = true
+} = Astro.props;
+
+const srcByVariant: Record<NonNullable<Props['variant']>, string> = {
+  default: '/images/brand/sag-logo-v2.svg',
+  light: '/images/brand/sag-logo-white.svg?v=20260727-2',
+  white: '/images/brand/sag-logo-white.svg?v=20260727-2',
+  dark: '/images/brand/sag-logo-dark.svg?v=20260727-2',
+  icon: '/images/brand/sag-icon.svg?v=20260727-2'
+};
+
+const src = srcByVariant[variant];
+const isIcon = variant === 'icon';
+const baseImageClass = isIcon ? 'sag-logo-image is-icon' : 'sag-logo-image';
+const imageClass = imageClassName ? `${baseImageClass} ${imageClassName}` : baseImageClass;
+const linkClass = className ? `sag-logo-link ${className}` : 'sag-logo-link';
 ---
+
 <div class="sag-brand-lockup">
-  {href ? <a href={href} class={linkClass} aria-label="Safety Assurance Global home">{image}</a> : image}
+  {
+    href ? (
+      <a href={href} class={linkClass} aria-label="Safety Assurance Global home">
+        <img class={imageClass} src={src} alt={alt} loading={loading} decoding={decoding} />
+      </a>
+    ) : (
+      <img class={imageClass} src={src} alt={alt} loading={loading} decoding={decoding} />
+    )
+  }
   {attribution && !isIcon && <span class="mandavere-tag">Powered by Mandavere</span>}
 </div>
+
 <style>
-.sag-brand-lockup{display:inline-grid;gap:.12rem;justify-items:start}.sag-logo-link{display:inline-flex;align-items:center;text-decoration:none}.sag-logo-image{display:block;width:auto;max-width:100%;height:clamp(2.2rem,4.4vw,3rem)}.sag-logo-image.is-icon{height:clamp(1.8rem,3.6vw,2.35rem)}.mandavere-tag{padding-left:.18rem;color:#94a3b8;font-size:.56rem;font-weight:750;letter-spacing:.12em;text-transform:uppercase}@media(max-width:520px){.mandavere-tag{font-size:.5rem}}
+  .sag-brand-lockup {
+    display: inline-grid;
+    gap: 0.12rem;
+    justify-items: start;
+  }
+
+  .sag-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .sag-logo-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: clamp(2.2rem, 4.4vw, 3rem);
+  }
+
+  .sag-logo-image.is-icon {
+    height: clamp(1.8rem, 3.6vw, 2.35rem);
+  }
+
+  .mandavere-tag {
+    padding-left: 0.18rem;
+    color: #94a3b8;
+    font-size: 0.56rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 520px) {
+    .mandavere-tag {
+      font-size: 0.5rem;
+    }
+  }
 </style>
