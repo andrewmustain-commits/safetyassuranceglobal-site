@@ -1,0 +1,21 @@
+---
+const stages = ['Market Need','Governed Source','Course Factory','Human Review','Runtime','Evidence / Registrar','Credential Gate','Continuous Improvement'];
+const pipeline = ['SOURCE','COURSE','MODULE','PROGRAM','ACADEMY','CREDENTIAL','ENDORSEMENT'];
+---
+<section class="governed-graphic" aria-labelledby="value-chain-title">
+  <div class="graphic-heading">
+    <p class="graphic-kicker">Governed Value Chain</p>
+    <h2 id="value-chain-title">A controlled path from need to evidence-backed improvement.</h2>
+    <p>Each stage is separated by an explicit control point so drafting, review, delivery, evidence, and credential decisions remain distinct.</p>
+  </div>
+  <ol class="value-chain">
+    {stages.map((stage, index) => <li><span class="stage-number">{String(index + 1).padStart(2,'0')}</span><strong>{stage}</strong></li>)}
+  </ol>
+  <div class="pipeline" aria-label="Non-duplication pipeline">
+    <p>Non-Duplication Pipeline</p>
+    <div>{pipeline.map((item, index) => <span><strong>{item}</strong>{index < pipeline.length - 1 && <b aria-hidden="true">→</b>}</span>)}</div>
+  </div>
+</section>
+<style>
+.governed-graphic{position:relative;overflow:hidden;padding:clamp(1.4rem,4vw,3rem);border:1px solid rgba(59,130,246,.28);border-radius:1.25rem;background:radial-gradient(circle at 90% 0%,rgba(37,99,235,.18),transparent 32%),linear-gradient(145deg,rgba(9,18,31,.98),rgba(15,23,42,.96));box-shadow:0 22px 50px rgba(0,0,0,.28)}.governed-graphic:before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.18;background-image:radial-gradient(rgba(148,163,184,.6) .7px,transparent .7px);background-size:18px 18px;mask-image:linear-gradient(to bottom right,black,transparent 72%)}.graphic-heading,.value-chain,.pipeline{position:relative}.graphic-heading{max-width:780px}.graphic-kicker{margin:0 0 .55rem;color:#f59e0b;font-size:.76rem;font-weight:850;letter-spacing:.16em;text-transform:uppercase}.graphic-heading h2{font-size:clamp(1.7rem,3vw,2.7rem)}.value-chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin:2rem 0;padding:0;list-style:none}.value-chain li{min-height:118px;padding:1rem;border:1px solid rgba(148,163,184,.18);border-radius:.85rem;background:linear-gradient(150deg,rgba(30,41,59,.74),rgba(15,23,42,.86));transition:transform .2s ease,border-color .2s ease}.value-chain li:hover{transform:translateY(-2px);border-color:rgba(59,130,246,.5)}.stage-number{display:block;margin-bottom:1.25rem;color:#60a5fa;font-size:.72rem;font-weight:850;letter-spacing:.12em}.value-chain strong{color:#f8fafc;font-size:.92rem}.pipeline{padding:1rem 1.1rem;border:1px solid rgba(245,158,11,.3);border-radius:.85rem;background:rgba(180,83,9,.08)}.pipeline>p{margin:0 0 .65rem;color:#fbbf24;font-size:.72rem;font-weight:850;letter-spacing:.14em;text-transform:uppercase}.pipeline>div{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem .65rem}.pipeline span{display:inline-flex;align-items:center;gap:.65rem}.pipeline strong{padding:.32rem .58rem;border:1px solid rgba(245,158,11,.28);border-radius:999px;background:rgba(15,23,42,.65);color:#f8fafc;font-size:.7rem;letter-spacing:.08em}.pipeline b{color:#64748b}@media(max-width:820px){.value-chain{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.value-chain{grid-template-columns:1fr}.value-chain li{min-height:auto}.pipeline>div{align-items:flex-start;flex-direction:column}.pipeline b{display:none}}
+</style>
