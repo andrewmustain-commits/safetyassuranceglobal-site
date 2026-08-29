@@ -10,45 +10,77 @@ import Badge from '../components/ui/Badge.astro';
 const approvedPosts = (await getCollection('blog', ({ data }) => data.status === 'approved' || data.status === 'published'))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()).slice(0, 3)
   .map((post) => ({ slug: post.data.slug, title: post.data.title, summary: post.data.description, date: post.data.publishedAt, category: post.data.category }));
-
-const services = [
-  ['SA','Safety Assurance','Independent safety assurance, field verification, and control review for complex operating environments.'],
-  ['RM','Risk Management','Risk assessment, control review, and decision support tied to defined requirements and evidence.'],
-  ['QC','QA / QC Services','Quality assurance and quality-control oversight that links requirements, work, findings, and closure evidence.'],
-  ['CA','Contractor Assurance','Contractor safety, quality, performance, and readiness oversight from pre-mobilization through closeout.'],
-  ['OR','Operational Readiness','Readiness reviews, exercises, evidence checks, and closure validation before critical operations or transition.']
-];
 ---
 
 <BaseLayout title="Home" description="Safety Assurance Global provides maritime-first independent assurance, operational readiness, QA/QC, contractor assurance, safety governance, and evidence-based risk support.">
-  <div class="home-v20">
-    <section class="hero-v20" aria-labelledby="home-hero-title">
+  <div class="home-v25">
+    <section class="hero-v25" aria-labelledby="home-hero-title">
       <img class="hero-scene" src="/images/brand/maritime-hero-v20.svg" alt="Stylized maritime terminal and vessel at night" />
       <div class="hero-overlay"></div>
       <Container class="hero-content">
         <div class="hero-copy">
-          <p class="hero-eyebrow">Maritime-First Independent Assurance</p>
           <h1 id="home-hero-title"><span>Independent Assurance.</span><strong>Proven Readiness.</strong></h1>
-          <p>Safety Assurance Global delivers independent assurance, safety, risk, QA/QC, contractor-assurance, and operational-readiness support designed to help organizations strengthen execution, evidence, and decision confidence.</p>
-          <div class="hero-actions"><Button href="/services">Our Services</Button><Button href="/request-proposal" variant="secondary">Request Proposal</Button></div>
+          <span class="hero-rule" aria-hidden="true"></span>
+          <p>Safety Assurance Global delivers independent assurance, safety, risk, QA/QC, contractor-assurance, and operational-readiness support designed to help organizations strengthen control, evidence, readiness, and decision confidence.</p>
+          <div class="hero-actions">
+            <Button href="/services">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.2 7.5 9.8 4.5-1.6 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.6 12.1 2.1 2.1 4.7-4.8"/></svg>
+              Our Services
+            </Button>
+            <Button href="/request-proposal" variant="secondary">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h6M9 16h6"/></svg>
+              Request Proposal
+            </Button>
+          </div>
         </div>
       </Container>
     </section>
 
     <section class="trust-strip" aria-label="Safety Assurance Global trust signals">
       <Container class="trust-grid">
-        <div><span class="trust-icon">◇</span><p><strong>SDVOSB / VOSB</strong><small>SBA VetCert status published from approved corporate data.</small></p></div>
-        <div><span class="trust-icon">▦</span><p><strong>Government & Public Infrastructure</strong><small>Defined-scope support for public-sector operating environments.</small></p></div>
-        <div><span class="trust-icon">✓</span><p><strong>Independent Assurance</strong><small>Requirements-first, evidence-bound, and human-authority preserved.</small></p></div>
-        <div><span class="trust-icon">✦</span><p><strong>Operational Excellence</strong><small>Safety. Quality. Readiness. Evidence-based closeout.</small></p></div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.2 7.5 9.8 4.5-1.6 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.6 12.1 2.1 2.1 4.7-4.8"/></svg></span>
+          <p><strong>VOSB / SDVOSB</strong><small>SBA VetCert verified</small></p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 18V9l7-4 7 4v9M8 11v4M12 11v4M16 11v4"/></svg></span>
+          <p><strong>Government & Public Sector</strong><small>Procurement-ready support</small></p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></span>
+          <p><strong>Independent Assurance</strong><small>Impartial. Objective. Defensible.</small></p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="m8.5 13.2-1 7 4.5-2.4 4.5 2.4-1-7"/></svg></span>
+          <p><strong>Operational Excellence</strong><small>Safety. Quality. Readiness.</small></p>
+        </div>
       </Container>
     </section>
 
     <section class="services-light" aria-labelledby="services-title">
       <Container>
         <div class="light-heading"><p>What We Do</p><h2 id="services-title">Assurance Solutions That Drive Safe, Compliant, and Reliable Operations</h2><span></span></div>
-        <div class="service-grid-v20">
-          {services.map(([code,title,description]) => <a href="/services" class="service-tile"><span>{code}</span><div><h3>{title}</h3><p>{description}</p></div></a>)}
+        <div class="service-grid-v25">
+          <a href="/services/independent-assurance" class="service-tile">
+            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.2 7.5 9.8 4.5-1.6 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.6 12.1 2.1 2.1 4.7-4.8"/></svg></span>
+            <div><h3>Safety Assurance</h3><p>Independent safety assurance, field verification, and control review for complex operating environments.</p></div>
+          </a>
+          <a href="/services/safety-risk-management" class="service-tile">
+            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9M9 19v-5M14 19V6M19 19v-9"/><path d="m4 8 5 2 5-6 5 3"/></svg></span>
+            <div><h3>Risk Management</h3><p>Risk assessment, control review, and decision support tied to defined requirements and evidence.</p></div>
+          </a>
+          <a href="/services/qa-qc" class="service-tile">
+            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8l1 3h2v14H5V7h2z"/><path d="m9 12 2 2 4-4M9 17h6"/></svg></span>
+            <div><h3>QA / QC Services</h3><p>Quality oversight that connects requirements, field work, findings, corrective action, and closure evidence.</p></div>
+          </a>
+          <a href="/services/contractor-assurance" class="service-tile">
+            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2.5 20c.5-4 2.4-6 5.5-6s5 2 5.5 6M10.5 20c.5-4 2.4-6 5.5-6s5 2 5.5 6"/></svg></span>
+            <div><h3>Contractor Assurance</h3><p>Contractor safety, quality, performance, and readiness oversight from pre-mobilization through closeout.</p></div>
+          </a>
+          <a href="/services/operational-readiness" class="service-tile">
+            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v15M7 7h10M5 18c2.3 2 4.7 3 7 3s4.7-1 7-3M12 9 7 14h10z"/></svg></span>
+            <div><h3>Operational Readiness</h3><p>Readiness reviews, exercises, evidence checks, and closure validation before critical operations or transition.</p></div>
+          </a>
         </div>
       </Container>
     </section>
@@ -73,7 +105,9 @@ const services = [
 </BaseLayout>
 
 <style>
-.home-v20{margin-top:0}.hero-v20{position:relative;min-height:540px;overflow:hidden;border-bottom:1px solid rgba(211,154,50,.55);background:#041424}.hero-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,16,29,.98) 0%,rgba(3,16,29,.92) 32%,rgba(3,16,29,.45) 62%,rgba(3,16,29,.08) 100%)}.hero-content{position:relative;z-index:1;display:flex;align-items:center;min-height:540px}.hero-copy{max-width:680px;padding:3.7rem 0}.hero-eyebrow{margin:0 0 1rem;color:#d39a32;font-size:.78rem;font-weight:850;letter-spacing:.18em;text-transform:uppercase}.hero-copy h1{margin:0;font-size:clamp(2.65rem,5.3vw,5.4rem);line-height:.98;letter-spacing:-.035em;text-transform:uppercase}.hero-copy h1 span,.hero-copy h1 strong{display:block}.hero-copy h1 strong{margin-top:.25rem;color:#d8942c;font-weight:900}.hero-copy>p:not(.hero-eyebrow){max-width:640px;margin-top:1.45rem;color:#eef3f8;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.68}.hero-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.65rem}.trust-strip{background:#061a2d;border-bottom:1px solid rgba(211,154,50,.28)}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding-top:1rem;padding-bottom:1rem}.trust-grid>div{display:flex;gap:.8rem;align-items:center;padding:.25rem 1.2rem;border-right:1px solid rgba(211,154,50,.28)}.trust-grid>div:last-child{border-right:0}.trust-icon{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border:2px solid #d39a32;color:#e1a942;font-size:1.15rem}.trust-grid p{display:grid;gap:.18rem;margin:0}.trust-grid strong{color:#fff;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.trust-grid small{color:#c3cbd4;font-size:.68rem;line-height:1.35}.services-light{padding:clamp(3rem,5vw,5rem) 0;background:#f7f8fa;color:#07192a}.light-heading{text-align:center}.light-heading>p{margin:0;color:#c98a25;font-weight:850;letter-spacing:.22em;text-transform:uppercase}.light-heading h2{max-width:1000px;margin:.5rem auto 0;color:#07192a;font-size:clamp(1.8rem,3vw,2.7rem);line-height:1.12}.light-heading span{display:block;width:105px;height:3px;margin:1rem auto 2rem;background:#d39a32}.service-grid-v20{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem}.service-tile{display:flex;gap:.85rem;min-height:190px;padding:1.3rem;border:1px solid #e2e5e9;background:#fff;color:#0a1930;text-decoration:none;box-shadow:0 8px 20px rgba(7,25,42,.08);transition:transform .2s ease,border-color .2s ease}.service-tile:hover,.service-tile:focus-visible{transform:translateY(-3px);border-color:#d39a32}.service-tile>span{display:grid;place-items:center;width:46px;height:46px;flex:0 0 46px;border:2px solid #0a2745;color:#0a2745;font-weight:900}.service-tile h3{margin:0 0 .55rem;font-size:.87rem;text-transform:uppercase}.service-tile p{margin:0;color:#3d4754;font-size:.82rem;line-height:1.5}.lower-home{display:grid;gap:1.5rem;padding-top:2rem;padding-bottom:2rem}.maritime-panel,.institute-panel-v20{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:clamp(1.5rem,4vw,3rem);border:1px solid rgba(211,154,50,.35);border-radius:1rem;background:linear-gradient(135deg,#071b2f,#0c2c48)}.maritime-panel h2,.method-panel-v20 h2,.institute-panel-v20 h2,.insight-heading h2{margin:.7rem 0 0;font-size:clamp(1.8rem,3vw,3rem)}.maritime-panel p,.method-panel-v20 p,.institute-panel-v20 p{max-width:760px;color:#c9d2dc}.method-panel-v20{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem;padding:clamp(1.5rem,4vw,3rem);border:1px solid rgba(211,154,50,.25);border-radius:1rem;background:#061a2d}.method-panel-v20 ol{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin:0;padding:0;list-style:none}.method-panel-v20 li{display:flex;align-items:center;gap:.7rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);font-weight:760}.method-panel-v20 li span{color:#d39a32;font-size:.72rem}.insight-heading{margin-bottom:1rem}.insight-grid-v20{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.insight-meta{display:flex;justify-content:space-between;gap:1rem;color:#d39a32;font-size:.72rem;text-transform:uppercase}
-@media(max-width:1050px){.service-grid-v20{grid-template-columns:repeat(2,1fr)}.trust-grid{grid-template-columns:repeat(2,1fr)}.trust-grid>div:nth-child(2){border-right:0}.method-panel-v20{grid-template-columns:1fr}.insight-grid-v20{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.hero-v20,.hero-content{min-height:500px}.hero-overlay{background:linear-gradient(90deg,rgba(3,16,29,.96),rgba(3,16,29,.72))}.hero-copy{padding:2.5rem 0}.trust-grid,.service-grid-v20,.method-panel-v20 ol,.insight-grid-v20{grid-template-columns:1fr}.trust-grid>div{border-right:0;border-bottom:1px solid rgba(211,154,50,.2)}.trust-grid>div:last-child{border-bottom:0}.maritime-panel,.institute-panel-v20{align-items:flex-start;flex-direction:column}.service-tile{min-height:auto}}
+:global(.home-v25 ~ *){}
+:global(body:has(.home-v25) .site-main){padding-top:0}
+.home-v25{margin-top:0}.hero-v25{position:relative;min-height:455px;overflow:hidden;border-bottom:1px solid rgba(211,154,50,.55);background:#041424}.hero-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 57%}.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,16,29,.99) 0%,rgba(3,16,29,.95) 30%,rgba(3,16,29,.68) 48%,rgba(3,16,29,.22) 72%,rgba(3,16,29,.08) 100%),linear-gradient(180deg,rgba(2,12,23,.12),rgba(2,12,23,.3))}.hero-content{position:relative;z-index:1;display:flex;align-items:center;min-height:455px}.hero-copy{max-width:560px;padding:2.75rem 0}.hero-copy h1{margin:0;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:clamp(2.55rem,4.5vw,4.8rem);line-height:.95;letter-spacing:-.03em;text-transform:uppercase}.hero-copy h1 span,.hero-copy h1 strong{display:block}.hero-copy h1 strong{margin-top:.2rem;color:#d8942c;font-weight:900}.hero-rule{display:block;width:78px;height:3px;margin:1rem 0 1.15rem;background:linear-gradient(90deg,#d39a32 0 60%,rgba(211,154,50,.2) 60%)}.hero-copy>p{max-width:530px;margin:0;color:#eef3f8;font-size:clamp(.95rem,1.2vw,1.06rem);line-height:1.65}.hero-actions{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:1.35rem}.hero-actions :global(.ui-button){min-width:165px;min-height:3.05rem;border-radius:.42rem;padding:.7rem 1.05rem;font-size:.78rem}.hero-actions :global(.ui-button svg){width:1.1rem;height:1.1rem;margin-right:.42rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.trust-strip{background:linear-gradient(180deg,#061a2d,#041727);border-bottom:1px solid rgba(211,154,50,.28)}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding-top:.72rem;padding-bottom:.72rem}.trust-item{display:flex;gap:.7rem;align-items:center;padding:.18rem 1rem;border-right:1px solid rgba(211,154,50,.28)}.trust-item:last-child{border-right:0}.trust-icon{display:grid;place-items:center;width:36px;height:36px;flex:0 0 36px;color:#dca03a}.trust-icon svg{width:31px;height:31px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.trust-grid p{display:grid;gap:.1rem;margin:0}.trust-grid strong{color:#fff;font-size:.72rem;text-transform:uppercase;letter-spacing:.035em}.trust-grid small{color:#d0d6de;font-size:.61rem;line-height:1.3;text-transform:uppercase}.services-light{padding:2rem 0 2.45rem;background:#fafafa;color:#07192a;border-bottom:1px solid #e5e7eb}.light-heading{text-align:center}.light-heading>p{margin:0;color:#c98a25;font-size:.73rem;font-weight:900;letter-spacing:.22em;text-transform:uppercase}.light-heading h2{max-width:900px;margin:.42rem auto 0;color:#07192a;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:clamp(1.45rem,2.6vw,2.25rem);line-height:1.12}.light-heading span{display:block;width:78px;height:2px;margin:.8rem auto 1.45rem;background:#d39a32}.service-grid-v25{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem}.service-tile{display:flex;gap:.75rem;align-items:flex-start;min-height:138px;padding:1rem;border:1px solid #e2e5e9;border-radius:.22rem;background:#fff;color:#0a1930;text-decoration:none;box-shadow:0 6px 16px rgba(7,25,42,.08);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.service-tile:hover,.service-tile:focus-visible{transform:translateY(-3px);border-color:#d39a32;box-shadow:0 10px 24px rgba(7,25,42,.12)}.service-icon{display:grid;place-items:center;width:50px;height:50px;flex:0 0 50px;color:#0a2745}.service-icon svg{width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}.service-tile h3{margin:.12rem 0 .42rem;color:#07192a;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.02em}.service-tile p{margin:0;color:#303b49;font-size:.72rem;line-height:1.45}.lower-home{display:grid;gap:1.5rem;padding-top:2rem;padding-bottom:2rem}.maritime-panel,.institute-panel-v20{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:clamp(1.5rem,4vw,3rem);border:1px solid rgba(211,154,50,.35);border-radius:1rem;background:linear-gradient(135deg,#071b2f,#0c2c48)}.maritime-panel h2,.method-panel-v20 h2,.institute-panel-v20 h2,.insight-heading h2{margin:.7rem 0 0;font-size:clamp(1.8rem,3vw,3rem)}.maritime-panel p,.method-panel-v20 p,.institute-panel-v20 p{max-width:760px;color:#c9d2dc}.method-panel-v20{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem;padding:clamp(1.5rem,4vw,3rem);border:1px solid rgba(211,154,50,.25);border-radius:1rem;background:#061a2d}.method-panel-v20 ol{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin:0;padding:0;list-style:none}.method-panel-v20 li{display:flex;align-items:center;gap:.7rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);font-weight:760}.method-panel-v20 li span{color:#d39a32;font-size:.72rem}.insight-heading{margin-bottom:1rem}.insight-grid-v20{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.insight-meta{display:flex;justify-content:space-between;gap:1rem;color:#d39a32;font-size:.72rem;text-transform:uppercase}
+@media(max-width:1050px){.service-grid-v25{grid-template-columns:repeat(2,1fr)}.trust-grid{grid-template-columns:repeat(2,1fr)}.trust-item:nth-child(2){border-right:0}.trust-item:nth-child(-n+2){border-bottom:1px solid rgba(211,154,50,.2);padding-bottom:.7rem;margin-bottom:.7rem}.method-panel-v20{grid-template-columns:1fr}.insight-grid-v20{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.hero-v25,.hero-content{min-height:470px}.hero-overlay{background:linear-gradient(90deg,rgba(3,16,29,.97),rgba(3,16,29,.72))}.hero-copy{padding:2.2rem 0}.hero-copy h1{font-size:clamp(2.3rem,11vw,3.5rem)}.hero-actions{display:grid;grid-template-columns:1fr}.hero-actions :global(.ui-button){width:100%}.trust-grid,.service-grid-v25,.method-panel-v20 ol,.insight-grid-v20{grid-template-columns:1fr}.trust-item{border-right:0;border-bottom:1px solid rgba(211,154,50,.2);padding:.55rem 0;margin:0}.trust-item:nth-child(-n+2){padding-bottom:.55rem;margin-bottom:0}.trust-item:last-child{border-bottom:0}.maritime-panel,.institute-panel-v20{align-items:flex-start;flex-direction:column}.service-tile{min-height:auto}}
 </style>
