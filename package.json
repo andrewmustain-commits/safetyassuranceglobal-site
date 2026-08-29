@@ -19,7 +19,8 @@
     "blog:import": "node scripts/blog-import.mjs",
     "validate:links": "node scripts/validate-dist-links.mjs",
     "validate:structured-data": "node scripts/validate-structured-data.mjs",
-    "validate:head": "node scripts/validate-head-metadata.mjs"
+    "validate:head": "node scripts/validate-head-metadata.mjs",
+    "validate:publication-routes": "node scripts/validate-publication-routes.mjs"
   },
   "repository": {
     "type": "git",
