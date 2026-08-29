@@ -2,16 +2,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
-const assets = [
+const svgAssets = [
   'public/images/brand/sag-logo-v2.svg',
   'public/images/brand/sag-logo-dark.svg',
   'public/images/brand/sag-logo-white.svg',
   'public/images/brand/sag-icon.svg',
   'public/images/brand/institute-crest.svg'
 ];
+const rasterAssets = ['public/images/brand/image.png'];
 const failures = [];
 
-for (const relativePath of assets) {
+for (const relativePath of svgAssets) {
   const filePath = path.join(root, relativePath);
   if (!fs.existsSync(filePath)) {
     failures.push(`missing required brand asset: ${relativePath}`);
@@ -23,14 +24,27 @@ for (const relativePath of assets) {
   if (/<image\b[^>]+(?:https?:)?\/\//i.test(source)) failures.push(`${relativePath}: contains an external raster/image dependency`);
 }
 
+for (const relativePath of rasterAssets) {
+  const filePath = path.join(root, relativePath);
+  if (!fs.existsSync(filePath)) {
+    failures.push(`missing required raster brand asset: ${relativePath}`);
+    continue;
+  }
+  const data = fs.readFileSync(filePath);
+  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  if (data.length < 1024) failures.push(`${relativePath}: suspiciously small production raster asset`);
+  if (!data.subarray(0, 8).equals(pngSignature)) failures.push(`${relativePath}: not a valid PNG signature`);
+}
+
 const configPath = path.join(root, 'src', 'config', 'brand-assets.ts');
 const config = fs.existsSync(configPath) ? fs.readFileSync(configPath, 'utf8') : '';
-for (const expected of ['/images/brand/sag-logo-v2.svg', '/images/brand/institute-crest.svg']) {
+for (const expected of ['/images/brand/image.png', '/images/brand/institute-crest.svg']) {
   if (!config.includes(expected)) failures.push(`brand asset registry does not reference ${expected}`);
 }
 
 const logoComponent = fs.readFileSync(path.join(root, 'src', 'components', 'brand', 'Logo.astro'), 'utf8');
 if (!logoComponent.includes('brandAttribution')) failures.push('Logo component does not use centralized Mandavere attribution');
+if (!logoComponent.includes('brandAssets.sagSeal')) failures.push('Logo component does not use the centralized SAG seal asset');
 
 const institutePage = fs.readFileSync(path.join(root, 'src', 'pages', 'institute.astro'), 'utf8');
 if (!institutePage.includes('brandAssets.instituteCrest')) failures.push('Institute page does not use centralized Institute emblem path');
@@ -41,4 +55,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Brand asset validation passed: ${assets.length} required SVG assets and attribution controls verified.`);
+console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${rasterAssets.length} production raster asset, and attribution controls verified.`);

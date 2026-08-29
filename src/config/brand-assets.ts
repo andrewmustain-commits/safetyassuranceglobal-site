@@ -3,7 +3,7 @@ export const brandAssets = {
   sagLogoDark: '/images/brand/sag-logo-dark.svg',
   sagLogoWhite: '/images/brand/sag-logo-white.svg',
   sagIcon: '/images/brand/sag-icon.svg',
-  sagSeal: '/images/brand/sag-seal-v20.svg',
+  sagSeal: '/images/brand/image.png',
   instituteCrest: '/images/brand/institute-crest.svg'
 } as const;
 
