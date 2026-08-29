@@ -38,3 +38,6 @@ jobs:
 
       - name: Validate structured data
         run: npm run validate:structured-data
+
+      - name: Validate head metadata
+        run: npm run validate:head
