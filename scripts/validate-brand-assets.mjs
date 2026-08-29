@@ -42,9 +42,30 @@ for (const expected of ['/images/brand/image.png', '/images/brand/institute-cres
   if (!config.includes(expected)) failures.push(`brand asset registry does not reference ${expected}`);
 }
 
-const logoComponent = fs.readFileSync(path.join(root, 'src', 'components', 'brand', 'Logo.astro'), 'utf8');
+const logoPath = path.join(root, 'src', 'components', 'brand', 'Logo.astro');
+const logoComponent = fs.readFileSync(logoPath, 'utf8');
 if (!logoComponent.includes('brandAttribution')) failures.push('Logo component does not use centralized Mandavere attribution');
 if (!logoComponent.includes('brandAssets.sagSeal')) failures.push('Logo component does not use the centralized SAG seal asset');
+if (!logoComponent.includes("className.split(/\\s+/).includes('footer-logo-link')")) failures.push('VetCert marks are not explicitly restricted to footer logo usage');
+if (!logoComponent.includes('{isFooter && (')) failures.push('VetCert marks do not use the footer-only render guard');
+for (const mark of ['SDVOSB', 'VOSB']) {
+  if (!logoComponent.includes(`<strong>${mark}</strong>`)) failures.push(`footer is missing approved ${mark} trust mark`);
+}
+
+const sourceFiles = [];
+const walk = (directory) => {
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) walk(fullPath);
+    else if (/\.(astro|ts|js|mjs|css|html)$/i.test(entry.name)) sourceFiles.push(fullPath);
+  }
+};
+walk(path.join(root, 'src'));
+for (const filePath of sourceFiles) {
+  const source = fs.readFileSync(filePath, 'utf8');
+  if (/HUBZone Certified/i.test(source)) failures.push(`${path.relative(root, filePath)}: unapproved HUBZone certification wording detected`);
+  if (filePath !== logoPath && /\b(?:SDVOSB|VOSB)\b/.test(source)) failures.push(`${path.relative(root, filePath)}: VetCert mark found outside footer-controlled Logo component`);
+}
 
 const institutePage = fs.readFileSync(path.join(root, 'src', 'pages', 'institute.astro'), 'utf8');
 if (!institutePage.includes('brandAssets.instituteCrest')) failures.push('Institute page does not use centralized Institute emblem path');
@@ -55,4 +76,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${rasterAssets.length} production raster asset, and attribution controls verified.`);
+console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${rasterAssets.length} production raster asset, footer-only VetCert controls, and attribution controls verified.`);
