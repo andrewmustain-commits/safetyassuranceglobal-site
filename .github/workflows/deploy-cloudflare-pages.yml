@@ -20,22 +20,26 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 22.12.0
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
 
       - name: Validate blog frontmatter governance
         run: npm run blog:validate
 
       - name: Build site
         run: npm run build
+
       - name: Validate generated links
         run: npm run validate:links
 
