@@ -35,3 +35,6 @@ jobs:
 
       - name: Validate generated links
         run: npm run validate:links
+
+      - name: Validate generated HTML invariants
+        run: npm run validate:html
