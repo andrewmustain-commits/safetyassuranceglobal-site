@@ -1,1 +1,0 @@
-Temporary review note. Binary promotion is handled by Git tree so the exact uploaded PNG can be retained without re-encoding.
