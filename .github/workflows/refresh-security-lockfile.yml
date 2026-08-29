@@ -4,13 +4,14 @@ on:
   push:
     branches:
       - website/security-hardening-v5
+    paths:
+      - .github/workflows/refresh-security-lockfile.yml
 
 permissions:
   contents: write
 
 jobs:
   refresh:
-    if: ${{ !contains(github.event.head_commit.message, 'chore: refresh security lockfile') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout hardening branch
