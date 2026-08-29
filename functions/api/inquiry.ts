@@ -195,9 +195,14 @@ export const onRequestGet = async (context: PagesContext<Env>) => {
     return badRequest('Spam protection is not fully configured for this environment.', 503);
   }
 
+  const deliveryConfigured = Boolean(getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL));
+
   return jsonResponse(
     {
       ok: true,
+      delivery: {
+        configured: deliveryConfigured
+      },
       turnstile: {
         enabled: turnstile.enabled,
         siteKey: turnstile.enabled ? turnstile.siteKey : null
