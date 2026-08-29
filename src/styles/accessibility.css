@@ -1,0 +1,53 @@
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 920px) {
+  .primary-nav a,
+  .mobile-nav-cta .ui-button,
+  .nav-toggle,
+  .ui-button {
+    min-height: 44px;
+  }
+
+  .primary-nav a {
+    padding-block: 0.7rem;
+  }
+}
+
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  .ui-actions { align-items: stretch; }
+  .ui-actions .ui-button { width: 100%; }
+  .breadcrumbs { overflow-x: auto; }
+  .breadcrumbs ol { width: max-content; min-width: 100%; }
+}
+
+@media (forced-colors: active) {
+  .ui-card,
+  .hero-panel,
+  .notice,
+  .qualification-notice,
+  .market-context,
+  .service-context,
+  .site-header,
+  .site-footer {
+    forced-color-adjust: auto;
+    border: 1px solid CanvasText;
+  }
+
+  .ui-button,
+  .nav-toggle,
+  .tag-chip,
+  .ui-badge,
+  .status-badge {
+    forced-color-adjust: auto;
+    border: 1px solid ButtonText;
+  }
+}
