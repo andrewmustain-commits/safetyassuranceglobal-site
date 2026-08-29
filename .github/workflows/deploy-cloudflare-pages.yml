@@ -46,6 +46,9 @@ jobs:
       - name: Validate generated links
         run: npm run validate:links
 
+      - name: Validate structured data
+        run: npm run validate:structured-data
+
       - name: Deploy production build to Cloudflare Pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v3
         with:
