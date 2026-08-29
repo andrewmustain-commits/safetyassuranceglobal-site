@@ -1,0 +1,49 @@
+name: Refresh Security Lockfile
+
+on:
+  push:
+    branches:
+      - website/security-hardening-v5
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: ${{ !contains(github.event.head_commit.message, 'chore: refresh security lockfile') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout hardening branch
+        uses: actions/checkout@v7
+        with:
+          ref: website/security-hardening-v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Refresh Astro to patched baseline
+        run: npm install astro@7.2.8 --save-exact
+
+      - name: Build hardened dependency set
+        run: npm run build
+
+      - name: Validate generated links
+        run: npm run validate:links
+
+      - name: Record audit result
+        run: npm audit || true
+
+      - name: Commit regenerated manifest and lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          if git diff --cached --quiet; then
+            echo "No dependency changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh security lockfile"
+          git push origin HEAD:website/security-hardening-v5
