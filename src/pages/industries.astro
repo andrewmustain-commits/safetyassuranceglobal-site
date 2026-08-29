@@ -7,6 +7,7 @@ import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import HeroSection from '../components/ui/HeroSection.astro';
 import IndustryCard from '../components/ui/IndustryCard.astro';
+import SectorVisualGrid from '../components/ui/SectorVisualGrid.astro';
 import { industryDetails } from '../data/industries';
 
 const priorityIndustries = industryDetails.map((industry) => ({
@@ -63,6 +64,8 @@ const additionalTargets = [
         ))}
       </div>
     </Section>
+
+    <SectorVisualGrid />
 
     <Section ariaLabelledby="industries-additional-title">
       <SectionHeader
