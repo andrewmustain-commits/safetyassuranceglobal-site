@@ -32,5 +32,11 @@ jobs:
       - name: Validate blog frontmatter governance
         run: npm run blog:validate
 
+      - name: Static Astro diagnostics
+        run: npm run check
+
       - name: Build Astro site
         run: npm run build
+
+      - name: Validate generated links
+        run: npm run validate:links

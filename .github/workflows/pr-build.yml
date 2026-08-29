@@ -27,5 +27,11 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
+      - name: Static Astro diagnostics
+        run: npm run check
+
       - name: Validate build
         run: npm run build
+
+      - name: Validate generated links
+        run: npm run validate:links

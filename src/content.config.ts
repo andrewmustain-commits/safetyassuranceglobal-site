@@ -1,6 +1,6 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { z } from 'astro:schema';
+import { z } from 'astro/zod';
 
 const publicationStatuses = [
   'draft',
@@ -36,7 +36,7 @@ const blog = defineCollection({
     featured: z.boolean().default(false),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
-    canonical: z.string().url().optional(),
+    canonical: z.url().optional(),
     source: z.string(),
     claimsReview: reviewSchema,
     legalReview: reviewSchema,
