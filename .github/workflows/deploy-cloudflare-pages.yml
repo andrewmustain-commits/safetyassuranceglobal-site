@@ -52,6 +52,9 @@ jobs:
       - name: Validate head metadata
         run: npm run validate:head
 
+      - name: Validate publication routes
+        run: npm run validate:publication-routes
+
       - name: Deploy production build to Cloudflare Pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v3
         with:

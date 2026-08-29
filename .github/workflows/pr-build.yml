@@ -41,3 +41,6 @@ jobs:
 
       - name: Validate head metadata
         run: npm run validate:head
+
+      - name: Validate publication routes
+        run: npm run validate:publication-routes
