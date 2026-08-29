@@ -44,3 +44,6 @@ jobs:
 
       - name: Validate publication routes
         run: npm run validate:publication-routes
+
+      - name: Validate sitemap integrity
+        run: npm run validate:sitemap
