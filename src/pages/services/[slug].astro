@@ -19,100 +19,105 @@ const service = serviceBySlug[slug];
 if (!service) {
   throw new Error(`Unknown service slug: ${slug}`);
 }
+
+const isMaritimeSpecific = slug === 'maritime-compliance';
 ---
 
 <BaseLayout title={service.title} description={service.summary}>
-  <Container>
-    <HeroSection id="service-title" badge="Service" title={service.title}>
+  <Container class="detail-shell">
+    <HeroSection id="service-title" badge={isMaritimeSpecific ? 'Primary Maritime Service' : 'Maritime-First Assurance Service'} title={service.title}>
       <p>{service.summary}</p>
       <div class="ui-actions">
         <Button href={service.cta.href}>{service.cta.label}</Button>
-        <Button href="/services" variant="secondary">Back to Services</Button>
+        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
     </HeroSection>
 
+    <div class="service-context">
+      <span>{isMaritimeSpecific ? 'Maritime priority' : 'Maritime-first application'}</span>
+      <p>
+        {isMaritimeSpecific
+          ? 'This service directly supports SAG’s primary Maritime market. Each engagement is scoped to the specific operating environment, applicable requirements, personnel capability, and available evidence.'
+          : 'SAG applies this service first within Maritime and may apply the same assurance discipline to other high-consequence environments where the engagement scope is supported by verified capability and evidence.'}
+      </p>
+    </div>
+
     <Section ariaLabelledby="service-problem-title">
-      <SectionHeader badge="Customer Problem" id="service-problem-title" title="Why organizations request this service." />
+      <SectionHeader badge="Customer Challenge" id="service-problem-title" title="Why organizations request this service." />
       <Card><p>{service.customerProblem}</p></Card>
     </Section>
 
     <Section ariaLabelledby="service-audience-title">
       <SectionHeader badge="Who It Is For" id="service-audience-title" title="Typical service stakeholders." />
       <div class="grid-two">
-        {service.audience.map((item) => (
-          <Card><h3>{item}</h3></Card>
-        ))}
+        {service.audience.map((item, index) => <Card><span class="detail-index">A{String(index + 1).padStart(2, '0')}</span><h3>{item}</h3></Card>)}
       </div>
     </Section>
 
     <Section ariaLabelledby="service-scope-title">
       <SectionHeader badge="Scope of Work" id="service-scope-title" title="Core scope elements." />
-      <Card>
-        <ul>
-          {service.scopeOfWork.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </Card>
+      <div class="detail-list-panel">
+        {service.scopeOfWork.map((item, index) => <div><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}
+      </div>
     </Section>
 
     <Section ariaLabelledby="service-process-title">
       <SectionHeader badge="Engagement Process" id="service-process-title" title="How delivery is typically structured." />
-      <Card>
-        <ol>
-          {service.engagementProcess.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ol>
-      </Card>
+      <ol class="process-grid">
+        {service.engagementProcess.map((item, index) => <li><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></li>)}
+      </ol>
     </Section>
 
     <Section ariaLabelledby="service-evidence-title">
       <SectionHeader badge="Evidence Reviewed" id="service-evidence-title" title="Artifacts commonly reviewed." />
-      <Card>
-        <ul>
-          {service.evidenceReviewed.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </Card>
+      <div class="detail-list-panel">
+        {service.evidenceReviewed.map((item, index) => <div><span>E{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}
+      </div>
     </Section>
 
     <Section ariaLabelledby="service-deliverables-title">
       <SectionHeader badge="Typical Deliverables" id="service-deliverables-title" title="Common outputs provided." />
       <div class="grid-two">
-        {service.deliverables.map((item) => (
-          <Card><h3>{item}</h3></Card>
-        ))}
+        {service.deliverables.map((item, index) => <Card><span class="detail-index">D{String(index + 1).padStart(2, '0')}</span><h3>{item}</h3></Card>)}
       </div>
     </Section>
 
     <Section ariaLabelledby="service-result-title">
-      <SectionHeader badge="Expected Result" id="service-result-title" title="Decision support this service is designed to provide." />
+      <SectionHeader badge="Expected Decision Support" id="service-result-title" title="What this service is designed to improve." />
       <Card><p>{service.expectedResult}</p></Card>
     </Section>
 
     <Section ariaLabelledby="service-related-title">
       <SectionHeader badge="Related Services" id="service-related-title" title="Adjacent support areas." />
       <div class="grid-two">
-        {service.relatedServices.map((item) => (
-          <Card>
-            <h3><a href={item.href}>{item.label}</a></h3>
-          </Card>
-        ))}
+        {service.relatedServices.map((item) => <Card><h3><a href={item.href}>{item.label}</a></h3><p>Review the adjacent service pathway and evidence model.</p></Card>)}
       </div>
     </Section>
 
     <Section ariaLabelledby="service-training-title">
-      <SectionHeader badge="Relevant Training" id="service-training-title" title="Training pathways that can support this service." />
-      <Card><p><a href={service.trainingLink.href}>{service.trainingLink.label}</a></p></Card>
+      <SectionHeader badge="Relevant Training" id="service-training-title" title="Workforce development that may support the engagement." />
+      <Card>
+        <p><a href={service.trainingLink.href}>{service.trainingLink.label}</a></p>
+        <p>Training availability, enrollment status, assessment requirements, and any credential decision are governed separately from consulting services.</p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="service-boundary-title">
+      <SectionHeader badge="Public Claims Boundary" id="service-boundary-title" title="Service descriptions are scope-specific capability statements." />
+      <Card>
+        <p>This page does not claim universal certification, accreditation, licensure, regulatory approval, government endorsement, or unrestricted authority. Final scope depends on the jurisdiction, client requirements, personnel qualifications, contractual authority, and evidence available for the engagement.</p>
+      </Card>
     </Section>
 
     <CTASection id="service-cta-title" badge="Next Step" title="Discuss scope and readiness priorities.">
       <div class="ui-actions">
         <Button href={service.cta.href}>{service.cta.label}</Button>
-        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+        <Button href="/capabilities" variant="secondary">Review Capabilities</Button>
       </div>
     </CTASection>
   </Container>
 </BaseLayout>
+
+<style>
+.detail-shell{display:grid;gap:.25rem}.service-context{margin:1rem 0 0;padding:1rem 1.1rem;border:1px solid rgba(59,130,246,.34);border-radius:var(--radius-md);background:linear-gradient(145deg,rgba(37,99,235,.1),rgba(15,23,42,.9))}.service-context span{display:block;margin-bottom:.35rem;color:#fbbf24;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.service-context p{margin:0}.detail-index{display:inline-block;margin-bottom:.75rem;color:#60a5fa;font-size:.72rem;font-weight:800;letter-spacing:.12em}.detail-list-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.detail-list-panel>div,.process-grid li{padding:1rem;border:1px solid rgba(148,163,184,.18);border-radius:var(--radius-md);background:linear-gradient(150deg,rgba(30,41,59,.68),rgba(15,23,42,.88))}.detail-list-panel>div{display:flex;gap:.8rem;align-items:flex-start}.detail-list-panel span,.process-grid span{color:#60a5fa;font-size:.72rem;font-weight:800;letter-spacing:.1em}.detail-list-panel p,.process-grid p{margin:0}.process-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:0;padding:0;list-style:none}.process-grid li{min-height:150px}.process-grid span{display:block;margin-bottom:2rem}@media(max-width:900px){.process-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.detail-list-panel,.process-grid{grid-template-columns:1fr}.process-grid li{min-height:auto}.process-grid span{margin-bottom:.75rem}}
+</style>

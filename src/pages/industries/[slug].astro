@@ -19,23 +19,35 @@ const industry = industryBySlug[slug];
 if (!industry) {
   throw new Error(`Unknown industry slug: ${slug}`);
 }
+
+const maritimeSlugs = new Set(['shipyards', 'ports-marine-terminals', 'vessel-operators', 'marine-contractors']);
+const isMaritime = maritimeSlugs.has(slug);
 ---
 
 <BaseLayout title={industry.title} description={industry.operatingContext}>
-  <Container>
-    <HeroSection id="industry-title" badge="Industry" title={industry.title}>
+  <Container class="detail-shell">
+    <HeroSection id="industry-title" badge={isMaritime ? 'Primary Maritime Market' : 'Defined Sector Coverage'} title={industry.title}>
       <p>{industry.operatingContext}</p>
       <div class="ui-actions">
         <Button href={industry.cta.href}>{industry.cta.label}</Button>
-        <Button href="/industries" variant="secondary">Back to Industries</Button>
+        {isMaritime ? <Button href="/maritime" variant="secondary">Maritime Overview</Button> : <Button href="/industries" variant="secondary">Back to Industries</Button>}
       </div>
     </HeroSection>
+
+    <div class:list={['market-context', { 'market-context-maritime': isMaritime }]}>
+      <span>{isMaritime ? 'Maritime-first application' : 'Scope-controlled application'}</span>
+      <p>
+        {isMaritime
+          ? 'This sector is part of SAG’s primary Maritime market focus. Specific engagements remain subject to documented scope, personnel capability, evidence, contractual authority, and applicable jurisdictional requirements.'
+          : 'SAG considers work in this sector only where the requested scope is supported by verified personnel capability, available evidence, contractual authority, and applicable jurisdictional requirements.'}
+      </p>
+    </div>
 
     <Section ariaLabelledby="industry-risk-title">
       <SectionHeader badge="Common Risks" id="industry-risk-title" title="Operational risks frequently observed." />
       <div class="grid-two">
-        {industry.commonRisks.map((risk) => (
-          <Card><p>{risk}</p></Card>
+        {industry.commonRisks.map((risk, index) => (
+          <Card><span class="detail-index">R{String(index + 1).padStart(2, '0')}</span><p>{risk}</p></Card>
         ))}
       </div>
     </Section>
@@ -43,8 +55,8 @@ if (!industry) {
     <Section ariaLabelledby="industry-gaps-title">
       <SectionHeader badge="Typical Assurance Gaps" id="industry-gaps-title" title="Control and evidence gaps that often need attention." />
       <div class="grid-two">
-        {industry.assuranceGaps.map((gap) => (
-          <Card><p>{gap}</p></Card>
+        {industry.assuranceGaps.map((gap, index) => (
+          <Card><span class="detail-index">G{String(index + 1).padStart(2, '0')}</span><p>{gap}</p></Card>
         ))}
       </div>
     </Section>
@@ -53,30 +65,22 @@ if (!industry) {
       <SectionHeader badge="Relevant SAG Services" id="industry-services-title" title="Most relevant service pathways." />
       <div class="grid-two">
         {industry.relevantServices.map((service) => (
-          <Card>
-            <h3><a href={service.href}>{service.label}</a></h3>
-          </Card>
+          <Card><h3><a href={service.href}>{service.label}</a></h3><p>Review the service scope, evidence model, deliverables, and engagement pathway.</p></Card>
         ))}
       </div>
     </Section>
 
     <Section ariaLabelledby="industry-evidence-title">
       <SectionHeader badge="Evidence Typically Reviewed" id="industry-evidence-title" title="Records and controls usually examined." />
-      <Card>
-        <ul>
-          {industry.evidenceReviewed.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </Card>
+      <div class="detail-list-panel">
+        {industry.evidenceReviewed.map((item, index) => <div><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}
+      </div>
     </Section>
 
     <Section ariaLabelledby="industry-deliverables-title">
       <SectionHeader badge="Typical Deliverables" id="industry-deliverables-title" title="Decision-ready outputs commonly produced." />
       <div class="grid-two">
-        {industry.deliverables.map((item) => (
-          <Card><h3>{item}</h3></Card>
-        ))}
+        {industry.deliverables.map((item, index) => <Card><span class="detail-index">D{String(index + 1).padStart(2, '0')}</span><h3>{item}</h3></Card>)}
       </div>
     </Section>
 
@@ -85,11 +89,22 @@ if (!industry) {
       <Card><p>{industry.decisionSupport}</p></Card>
     </Section>
 
+    <Section ariaLabelledby="industry-boundary-title">
+      <SectionHeader badge="Public Claims Boundary" id="industry-boundary-title" title="Industry support is always scope-specific." />
+      <Card>
+        <p>Descriptions on this page do not represent universal licensing, accreditation, regulatory approval, government endorsement, contract award status, or unrestricted authority to perform every activity within this sector.</p>
+      </Card>
+    </Section>
+
     <CTASection id="industry-cta-title" badge="Next Step" title="Discuss scope, controls, and assurance priorities.">
       <div class="ui-actions">
         <Button href={industry.cta.href}>{industry.cta.label}</Button>
-        <Button href="/contact" variant="secondary">Request a Consultation</Button>
+        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
     </CTASection>
   </Container>
 </BaseLayout>
+
+<style>
+.detail-shell{display:grid;gap:.25rem}.market-context{margin:1rem 0 0;padding:1rem 1.1rem;border:1px solid rgba(148,163,184,.22);border-radius:var(--radius-md);background:linear-gradient(145deg,rgba(30,41,59,.68),rgba(15,23,42,.86))}.market-context-maritime{border-color:rgba(59,130,246,.38);background:linear-gradient(145deg,rgba(37,99,235,.12),rgba(15,23,42,.9))}.market-context span{display:block;margin-bottom:.35rem;color:#fbbf24;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.market-context p{margin:0}.detail-index{display:inline-block;margin-bottom:.75rem;color:#60a5fa;font-size:.72rem;font-weight:800;letter-spacing:.12em}.detail-list-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.detail-list-panel>div{display:flex;gap:.8rem;align-items:flex-start;padding:1rem;border:1px solid rgba(148,163,184,.18);border-radius:var(--radius-md);background:linear-gradient(150deg,rgba(30,41,59,.68),rgba(15,23,42,.88))}.detail-list-panel span{color:#60a5fa;font-size:.72rem;font-weight:800;letter-spacing:.1em}.detail-list-panel p{margin:0}@media(max-width:700px){.detail-list-panel{grid-template-columns:1fr}}
+</style>
