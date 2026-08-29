@@ -71,3 +71,6 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.127.1'
           command: pages deploy dist --project-name=safetyassuranceglobal --branch=main
+
+      - name: Verify hosted production routes
+        run: node scripts/verify-production-routes.mjs
