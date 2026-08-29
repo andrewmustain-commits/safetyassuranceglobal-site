@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+
+const capabilities = [
+  ['OR', 'Operational Readiness & Assurance', 'Structured review of requirements, controls, readiness evidence, and execution gaps.'],
+  ['CS', 'Construction Safety & EHS Support', 'Requirement-specific planning, field verification, inspections, and issue escalation.'],
+  ['QC', 'QA/QC & Contractor Assurance', 'Verification of contractor controls, documentation, quality, and traceable performance evidence.'],
+  ['RC', 'Risk & Compliance Support', 'Practical reviews against approved criteria, with prioritized and defensible actions.'],
+  ['WP', 'Work Planning & JHA Support', 'JHA/AHA/JSA/HASP review support, readiness checks, hold points, and control crosswalks.'],
+  ['CA', 'Corrective-Action Management', 'Finding ownership, due dates, evidence review, escalation, and closure verification.'],
+  ['IR', 'Incident & Root-Cause Support', 'Objective incident review, causal analysis support, lessons learned, and action tracking.'],
+  ['TR', 'Workforce Training & Workshops', 'Role-based training and facilitated workshops tied to verified needs and field outcomes.'],
+  ['PM', 'Program Reporting & Change Control', 'Single-point coordination, status reporting, issue tracking, authorized changes, and closeout.'],
+  ['EV', 'Evidence-Based Closeout', 'Reconciled records, closure packages, trend reporting, and management-ready evidence indexes.']
+];
+
+const deliveryCycle = [
+  ['01', 'Requirements Intake', 'Scope, criteria, hazards'],
+  ['02', 'Control Crosswalk', 'Owner, control, evidence'],
+  ['03', 'Field Verification', 'Observe, sample, record'],
+  ['04', 'Corrective Action', 'Contain, assign, track'],
+  ['05', 'Closure Validation', 'Verify evidence and effectiveness'],
+  ['06', 'Management Reporting', 'Trends, aging, decisions']
+];
+
+const differentiators = [
+  'Requirements-first: work begins with approved scope, criteria, risks, and acceptance evidence.',
+  'Closure-focused: findings stay open until required actions and supporting evidence are verified.',
+  'Single accountability point: one lead coordinates scope, reporting, issues, change, and closeout.',
+  'Field-to-executive traceability: site observations roll into decision-ready trends and status reporting.',
+  'Qualified-delivery gates: role fit, credentials, availability, permissions, partners, and pricing are checked before commitment.',
+  'Human authority preserved: SAG supports decisions without claiming buyer acceptance, certification, or regulatory approval.'
+];
+---
+
+<BaseLayout
+  title="Capabilities"
+  description="Safety Assurance Global capabilities statement covering independent assurance, operational readiness, safety governance, QA/QC, risk, compliance support, and workforce training for maritime, public infrastructure, construction, and other high-consequence operations."
+>
+  <Container class="capabilities-page">
+    <Section class="capabilities-hero" ariaLabelledby="capabilities-title">
+      <div>
+        <Badge text="Capabilities Statement | August 2026" />
+        <p class="eyebrow">Safety Assurance Global LLC</p>
+        <h1 id="capabilities-title">Independent Assurance, Operational Readiness & Safety Governance</h1>
+        <p class="lede">
+          SAG provides independent assurance, operational readiness, safety governance, QA/QC, risk management,
+          compliance support, and workforce training services for owners, contractors, government organizations,
+          and high-consequence operations.
+        </p>
+        <p>
+          Maritime is SAG's primary market focus. The same requirements-first, evidence-bound approach is applied
+          across public infrastructure, construction and critical infrastructure, industrial and process operations,
+          and other engagement areas where the required qualifications, permissions, staffing, partners, and scope are verified.
+        </p>
+        <div class="ui-actions">
+          <Button href="/maritime">Explore Maritime</Button>
+          <Button href="/contact" variant="secondary">Discuss a Requirement</Button>
+        </div>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="overview-title">
+      <SectionHeader badge="Company Overview" id="overview-title" title="Requirements first. Evidence through closure." />
+      <Card>
+        <p>
+          Safety Assurance Global LLC (SAG) uses a requirements-first, evidence-bound approach to organize approved work into
+          clear responsibilities, field controls, verification points, corrective actions, and closeout records.
+        </p>
+        <p><strong>Inspections, reports, and training are not the finish line.</strong> SAG connects approved requirements to field-ready controls, tracks findings through verified closure, and organizes traceable evidence for owner and prime decision-making.</p>
+        <p><strong>Support environments:</strong> Government and public infrastructure; Construction and critical infrastructure; Ports and marine terminals; Shipyards and vessel operations; Industrial and process operations.</p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="core-capabilities-title">
+      <SectionHeader badge="Core Capabilities" id="core-capabilities-title" title="Practical support tied to requirements, controls, and evidence." />
+      <div class="capability-grid">
+        {capabilities.map(([code, title, description]) => (
+          <Card class="capability-card">
+            <span class="capability-code">{code}</span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="cycle-title">
+      <SectionHeader badge="Delivery Cycle" id="cycle-title" title="Requirement-to-evidence delivery cycle." />
+      <ol class="cycle-grid">
+        {deliveryCycle.map(([step, title, detail]) => (
+          <li>
+            <span class="cycle-number">{step}</span>
+            <strong>{title}</strong>
+            <span>{detail}</span>
+          </li>
+        ))}
+      </ol>
+      <p class="cycle-summary">The paperwork is connected to the work, the finding to the fix, and the fix to evidence that can withstand review.</p>
+    </Section>
+
+    <Section ariaLabelledby="experience-title">
+      <SectionHeader badge="Relevant Experience Base" id="experience-title" title="Selected individual prior-employer experience." />
+      <Card>
+        <p>
+          Selected personnel bring individual prior-employer experience in Port of Portland owner-representative safety;
+          PDX Terminal Core Redevelopment safety leadership; regional crane and rigging operations; Microsoft and Google
+          data-center construction; Boeing 777 work; Intel semiconductor construction; and Washington bridge, trestle,
+          pile-driving, over-water, welding, and hot-work assignments.
+        </p>
+        <p><strong>Boundary:</strong> These are individual prior-employer projects, not SAG corporate past performance. Availability, credentials, permission, and assignment fit are verified for each engagement.</p>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="differentiators-title">
+      <SectionHeader badge="What Sets SAG Apart" id="differentiators-title" title="Disciplined delivery without overstating authority." />
+      <div class="grid-two">
+        {differentiators.map((item) => <Card><p>{item}</p></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="corporate-data-title">
+      <SectionHeader badge="Corporate Data" id="corporate-data-title" title="Company identifiers published in the August 2026 capabilities statement." />
+      <div class="data-grid">
+        <Card><dl><dt>Legal Name</dt><dd>Safety Assurance Global LLC</dd><dt>UEI</dt><dd>RCUUJLWEBGD4</dd><dt>CAGE</dt><dd>16NM4</dd><dt>Status</dt><dd>SBA VetCert: SDVOSB and VOSB</dd><dt>First Renewal</dt><dd>02/09/2029</dd><dt>Primary NAICS</dt><dd>541611</dd></dl></Card>
+        <Card><dl><dt>Selected NAICS</dt><dd>541612, 541620, 541690, 541990, 561210, 611430</dd><dt>Selected PSC</dt><dd>R408, R425, R499, H999, U008</dd><dt>Business Base</dt><dd>Oregon</dd></dl></Card>
+      </div>
+      <p class="data-note">These identifiers are reproduced from the dated capabilities statement supplied for this page. Publication does not imply agency endorsement, contract award, or universal qualification for every scope.</p>
+    </Section>
+
+    <Section ariaLabelledby="contacts-title">
+      <SectionHeader badge="Points of Contact" id="contacts-title" title="Start with the person closest to your need." />
+      <div class="grid-two">
+        <Card><h3>Daniel Owens</h3><p>COO / Director of Technical Operations</p><p><a href="tel:+19716103847">(971) 610-3847</a><br /><a href="mailto:danielowens@safetyassuranceglobal.com">danielowens@safetyassuranceglobal.com</a></p></Card>
+        <Card><h3>Andrew Mustain</h3><p>CEO / Owner</p><p><a href="tel:+19716128309">(971) 612-8309</a><br /><a href="mailto:andrewmustain@safetyassuranceglobal.com">andrewmustain@safetyassuranceglobal.com</a></p></Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="boundary-title">
+      <SectionHeader badge="Delivery Boundary" id="boundary-title" title="Every engagement is scoped and qualified before commitment." />
+      <Card>
+        <p>
+          This is a general capabilities statement, not a contract award, agency endorsement, active-solicitation response,
+          or unconditional personnel commitment. Scope, staffing, credentials, availability, insurance, partner support,
+          schedule, and pricing are confirmed for each engagement.
+        </p>
+        <p>
+          Credential-controlled services, including engineering, industrial hygiene, medical, and specialized environmental work,
+          are proposed only when qualified personnel or approved partners are verified.
+        </p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .capabilities-page{display:grid;gap:clamp(1.4rem,3vw,2.5rem)}
+  .capabilities-hero{padding:clamp(2rem,5vw,4.5rem);border:1px solid rgba(202,164,79,.45);border-radius:var(--radius-xl);background:radial-gradient(circle at 85% 20%,rgba(39,128,137,.18),transparent 30%),linear-gradient(135deg,rgba(6,20,38,.99),rgba(9,35,59,.97));box-shadow:var(--shadow-panel)}
+  .eyebrow{margin:1rem 0 .5rem;color:var(--color-accent);font-size:.82rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+  .capabilities-hero h1{max-width:14ch;margin:.3rem 0 1rem;font-size:clamp(2.4rem,6vw,5rem);line-height:1;letter-spacing:-.04em}
+  .lede{max-width:850px;font-size:clamp(1.05rem,1.6vw,1.25rem);line-height:1.7}
+  .capability-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.capability-card{position:relative;padding-left:4.6rem}.capability-code{position:absolute;left:1.3rem;top:1.3rem;display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:.5rem;background:var(--color-surface-strong);color:var(--color-accent);font-weight:800;font-size:.8rem}.cycle-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.7rem;margin:0;padding:0;list-style:none}.cycle-grid li{display:grid;gap:.45rem;align-content:start;padding:1rem;border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-md);background:rgba(255,255,255,.025)}.cycle-number{color:var(--color-accent);font-weight:850;letter-spacing:.08em}.cycle-grid li span:last-child,.data-note{color:var(--color-text-soft);font-size:.9rem}.cycle-summary{margin-top:1rem;font-weight:700}.data-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}dl{display:grid;grid-template-columns:minmax(120px,.65fr) minmax(0,1.35fr);gap:.65rem 1rem;margin:0}dt{color:var(--color-text-soft);font-weight:700}dd{margin:0;font-weight:700}.data-note{max-width:900px;margin-top:1rem}@media(max-width:900px){.cycle-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.capability-grid,.data-grid,.cycle-grid{grid-template-columns:1fr}.capability-card{padding-left:1.3rem;padding-top:4.4rem}.capability-code{left:1.3rem;top:1.2rem}dl{grid-template-columns:1fr}dd{margin-bottom:.4rem}}
+</style>
