@@ -18,7 +18,8 @@
     "blog:status": "node scripts/blog-status.mjs",
     "blog:import": "node scripts/blog-import.mjs",
     "validate:links": "node scripts/validate-dist-links.mjs",
-    "validate:structured-data": "node scripts/validate-structured-data.mjs"
+    "validate:structured-data": "node scripts/validate-structured-data.mjs",
+    "validate:head": "node scripts/validate-head-metadata.mjs"
   },
   "repository": {
     "type": "git",
