@@ -60,7 +60,7 @@
     if (!response.ok || !result || result.ok !== true) {
       const message = result && typeof result.message === 'string'
         ? result.message
-        : 'Spam protection configuration could not be verified.';
+        : 'Inquiry service configuration could not be verified.';
       throw new Error(message);
     }
 
@@ -131,10 +131,36 @@
     const status = form.querySelector('[data-form-status]');
     const submitButton = form.querySelector('button[type="submit"]');
 
+    if (submitButton instanceof HTMLButtonElement) {
+      submitButton.disabled = true;
+    }
+    form.dataset.deliveryConfigured = 'unknown';
+
     runtimeConfigPromise
-      .then((config) => initializeTurnstile(form, status, config))
+      .then((config) => {
+        const deliveryConfigured = Boolean(config && config.delivery && config.delivery.configured === true);
+        form.dataset.deliveryConfigured = String(deliveryConfigured);
+
+        if (!deliveryConfigured) {
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = true;
+          }
+          setStatus(
+            status,
+            'Online inquiry delivery is temporarily unavailable. Please email contact@safetyassuranceglobal.com.',
+            'error'
+          );
+          return;
+        }
+
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+        }
+        return initializeTurnstile(form, status, config);
+      })
       .catch((error) => {
         form.dataset.turnstileEnabled = 'unknown';
+        form.dataset.deliveryConfigured = 'unknown';
         if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = true;
         }
@@ -142,13 +168,18 @@
           status,
           error instanceof Error
             ? `${error.message} Please email contact@safetyassuranceglobal.com.`
-            : 'Spam protection is unavailable. Please email contact@safetyassuranceglobal.com.',
+            : 'Inquiry service is unavailable. Please email contact@safetyassuranceglobal.com.',
           'error'
         );
       });
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      if (form.dataset.deliveryConfigured !== 'true') {
+        setStatus(status, 'Online inquiry delivery is unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
+        return;
+      }
 
       if (!form.checkValidity()) {
         setStatus(status, 'Please complete the required fields before continuing.', 'error');
@@ -206,7 +237,11 @@
       } catch (_error) {
         setStatus(status, 'Submission is currently unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
       } finally {
-        if (submitButton instanceof HTMLButtonElement && form.dataset.turnstileEnabled !== 'unknown') {
+        if (
+          submitButton instanceof HTMLButtonElement &&
+          form.dataset.turnstileEnabled !== 'unknown' &&
+          form.dataset.deliveryConfigured === 'true'
+        ) {
           submitButton.disabled = false;
         }
       }
