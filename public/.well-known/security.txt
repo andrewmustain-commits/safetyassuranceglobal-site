@@ -1,0 +1,4 @@
+Contact: mailto:andrewmustain@safetyassuranceglobal.com
+Expires: 2027-08-29T23:59:59Z
+Canonical: https://safetyassuranceglobal.com/.well-known/security.txt
+Preferred-Languages: en
