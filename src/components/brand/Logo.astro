@@ -52,39 +52,101 @@ const linkClass = className ? `sag-logo-link ${className}` : 'sag-logo-link';
 <style>
   .sag-brand-lockup {
     display: inline-grid;
-    gap: 0.12rem;
+    gap: 0.2rem;
     justify-items: start;
+    min-width: 0;
   }
 
   .sag-logo-link {
     display: inline-flex;
     align-items: center;
+    max-width: 100%;
     text-decoration: none;
   }
 
   .sag-logo-image {
     display: block;
     width: auto;
-    max-width: 100%;
-    height: clamp(2.2rem, 4.4vw, 3rem);
+    max-width: min(22rem, 42vw);
+    height: clamp(2.75rem, 4.8vw, 3.65rem);
   }
 
   .sag-logo-image.is-icon {
-    height: clamp(1.8rem, 3.6vw, 2.35rem);
+    height: clamp(2rem, 3.8vw, 2.6rem);
   }
 
   .mandavere-tag {
-    padding-left: 0.18rem;
-    color: #94a3b8;
-    font-size: 0.56rem;
-    font-weight: 750;
-    letter-spacing: 0.12em;
+    padding-left: 0.2rem;
+    color: #aebbd0;
+    font-size: 0.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
   }
 
-  @media (max-width: 520px) {
+  @media (max-width: 920px) {
+    .sag-brand-lockup {
+      gap: 0.1rem;
+    }
+
+    .sag-logo-image {
+      max-width: min(19rem, 68vw);
+      height: clamp(2.7rem, 8vw, 3.35rem);
+    }
+
     .mandavere-tag {
-      font-size: 0.5rem;
+      padding-left: 0.1rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.11em;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .sag-logo-image {
+      max-width: min(15.75rem, 67vw);
+      height: 2.75rem;
+    }
+
+    .mandavere-tag {
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+    }
+  }
+</style>
+
+<style is:global>
+  @media (max-width: 920px) {
+    .site-header .header-inner {
+      min-height: 5.25rem;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.8rem;
+      padding: 0.68rem 0;
+    }
+
+    .site-header .nav-toggle {
+      min-width: auto;
+      min-height: 2.7rem;
+      padding: 0.52rem 0.82rem;
+      border-radius: 0.72rem;
+      font-size: 0.82rem;
+      line-height: 1;
+      letter-spacing: 0.015em;
+      box-shadow: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .site-header .header-inner {
+      min-height: 4.8rem;
+      gap: 0.55rem;
+      padding: 0.55rem 0;
+    }
+
+    .site-header .nav-toggle {
+      min-height: 2.45rem;
+      padding: 0.45rem 0.68rem;
+      font-size: 0.76rem;
     }
   }
 </style>
