@@ -7,9 +7,14 @@ const svgAssets = [
   'public/images/brand/sag-logo-dark.svg',
   'public/images/brand/sag-logo-white.svg',
   'public/images/brand/sag-icon.svg',
+  'public/images/brand/sag-official-seal-2026.svg',
+  'public/images/brand/maritime-hero-v20.svg',
   'public/images/brand/institute-crest.svg'
 ];
-const rasterAssets = ['public/images/brand/image.png'];
+const jpegAssets = [
+  'public/images/brand/sag-official-seal-2026.jpeg',
+  'public/images/brand/sag-maritime-hero-2026.jpeg'
+];
 const failures = [];
 
 for (const relativePath of svgAssets) {
@@ -24,23 +29,29 @@ for (const relativePath of svgAssets) {
   if (/<image\b[^>]+(?:https?:)?\/\//i.test(source)) failures.push(`${relativePath}: contains an external raster/image dependency`);
 }
 
-for (const relativePath of rasterAssets) {
+for (const relativePath of jpegAssets) {
   const filePath = path.join(root, relativePath);
   if (!fs.existsSync(filePath)) {
-    failures.push(`missing required raster brand asset: ${relativePath}`);
+    failures.push(`missing required JPEG brand asset: ${relativePath}`);
     continue;
   }
   const data = fs.readFileSync(filePath);
-  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
   if (data.length < 1024) failures.push(`${relativePath}: suspiciously small production raster asset`);
-  if (!data.subarray(0, 8).equals(pngSignature)) failures.push(`${relativePath}: not a valid PNG signature`);
+  if (!(data[0] === 0xff && data[1] === 0xd8 && data[data.length - 2] === 0xff && data[data.length - 1] === 0xd9)) {
+    failures.push(`${relativePath}: not a valid JPEG signature`);
+  }
 }
 
 const configPath = path.join(root, 'src', 'config', 'brand-assets.ts');
 const config = fs.existsSync(configPath) ? fs.readFileSync(configPath, 'utf8') : '';
-for (const expected of ['/images/brand/image.png', '/images/brand/institute-crest.svg']) {
+for (const expected of ['/images/brand/sag-official-seal-2026.svg', '/images/brand/institute-crest.svg']) {
   if (!config.includes(expected)) failures.push(`brand asset registry does not reference ${expected}`);
 }
+
+const sealWrapper = fs.readFileSync(path.join(root, 'public', 'images', 'brand', 'sag-official-seal-2026.svg'), 'utf8');
+if (!sealWrapper.includes('/images/brand/sag-official-seal-2026.jpeg')) failures.push('approved SAG seal wrapper does not reference the approved seal JPEG');
+const heroWrapper = fs.readFileSync(path.join(root, 'public', 'images', 'brand', 'maritime-hero-v20.svg'), 'utf8');
+if (!heroWrapper.includes('/images/brand/sag-maritime-hero-2026.jpeg')) failures.push('homepage maritime wrapper does not reference the approved hero JPEG');
 
 const logoPath = path.join(root, 'src', 'components', 'brand', 'Logo.astro');
 const logoComponent = fs.readFileSync(logoPath, 'utf8');
@@ -76,4 +87,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${rasterAssets.length} production raster asset, footer-only VetCert controls, and attribution controls verified.`);
+console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${jpegAssets.length} approved JPEG masters, footer-only VetCert controls, and attribution controls verified.`);
