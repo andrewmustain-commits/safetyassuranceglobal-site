@@ -1,16 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
-  <title id="title">Safety Assurance Global icon</title>
-  <desc id="desc">Shield and compass icon</desc>
-  <defs>
-    <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0E6670"/>
-      <stop offset="1" stop-color="#12344B"/>
-    </linearGradient>
-  </defs>
-  <rect width="160" height="160" rx="28" fill="#071728"/>
-  <path d="M80 16 134 36v38c0 34-21 58-54 74-33-16-54-40-54-74V36L80 16Z" fill="url(#shield)" stroke="#CAA44F" stroke-width="4"/>
-  <path d="M80 39v78M49 78h62" stroke="#F4E7BE" stroke-width="4" opacity=".9"/>
-  <circle cx="80" cy="78" r="29" fill="none" stroke="#F4E7BE" stroke-width="4"/>
-  <path d="m80 50 10 28-10 28-10-28 10-28Z" fill="#CAA44F"/>
-  <path d="M62 118h36" stroke="#F4E7BE" stroke-width="5" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc"><title id="title">Safety Assurance Global LLC seal</title><desc id="desc">Navy and gold circular Safety Assurance Global seal.</desc><defs><linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06182a"/><stop offset="1" stop-color="#0b2b47"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4d37b"/><stop offset=".5" stop-color="#c89531"/><stop offset="1" stop-color="#8d5b18"/></linearGradient><path id="topArc" d="M105 300A195 195 0 0 1 495 300"/></defs><circle cx="300" cy="300" r="286" fill="#041424" stroke="url(#gold)" stroke-width="14"/><circle cx="300" cy="300" r="268" fill="none" stroke="#f0c865" stroke-width="5" stroke-dasharray="13 7"/><circle cx="300" cy="300" r="246" fill="url(#navy)" stroke="#c89531" stroke-width="5"/><text fill="#f0c865" font-family="Georgia,serif" font-size="31" font-weight="700" letter-spacing="4"><textPath href="#topArc" startOffset="50%" text-anchor="middle">SAFETY ASSURANCE GLOBAL</textPath></text><g fill="none" stroke="#d8b35a" opacity=".7" stroke-width="2"><circle cx="300" cy="285" r="104"/><ellipse cx="300" cy="285" rx="104" ry="42"/><ellipse cx="300" cy="285" rx="48" ry="104"/><path d="M196 285h208M300 181v208"/></g><path d="M300 155 415 202v122c0 90-47 142-115 174-68-32-115-84-115-174V202z" fill="#08223a" stroke="url(#gold)" stroke-width="10"/><path d="M300 203 324 268 390 286 324 304 300 370 276 304 210 286 276 268z" fill="url(#gold)" stroke="#f5dd9a" stroke-width="3"/><circle cx="300" cy="286" r="34" fill="#07192a" stroke="#e3bd61" stroke-width="6"/><text x="300" y="302" text-anchor="middle" fill="#f4d37b" font-family="Georgia,serif" font-size="52" font-weight="700">S</text><g fill="none" stroke="#d7b25c" stroke-width="4" stroke-linecap="round"><path d="M237 368q24 18 63 0 39 18 63 0M235 382q26 18 65 0 39 18 65 0M242 396q22 14 58 0 36 14 58 0"/></g><path d="M124 444q176 50 352 0l-17 63q-159 37-318 0z" fill="url(#gold)" stroke="#f2d17c" stroke-width="4"/><text x="300" y="485" text-anchor="middle" fill="#07192a" font-family="Georgia,serif" font-size="23" font-weight="700" letter-spacing="2">SCIENTIA PER ASSURANTIAM</text><text x="300" y="568" text-anchor="middle" fill="#f0c865" font-family="Georgia,serif" font-size="32" font-weight="700" letter-spacing="12">LLC</text></svg>
