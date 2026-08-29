@@ -37,6 +37,9 @@ jobs:
       - name: Validate blog frontmatter governance
         run: npm run blog:validate
 
+      - name: Validate brand assets
+        run: npm run validate:brand-assets
+
       - name: Static Astro diagnostics
         run: npm run check
 
