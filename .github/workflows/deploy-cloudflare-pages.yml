@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy OpenNext to Cloudflare Workers
 
 on:
   push:
@@ -10,14 +10,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: cloudflare-pages-production
+  group: sag-institute-production
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -25,23 +24,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
-          cache: npm
+          node-version: '22.12.0'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
-      - name: Validate blog frontmatter governance
-        run: npm run blog:validate
-
-      - name: Build site
+      - name: Build Next.js application
         run: npm run build
-      - name: Validate generated links
-        run: npm run validate:links
 
-      - name: Deploy production build to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=safetyassuranceglobal --branch=main
+      - name: Deploy OpenNext Worker
+        run: npm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -12,7 +12,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,14 +19,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: npm
+          node-version: '22.12.0'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
-      - name: Validate blog frontmatter governance
-        run: npm run blog:validate
-
-      - name: Build Astro site
+      - name: Build Next.js application
         run: npm run build
+
+      - name: Build Cloudflare OpenNext bundle
+        run: npm run build:cf
