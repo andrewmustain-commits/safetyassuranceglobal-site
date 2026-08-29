@@ -6,107 +6,41 @@ import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
-import HeroSection from '../components/ui/HeroSection.astro';
+import GovernedValueChain from '../components/institute/GovernedValueChain.astro';
 
 const focusAreas = [
-  {
-    title: 'Assurance Foundations',
-    detail: 'Learning designed to strengthen evidence-based thinking, control verification, risk awareness, and operational decision-making.'
-  },
-  {
-    title: 'Workforce Readiness',
-    detail: 'Role-aware development aligned to operational responsibilities, field conditions, and organization-specific readiness needs.'
-  },
-  {
-    title: 'Sector Learning',
-    detail: 'Programs organized around maritime, construction, critical infrastructure, occupational safety, quality, leadership, and related assurance disciplines.'
-  }
+  { title: 'Assurance Foundations', detail: 'Learning designed to strengthen evidence-based thinking, control verification, risk awareness, and operational decision-making.' },
+  { title: 'Workforce Readiness', detail: 'Role-aware development aligned to operational responsibilities, field conditions, and organization-specific readiness needs.' },
+  { title: 'Sector Learning', detail: 'Programs organized around maritime, construction, critical infrastructure, occupational safety, quality, leadership, and related assurance disciplines.' }
 ];
 ---
-
-<BaseLayout
-  title="Institute of Assurance"
-  description="The Safety Assurance Global Institute of Assurance is SAG's governed learning and workforce-development division, supporting assurance, readiness, safety, quality, risk, and professional development."
->
-  <Container>
-    <HeroSection
-      id="institute-title"
-      badge="Institute of Assurance"
-      title="Governed learning for assurance, readiness, and high-consequence work."
-    >
-      <p>
-        The Safety Assurance Global Institute of Assurance is the governed learning and workforce-development division
-        of Safety Assurance Global. It connects professional development with the same evidence-first principles used
-        across SAG assurance, safety, risk, QA/QC, and operational-readiness work.
-      </p>
-      <div class="ui-actions">
-        <Button href="/training">Explore Training</Button>
-        <Button href="/contact" variant="secondary">Discuss Workforce Needs</Button>
+<BaseLayout title="Institute of Assurance" description="The Safety Assurance Global Institute of Assurance is SAG's governed learning and workforce-development division, supporting assurance, readiness, safety, quality, risk, and professional development.">
+  <Container class="institute-shell">
+    <section class="institute-hero" aria-labelledby="institute-title">
+      <div class="institute-copy">
+        <p class="institute-eyebrow">SAG Institute of Assurance</p>
+        <h1 id="institute-title">Governed learning for assurance, readiness, and high-consequence work.</h1>
+        <p class="institute-lede">The Safety Assurance Global Institute of Assurance is the governed learning and workforce-development division of Safety Assurance Global. It connects professional development with the same evidence-first principles used across SAG assurance, safety, risk, QA/QC, and operational-readiness work.</p>
+        <div class="ui-actions"><Button href="/training">Explore Training</Button><Button href="/contact" variant="secondary">Discuss Workforce Needs</Button></div>
       </div>
-    </HeroSection>
+      <aside class="institute-crest" aria-label="Institute of Assurance identity">
+        <div class="crest-halo"></div>
+        <img src="/images/brand/sag-icon.svg?v=20260727-2" alt="Safety Assurance Global Institute of Assurance crest" width="320" height="320" />
+        <p>Governed by evidence. Separated by control gates. Built for operational readiness.</p>
+      </aside>
+    </section>
 
-    <Section ariaLabelledby="institute-purpose-title">
-      <SectionHeader
-        badge="Purpose"
-        id="institute-purpose-title"
-        title="Build capability without separating learning from operational reality."
-      />
-      <Card>
-        <p>
-          Institute programs are intended to support organizations and professionals who need stronger assurance
-          judgment, safer execution, better quality controls, and clearer readiness evidence. Public offerings are
-          presented only when their delivery status and applicable prerequisites are confirmed.
-        </p>
-      </Card>
-    </Section>
+    <Section ariaLabelledby="institute-purpose-title"><SectionHeader badge="Purpose" id="institute-purpose-title" title="Build capability without separating learning from operational reality." /><Card><p>Institute programs are intended to support organizations and professionals who need stronger assurance judgment, safer execution, better quality controls, and clearer readiness evidence. Public offerings are presented only when their delivery status and applicable prerequisites are confirmed.</p></Card></Section>
 
-    <Section ariaLabelledby="institute-focus-title">
-      <SectionHeader
-        badge="Learning Focus"
-        id="institute-focus-title"
-        title="A workforce-development system centered on assurance."
-      />
-      <div class="grid-three">
-        {focusAreas.map((area) => (
-          <Card>
-            <h3>{area.title}</h3>
-            <p>{area.detail}</p>
-          </Card>
-        ))}
-      </div>
-    </Section>
+    <GovernedValueChain />
 
-    <Section ariaLabelledby="institute-relationship-title">
-      <SectionHeader
-        badge="SAG Relationship"
-        id="institute-relationship-title"
-        title="Learning is governed as part of the broader SAG assurance mission."
-      />
-      <div class="grid-two">
-        <Card>
-          <h3>Assurance informs learning</h3>
-          <p>Training priorities can be shaped by verified control gaps, role requirements, readiness findings, and operating context.</p>
-        </Card>
-        <Card>
-          <h3>Learning supports readiness</h3>
-          <p>Programs are structured to reinforce practical performance, decision quality, accountability, and sustained operational improvement.</p>
-        </Card>
-      </div>
-    </Section>
+    <Section ariaLabelledby="institute-focus-title"><SectionHeader badge="Learning Focus" id="institute-focus-title" title="A workforce-development system centered on assurance." /><div class="grid-three">{focusAreas.map((area) => <Card><span class="focus-mark" aria-hidden="true">◆</span><h3>{area.title}</h3><p>{area.detail}</p></Card>)}</div></Section>
 
-    <Section ariaLabelledby="institute-boundary-title">
-      <SectionHeader
-        badge="Governance Boundary"
-        id="institute-boundary-title"
-        title="Public status is intentionally controlled."
-      />
-      <NoticePanel tone="warning" title="Program and Credential Status">
-        <p>
-          This public page does not represent every Institute program as open for enrollment and does not claim external
-          accreditation, licensure, regulatory approval, or automatic credential issuance. Availability, delivery status,
-          assessment requirements, and any credential decision are confirmed through the applicable governed process.
-        </p>
-      </NoticePanel>
-    </Section>
+    <Section ariaLabelledby="institute-relationship-title"><SectionHeader badge="SAG Relationship" id="institute-relationship-title" title="Learning is governed as part of the broader SAG assurance mission." /><div class="grid-two"><Card><h3>Assurance informs learning</h3><p>Training priorities can be shaped by verified control gaps, role requirements, readiness findings, and operating context.</p></Card><Card><h3>Learning supports readiness</h3><p>Programs are structured to reinforce practical performance, decision quality, accountability, and sustained operational improvement.</p></Card></div></Section>
+
+    <Section ariaLabelledby="institute-boundary-title"><SectionHeader badge="Governance Boundary" id="institute-boundary-title" title="Public status is intentionally controlled." /><NoticePanel tone="warning" title="Program and Credential Status"><p>This public page does not represent every Institute program as open for enrollment and does not claim external accreditation, licensure, regulatory approval, or automatic credential issuance. Availability, delivery status, assessment requirements, and any credential decision are confirmed through the applicable governed process.</p></NoticePanel></Section>
   </Container>
 </BaseLayout>
+<style>
+.institute-shell{display:grid;gap:clamp(1.5rem,3vw,2.5rem);padding-top:1rem}.institute-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:clamp(1.5rem,5vw,5rem);align-items:center;overflow:hidden;padding:clamp(2rem,6vw,5rem);border:1px solid rgba(59,130,246,.3);border-radius:1.25rem;background:radial-gradient(circle at 80% 35%,rgba(37,99,235,.2),transparent 28%),linear-gradient(130deg,#09121f,#0f172a 60%,#101d31);box-shadow:0 26px 60px rgba(0,0,0,.3)}.institute-hero:before{content:'';position:absolute;inset:0;opacity:.17;pointer-events:none;background-image:radial-gradient(rgba(148,163,184,.7) .7px,transparent .7px);background-size:20px 20px;mask-image:linear-gradient(to right,black,transparent 85%)}.institute-copy,.institute-crest{position:relative;z-index:1}.institute-eyebrow{margin:0 0 .7rem;color:#f59e0b;font-size:.78rem;font-weight:850;letter-spacing:.18em;text-transform:uppercase}.institute-copy h1{max-width:14ch;font-size:clamp(2.5rem,5.7vw,5rem);line-height:1;letter-spacing:-.04em}.institute-lede{max-width:760px;color:#cbd5e1;font-size:clamp(1.03rem,1.7vw,1.2rem)}.institute-crest{display:grid;place-items:center;text-align:center}.institute-crest img{position:relative;z-index:1;width:min(100%,300px);height:auto;filter:drop-shadow(0 24px 38px rgba(0,0,0,.42))}.institute-crest p{max-width:30ch;margin-top:1.2rem;color:#94a3b8;font-size:.86rem}.crest-halo{position:absolute;width:min(95%,350px);aspect-ratio:1;border:1px solid rgba(245,158,11,.22);border-radius:50%;box-shadow:inset 0 0 75px rgba(37,99,235,.14),0 0 90px rgba(37,99,235,.12)}.focus-mark{display:block;margin-bottom:.8rem;color:#60a5fa;font-size:.72rem}@media(max-width:850px){.institute-hero{grid-template-columns:1fr}.institute-crest{display:none}}@media(max-width:600px){.institute-hero{padding:1.5rem}.institute-copy h1{font-size:clamp(2.35rem,12vw,4rem)}}
+</style>
