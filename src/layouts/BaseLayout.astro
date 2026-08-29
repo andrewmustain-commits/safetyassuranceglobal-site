@@ -25,6 +25,7 @@ const navigation = [
   { href: '/', label: 'Home' },
   { href: '/maritime', label: 'Maritime' },
   { href: '/services', label: 'Services' },
+  { href: '/institute', label: 'Institute' },
   { href: '/training', label: 'Training' },
   { href: '/industries', label: 'Industries' },
   { href: '/government', label: 'Government' },
@@ -42,6 +43,8 @@ const breadcrumbLabelMap: Record<string, string> = {
   about: 'About',
   maritime: 'Maritime',
   services: 'Services',
+  institute: 'Institute of Assurance',
+  academy: 'Institute of Assurance',
   industries: 'Industries',
   government: 'Government',
   method: 'Method',
@@ -83,7 +86,12 @@ const organizationStructuredData = {
   '@type': 'Organization',
   name: 'Safety Assurance Global',
   url: 'https://safetyassuranceglobal.com',
-  logo: logoUrl
+  logo: logoUrl,
+  department: {
+    '@type': 'Organization',
+    name: 'Safety Assurance Global Institute of Assurance',
+    url: 'https://safetyassuranceglobal.com/institute'
+  }
 };
 ---
 
@@ -175,8 +183,9 @@ const organizationStructuredData = {
           <h2 id="footer-company-title" class="visually-hidden">Safety Assurance Global LLC</h2>
           <Logo className="footer-logo-link" imageClassName="footer-logo" loading="lazy" />
           <p>
-            Safety Assurance Global LLC is a maritime and critical-infrastructure consulting, operational-readiness,
-            safety, risk-management, QA/QC, compliance, and independent-assurance company that also provides workforce training.
+            Safety Assurance Global LLC provides independent assurance, operational-readiness, safety, risk, QA/QC,
+            contractor-assurance, and compliance-readiness support, with governed learning and workforce development
+            delivered through the Institute of Assurance.
           </p>
           <div class="footer-company-actions">
             <a class="ui-button ui-button-primary" href="/contact">Request a Consultation</a>
@@ -190,6 +199,7 @@ const organizationStructuredData = {
               <li><a href="/">Home</a></li>
               <li><a href="/maritime">Maritime</a></li>
               <li><a href="/services">Services</a></li>
+              <li><a href="/institute">Institute of Assurance</a></li>
               <li><a href="/training">Training</a></li>
               <li><a href="/industries">Industries</a></li>
             </ul>
