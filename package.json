@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/andrewmustain-commits/safetyassuranceglobal-site#readme",
   "allowScripts": {
-    "esbuild@0.28.1": true
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
