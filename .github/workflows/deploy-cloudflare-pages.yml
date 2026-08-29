@@ -47,8 +47,11 @@ jobs:
         run: npm run validate:links
 
       - name: Deploy production build to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
+        env:
+          NPM_CONFIG_STRICT_ALLOW_SCRIPTS: 'false'
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.127.1'
           command: pages deploy dist --project-name=safetyassuranceglobal --branch=main
