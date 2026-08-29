@@ -1,42 +1,35 @@
 {
-  "name": "safetyassuranceglobal-site",
-  "version": "1.0.0",
+  "name": "sag-institute-cloudflare",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
   },
-  "license": "UNLICENSED",
-  "description": "Public website and governed blog for Safety Assurance Global.",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "astro check",
-    "blog:validate": "node scripts/blog-validate.mjs",
-    "blog:claims": "node scripts/blog-claims.mjs",
-    "blog:status": "node scripts/blog-status.mjs",
-    "blog:import": "node scripts/blog-import.mjs",
-    "validate:links": "node scripts/validate-dist-links.mjs"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/andrewmustain-commits/safetyassuranceglobal-site.git"
-  },
-  "keywords": [],
-  "author": "",
-  "bugs": {
-    "url": "https://github.com/andrewmustain-commits/safetyassuranceglobal-site/issues"
-  },
-  "homepage": "https://github.com/andrewmustain-commits/safetyassuranceglobal-site#readme",
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.0.4",
-    "gray-matter": "^4.0.3"
+    "@opennextjs/cloudflare": "^1.11.0",
+    "lucide-react": "^0.468.0",
+    "next": "^15.5.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
-    "@types/node": "^24.0.7",
-    "typescript": "^5.9.3"
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.30.0"
   }
 }
