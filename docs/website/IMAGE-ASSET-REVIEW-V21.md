@@ -1,7 +1,9 @@
-# Public Website v21 — Image Asset Review
+# Public Website v21 — Official SAG Seal Asset
 
-PR #45 is an asset-review intake only. The approved public brand master is promoted from the uploaded `image.png` file to `/public/images/brand/sag-official-seal.png`.
+PR #45 promotes the exact uploaded `public/images/brand/image.png` as the production-visible Safety Assurance Global seal used by the centralized brand component.
 
-The following uploaded files are intentionally not approved for production publication in this change: temporary Copilot image filenames, the opaque `dWdbspmnhoC.jpg` file, and both Service-Disabled Veteran-Owned badge files. Badge artwork must be separately verified before public use.
+The upload intake also contained temporary Copilot image filenames, an opaque JPG, and two Service-Disabled Veteran-Owned badge files. Those files were removed from the PR and are not approved for public production use in this change. Badge artwork must be separately verified before publication.
 
-The official SAG seal is used as the visible SAG brand mark. Existing vector fallbacks remain only where required for resilient rendering and favicon behavior.
+The production brand validator now checks the exact uploaded PNG for existence, minimum production size, and the PNG file signature. Existing SVG assets remain as supporting/fallback brand assets and the browser icon.
+
+No form schema, Turnstile controls, public-claims controls, sitemap/publication gates, structured-data architecture, or Cloudflare deployment architecture are changed by this release.
