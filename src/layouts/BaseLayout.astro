@@ -85,17 +85,69 @@ const canonicalPath = normalizedPath || '/';
 const canonicalUrl = canonical ? new URL(canonical, Astro.url.origin).href : new URL(canonicalPath, Astro.url.origin).href;
 const ogImage = new URL(image, Astro.url.origin).href;
 const logoUrl = new URL('/images/brand/sag-logo.svg', Astro.url.origin).href;
+const siteUrl = 'https://safetyassuranceglobal.com';
+
 const organizationStructuredData = {
-  '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
   name: 'Safety Assurance Global',
-  url: 'https://safetyassuranceglobal.com',
-  logo: logoUrl,
+  legalName: 'Safety Assurance Global LLC',
+  url: siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: logoUrl
+  },
+  identifier: [
+    { '@type': 'PropertyValue', name: 'UEI', value: 'RCUUJLWEBGD4' },
+    { '@type': 'PropertyValue', name: 'CAGE', value: '16NM4' }
+  ],
+  naics: '541611',
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'Oregon',
+    addressCountry: 'US'
+  },
   department: {
     '@type': 'Organization',
+    '@id': `${siteUrl}/institute#organization`,
     name: 'Safety Assurance Global Institute of Assurance',
-    url: 'https://safetyassuranceglobal.com/institute'
+    url: `${siteUrl}/institute`
   }
+};
+
+const websiteStructuredData = {
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  name: 'Safety Assurance Global',
+  url: siteUrl,
+  publisher: { '@id': `${siteUrl}/#organization` },
+  inLanguage: 'en-US'
+};
+
+const breadcrumbStructuredData = !isHome
+  ? {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonicalUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `${siteUrl}/`
+        },
+        ...breadcrumbs.map((crumb, index) => ({
+          '@type': 'ListItem',
+          position: index + 2,
+          name: crumb.label,
+          item: new URL(crumb.href, Astro.url.origin).href
+        }))
+      ]
+    }
+  : null;
+
+const structuredDataGraph = {
+  '@context': 'https://schema.org',
+  '@graph': [organizationStructuredData, websiteStructuredData, ...(breadcrumbStructuredData ? [breadcrumbStructuredData] : [])]
 };
 ---
 
@@ -125,7 +177,7 @@ const organizationStructuredData = {
     <meta name="twitter:title" content={`${title} | Safety Assurance Global`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationStructuredData)}></script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredDataGraph)}></script>
 
     <meta name="generator" content={Astro.generator} />
     <title>{title} | Safety Assurance Global</title>
