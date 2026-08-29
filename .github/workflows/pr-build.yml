@@ -35,3 +35,6 @@ jobs:
 
       - name: Validate generated links
         run: npm run validate:links
+
+      - name: Validate structured data
+        run: npm run validate:structured-data
