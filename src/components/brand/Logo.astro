@@ -24,11 +24,12 @@ const {
 } = Astro.props;
 
 const isIcon = variant === 'icon';
+const isFooter = className.split(/\s+/).includes('footer-logo-link');
 const sealClass = imageClassName ? `sag-seal-image ${imageClassName}` : 'sag-seal-image';
 const linkClass = className ? `sag-logo-link ${className}` : 'sag-logo-link';
 ---
 
-<div class:list={['sag-brand-lockup', { 'is-icon': isIcon }] }>
+<div class:list={['sag-brand-lockup', { 'is-icon': isIcon, 'is-footer': isFooter }] }>
   <a href={href} class={linkClass} aria-label="Safety Assurance Global home">
     <img class={sealClass} src={brandAssets.sagSeal} alt={alt} loading={loading} decoding={decoding} />
     {!isIcon && (
@@ -39,6 +40,12 @@ const linkClass = className ? `sag-logo-link ${className}` : 'sag-logo-link';
       </span>
     )}
   </a>
+  {isFooter && (
+    <div class="vetcert-footer" aria-label="SBA VetCert business status">
+      <span class="vetcert-mark"><strong>SDVOSB</strong><small>SBA VetCert</small></span>
+      <span class="vetcert-mark"><strong>VOSB</strong><small>SBA VetCert</small></span>
+    </div>
+  )}
 </div>
 
 <style>
@@ -50,8 +57,12 @@ const linkClass = className ? `sag-logo-link ${className}` : 'sag-logo-link';
   .sag-wordmark>span{margin-top:.4rem;color:#d39a32;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:clamp(1rem,2vw,1.75rem);font-weight:800;letter-spacing:.34em}
   .sag-wordmark small{display:block;margin-top:.75rem;padding-top:.65rem;border-top:2px solid rgba(211,154,50,.8);color:#aeb8c5;font-size:clamp(.58rem,1vw,.82rem);font-weight:800;letter-spacing:.18em;white-space:nowrap}
   .is-icon .sag-seal-image{width:3.25rem;height:3.25rem}
+  .vetcert-footer{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(211,154,50,.28)}
+  .vetcert-mark{display:inline-grid;gap:.18rem;min-width:7.25rem;padding:.58rem .72rem;border:1px solid rgba(211,154,50,.68);border-radius:.65rem;background:linear-gradient(145deg,rgba(211,154,50,.11),rgba(15,23,42,.62));box-shadow:0 7px 18px rgba(0,0,0,.18)}
+  .vetcert-mark strong{color:#f8fafc;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:.83rem;letter-spacing:.12em}
+  .vetcert-mark small{color:#d39a32;font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
   @media(max-width:920px){.sag-seal-image{width:clamp(4.4rem,14vw,6.25rem);height:clamp(4.4rem,14vw,6.25rem)}.sag-wordmark strong{font-size:clamp(1.05rem,4.3vw,1.8rem)}.sag-wordmark>span{font-size:clamp(.76rem,3.3vw,1.15rem)}.sag-wordmark small{margin-top:.48rem;padding-top:.45rem;font-size:.53rem;letter-spacing:.12em}}
-  @media(max-width:560px){.sag-logo-link{gap:.55rem}.sag-seal-image{width:4rem;height:4rem}.sag-wordmark strong{font-size:clamp(.9rem,4.4vw,1.25rem)}.sag-wordmark>span{margin-top:.25rem;font-size:.72rem;letter-spacing:.25em}.sag-wordmark small{font-size:.43rem;letter-spacing:.085em}}
+  @media(max-width:560px){.sag-logo-link{gap:.55rem}.sag-seal-image{width:4rem;height:4rem}.sag-wordmark strong{font-size:clamp(.9rem,4.4vw,1.25rem)}.sag-wordmark>span{margin-top:.25rem;font-size:.72rem;letter-spacing:.25em}.sag-wordmark small{font-size:.43rem;letter-spacing:.085em}.vetcert-footer{gap:.5rem}.vetcert-mark{min-width:6.5rem;padding:.52rem .62rem}}
 </style>
 
 <style is:global>@import '../../styles/brand-polish.css';</style>
