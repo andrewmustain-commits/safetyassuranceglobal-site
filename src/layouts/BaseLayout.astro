@@ -80,7 +80,8 @@ const breadcrumbs = pathParts.map((segment, index) => {
 });
 
 const hideUnifiedCta = ['/privacy-policy', '/terms-of-use', '/terms', '/request-proposal', '/404'].includes(normalizedPath);
-const canonicalUrl = canonical ? new URL(canonical, Astro.url.origin).href : Astro.url.href;
+const canonicalPath = normalizedPath || '/';
+const canonicalUrl = canonical ? new URL(canonical, Astro.url.origin).href : new URL(canonicalPath, Astro.url.origin).href;
 const ogImage = new URL(image, Astro.url.origin).href;
 const logoUrl = new URL('/images/brand/sag-logo.svg', Astro.url.origin).href;
 const organizationStructuredData = {
@@ -102,6 +103,8 @@ const organizationStructuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#09121f" />
+    <meta name="color-scheme" content="dark" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/images/brand/favicon.png" />
     <link rel="apple-touch-icon" href="/images/brand/apple-touch-icon.png" />
