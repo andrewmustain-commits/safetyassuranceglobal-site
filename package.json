@@ -23,7 +23,8 @@
     "validate:publication-routes": "node scripts/validate-publication-routes.mjs",
     "validate:sitemap": "node scripts/validate-sitemap.mjs",
     "validate:brand-assets": "node scripts/validate-brand-assets.mjs",
-    "validate:turnstile": "node scripts/validate-turnstile-integration.mjs"
+    "validate:turnstile": "node scripts/validate-turnstile-integration.mjs",
+    "validate:public-ux": "node scripts/validate-public-ux.mjs"
   },
   "repository": {
     "type": "git",
