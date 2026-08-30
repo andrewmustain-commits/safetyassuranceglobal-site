@@ -52,7 +52,7 @@ for (const relativePath of jpegAssets) {
 
 const configPath = path.join(root, 'src', 'config', 'brand-assets.ts');
 const config = fs.existsSync(configPath) ? fs.readFileSync(configPath, 'utf8') : '';
-for (const expected of ['/images/brand/sag-official-seal-2026.svg', '/images/brand/institute-crest.svg']) {
+for (const expected of ['/images/brand/sag-official-seal-2026.png', '/images/brand/institute-crest.svg']) {
   if (!config.includes(expected)) failures.push(`brand asset registry does not reference ${expected}`);
 }
 
@@ -61,10 +61,16 @@ if (!sealWrapper.includes('/images/brand/sag-official-seal-2026.png')) failures.
 const heroWrapper = fs.readFileSync(path.join(root, 'public', 'images', 'brand', 'maritime-hero-v20.svg'), 'utf8');
 if (!heroWrapper.includes('/images/brand/sag-maritime-hero-2026.jpeg')) failures.push('homepage maritime wrapper does not reference the approved hero JPEG');
 
+const mediaCssPath = path.join(root, 'src', 'styles', 'mobile-hero-seal-v27.css');
+const mediaCss = fs.existsSync(mediaCssPath) ? fs.readFileSync(mediaCssPath, 'utf8') : '';
+if (!mediaCss.includes("/images/brand/sag-maritime-hero-2026.jpeg")) failures.push('v27 mobile hero CSS does not reference the approved hero JPEG directly');
+if (!/content:url\(['"]\/images\/brand\/sag-maritime-hero-2026\.jpeg['"]\)/.test(mediaCss)) failures.push('v27 mobile hero CSS is not forcing the approved hero JPEG into the hero image element');
+
 const logoPath = path.join(root, 'src', 'components', 'brand', 'Logo.astro');
 const logoComponent = fs.readFileSync(logoPath, 'utf8');
 if (!logoComponent.includes('brandAttribution')) failures.push('Logo component does not use centralized Mandavere attribution');
 if (!logoComponent.includes('brandAssets.sagSeal')) failures.push('Logo component does not use the centralized SAG seal asset');
+if (!logoComponent.includes('mobile-hero-seal-v27.css')) failures.push('Logo component does not load the v27 approved media safeguards');
 if (!logoComponent.includes("className.split(/\\s+/).includes('footer-logo-link')")) failures.push('VetCert marks are not explicitly restricted to footer logo usage');
 if (!logoComponent.includes('{isFooter && (')) failures.push('VetCert marks do not use the footer-only render guard');
 for (const mark of ['SDVOSB', 'VOSB']) {
@@ -95,4 +101,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${pngAssets.length} approved PNG master, ${jpegAssets.length} approved JPEG master, footer-only VetCert controls, and attribution controls verified.`);
+console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${pngAssets.length} approved PNG master, ${jpegAssets.length} approved JPEG master, direct mobile hero rendering, footer-only VetCert controls, and attribution controls verified.`);
