@@ -9,7 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  pr-build-validation:
+    name: PR Build Validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
