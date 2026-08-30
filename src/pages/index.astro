@@ -12,7 +12,7 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
   .map((post) => ({ slug: post.data.slug, title: post.data.title, summary: post.data.description, date: post.data.publishedAt, category: post.data.category }));
 ---
 
-<BaseLayout title="Home" description="Safety Assurance Global provides maritime-first independent assurance, operational readiness, QA/QC, contractor assurance, safety governance, and evidence-based risk support.">
+<BaseLayout title="Independent Assurance & Maritime Operational Readiness" description="Safety Assurance Global provides maritime-first independent assurance, operational readiness, QA/QC, contractor assurance, safety governance, and evidence-based risk support.">
   <div class="home-v25">
     <section class="hero-v25" aria-labelledby="home-hero-title">
       <img class="hero-scene" src="/images/brand/maritime-hero-v20.svg" alt="Stylized maritime terminal and vessel at night" />
@@ -23,14 +23,8 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
           <span class="hero-rule" aria-hidden="true"></span>
           <p>Safety Assurance Global delivers independent assurance, safety, risk, QA/QC, contractor-assurance, and operational-readiness support designed to help organizations strengthen control, evidence, readiness, and decision confidence.</p>
           <div class="hero-actions">
-            <Button href="/services">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.2 7.5 9.8 4.5-1.6 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.6 12.1 2.1 2.1 4.7-4.8"/></svg>
-              Our Services
-            </Button>
-            <Button href="/request-proposal" variant="secondary">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h6M9 16h6"/></svg>
-              Request Proposal
-            </Button>
+            <Button href="/services">Our Services</Button>
+            <Button href="/request-proposal" variant="secondary">Request Proposal</Button>
           </div>
         </div>
       </Container>
@@ -38,76 +32,143 @@ const approvedPosts = (await getCollection('blog', ({ data }) => data.status ===
 
     <section class="trust-strip" aria-label="Safety Assurance Global trust signals">
       <Container class="trust-grid">
-        <div class="trust-item">
-          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.2 7.5 9.8 4.5-1.6 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.6 12.1 2.1 2.1 4.7-4.8"/></svg></span>
-          <p><strong>VOSB / SDVOSB</strong><small>SBA VetCert verified</small></p>
-        </div>
-        <div class="trust-item">
-          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 18V9l7-4 7 4v9M8 11v4M12 11v4M16 11v4"/></svg></span>
-          <p><strong>Government & Public Sector</strong><small>Procurement-ready support</small></p>
-        </div>
-        <div class="trust-item">
-          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></span>
-          <p><strong>Independent Assurance</strong><small>Impartial. Objective. Defensible.</small></p>
-        </div>
-        <div class="trust-item">
-          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="m8.5 13.2-1 7 4.5-2.4 4.5 2.4-1-7"/></svg></span>
-          <p><strong>Operational Excellence</strong><small>Safety. Quality. Readiness.</small></p>
-        </div>
+        <div><strong>VOSB / SDVOSB</strong><span>SBA VetCert verified</span></div>
+        <div><strong>Government & Public Sector</strong><span>Procurement-ready support</span></div>
+        <div><strong>Independent Assurance</strong><span>Impartial. Objective. Defensible.</span></div>
+        <div><strong>Operational Excellence</strong><span>Safety. Quality. Readiness.</span></div>
       </Container>
     </section>
 
-    <section class="services-light" aria-labelledby="services-title">
+    <Section ariaLabelledby="what-title" class="what-section">
       <Container>
-        <div class="light-heading"><p>What We Do</p><h2 id="services-title">Assurance Solutions That Drive Safe, Compliant, and Reliable Operations</h2><span></span></div>
-        <div class="service-grid-v25">
-          <a href="/services/independent-assurance" class="service-tile">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.2 7.5 9.8 4.5-1.6 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.6 12.1 2.1 2.1 4.7-4.8"/></svg></span>
-            <div><h3>Safety Assurance</h3><p>Independent safety assurance, field verification, and control review for complex operating environments.</p></div>
+        <div class="section-heading centered-heading">
+          <Badge>What We Do</Badge>
+          <h2 id="what-title">Assurance that strengthens operations.</h2>
+          <p>We help organizations understand risk, verify controls, improve contractor performance, and demonstrate operational readiness through disciplined independent assurance.</p>
+        </div>
+        <div class="focus-grid">
+          <a class="focus-card" href="/maritime" aria-label="Explore Maritime Assurance services">
+            <span class="focus-icon" aria-hidden="true">⚓</span><h3>Maritime Assurance</h3><p>Independent support for ports, terminals, shipyards, vessels, and maritime contractors.</p>
           </a>
-          <a href="/services/safety-risk-management" class="service-tile">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9M9 19v-5M14 19V6M19 19v-9"/><path d="m4 8 5 2 5-6 5 3"/></svg></span>
-            <div><h3>Risk Management</h3><p>Risk assessment, control review, and decision support tied to defined requirements and evidence.</p></div>
+          <a class="focus-card" href="/services/safety-risk-governance" aria-label="Explore Safety and Risk Governance services">
+            <span class="focus-icon" aria-hidden="true">◇</span><h3>Safety & Risk Governance</h3><p>Governance, risk review, control verification, and decision support for high-consequence operations.</p>
           </a>
-          <a href="/services/qa-qc" class="service-tile">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8l1 3h2v14H5V7h2z"/><path d="m9 12 2 2 4-4M9 17h6"/></svg></span>
-            <div><h3>QA / QC Services</h3><p>Quality oversight that connects requirements, field work, findings, corrective action, and closure evidence.</p></div>
+          <a class="focus-card" href="/services/quality-assurance-qaqc" aria-label="Explore QA/QC and Quality Oversight services">
+            <span class="focus-icon" aria-hidden="true">✓</span><h3>QA/QC & Quality Oversight</h3><p>Independent quality assurance, surveillance, evidence review, and corrective-action support.</p>
           </a>
-          <a href="/services/contractor-assurance" class="service-tile">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2.5 20c.5-4 2.4-6 5.5-6s5 2 5.5 6M10.5 20c.5-4 2.4-6 5.5-6s5 2 5.5 6"/></svg></span>
-            <div><h3>Contractor Assurance</h3><p>Contractor safety, quality, performance, and readiness oversight from pre-mobilization through closeout.</p></div>
+          <a class="focus-card" href="/services/contractor-assurance" aria-label="Explore Contractor Assurance services">
+            <span class="focus-icon" aria-hidden="true">▣</span><h3>Contractor Assurance</h3><p>Risk-based oversight of contractor controls, field execution, interfaces, and evidence.</p>
           </a>
-          <a href="/services/operational-readiness" class="service-tile">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v15M7 7h10M5 18c2.3 2 4.7 3 7 3s4.7-1 7-3M12 9 7 14h10z"/></svg></span>
-            <div><h3>Operational Readiness</h3><p>Readiness reviews, exercises, evidence checks, and closure validation before critical operations or transition.</p></div>
+          <a class="focus-card" href="/services/operational-readiness" aria-label="Explore Operational Readiness services">
+            <span class="focus-icon" aria-hidden="true">↗</span><h3>Operational Readiness</h3><p>Structured readiness reviews before startup, turnover, mobilization, or critical operations.</p>
           </a>
+        </div>
+      </Container>
+    </Section>
+
+    <section class="maritime-band" aria-labelledby="maritime-band-title">
+      <Container class="maritime-band-grid">
+        <div>
+          <Badge>Primary Market</Badge>
+          <h2 id="maritime-band-title">Maritime operations demand evidence, not assumptions.</h2>
+          <p>Safety Assurance Global supports ports, terminals, shipyards, vessel operators, and contractors with independent assurance focused on control effectiveness, operational readiness, safety, quality, and defensible evidence.</p>
+          <div class="hero-actions"><Button href="/maritime">Explore Maritime Assurance</Button><Button href="/contact" variant="secondary">Talk With SAG</Button></div>
+        </div>
+        <div class="readiness-panel">
+          <span>Independent Review</span><strong>Controls → Evidence → Readiness</strong>
+          <p>Designed for organizations operating where weak interfaces, incomplete evidence, or unverified controls can create significant operational exposure.</p>
         </div>
       </Container>
     </section>
 
-    <Container class="lower-home">
-      <Section class="maritime-panel" ariaLabelledby="maritime-title">
-        <div><Badge text="Primary Market" /><h2 id="maritime-title">Maritime assurance is the lead market.</h2><p>SAG supports ports, marine terminals, shipyards, vessel operations, and marine contractors through defined assurance, readiness, safety, quality, risk, and contractor-oversight scopes.</p></div><Button href="/maritime" variant="secondary">Explore Maritime</Button>
-      </Section>
+    <Section ariaLabelledby="method-title">
+      <Container>
+        <div class="section-heading">
+          <Badge>How We Work</Badge>
+          <h2 id="method-title">The SAG Assurance Method.</h2>
+          <p>A repeatable approach for turning uncertainty into documented, decision-ready assurance.</p>
+        </div>
+        <div class="method-grid">
+          <div><span>01</span><h3>Define</h3><p>Clarify scope, obligations, interfaces, and assurance objectives.</p></div>
+          <div><span>02</span><h3>Assess</h3><p>Evaluate risks, controls, evidence, and operating conditions.</p></div>
+          <div><span>03</span><h3>Verify</h3><p>Test whether controls and evidence support the required conclusion.</p></div>
+          <div><span>04</span><h3>Assure</h3><p>Deliver clear findings, actions, and decision-ready assurance outputs.</p></div>
+        </div>
+        <div class="method-link"><Button href="/method" variant="secondary">View Our Method</Button></div>
+      </Container>
+    </Section>
 
-      <Section class="method-panel-v20" ariaLabelledby="method-title">
-        <div><Badge text="The SAG Assurance Method" /><h2 id="method-title">Requirements to evidence. Findings to closure.</h2><p>Our delivery model connects requirements intake, control crosswalks, field verification, corrective action, closure validation, and management reporting.</p></div>
-        <ol>{['Requirements Intake','Control Crosswalk','Field Verification','Corrective Action','Closure Validation','Management Reporting'].map((step,index)=><li><span>{String(index+1).padStart(2,'0')}</span>{step}</li>)}</ol>
-      </Section>
+    <section class="institute-band" aria-labelledby="institute-band-title">
+      <Container class="institute-grid">
+        <div><Badge>Institute of Assurance</Badge><h2 id="institute-band-title">Build workforce capability around the same assurance principles.</h2><p>The Safety Assurance Global Institute of Assurance provides governed learning and workforce-development pathways that complement SAG's assurance and readiness mission.</p></div>
+        <Button href="/institute">Explore the Institute</Button>
+      </Container>
+    </section>
 
-      <Section class="institute-panel-v20" ariaLabelledby="institute-title">
-        <div><Badge text="SAG Institute of Assurance" /><h2 id="institute-title">Governed learning and workforce development.</h2><p>The Institute supports readiness-focused learning pathways across maritime and other defined sectors. Availability, credential status, and external recognition are stated only when verified.</p></div><Button href="/institute" variant="secondary">Explore the Institute</Button>
+    {approvedPosts.length > 0 && (
+      <Section ariaLabelledby="insights-title">
+        <Container>
+          <div class="section-heading"><Badge>Insights</Badge><h2 id="insights-title">Current thinking from Safety Assurance Global.</h2></div>
+          <div class="insights-grid">
+            {approvedPosts.map((post) => <Card><p class="insight-meta">{post.category} · {post.date.toLocaleDateString('en-US')}</p><h3>{post.title}</h3><p>{post.summary}</p><a href={`/insights/${post.slug}`}>Read insight →</a></Card>)}
+          </div>
+        </Container>
       </Section>
-
-      {approvedPosts.length > 0 && <Section ariaLabelledby="insights-title"><div class="insight-heading"><Badge text="Insights" /><h2 id="insights-title">Approved perspectives for leaders and operators.</h2></div><div class="insight-grid-v20">{approvedPosts.map((post)=><Card as="article"><p class="insight-meta"><span>{post.category}</span><time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></p><h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3><p>{post.summary}</p></Card>)}</div></Section>}
-    </Container>
+    )}
   </div>
 </BaseLayout>
 
 <style>
-:global(.home-v25 ~ *){}
-:global(body:has(.home-v25) .site-main){padding-top:0}
-.home-v25{margin-top:0}.hero-v25{position:relative;min-height:455px;overflow:hidden;border-bottom:1px solid rgba(211,154,50,.55);background:#041424}.hero-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 57%}.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,16,29,.99) 0%,rgba(3,16,29,.95) 30%,rgba(3,16,29,.68) 48%,rgba(3,16,29,.22) 72%,rgba(3,16,29,.08) 100%),linear-gradient(180deg,rgba(2,12,23,.12),rgba(2,12,23,.3))}.hero-content{position:relative;z-index:1;display:flex;align-items:center;min-height:455px}.hero-copy{max-width:560px;padding:2.75rem 0}.hero-copy h1{margin:0;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:clamp(2.55rem,4.5vw,4.8rem);line-height:.95;letter-spacing:-.03em;text-transform:uppercase}.hero-copy h1 span,.hero-copy h1 strong{display:block}.hero-copy h1 strong{margin-top:.2rem;color:#d8942c;font-weight:900}.hero-rule{display:block;width:78px;height:3px;margin:1rem 0 1.15rem;background:linear-gradient(90deg,#d39a32 0 60%,rgba(211,154,50,.2) 60%)}.hero-copy>p{max-width:530px;margin:0;color:#eef3f8;font-size:clamp(.95rem,1.2vw,1.06rem);line-height:1.65}.hero-actions{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:1.35rem}.hero-actions :global(.ui-button){min-width:165px;min-height:3.05rem;border-radius:.42rem;padding:.7rem 1.05rem;font-size:.78rem}.hero-actions :global(.ui-button svg){width:1.1rem;height:1.1rem;margin-right:.42rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.trust-strip{background:linear-gradient(180deg,#061a2d,#041727);border-bottom:1px solid rgba(211,154,50,.28)}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding-top:.72rem;padding-bottom:.72rem}.trust-item{display:flex;gap:.7rem;align-items:center;padding:.18rem 1rem;border-right:1px solid rgba(211,154,50,.28)}.trust-item:last-child{border-right:0}.trust-icon{display:grid;place-items:center;width:36px;height:36px;flex:0 0 36px;color:#dca03a}.trust-icon svg{width:31px;height:31px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.trust-grid p{display:grid;gap:.1rem;margin:0}.trust-grid strong{color:#fff;font-size:.72rem;text-transform:uppercase;letter-spacing:.035em}.trust-grid small{color:#d0d6de;font-size:.61rem;line-height:1.3;text-transform:uppercase}.services-light{padding:2rem 0 2.45rem;background:#fafafa;color:#07192a;border-bottom:1px solid #e5e7eb}.light-heading{text-align:center}.light-heading>p{margin:0;color:#c98a25;font-size:.73rem;font-weight:900;letter-spacing:.22em;text-transform:uppercase}.light-heading h2{max-width:900px;margin:.42rem auto 0;color:#07192a;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:clamp(1.45rem,2.6vw,2.25rem);line-height:1.12}.light-heading span{display:block;width:78px;height:2px;margin:.8rem auto 1.45rem;background:#d39a32}.service-grid-v25{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem}.service-tile{display:flex;gap:.75rem;align-items:flex-start;min-height:138px;padding:1rem;border:1px solid #e2e5e9;border-radius:.22rem;background:#fff;color:#0a1930;text-decoration:none;box-shadow:0 6px 16px rgba(7,25,42,.08);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.service-tile:hover,.service-tile:focus-visible{transform:translateY(-3px);border-color:#d39a32;box-shadow:0 10px 24px rgba(7,25,42,.12)}.service-icon{display:grid;place-items:center;width:50px;height:50px;flex:0 0 50px;color:#0a2745}.service-icon svg{width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}.service-tile h3{margin:.12rem 0 .42rem;color:#07192a;font-family:Montserrat,Inter,system-ui,sans-serif;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.02em}.service-tile p{margin:0;color:#303b49;font-size:.72rem;line-height:1.45}.lower-home{display:grid;gap:1.5rem;padding-top:2rem;padding-bottom:2rem}.maritime-panel,.institute-panel-v20{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:clamp(1.5rem,4vw,3rem);border:1px solid rgba(211,154,50,.35);border-radius:1rem;background:linear-gradient(135deg,#071b2f,#0c2c48)}.maritime-panel h2,.method-panel-v20 h2,.institute-panel-v20 h2,.insight-heading h2{margin:.7rem 0 0;font-size:clamp(1.8rem,3vw,3rem)}.maritime-panel p,.method-panel-v20 p,.institute-panel-v20 p{max-width:760px;color:#c9d2dc}.method-panel-v20{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem;padding:clamp(1.5rem,4vw,3rem);border:1px solid rgba(211,154,50,.25);border-radius:1rem;background:#061a2d}.method-panel-v20 ol{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin:0;padding:0;list-style:none}.method-panel-v20 li{display:flex;align-items:center;gap:.7rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);font-weight:760}.method-panel-v20 li span{color:#d39a32;font-size:.72rem}.insight-heading{margin-bottom:1rem}.insight-grid-v20{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.insight-meta{display:flex;justify-content:space-between;gap:1rem;color:#d39a32;font-size:.72rem;text-transform:uppercase}
-@media(max-width:1050px){.service-grid-v25{grid-template-columns:repeat(2,1fr)}.trust-grid{grid-template-columns:repeat(2,1fr)}.trust-item:nth-child(2){border-right:0}.trust-item:nth-child(-n+2){border-bottom:1px solid rgba(211,154,50,.2);padding-bottom:.7rem;margin-bottom:.7rem}.method-panel-v20{grid-template-columns:1fr}.insight-grid-v20{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.hero-v25,.hero-content{min-height:470px}.hero-overlay{background:linear-gradient(90deg,rgba(3,16,29,.97),rgba(3,16,29,.72))}.hero-copy{padding:2.2rem 0}.hero-copy h1{font-size:clamp(2.3rem,11vw,3.5rem)}.hero-actions{display:grid;grid-template-columns:1fr}.hero-actions :global(.ui-button){width:100%}.trust-grid,.service-grid-v25,.method-panel-v20 ol,.insight-grid-v20{grid-template-columns:1fr}.trust-item{border-right:0;border-bottom:1px solid rgba(211,154,50,.2);padding:.55rem 0;margin:0}.trust-item:nth-child(-n+2){padding-bottom:.55rem;margin-bottom:0}.trust-item:last-child{border-bottom:0}.maritime-panel,.institute-panel-v20{align-items:flex-start;flex-direction:column}.service-tile{min-height:auto}}
+  .home-v25 { margin-top:calc(var(--space-4) * -1); }
+  .hero-v25 { min-height:clamp(620px,78vh,820px); position:relative; display:flex; align-items:center; overflow:hidden; background:#071427; }
+  .hero-scene { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+  .hero-overlay { position:absolute; inset:0; background:linear-gradient(90deg,rgba(5,15,31,.96) 0%,rgba(7,21,41,.82) 38%,rgba(7,21,41,.28) 70%,rgba(7,21,41,.12) 100%); }
+  .hero-content { position:relative; z-index:2; width:100%; }
+  .hero-copy { max-width:760px; padding:7rem 0 6rem; }
+  .hero-copy h1 { margin:0; text-transform:uppercase; letter-spacing:-.035em; font-size:clamp(3rem,6.1vw,6.4rem); line-height:.91; }
+  .hero-copy h1 span,.hero-copy h1 strong { display:block; }
+  .hero-copy h1 span { color:#fff; font-weight:760; }
+  .hero-copy h1 strong { color:#e7aa42; font-weight:820; }
+  .hero-rule { display:block; width:82px; height:4px; background:#e7aa42; margin:2rem 0 1.5rem; }
+  .hero-copy p { color:#d5deeb; max-width:680px; font-size:1.12rem; line-height:1.75; }
+  .hero-actions { display:flex; gap:.85rem; flex-wrap:wrap; margin-top:1.8rem; }
+  .trust-strip { background:#f5f7fa; color:#14233a; border-bottom:1px solid #dfe5ec; }
+  .trust-grid { display:grid; grid-template-columns:repeat(4,1fr); }
+  .trust-grid div { padding:1.4rem 1.3rem; text-align:center; border-right:1px solid #dce3eb; }
+  .trust-grid div:last-child { border-right:0; }
+  .trust-grid strong,.trust-grid span { display:block; }
+  .trust-grid strong { font-size:.9rem; color:#102039; }
+  .trust-grid span { margin-top:.25rem; font-size:.78rem; color:#6b7687; }
+  .what-section { background:#fff; color:#17233a; }
+  .section-heading { max-width:780px; margin-bottom:2.2rem; }
+  .section-heading h2 { color:inherit; margin:.65rem 0 .75rem; font-size:clamp(2rem,4vw,3.35rem); }
+  .section-heading p { color:#687486; font-size:1.03rem; line-height:1.7; }
+  .centered-heading { text-align:center; margin-left:auto; margin-right:auto; }
+  .focus-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; }
+  .focus-card { text-align:center; padding:2rem 1.1rem; border:1px solid #e2e7ed; background:#fff; box-shadow:0 10px 28px rgba(14,30,56,.05); color:inherit; text-decoration:none; transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease; }
+  .focus-card:hover,.focus-card:focus-visible { transform:translateY(-3px); border-color:#d7a34b; box-shadow:0 14px 32px rgba(14,30,56,.1); }
+  .focus-card h3 { color:#14233b; font-size:1rem; }
+  .focus-card p { color:#707b8b; font-size:.88rem; line-height:1.55; }
+  .focus-icon { width:46px; height:46px; display:grid; place-items:center; margin:0 auto 1rem; border:1px solid #d7a34b; color:#c78b2e; border-radius:50%; font-size:1.15rem; }
+  .maritime-band { padding:5.5rem 0; background:#0b1a31; border-top:1px solid rgba(229,169,60,.24); border-bottom:1px solid rgba(229,169,60,.24); }
+  .maritime-band-grid { display:grid; grid-template-columns:1.35fr .8fr; gap:4rem; align-items:center; }
+  .maritime-band h2,.institute-band h2 { font-size:clamp(2rem,4vw,3.35rem); margin:.7rem 0 1rem; }
+  .maritime-band p,.institute-band p { color:#b8c4d5; line-height:1.75; }
+  .readiness-panel { border:1px solid rgba(229,169,60,.38); padding:2rem; background:rgba(255,255,255,.035); }
+  .readiness-panel span,.readiness-panel strong { display:block; }
+  .readiness-panel span { color:#e5a93c; text-transform:uppercase; letter-spacing:.1em; font-size:.72rem; }
+  .readiness-panel strong { margin:.65rem 0 1rem; font-size:1.35rem; color:#fff; }
+  .method-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+  .method-grid div { padding:1.8rem; border-top:2px solid #d7a34b; background:rgba(255,255,255,.035); }
+  .method-grid span { color:#d7a34b; font-size:.78rem; letter-spacing:.1em; }
+  .method-grid h3 { margin:.65rem 0; }
+  .method-grid p { color:var(--color-text-muted); }
+  .method-link { margin-top:2rem; }
+  .institute-band { background:#0e1e38; padding:4.6rem 0; }
+  .institute-grid { display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:center; }
+  .institute-grid > div { max-width:760px; }
+  .insights-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+  .insight-meta { color:#d7a34b; text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; }
+  @media (max-width:1050px) { .focus-grid { grid-template-columns:repeat(3,1fr); } .trust-grid { grid-template-columns:repeat(2,1fr); } .trust-grid div:nth-child(2) { border-right:0; } }
+  @media (max-width:760px) { .hero-v25 { min-height:600px; } .hero-copy { padding:5.5rem 0 4rem; } .hero-overlay { background:linear-gradient(90deg,rgba(5,15,31,.95),rgba(7,21,41,.7)); } .trust-grid,.focus-grid,.method-grid,.insights-grid,.maritime-band-grid,.institute-grid { grid-template-columns:1fr; } .trust-grid div { border-right:0; border-bottom:1px solid #dce3eb; } .maritime-band-grid { gap:2rem; } }
 </style>
