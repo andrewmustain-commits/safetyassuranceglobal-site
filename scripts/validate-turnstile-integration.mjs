@@ -35,13 +35,20 @@ requireText(client, 'challenges.cloudflare.com/turnstile/v0/api.js?render=explic
 requireText(client, 'payload.turnstileToken', 'Client does not forward a Turnstile token.');
 requireText(client, 'data-turnstile-container', 'Client does not target a Turnstile render container.');
 requireText(client, "form.dataset.deliveryConfigured = 'unknown'", 'Client does not initialize delivery readiness state.');
+requireText(client, "form.dataset.turnstileEnabled = 'unknown'", 'Client does not initialize Turnstile readiness state.');
 requireText(client, 'config.delivery.configured === true', 'Client does not consume the server delivery readiness state.');
 requireText(client, "PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com'", 'Client primary fallback email must be info@safetyassuranceglobal.com.');
 requireText(client, "SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com'", 'Client secondary fallback email must remain contact@safetyassuranceglobal.com.');
+requireText(client, 'MAX_FALLBACK_BODY_CHARS', 'Client fallback email body is not bounded for email-client compatibility.');
+requireText(client, 'MAX_FALLBACK_SUBJECT_CHARS', 'Client fallback email subject is not bounded for email-client compatibility.');
+requireText(client, 'truncateForMailto', 'Client is missing mailto length truncation.');
 requireText(client, 'buildFallbackMailto', 'Client is missing the prefilled email fallback builder.');
 requireText(client, 'openEmailFallback', 'Client is missing the email fallback submission path.');
+requireText(client, "form.dataset.deliveryConfigured === 'unknown'", 'Client must wait for runtime delivery detection before choosing the fallback path.');
+requireText(client, 'Please wait a moment while secure inquiry delivery is checked.', 'Client does not provide a pending-delivery status before runtime configuration resolves.');
 requireText(client, 'window.location.href = buildFallbackMailto(payload)', 'Client does not open the completed request in the visitor email app when secure delivery fails.');
-requireText(client, 'submitButton.disabled = false', 'Client must keep the submit action available when webhook delivery is not configured.');
+requireText(client, 'submitButton.disabled = true', 'Client must disable submission while delivery readiness is unknown.');
+requireText(client, 'submitButton.disabled = false', 'Client must enable submission after delivery readiness is resolved.');
 
 requireText(contact, 'data-turnstile-container', 'Contact form is missing its Turnstile render container.');
 requireText(proposal, 'data-turnstile-container', 'Proposal form is missing its Turnstile render container.');
