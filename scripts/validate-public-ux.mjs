@@ -35,10 +35,19 @@ const attrValue = (tag, name) => {
 };
 
 const localAssetExtensions = /\.(?:css|js|mjs|png|jpe?g|webp|gif|svg|ico|woff2?|ttf|otf)(?:[?#].*)?$/i;
+const normalizedDist = path.resolve(dist);
 const assetExists = (url) => {
   const clean = url.split(/[?#]/, 1)[0];
-  const assetPath = path.join(dist, clean.replace(/^\//, ''));
-  return fs.existsSync(assetPath) && fs.statSync(assetPath).isFile() && fs.statSync(assetPath).size > 0;
+  const assetPath = path.resolve(normalizedDist, clean.replace(/^\/+/, ''));
+  const relativeAssetPath = path.relative(normalizedDist, assetPath);
+  if (relativeAssetPath.startsWith('..') || path.isAbsolute(relativeAssetPath)) return false;
+
+  try {
+    const stat = fs.statSync(assetPath);
+    return stat.isFile() && stat.size > 0;
+  } catch {
+    return false;
+  }
 };
 
 for (const filePath of htmlFiles) {
@@ -95,8 +104,12 @@ for (const filePath of htmlFiles) {
   for (const button of buttons) {
     const tag = button[0].slice(0, button[0].indexOf('>') + 1);
     const ariaLabel = attrValue(tag, 'aria-label');
+    const ariaLabelledby = attrValue(tag, 'aria-labelledby');
+    const title = attrValue(tag, 'title');
     const hasRenderedContent = button[1].trim().length > 0;
-    if (!ariaLabel && !hasRenderedContent) failures.push(`${relative}: button has no accessible name or rendered content`);
+    if (!ariaLabel && !ariaLabelledby && !title && !hasRenderedContent) {
+      failures.push(`${relative}: button has no accessible name or rendered content`);
+    }
   }
 
   const controls = [...html.matchAll(/<(input|select|textarea)\b[^>]*>/gi)];
@@ -127,7 +140,7 @@ for (const filePath of htmlFiles) {
   }
 
   for (const asset of referencedAssets) {
-    if (!assetExists(asset)) failures.push(`${relative}: referenced local asset is missing or empty: ${asset}`);
+    if (!assetExists(asset)) failures.push(`${relative}: referenced local asset is missing, empty, or outside dist: ${asset}`);
   }
 }
 
