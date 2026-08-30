@@ -22,6 +22,9 @@ const JSON_HEADERS = {
 
 const MAX_DEFAULT = 16_384;
 const UPSTREAM_TIMEOUT_MS = 10_000;
+const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
+const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
+const fallbackMessage = `Please email ${PRIMARY_FALLBACK_EMAIL}. ${SECONDARY_FALLBACK_EMAIL} is also available.`;
 
 const requiredByType: Record<string, string[]> = {
   contact: ['name', 'organization', 'email', 'inquiryType', 'serviceInterest', 'message', 'privacyAcknowledgement'],
@@ -252,10 +255,7 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
 
   const turnstile = getTurnstileState(context.env);
   if (turnstile.misconfigured) {
-    return badRequest(
-      'Spam protection is not fully configured for this environment. Please email contact@safetyassuranceglobal.com.',
-      503
-    );
+    return badRequest(`Spam protection is not fully configured for this environment. ${fallbackMessage}`, 503);
   }
 
   if (turnstile.enabled) {
@@ -273,10 +273,7 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
 
   const webhookUrl = getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL);
   if (!webhookUrl) {
-    return badRequest(
-      'Submission service is not configured for this environment. Please email contact@safetyassuranceglobal.com.',
-      503
-    );
+    return badRequest(`Submission service is not configured for this environment. ${fallbackMessage}`, 503);
   }
 
   const forwardPayload = {
@@ -316,10 +313,10 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
     });
 
     if (!upstream.ok) {
-      return badRequest('Submission could not be delivered. Please email contact@safetyassuranceglobal.com.', 502);
+      return badRequest(`Submission could not be delivered. ${fallbackMessage}`, 502);
     }
   } catch {
-    return badRequest('Submission could not be delivered. Please email contact@safetyassuranceglobal.com.', 502);
+    return badRequest(`Submission could not be delivered. ${fallbackMessage}`, 502);
   }
 
   return okResponse('Submission received.');
