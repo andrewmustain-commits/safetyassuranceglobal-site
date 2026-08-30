@@ -3,6 +3,9 @@
 /blog /insights 301
 /blog/* /insights/:splat 301
 /terms /terms-of-use 301
+/terms/ /terms-of-use 301
 /academy /institute 301
+/academy/ /institute 301
 /command /sag-command 301
+/command/ /sag-command 301
 /security.txt /.well-known/security.txt 301
