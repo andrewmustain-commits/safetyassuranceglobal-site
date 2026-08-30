@@ -3,6 +3,8 @@
 
   const MAX_MESSAGE_LENGTH = 3000;
   const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
+  const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
   let turnstileScriptPromise;
 
   const setStatus = (statusEl, message, kind) => {
@@ -92,6 +94,71 @@
     return payload;
   };
 
+  const buildFallbackMailto = (payload) => {
+    const isProposal = payload.formType === 'proposal';
+    const subject = isProposal
+      ? `Website proposal request — ${payload.organization || payload.name || 'Prospective client'}`
+      : `Website inquiry — ${payload.organization || payload.name || 'Prospective client'}`;
+
+    const fields = isProposal
+      ? [
+          ['Name', payload.name],
+          ['Organization', payload.organization],
+          ['Email', payload.email],
+          ['Phone', payload.phone],
+          ['Project type', payload.projectType],
+          ['Service needed', payload.serviceNeeded],
+          ['Project location', payload.projectLocation],
+          ['Anticipated schedule', payload.anticipatedSchedule],
+          ['Brief scope', payload.briefScope],
+          ['Procurement context', payload.procurementContext]
+        ]
+      : [
+          ['Name', payload.name],
+          ['Organization', payload.organization],
+          ['Email', payload.email],
+          ['Phone', payload.phone],
+          ['Inquiry type', payload.inquiryType],
+          ['Service interest', payload.serviceInterest],
+          ['Operating challenge or need', payload.message]
+        ];
+
+    const body = [
+      'Safety Assurance Global website request',
+      '',
+      ...fields.map(([label, value]) => `${label}: ${value || ''}`),
+      '',
+      'Privacy acknowledgement: Yes',
+      '',
+      `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please forward to ${SECONDARY_FALLBACK_EMAIL}.`
+    ].join('\n');
+
+    return `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const openEmailFallback = (form, status) => {
+    if (!form.checkValidity()) {
+      setStatus(status, 'Please complete the required fields before continuing.', 'error');
+      form.reportValidity();
+      return false;
+    }
+
+    const honeypot = form.querySelector('input[name="website"]');
+    if (honeypot && honeypot.value) {
+      setStatus(status, 'Submission blocked by spam protection.', 'error');
+      return false;
+    }
+
+    const payload = toPayload(form);
+    setStatus(
+      status,
+      `Opening your email app to send this request to ${PRIMARY_FALLBACK_EMAIL}. If needed, you can also email ${SECONDARY_FALLBACK_EMAIL}.`,
+      'success'
+    );
+    window.location.href = buildFallbackMailto(payload);
+    return true;
+  };
+
   const initializeTurnstile = async (form, status, config) => {
     const turnstileConfig = config && config.turnstile;
     if (!turnstileConfig || turnstileConfig.enabled !== true || typeof turnstileConfig.siteKey !== 'string') {
@@ -132,7 +199,7 @@
     const submitButton = form.querySelector('button[type="submit"]');
 
     if (submitButton instanceof HTMLButtonElement) {
-      submitButton.disabled = true;
+      submitButton.disabled = false;
     }
     form.dataset.deliveryConfigured = 'unknown';
 
@@ -142,34 +209,24 @@
         form.dataset.deliveryConfigured = String(deliveryConfigured);
 
         if (!deliveryConfigured) {
-          if (submitButton instanceof HTMLButtonElement) {
-            submitButton.disabled = true;
-          }
+          form.dataset.turnstileEnabled = 'false';
           setStatus(
             status,
-            'Online inquiry delivery is temporarily unavailable. Please email contact@safetyassuranceglobal.com.',
-            'error'
+            `Secure online delivery is being configured. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+            ''
           );
           return;
         }
 
-        if (submitButton instanceof HTMLButtonElement) {
-          submitButton.disabled = false;
-        }
         return initializeTurnstile(form, status, config);
       })
-      .catch((error) => {
-        form.dataset.turnstileEnabled = 'unknown';
-        form.dataset.deliveryConfigured = 'unknown';
-        if (submitButton instanceof HTMLButtonElement) {
-          submitButton.disabled = true;
-        }
+      .catch(() => {
+        form.dataset.turnstileEnabled = 'false';
+        form.dataset.deliveryConfigured = 'false';
         setStatus(
           status,
-          error instanceof Error
-            ? `${error.message} Please email contact@safetyassuranceglobal.com.`
-            : 'Inquiry service is unavailable. Please email contact@safetyassuranceglobal.com.',
-          'error'
+          `Online delivery could not be verified. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+          ''
         );
       });
 
@@ -177,7 +234,7 @@
       event.preventDefault();
 
       if (form.dataset.deliveryConfigured !== 'true') {
-        setStatus(status, 'Online inquiry delivery is unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
+        openEmailFallback(form, status);
         return;
       }
 
@@ -199,7 +256,7 @@
       }
 
       if (form.dataset.turnstileEnabled === 'unknown') {
-        setStatus(status, 'Spam protection is unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
+        openEmailFallback(form, status);
         return;
       }
 
@@ -224,10 +281,8 @@
         });
 
         if (!response.ok || !result.ok) {
-          const message = result && typeof result.message === 'string'
-            ? result.message
-            : 'Submission could not be completed. Please email contact@safetyassuranceglobal.com.';
-          setStatus(status, message, 'error');
+          setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
+          window.location.href = buildFallbackMailto(payload);
           return;
         }
 
@@ -235,13 +290,11 @@
         form.dataset.turnstileToken = '';
         setStatus(status, 'Submission received. Our team will follow up using your provided contact details.', 'success');
       } catch (_error) {
-        setStatus(status, 'Submission is currently unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
+        const payload = toPayload(form);
+        setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
+        window.location.href = buildFallbackMailto(payload);
       } finally {
-        if (
-          submitButton instanceof HTMLButtonElement &&
-          form.dataset.turnstileEnabled !== 'unknown' &&
-          form.dataset.deliveryConfigured === 'true'
-        ) {
+        if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = false;
         }
       }
