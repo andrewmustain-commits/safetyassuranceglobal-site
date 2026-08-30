@@ -86,6 +86,9 @@ const canonicalUrl = canonical ? new URL(canonical, Astro.url.origin).href : new
 const ogImage = image ? new URL(image, Astro.url.origin).href : null;
 const logoUrl = new URL('/images/brand/sag-logo.svg', Astro.url.origin).href;
 const siteUrl = 'https://safetyassuranceglobal.com';
+const pageTitle = isHome
+  ? 'Independent Assurance & Maritime Operational Readiness | Safety Assurance Global'
+  : `${title} | Safety Assurance Global`;
 
 const organizationStructuredData = {
   '@type': 'Organization',
@@ -107,6 +110,12 @@ const organizationStructuredData = {
     addressRegion: 'Oregon',
     addressCountry: 'US'
   },
+  contactPoint: [
+    { '@type': 'ContactPoint', contactType: 'general inquiries', email: 'info@safetyassuranceglobal.com' },
+    { '@type': 'ContactPoint', contactType: 'general contact', email: 'contact@safetyassuranceglobal.com' },
+    { '@type': 'ContactPoint', contactType: 'Institute and Academy inquiries', email: 'academy@safetyassuranceglobal.com' },
+    { '@type': 'ContactPoint', contactType: 'SAG Command inquiries', email: 'command@safetyassuranceglobal.com' }
+  ],
   department: {
     '@type': 'Organization',
     '@id': `${siteUrl}/institute#organization`,
@@ -166,19 +175,19 @@ const structuredDataGraph = {
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Safety Assurance Global" />
-    <meta property="og:title" content={`${title} | Safety Assurance Global`} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     {ogImage && <meta property="og:image" content={ogImage} />}
 
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
-    <meta name="twitter:title" content={`${title} | Safety Assurance Global`} />
+    <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredDataGraph)}></script>
 
     <meta name="generator" content={Astro.generator} />
-    <title>{title} | Safety Assurance Global</title>
+    <title>{pageTitle}</title>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -269,6 +278,15 @@ const structuredDataGraph = {
               <li><a href="/method">Method</a></li>
               <li><a href="/insights">Insights</a></li>
               <li><a href="/contact">Contact</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3>Contact</h3>
+            <ul>
+              <li><a href="mailto:info@safetyassuranceglobal.com">General inquiries</a></li>
+              <li><a href="mailto:contact@safetyassuranceglobal.com">General contact</a></li>
+              <li><a href="mailto:academy@safetyassuranceglobal.com">Institute &amp; Academy</a></li>
+              <li><a href="mailto:command@safetyassuranceglobal.com">SAG Command</a></li>
             </ul>
           </section>
           <section>
