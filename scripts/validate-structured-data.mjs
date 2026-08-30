@@ -6,6 +6,12 @@ const requiredIdentifierValues = new Map([
   ['UEI', 'RCUUJLWEBGD4'],
   ['CAGE', '16NM4']
 ]);
+const requiredContactPoints = new Map([
+  ['general inquiries', 'info@safetyassuranceglobal.com'],
+  ['general contact', 'contact@safetyassuranceglobal.com'],
+  ['Institute and Academy inquiries', 'academy@safetyassuranceglobal.com'],
+  ['SAG Command inquiries', 'command@safetyassuranceglobal.com']
+]);
 
 async function collectHtmlFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -58,6 +64,12 @@ function validateGraph(data, route, errors) {
     const identifiers = new Map((organization.identifier ?? []).map((item) => [item?.name, item?.value]));
     for (const [name, expected] of requiredIdentifierValues) {
       if (identifiers.get(name) !== expected) errors.push(`${route}: Organization ${name} identifier mismatch`);
+    }
+    const contactPoints = new Map((organization.contactPoint ?? []).map((item) => [item?.contactType, item?.email]));
+    for (const [contactType, expectedEmail] of requiredContactPoints) {
+      if (contactPoints.get(contactType) !== expectedEmail) {
+        errors.push(`${route}: Organization contact point ${contactType} must use ${expectedEmail}`);
+      }
     }
     if (organization.department?.name !== 'Safety Assurance Global Institute of Assurance') {
       errors.push(`${route}: Institute department relationship missing or changed`);
