@@ -1,0 +1,37 @@
+name: Production Lighthouse Monitor
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy to Cloudflare Pages
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse-production:
+    name: Lighthouse Production
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '24'
+
+      - name: Run Lighthouse production monitor
+        run: npm exec --yes --package=@lhci/cli@0.15.1 -- lhci autorun --config=.lighthouserc.cjs
+
+      - name: Core Web Vitals note
+        if: always()
+        run: |
+          echo 'Lighthouse provides lab measurements for LCP and CLS.'
+          echo 'FID was retired as a Core Web Vital and replaced by INP.'
+          echo 'This workflow uses Total Blocking Time (TBT) as the lab responsiveness proxy; production INP should be evaluated from field data when available.'
