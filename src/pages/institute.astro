@@ -22,7 +22,7 @@ const focusAreas = [
         <p class="institute-eyebrow">SAG Institute of Assurance</p>
         <h1 id="institute-title">Governed learning for assurance, readiness, and high-consequence work.</h1>
         <p class="institute-lede">The Safety Assurance Global Institute of Assurance is the governed learning and workforce-development division of Safety Assurance Global. It connects professional development with the same evidence-first principles used across SAG assurance, safety, risk, QA/QC, and operational-readiness work.</p>
-        <div class="ui-actions"><Button href="/training">Explore Training</Button><Button href="/contact" variant="secondary">Discuss Workforce Needs</Button></div>
+        <div class="ui-actions"><Button href="/training">Explore Training</Button><Button href="mailto:academy@safetyassuranceglobal.com?subject=Institute%20of%20Assurance%20Inquiry" variant="secondary">Discuss Workforce Needs</Button></div>
       </div>
       <aside class="institute-crest" aria-label="Institute of Assurance identity">
         <div class="crest-halo"></div>
@@ -38,6 +38,8 @@ const focusAreas = [
     <Section ariaLabelledby="institute-focus-title"><SectionHeader badge="Learning Focus" id="institute-focus-title" title="A workforce-development system centered on assurance." /><div class="grid-three">{focusAreas.map((area) => <Card><span class="focus-mark" aria-hidden="true">◆</span><h3>{area.title}</h3><p>{area.detail}</p></Card>)}</div></Section>
 
     <Section ariaLabelledby="institute-relationship-title"><SectionHeader badge="SAG Relationship" id="institute-relationship-title" title="Learning is governed as part of the broader SAG assurance mission." /><div class="grid-two"><Card><h3>Assurance informs learning</h3><p>Training priorities can be shaped by verified control gaps, role requirements, readiness findings, and operating context.</p></Card><Card><h3>Learning supports readiness</h3><p>Programs are structured to reinforce practical performance, decision quality, accountability, and sustained operational improvement.</p></Card></div></Section>
+
+    <Section ariaLabelledby="institute-contact-title"><SectionHeader badge="Institute Contact" id="institute-contact-title" title="Questions about training or workforce development?" /><Card><p>Email the Institute team at <a href="mailto:academy@safetyassuranceglobal.com">academy@safetyassuranceglobal.com</a>.</p></Card></Section>
 
     <Section ariaLabelledby="institute-boundary-title"><SectionHeader badge="Governance Boundary" id="institute-boundary-title" title="Public status is intentionally controlled." /><NoticePanel tone="warning" title="Program and Credential Status"><p>This public page does not represent every Institute program as open for enrollment and does not claim external accreditation, licensure, regulatory approval, or automatic credential issuance. Availability, delivery status, assessment requirements, and any credential decision are confirmed through the applicable governed process.</p></NoticePanel></Section>
   </Container>

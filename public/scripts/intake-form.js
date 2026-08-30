@@ -2,7 +2,11 @@
   const forms = document.querySelectorAll('[data-intake-form]');
 
   const MAX_MESSAGE_LENGTH = 3000;
+  const MAX_FALLBACK_BODY_CHARS = 1400;
+  const MAX_FALLBACK_SUBJECT_CHARS = 160;
   const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
+  const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
   let turnstileScriptPromise;
 
   const setStatus = (statusEl, message, kind) => {
@@ -92,6 +96,83 @@
     return payload;
   };
 
+  const truncateForMailto = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+
+    const note = '\n\n[Request details truncated for email-client compatibility. Please review and add any omitted details before sending.]';
+    const available = Math.max(0, maxLength - note.length);
+    return `${text.slice(0, available)}${note}`;
+  };
+
+  const buildFallbackMailto = (payload) => {
+    const isProposal = payload.formType === 'proposal';
+    const rawSubject = isProposal
+      ? `Website proposal request — ${payload.organization || payload.name || 'Prospective client'}`
+      : `Website inquiry — ${payload.organization || payload.name || 'Prospective client'}`;
+    const subject = rawSubject.slice(0, MAX_FALLBACK_SUBJECT_CHARS);
+
+    const fields = isProposal
+      ? [
+          ['Name', payload.name],
+          ['Organization', payload.organization],
+          ['Email', payload.email],
+          ['Phone', payload.phone],
+          ['Project type', payload.projectType],
+          ['Service needed', payload.serviceNeeded],
+          ['Project location', payload.projectLocation],
+          ['Anticipated schedule', payload.anticipatedSchedule],
+          ['Brief scope', payload.briefScope],
+          ['Procurement context', payload.procurementContext]
+        ]
+      : [
+          ['Name', payload.name],
+          ['Organization', payload.organization],
+          ['Email', payload.email],
+          ['Phone', payload.phone],
+          ['Inquiry type', payload.inquiryType],
+          ['Service interest', payload.serviceInterest],
+          ['Operating challenge or need', payload.message]
+        ];
+
+    const rawBody = [
+      'Safety Assurance Global website request',
+      '',
+      ...fields.map(([label, value]) => `${label}: ${value || ''}`),
+      '',
+      'Privacy acknowledgement: Yes',
+      '',
+      `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please forward to ${SECONDARY_FALLBACK_EMAIL}.`
+    ].join('\n');
+    const body = truncateForMailto(rawBody, MAX_FALLBACK_BODY_CHARS);
+
+    return `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const openEmailFallback = (form, status) => {
+    if (!form.checkValidity()) {
+      setStatus(status, 'Please complete the required fields before continuing.', 'error');
+      form.reportValidity();
+      return false;
+    }
+
+    const honeypot = form.querySelector('input[name="website"]');
+    if (honeypot && honeypot.value) {
+      setStatus(status, 'Submission blocked by spam protection.', 'error');
+      return false;
+    }
+
+    const payload = toPayload(form);
+    setStatus(
+      status,
+      `Opening your email app to send this request to ${PRIMARY_FALLBACK_EMAIL}. If needed, you can also email ${SECONDARY_FALLBACK_EMAIL}.`,
+      'success'
+    );
+    window.location.href = buildFallbackMailto(payload);
+    return true;
+  };
+
   const initializeTurnstile = async (form, status, config) => {
     const turnstileConfig = config && config.turnstile;
     if (!turnstileConfig || turnstileConfig.enabled !== true || typeof turnstileConfig.siteKey !== 'string') {
@@ -135,49 +216,55 @@
       submitButton.disabled = true;
     }
     form.dataset.deliveryConfigured = 'unknown';
+    form.dataset.turnstileEnabled = 'unknown';
+    setStatus(status, 'Checking secure inquiry delivery options...', '');
 
     runtimeConfigPromise
-      .then((config) => {
+      .then(async (config) => {
         const deliveryConfigured = Boolean(config && config.delivery && config.delivery.configured === true);
         form.dataset.deliveryConfigured = String(deliveryConfigured);
 
         if (!deliveryConfigured) {
+          form.dataset.turnstileEnabled = 'false';
           if (submitButton instanceof HTMLButtonElement) {
-            submitButton.disabled = true;
+            submitButton.disabled = false;
           }
           setStatus(
             status,
-            'Online inquiry delivery is temporarily unavailable. Please email contact@safetyassuranceglobal.com.',
-            'error'
+            `Secure online delivery is being configured. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+            ''
           );
           return;
         }
 
+        await initializeTurnstile(form, status, config);
         if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = false;
         }
-        return initializeTurnstile(form, status, config);
       })
-      .catch((error) => {
-        form.dataset.turnstileEnabled = 'unknown';
-        form.dataset.deliveryConfigured = 'unknown';
+      .catch(() => {
+        form.dataset.turnstileEnabled = 'false';
+        form.dataset.deliveryConfigured = 'false';
         if (submitButton instanceof HTMLButtonElement) {
-          submitButton.disabled = true;
+          submitButton.disabled = false;
         }
         setStatus(
           status,
-          error instanceof Error
-            ? `${error.message} Please email contact@safetyassuranceglobal.com.`
-            : 'Inquiry service is unavailable. Please email contact@safetyassuranceglobal.com.',
-          'error'
+          `Online delivery could not be verified. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+          ''
         );
       });
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
+      if (form.dataset.deliveryConfigured === 'unknown') {
+        setStatus(status, 'Please wait a moment while secure inquiry delivery is checked.', '');
+        return;
+      }
+
       if (form.dataset.deliveryConfigured !== 'true') {
-        setStatus(status, 'Online inquiry delivery is unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
+        openEmailFallback(form, status);
         return;
       }
 
@@ -199,7 +286,7 @@
       }
 
       if (form.dataset.turnstileEnabled === 'unknown') {
-        setStatus(status, 'Spam protection is unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
+        setStatus(status, 'Please wait a moment while spam protection initializes.', '');
         return;
       }
 
@@ -224,10 +311,8 @@
         });
 
         if (!response.ok || !result.ok) {
-          const message = result && typeof result.message === 'string'
-            ? result.message
-            : 'Submission could not be completed. Please email contact@safetyassuranceglobal.com.';
-          setStatus(status, message, 'error');
+          setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
+          window.location.href = buildFallbackMailto(payload);
           return;
         }
 
@@ -235,13 +320,11 @@
         form.dataset.turnstileToken = '';
         setStatus(status, 'Submission received. Our team will follow up using your provided contact details.', 'success');
       } catch (_error) {
-        setStatus(status, 'Submission is currently unavailable. Please email contact@safetyassuranceglobal.com.', 'error');
+        const payload = toPayload(form);
+        setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
+        window.location.href = buildFallbackMailto(payload);
       } finally {
-        if (
-          submitButton instanceof HTMLButtonElement &&
-          form.dataset.turnstileEnabled !== 'unknown' &&
-          form.dataset.deliveryConfigured === 'true'
-        ) {
+        if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = false;
         }
       }
