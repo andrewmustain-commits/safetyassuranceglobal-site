@@ -64,6 +64,9 @@ jobs:
       - name: Validate sitemap integrity
         run: npm run validate:sitemap
 
+      - name: Validate public UX
+        run: npm run validate:public-ux
+
       - name: Deploy production build to Cloudflare Pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v3
         with:

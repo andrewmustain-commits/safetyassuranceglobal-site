@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
-import NoticePanel from '../components/ui/NoticePanel.astro';
 ---
 
 <BaseLayout title="Privacy Policy" description="Privacy policy for Safety Assurance Global website visitors and inquiry submitters.">
@@ -41,15 +40,6 @@ import NoticePanel from '../components/ui/NoticePanel.astro';
     <Section ariaLabelledby="privacy-contact-title">
       <h2 id="privacy-contact-title">Privacy Contact</h2>
       <p>For privacy questions, contact <a href="mailto:privacy@safetyassuranceglobal.com">privacy@safetyassuranceglobal.com</a>.</p>
-    </Section>
-
-    <Section ariaLabelledby="privacy-review-title">
-      <NoticePanel tone="warning" title="Legal Review Flag" id="privacy-review-title">
-        <p>
-          This policy was structurally reviewed for consistency and branding alignment. Substantive legal terms require
-          attorney review before final production approval.
-        </p>
-      </NoticePanel>
     </Section>
   </Container>
 </BaseLayout>

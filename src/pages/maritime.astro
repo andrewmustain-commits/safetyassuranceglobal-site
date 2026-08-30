@@ -65,22 +65,22 @@ const pathways = [
 ];
 
 const focusAreas = [
-  'Shipyard assurance',
-  'Port and terminal readiness',
-  'Vessel-operator support',
-  'Marine-contractor oversight',
-  'Maritime safety management',
-  'Maritime risk management',
-  'QA/QC',
-  'Compliance readiness',
-  'Maritime cybersecurity readiness',
-  'Safety-management readiness',
-  'Contractor assurance',
-  'Emergency preparedness',
-  'Drills and exercises',
-  'Incident investigation',
-  'Workforce training',
-  'Government maritime support'
+  { label: 'Shipyard assurance', href: '/industries/shipyards' },
+  { label: 'Port and terminal readiness', href: '/industries/ports-marine-terminals' },
+  { label: 'Vessel-operator support', href: '/industries/vessel-operators' },
+  { label: 'Marine-contractor oversight', href: '/industries/marine-contractors' },
+  { label: 'Maritime safety management', href: '/services/safety-risk-management' },
+  { label: 'Maritime risk management', href: '/services/safety-risk-management' },
+  { label: 'QA/QC', href: '/services/qa-qc' },
+  { label: 'Compliance readiness', href: '/services/maritime-compliance' },
+  { label: 'Maritime cybersecurity readiness', href: '/contact' },
+  { label: 'Safety-management readiness', href: '/services/operational-readiness' },
+  { label: 'Contractor assurance', href: '/services/contractor-assurance' },
+  { label: 'Emergency preparedness', href: '/services/emergency-preparedness' },
+  { label: 'Drills and exercises', href: '/services/emergency-preparedness' },
+  { label: 'Incident investigation', href: '/services/incident-investigation' },
+  { label: 'Workforce training', href: '/maritime-training' },
+  { label: 'Government maritime support', href: '/government' }
 ];
 ---
 
@@ -110,11 +110,14 @@ const focusAreas = [
         id="maritime-focus-title"
         title="Support across critical maritime operating and project environments."
       />
-      <div class="grid-four">
+      <div class="grid-four maritime-focus-grid">
         {focusAreas.map((item) => (
-          <Card>
-            <h3>{item}</h3>
-          </Card>
+          <a class="maritime-focus-link" href={item.href} aria-label={`Explore ${item.label}`}>
+            <Card as="div" class="maritime-focus-card">
+              <h3>{item.label}</h3>
+              <span class="maritime-focus-action" aria-hidden="true">Explore →</span>
+            </Card>
+          </a>
         ))}
       </div>
     </Section>
@@ -160,6 +163,46 @@ const focusAreas = [
 </BaseLayout>
 
 <style>
+  .maritime-focus-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+  }
+
+  .maritime-focus-link:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .maritime-focus-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .maritime-focus-link:hover .maritime-focus-card,
+  .maritime-focus-link:focus-visible .maritime-focus-card {
+    transform: translateY(-2px);
+    border-color: rgba(211, 154, 50, 0.7);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .maritime-focus-card h3 {
+    margin: 0;
+  }
+
+  .maritime-focus-action {
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
   .pathway-stack {
     display: grid;
     gap: var(--space-2);

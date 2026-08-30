@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
-import NoticePanel from '../components/ui/NoticePanel.astro';
 ---
 
 <BaseLayout title="Terms of Use" description="Terms of use for the Safety Assurance Global public website.">
@@ -39,15 +38,6 @@ import NoticePanel from '../components/ui/NoticePanel.astro';
     <Section ariaLabelledby="terms-updates-title">
       <h2 id="terms-updates-title">Updates</h2>
       <p>These terms may be updated periodically. Continued use indicates acceptance of the current published version.</p>
-    </Section>
-
-    <Section ariaLabelledby="terms-review-title">
-      <NoticePanel tone="warning" title="Legal Review Flag" id="terms-review-title">
-        <p>
-          Formatting and consistency issues were corrected in this phase. Substantive legal language should be reviewed
-          by counsel before final production signoff.
-        </p>
-      </NoticePanel>
     </Section>
   </Container>
 </BaseLayout>
