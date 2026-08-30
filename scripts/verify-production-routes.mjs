@@ -62,15 +62,32 @@ const expectRedirect = async (pathname, expectedLocation) => {
   }
 };
 
-await retry('homepage', () => expectStatus('/', 200, 'Safety Assurance Global'));
+const expectHeaderIncludes = async (pathname, headerName, expectedValue) => {
+  const response = await request(pathname);
+  if (!response.ok) throw new Error(`expected successful response, received ${response.status}`);
+  const value = response.headers.get(headerName);
+  if (!value || !value.toLowerCase().includes(expectedValue.toLowerCase())) {
+    throw new Error(`expected ${headerName} to include ${expectedValue}, received ${value ?? 'missing header'}`);
+  }
+};
+
+await retry('homepage', () => expectStatus('/', 200, 'Independent Assurance &amp; Maritime Operational Readiness'));
+await retry('contact route', () => expectStatus('/contact', 200, 'info@safetyassuranceglobal.com'));
+await retry('proposal route', () => expectStatus('/request-proposal', 200, 'Request a Proposal'));
+await retry('capabilities route', () => expectStatus('/capabilities', 200, 'RCUUJLWEBGD4'));
 await retry('robots.txt', () => expectStatus('/robots.txt', 200, 'sitemap-index.xml'));
 await retry('security.txt', () => expectStatus('/.well-known/security.txt', 200, 'Contact:'));
 await retry('sitemap index', () => expectStatus('/sitemap-index.xml', 200, '<sitemapindex'));
+await retry('homepage security headers', () => expectHeaderIncludes('/', 'content-security-policy', "default-src 'self'"));
+await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/sag-official-seal-2026.png', 'cache-control', 'max-age=604800'));
 
 await retry('academy redirect', () => expectRedirect('/academy', '/institute'));
+await retry('academy trailing-slash redirect', () => expectRedirect('/academy/', '/institute'));
 await retry('blog redirect', () => expectRedirect('/blog', '/insights'));
 await retry('terms redirect', () => expectRedirect('/terms', '/terms-of-use'));
+await retry('terms trailing-slash redirect', () => expectRedirect('/terms/', '/terms-of-use'));
 await retry('command redirect', () => expectRedirect('/command', '/sag-command'));
+await retry('command trailing-slash redirect', () => expectRedirect('/command/', '/sag-command'));
 await retry('security alias redirect', () => expectRedirect('/security.txt', '/.well-known/security.txt'));
 await retry('held legacy article redirect', () =>
   expectRedirect('/blog/infrastructure-of-integrity-risk-governance', '/insights')
