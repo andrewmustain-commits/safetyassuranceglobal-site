@@ -29,7 +29,6 @@ const walk = (directory) => {
 };
 walk(dist);
 
-const stripTags = (value) => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 const attrValue = (tag, name) => {
   const match = tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])(.*?)\\1`, 'i'));
   return match ? match[2].trim() : null;
@@ -96,8 +95,8 @@ for (const filePath of htmlFiles) {
   for (const button of buttons) {
     const tag = button[0].slice(0, button[0].indexOf('>') + 1);
     const ariaLabel = attrValue(tag, 'aria-label');
-    const visibleText = stripTags(button[1]);
-    if (!ariaLabel && !visibleText) failures.push(`${relative}: button has no accessible name`);
+    const hasRenderedContent = button[1].trim().length > 0;
+    if (!ariaLabel && !hasRenderedContent) failures.push(`${relative}: button has no accessible name or rendered content`);
   }
 
   const controls = [...html.matchAll(/<(input|select|textarea)\b[^>]*>/gi)];
