@@ -2,6 +2,8 @@
   const forms = document.querySelectorAll('[data-intake-form]');
 
   const MAX_MESSAGE_LENGTH = 3000;
+  const MAX_FALLBACK_BODY_CHARS = 1400;
+  const MAX_FALLBACK_SUBJECT_CHARS = 160;
   const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
   const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
   const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
@@ -94,11 +96,22 @@
     return payload;
   };
 
+  const truncateForMailto = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+
+    const note = '\n\n[Request details truncated for email-client compatibility. Please review and add any omitted details before sending.]';
+    const available = Math.max(0, maxLength - note.length);
+    return `${text.slice(0, available)}${note}`;
+  };
+
   const buildFallbackMailto = (payload) => {
     const isProposal = payload.formType === 'proposal';
-    const subject = isProposal
+    const rawSubject = isProposal
       ? `Website proposal request — ${payload.organization || payload.name || 'Prospective client'}`
       : `Website inquiry — ${payload.organization || payload.name || 'Prospective client'}`;
+    const subject = rawSubject.slice(0, MAX_FALLBACK_SUBJECT_CHARS);
 
     const fields = isProposal
       ? [
@@ -123,7 +136,7 @@
           ['Operating challenge or need', payload.message]
         ];
 
-    const body = [
+    const rawBody = [
       'Safety Assurance Global website request',
       '',
       ...fields.map(([label, value]) => `${label}: ${value || ''}`),
@@ -132,6 +145,7 @@
       '',
       `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please forward to ${SECONDARY_FALLBACK_EMAIL}.`
     ].join('\n');
+    const body = truncateForMailto(rawBody, MAX_FALLBACK_BODY_CHARS);
 
     return `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
@@ -199,17 +213,22 @@
     const submitButton = form.querySelector('button[type="submit"]');
 
     if (submitButton instanceof HTMLButtonElement) {
-      submitButton.disabled = false;
+      submitButton.disabled = true;
     }
     form.dataset.deliveryConfigured = 'unknown';
+    form.dataset.turnstileEnabled = 'unknown';
+    setStatus(status, 'Checking secure inquiry delivery options...', '');
 
     runtimeConfigPromise
-      .then((config) => {
+      .then(async (config) => {
         const deliveryConfigured = Boolean(config && config.delivery && config.delivery.configured === true);
         form.dataset.deliveryConfigured = String(deliveryConfigured);
 
         if (!deliveryConfigured) {
           form.dataset.turnstileEnabled = 'false';
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = false;
+          }
           setStatus(
             status,
             `Secure online delivery is being configured. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
@@ -218,11 +237,17 @@
           return;
         }
 
-        return initializeTurnstile(form, status, config);
+        await initializeTurnstile(form, status, config);
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+        }
       })
       .catch(() => {
         form.dataset.turnstileEnabled = 'false';
         form.dataset.deliveryConfigured = 'false';
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+        }
         setStatus(
           status,
           `Online delivery could not be verified. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
@@ -232,6 +257,11 @@
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      if (form.dataset.deliveryConfigured === 'unknown') {
+        setStatus(status, 'Please wait a moment while secure inquiry delivery is checked.', '');
+        return;
+      }
 
       if (form.dataset.deliveryConfigured !== 'true') {
         openEmailFallback(form, status);
@@ -256,7 +286,7 @@
       }
 
       if (form.dataset.turnstileEnabled === 'unknown') {
-        openEmailFallback(form, status);
+        setStatus(status, 'Please wait a moment while spam protection initializes.', '');
         return;
       }
 
