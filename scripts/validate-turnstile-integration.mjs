@@ -9,6 +9,10 @@ const server = read('functions/api/inquiry.ts');
 const client = read('public/scripts/intake-form.js');
 const contact = read('src/components/forms/ContactInquiryForm.astro');
 const proposal = read('src/components/forms/ProposalRequestForm.astro');
+const contactPage = read('src/pages/contact.astro');
+const institutePage = read('src/pages/institute.astro');
+const trainingPage = read('src/pages/training.astro');
+const commandPage = read('src/pages/sag-command.astro');
 const headers = read('public/_headers');
 
 const requireText = (source, needle, label) => {
@@ -37,13 +41,21 @@ requireText(client, "SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.c
 requireText(client, 'buildFallbackMailto', 'Client is missing the prefilled email fallback builder.');
 requireText(client, 'openEmailFallback', 'Client is missing the email fallback submission path.');
 requireText(client, 'window.location.href = buildFallbackMailto(payload)', 'Client does not open the completed request in the visitor email app when secure delivery fails.');
-requireText(client, "submitButton.disabled = false", 'Client must keep the submit action available when webhook delivery is not configured.');
+requireText(client, 'submitButton.disabled = false', 'Client must keep the submit action available when webhook delivery is not configured.');
 
 requireText(contact, 'data-turnstile-container', 'Contact form is missing its Turnstile render container.');
 requireText(proposal, 'data-turnstile-container', 'Proposal form is missing its Turnstile render container.');
 
+requireText(contactPage, 'mailto:info@safetyassuranceglobal.com', 'Contact page must expose info@safetyassuranceglobal.com as the primary general mailbox.');
+requireText(contactPage, 'mailto:contact@safetyassuranceglobal.com', 'Contact page must retain contact@safetyassuranceglobal.com as a secondary mailbox.');
+requireText(contactPage, 'mailto:academy@safetyassuranceglobal.com', 'Contact page must expose the Academy mailbox.');
+requireText(contactPage, 'mailto:command@safetyassuranceglobal.com', 'Contact page must expose the SAG Command mailbox.');
+requireText(institutePage, 'academy@safetyassuranceglobal.com', 'Institute page must route inquiries to academy@safetyassuranceglobal.com.');
+requireText(trainingPage, 'academy@safetyassuranceglobal.com', 'Training page must route inquiries to academy@safetyassuranceglobal.com.');
+requireText(commandPage, 'command@safetyassuranceglobal.com', 'SAG Command page must route inquiries to command@safetyassuranceglobal.com.');
+
 requireText(headers, "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com", 'CSP script-src does not allow Cloudflare Turnstile.');
-requireText(headers, "frame-src https://challenges.cloudflare.com", 'CSP frame-src does not allow Cloudflare Turnstile.');
+requireText(headers, 'frame-src https://challenges.cloudflare.com', 'CSP frame-src does not allow Cloudflare Turnstile.');
 requireText(headers, "connect-src 'self' https://challenges.cloudflare.com", 'CSP connect-src does not allow Cloudflare Turnstile.');
 
 if (failures.length) {
