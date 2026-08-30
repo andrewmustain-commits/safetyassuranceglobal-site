@@ -34,7 +34,6 @@ const attrValue = (tag, name) => {
   const match = tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])(.*?)\\1`, 'i'));
   return match ? match[2].trim() : null;
 };
-const hasAttr = (tag, name) => new RegExp(`\\b${name}(?:\\s*=|\\s|>|/)`, 'i').test(tag);
 
 const localAssetExtensions = /\.(?:css|js|mjs|png|jpe?g|webp|gif|svg|ico|woff2?|ttf|otf)(?:[?#].*)?$/i;
 const assetExists = (url) => {
@@ -80,9 +79,8 @@ for (const filePath of htmlFiles) {
   const h1s = [...html.matchAll(/<h1\b[^>]*>/gi)];
   if (h1s.length !== 1) failures.push(`${relative}: expected exactly one <h1>, found ${h1s.length}`);
 
-  const skipLink = html.match(/<a\b[^>]*class\s*=\s*(["'])[^"']*\bskip-link\b[^"']*\1[^>]*href\s*=\s*(["'])(.*?)\2[^>]*>/i)
-    ?? html.match(/<a\b[^>]*href\s*=\s*(["'])(.*?)\1[^>]*class\s*=\s*(["'])[^"']*\bskip-link\b[^"']*\3[^>]*>/i);
-  const skipHref = skipLink ? (skipLink[3] ?? skipLink[2]) : null;
+  const skipAnchor = anchors.find((match) => /\bclass\s*=\s*(["'])[^"']*\bskip-link\b[^"']*\1/i.test(match[0]));
+  const skipHref = skipAnchor ? attrValue(skipAnchor[0], 'href') : null;
   if (!skipHref || !skipHref.startsWith('#')) {
     failures.push(`${relative}: accessible skip link is missing or does not target a page id`);
   } else if (!ids.includes(skipHref.slice(1))) {
