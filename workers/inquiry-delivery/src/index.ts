@@ -53,6 +53,9 @@ const json = (body: Record<string, unknown>, status: number) =>
 const clean = (value: unknown, max = 3_000) =>
   typeof value === 'string' ? value.trim().slice(0, max) : '';
 
+const cleanHeader = (value: unknown, max: number) =>
+  clean(value, max).replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+
 const formatBody = (payload: DeliveryPayload) => {
   const data = payload.data ?? {};
   const rows: Array<[string, string]> = [
@@ -107,15 +110,15 @@ export default {
       return json({ ok: false, message: 'Invalid JSON payload.' }, 400);
     }
 
-    const formType = clean(payload.formType, 24).toLowerCase();
+    const formType = cleanHeader(payload.formType, 24).toLowerCase();
     const data = payload.data ?? {};
-    const replyTo = clean(data.email, 254);
+    const replyTo = cleanHeader(data.email, 254);
 
-    if (!['contact', 'proposal'].includes(formType) || !replyTo) {
+    if (!['contact', 'proposal'].includes(formType) || !replyTo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyTo)) {
       return json({ ok: false, message: 'Invalid delivery payload.' }, 400);
     }
 
-    const organization = clean(data.organization, 120) || clean(data.name, 120) || 'Prospective client';
+    const organization = cleanHeader(data.organization, 120) || cleanHeader(data.name, 120) || 'Prospective client';
     const subject = formType === 'proposal'
       ? `Website proposal request — ${organization}`
       : `Website inquiry — ${organization}`;
@@ -125,7 +128,7 @@ export default {
         to: DESTINATION,
         from: FROM_ADDRESS,
         replyTo,
-        subject: subject.slice(0, 160),
+        subject: cleanHeader(subject, 160),
         text: formatBody(payload)
       });
 
