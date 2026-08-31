@@ -6,6 +6,8 @@ const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const failures = [];
 
 const server = read('functions/api/inquiry.ts');
+const worker = read('workers/inquiry-delivery/src/index.ts');
+const workerConfig = read('workers/inquiry-delivery/wrangler.jsonc');
 const client = read('public/scripts/intake-form.js');
 const contact = read('src/components/forms/ContactInquiryForm.astro');
 const proposal = read('src/components/forms/ProposalRequestForm.astro');
@@ -24,11 +26,24 @@ requireText(server, 'TURNSTILE_SECRET_KEY', 'Server runtime is missing TURNSTILE
 requireText(server, 'turnstile.misconfigured', 'Server runtime does not fail closed on mismatched Turnstile keys.');
 requireText(server, 'verifyTurnstile', 'Server runtime is missing Turnstile verification.');
 requireText(server, 'onRequestGet', 'Server runtime is missing same-origin runtime configuration discovery.');
+requireText(server, 'INQUIRY_DELIVERY', 'Server runtime is missing private inquiry Service Binding support.');
+requireText(server, 'hasServiceBinding(context.env)', 'Delivery readiness does not include the private Service Binding.');
+requireText(server, 'serviceBinding.fetch(SERVICE_BINDING_URL', 'Server runtime does not call the private inquiry delivery Worker.');
 requireText(server, 'FORM_WEBHOOK_URL', 'Server runtime is missing form webhook delivery support.');
 requireText(server, 'deliveryConfigured', 'Server runtime does not expose a safe boolean delivery readiness state.');
 requireText(server, 'getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL)', 'Delivery readiness does not validate the configured webhook as HTTPS.');
 requireText(server, "PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com'", 'Server primary fallback email must be info@safetyassuranceglobal.com.');
 requireText(server, "SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com'", 'Server secondary fallback email must remain contact@safetyassuranceglobal.com.');
+
+requireText(worker, "DESTINATION = 'info@safetyassuranceglobal.com'", 'Delivery Worker destination must remain the approved general inbox.');
+requireText(worker, "FROM_ADDRESS = 'website@safetyassuranceglobal.com'", 'Delivery Worker sender must remain the controlled website sender.');
+requireText(worker, 'env.EMAIL.send', 'Delivery Worker is missing Cloudflare Email Service delivery.');
+requireText(worker, 'cleanHeader', 'Delivery Worker is missing email-header sanitization.');
+requireText(workerConfig, '"workers_dev": false', 'Delivery Worker must not expose a workers.dev route.');
+requireText(workerConfig, '"preview_urls": false', 'Delivery Worker preview URLs must remain disabled.');
+requireText(workerConfig, '"send_email"', 'Delivery Worker is missing the Cloudflare send_email binding.');
+requireText(workerConfig, '"destination_address": "info@safetyassuranceglobal.com"', 'Email binding destination is not restricted to the approved inbox.');
+requireText(workerConfig, '"website@safetyassuranceglobal.com"', 'Email binding sender restriction is missing the controlled website sender.');
 
 requireText(client, "fetch('/api/inquiry'", 'Client does not read the intake runtime configuration.');
 requireText(client, 'challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', 'Client is missing the official Turnstile script endpoint.');
