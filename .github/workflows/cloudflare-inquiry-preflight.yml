@@ -1,0 +1,108 @@
+name: Cloudflare Inquiry Activation Preflight
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/cloudflare-inquiry-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-inquiry-preflight
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Inspect Cloudflare Pages bindings safely
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          project_json="$(mktemp)"
+          status="$(curl --silent --show-error --output "$project_json" --write-out '%{http_code}' \
+            --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            --header 'Content-Type: application/json' \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/safetyassuranceglobal")"
+
+          if [[ "$status" != "200" ]]; then
+            echo "Cloudflare Pages project read failed with HTTP ${status}." >&2
+            jq -r '.errors[]?.message // empty' "$project_json" >&2 || true
+            exit 1
+          fi
+
+          if [[ "$(jq -r '.success' "$project_json")" != "true" ]]; then
+            echo 'Cloudflare Pages project read returned success=false.' >&2
+            jq -r '.errors[]?.message // empty' "$project_json" >&2 || true
+            exit 1
+          fi
+
+          production_branch="$(jq -r '.result.production_branch // "unknown"' "$project_json")"
+          service_names="$(jq -r '(.result.deployment_configs.production.services // {}) | keys | if length == 0 then ["(none)"] else . end | join(", ")' "$project_json")"
+          env_summary="$(jq -r '(.result.deployment_configs.production.env_vars // {}) | to_entries | map(.key + ":" + (.value.type // "unknown")) | if length == 0 then ["(none)"] else . end | join(", ")' "$project_json")"
+
+          echo "Production branch: ${production_branch}"
+          echo "Production service binding names: ${service_names}"
+          echo "Production environment variable names/types: ${env_summary}"
+
+          {
+            echo '## Cloudflare inquiry activation preflight'
+            echo
+            echo "- Pages project: \`safetyassuranceglobal\`"
+            echo "- Production branch: \`${production_branch}\`"
+            echo "- Production service bindings: \`${service_names}\`"
+            echo "- Production variable names/types: \`${env_summary}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check inquiry delivery Worker presence
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          worker_response="$(mktemp)"
+          status="$(curl --silent --show-error --output "$worker_response" --write-out '%{http_code}' \
+            --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts/sag-inquiry-delivery/settings")"
+
+          case "$status" in
+            200)
+              echo 'Inquiry delivery Worker: present'
+              echo '- Inquiry delivery Worker: `present`' >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            404)
+              echo 'Inquiry delivery Worker: not deployed'
+              echo '- Inquiry delivery Worker: `not deployed`' >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            401|403)
+              echo "Inquiry delivery Worker visibility: API token cannot read Worker settings (HTTP ${status})"
+              echo "- Inquiry delivery Worker visibility: \`permission unavailable (HTTP ${status})\`" >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            *)
+              echo "Unexpected Worker settings response: HTTP ${status}" >&2
+              jq -r '.errors[]?.message // empty' "$worker_response" >&2 || true
+              exit 1
+              ;;
+          esac
+
+      - name: Record production runtime expectation
+        run: |
+          {
+            echo '- Current hosted verifier state before activation: `Turnstile enabled=true`, `delivery configured=false`'
+            echo '- This workflow performs no Cloudflare writes.'
+          } >> "$GITHUB_STEP_SUMMARY"
