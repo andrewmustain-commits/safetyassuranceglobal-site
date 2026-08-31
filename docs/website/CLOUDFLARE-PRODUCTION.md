@@ -4,7 +4,7 @@
 
 This repository is an Astro static site with one Cloudflare Pages Function at `/api/inquiry`. It is not a Next.js application. `@opennextjs/cloudflare` is therefore intentionally not installed: that adapter transforms Next.js server output for Cloudflare Workers and would add an unrelated runtime and caching layer without improving this site.
 
-Cloudflare Pages remains the deployment target. `wrangler.jsonc` is the version-controlled source of truth for the Pages project name, output directory, compatibility settings, non-secret variables, and required secret names. The explicit `nodejs_compat` flag preserves the requested runtime contract; with the current compatibility date Cloudflare also enables the current Node.js compatibility behavior by default.
+Cloudflare Pages remains the deployment target. `wrangler.jsonc` is the version-controlled source of truth for the Pages project name, output directory, compatibility settings, and non-secret variables. Pages rejects the Workers-only `secrets` declaration, so encrypted secret names and values remain managed in Cloudflare Pages Variables and Secrets. The explicit `nodejs_compat` flag preserves the requested runtime contract; with the current compatibility date Cloudflare also enables the current Node.js compatibility behavior by default.
 
 ## Environments and bindings
 
@@ -20,7 +20,7 @@ Optional encrypted secret:
 
 - `FORM_WEBHOOK_AUTH_TOKEN` — bearer token sent to the intake webhook when the receiving service requires it.
 
-No KV, D1, R2, Durable Object, service, or queue binding is currently required. Add one only when an approved application capability needs durable platform state. Real values belong in Cloudflare Variables and Secrets; `.dev.vars.example` documents local names without containing credentials.
+No KV, D1, R2, Durable Object, service, or queue binding is currently required. Add one only when an approved application capability needs durable platform state. Real values and required secret names belong in encrypted Cloudflare Pages Variables and Secrets; `.dev.vars.example` documents local names without containing credentials.
 
 ## CI/CD
 

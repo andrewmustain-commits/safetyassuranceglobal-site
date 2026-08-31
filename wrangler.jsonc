@@ -9,25 +9,11 @@
     "ENVIRONMENT": "production",
     "FORM_MAX_BODY_BYTES": "16384"
   },
-  "secrets": {
-    "required": [
-      "FORM_WEBHOOK_URL",
-      "TURNSTILE_SITE_KEY",
-      "TURNSTILE_SECRET_KEY"
-    ]
-  },
   "env": {
     "preview": {
       "vars": {
         "ENVIRONMENT": "preview",
         "FORM_MAX_BODY_BYTES": "16384"
-      },
-      "secrets": {
-        "required": [
-          "FORM_WEBHOOK_URL",
-          "TURNSTILE_SITE_KEY",
-          "TURNSTILE_SECRET_KEY"
-        ]
       }
     }
   }

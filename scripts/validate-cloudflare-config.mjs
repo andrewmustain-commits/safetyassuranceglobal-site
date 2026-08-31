@@ -19,12 +19,11 @@ requireValue(config.compatibility_flags?.includes('nodejs_compat'), 'nodejs_comp
 requireValue(config.vars?.ENVIRONMENT === 'production', 'Top-level Pages environment must be production.');
 requireValue(config.env?.preview?.vars?.ENVIRONMENT === 'preview', 'Preview Pages environment must be explicit.');
 
-for (const key of ['FORM_WEBHOOK_URL', 'TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY']) {
-  requireValue(config.secrets?.required?.includes(key), `Production secret contract is missing ${key}.`);
-  requireValue(config.env?.preview?.secrets?.required?.includes(key), `Preview secret contract is missing ${key}.`);
+requireValue(!('secrets' in config), 'Pages does not support the Workers-only top-level secrets declaration.');
+requireValue(!('secrets' in (config.env?.preview ?? {})), 'Pages preview config must not use a secrets declaration.');
+for (const key of ['FORM_WEBHOOK_URL', 'FORM_WEBHOOK_AUTH_TOKEN', 'TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY']) {
+  requireValue(!JSON.stringify(config).includes(`\"${key}\"`), `${key} must remain in encrypted Cloudflare Pages settings.`);
 }
-
-requireValue(!JSON.stringify(config).includes('FORM_WEBHOOK_AUTH_TOKEN\":\"'), 'Secret values must not be committed.');
 requireValue(workflow.includes('command: pages deploy'), 'Deployment workflow must use Wrangler Pages deploy.');
 requireValue(workflow.includes('--branch=main'), 'Production deployment must remain pinned to main.');
 requireValue(workflow.includes('CLOUDFLARE_API_TOKEN'), 'Deployment workflow must use the Cloudflare API token secret.');
