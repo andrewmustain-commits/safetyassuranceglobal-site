@@ -1,0 +1,133 @@
+name: Activate Cloudflare Inquiry Delivery
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ops/cloudflare/inquiry-activation.request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-inquiry-activation
+  cancel-in-progress: false
+
+jobs:
+  activate:
+    if: contains(github.event.head_commit.message, '[activate-inquiry-delivery]')
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      PAGES_PROJECT: safetyassuranceglobal
+      DELIVERY_WORKER: sag-inquiry-delivery
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate inquiry delivery Worker
+        run: npm run validate:inquiry-delivery
+
+      - name: Require Workers Scripts access before writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(mktemp)"
+          status="$(curl --silent --show-error --output "$response" --write-out '%{http_code}' \
+            --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts/${DELIVERY_WORKER}/settings")"
+
+          case "$status" in
+            200|404)
+              echo "Workers Scripts access check passed (HTTP ${status})."
+              ;;
+            401|403)
+              echo "Activation blocked before writes: Cloudflare token lacks Workers Scripts access (HTTP ${status})." >&2
+              exit 1
+              ;;
+            *)
+              echo "Activation blocked before writes: unexpected Worker settings response HTTP ${status}." >&2
+              jq -r '.errors[]?.message // empty' "$response" >&2 || true
+              exit 1
+              ;;
+          esac
+
+      - name: Deploy private inquiry delivery Worker
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.127.1'
+          command: deploy --config workers/inquiry-delivery/wrangler.jsonc
+
+      - name: Add production Pages Service Binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(mktemp)"
+          payload='{"deployment_configs":{"production":{"services":{"INQUIRY_DELIVERY":{"service":"sag-inquiry-delivery","environment":"production"}}}}}'
+          status="$(curl --silent --show-error --output "$response" --write-out '%{http_code}' \
+            --request PATCH \
+            --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            --header 'Content-Type: application/json' \
+            --data "$payload" \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/${PAGES_PROJECT}")"
+
+          if [[ "$status" != "200" ]] || [[ "$(jq -r '.success' "$response")" != "true" ]]; then
+            echo "Pages Service Binding update failed with HTTP ${status}." >&2
+            jq -r '.errors[]?.message // empty' "$response" >&2 || true
+            exit 1
+          fi
+
+          service="$(jq -r '.result.deployment_configs.production.services.INQUIRY_DELIVERY.service // empty' "$response")"
+          environment="$(jq -r '.result.deployment_configs.production.services.INQUIRY_DELIVERY.environment // empty' "$response")"
+          if [[ "$service" != "$DELIVERY_WORKER" ]] || [[ "$environment" != "production" ]]; then
+            echo 'Pages Service Binding update did not return the expected INQUIRY_DELIVERY binding.' >&2
+            exit 1
+          fi
+          echo 'Production INQUIRY_DELIVERY Service Binding configured.'
+
+      - name: Build production site
+        run: npm run build
+
+      - name: Redeploy Pages so binding takes effect
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.127.1'
+          command: pages deploy dist --project-name=safetyassuranceglobal --branch=main
+
+      - name: Verify hosted runtime reports server delivery ready
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(mktemp)"
+          for attempt in 1 2 3 4 5 6; do
+            status="$(curl --silent --show-error --output "$response" --write-out '%{http_code}' \
+              'https://safetyassuranceglobal.com/api/inquiry')"
+            configured="$(jq -r '.delivery.configured // false' "$response" 2>/dev/null || printf 'false')"
+            turnstile="$(jq -r '.turnstile.enabled // false' "$response" 2>/dev/null || printf 'false')"
+            if [[ "$status" == "200" && "$configured" == "true" && "$turnstile" == "true" ]]; then
+              echo 'Hosted inquiry runtime reports delivery.configured=true and Turnstile enabled=true.'
+              exit 0
+            fi
+            echo "Runtime not ready yet (attempt ${attempt}); retrying..."
+            sleep 5
+          done
+
+          echo 'Hosted inquiry runtime did not reach the required activation state.' >&2
+          exit 1
