@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Safety Assurance Global</title>
+  <desc id="desc">Maritime assurance for safer, stronger, ready operations.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#041424"/>
+      <stop offset="1" stop-color="#0b2740"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0b3654"/>
+      <stop offset="1" stop-color="#071d31"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1035" cy="118" r="180" fill="#0e3654" opacity=".45"/>
+  <path d="M0 465 C180 430 330 500 510 463 S850 420 1200 470 V630 H0Z" fill="url(#sea)"/>
+  <path d="M700 405h330l58 50H655z" fill="#102f48" stroke="#d39a32" stroke-width="3"/>
+  <path d="M830 315h120v90H830zM860 255h42v60h-42z" fill="#173d59" stroke="#d39a32" stroke-width="3"/>
+  <path d="M902 255v-52M902 210h82" fill="none" stroke="#d39a32" stroke-width="5"/>
+  <path d="M985 210v195" fill="none" stroke="#d39a32" stroke-width="4"/>
+  <text x="78" y="110" fill="#d39a32" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="700" letter-spacing="5">SAFETY ASSURANCE GLOBAL</text>
+  <text x="78" y="215" fill="#ffffff" font-family="Arial,Helvetica,sans-serif" font-size="58" font-weight="800">Maritime assurance for</text>
+  <text x="78" y="282" fill="#ffffff" font-family="Arial,Helvetica,sans-serif" font-size="58" font-weight="800">safer, stronger, ready operations.</text>
+  <rect x="78" y="322" width="108" height="5" fill="#d39a32"/>
+  <text x="78" y="378" fill="#dbe5ee" font-family="Arial,Helvetica,sans-serif" font-size="29">Independent assurance · Operational readiness · QA/QC</text>
+  <text x="78" y="418" fill="#dbe5ee" font-family="Arial,Helvetica,sans-serif" font-size="29">Contractor assurance · Corrective-action validation</text>
+  <text x="78" y="550" fill="#9fb0bf" font-family="Arial,Helvetica,sans-serif" font-size="22">safetyassuranceglobal.com</text>
+</svg>
