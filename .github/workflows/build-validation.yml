@@ -39,6 +39,9 @@ jobs:
       - name: Validate Turnstile integration
         run: npm run validate:turnstile
 
+      - name: Validate Cloudflare inquiry delivery worker
+        run: npm run validate:inquiry-delivery
+
       - name: Static Astro diagnostics
         run: npm run check
 
