@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "sag-inquiry-delivery",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-31",
+  "workers_dev": false,
+  "preview_urls": false,
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "info@safetyassuranceglobal.com",
+      "allowed_sender_addresses": [
+        "website@safetyassuranceglobal.com"
+      ]
+    }
+  ]
+}
