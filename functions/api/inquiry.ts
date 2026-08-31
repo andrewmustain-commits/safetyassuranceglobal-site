@@ -1,4 +1,9 @@
+type ServiceBinding = {
+  fetch(input: string | Request, init?: RequestInit): Promise<Response>;
+};
+
 type Env = {
+  INQUIRY_DELIVERY?: ServiceBinding;
   FORM_WEBHOOK_URL?: string;
   FORM_WEBHOOK_AUTH_TOKEN?: string;
   TURNSTILE_SITE_KEY?: string;
@@ -24,6 +29,7 @@ const MAX_DEFAULT = 16_384;
 const UPSTREAM_TIMEOUT_MS = 10_000;
 const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
 const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
+const SERVICE_BINDING_URL = 'https://inquiry-delivery.internal/deliver';
 const fallbackMessage = `Please email ${PRIMARY_FALLBACK_EMAIL}. ${SECONDARY_FALLBACK_EMAIL} is also available.`;
 
 const requiredByType: Record<string, string[]> = {
@@ -77,6 +83,9 @@ const getTurnstileState = (env: Env) => {
 
   return { siteKey, secretKey, enabled, misconfigured };
 };
+
+const hasServiceBinding = (env: Env) =>
+  Boolean(env.INQUIRY_DELIVERY && typeof env.INQUIRY_DELIVERY.fetch === 'function');
 
 const isJsonRequest = (request: Request) => {
   const contentType = request.headers.get('content-type')?.toLowerCase() ?? '';
@@ -198,7 +207,7 @@ export const onRequestGet = async (context: PagesContext<Env>) => {
     return badRequest('Spam protection is not fully configured for this environment.', 503);
   }
 
-  const deliveryConfigured = Boolean(getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL));
+  const deliveryConfigured = hasServiceBinding(context.env) || Boolean(getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL));
 
   return jsonResponse(
     {
@@ -271,11 +280,6 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
     }
   }
 
-  const webhookUrl = getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL);
-  if (!webhookUrl) {
-    return badRequest(`Submission service is not configured for this environment. ${fallbackMessage}`, 503);
-  }
-
   const forwardPayload = {
     formType: asString(payload.formType),
     submittedAt: new Date().toISOString(),
@@ -296,30 +300,58 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
     }
   };
 
-  const headers: Record<string, string> = {
-    'content-type': 'application/json'
-  };
+  const serviceBinding = hasServiceBinding(context.env) ? context.env.INQUIRY_DELIVERY : undefined;
+  const webhookUrl = getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL);
 
-  if (context.env.FORM_WEBHOOK_AUTH_TOKEN) {
-    headers.authorization = `Bearer ${context.env.FORM_WEBHOOK_AUTH_TOKEN}`;
+  if (!serviceBinding && !webhookUrl) {
+    return badRequest(`Submission service is not configured for this environment. ${fallbackMessage}`, 503);
   }
 
-  try {
-    const upstream = await fetch(webhookUrl, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(forwardPayload),
-      signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
-    });
+  if (serviceBinding) {
+    try {
+      const upstream = await serviceBinding.fetch(SERVICE_BINDING_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(forwardPayload),
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
+      });
 
-    if (!upstream.ok) {
-      return badRequest(`Submission could not be delivered. ${fallbackMessage}`, 502);
+      if (upstream.ok) {
+        return okResponse('Submission received.');
+      }
+    } catch {
+      // Fall through to the HTTPS webhook when configured. The browser fallback
+      // remains authoritative if every server-side transport fails.
     }
-  } catch {
-    return badRequest(`Submission could not be delivered. ${fallbackMessage}`, 502);
   }
 
-  return okResponse('Submission received.');
+  if (webhookUrl) {
+    const headers: Record<string, string> = {
+      'content-type': 'application/json'
+    };
+
+    if (context.env.FORM_WEBHOOK_AUTH_TOKEN) {
+      headers.authorization = `Bearer ${context.env.FORM_WEBHOOK_AUTH_TOKEN}`;
+    }
+
+    try {
+      const upstream = await fetch(webhookUrl, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(forwardPayload),
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
+      });
+
+      if (upstream.ok) {
+        return okResponse('Submission received.');
+      }
+    } catch {
+      // Return the truthful failure below so the client opens its prefilled
+      // email fallback rather than claiming the submission was delivered.
+    }
+  }
+
+  return badRequest(`Submission could not be delivered. ${fallbackMessage}`, 502);
 };
 
 export const onRequestOptions = async () =>
