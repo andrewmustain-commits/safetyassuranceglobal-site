@@ -16,8 +16,11 @@ type IntakePayload = Record<string, unknown>;
 const JSON_HEADERS = {
   'content-type': 'application/json; charset=utf-8',
   'cache-control': 'no-store, max-age=0',
+  'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
   'x-content-type-options': 'nosniff',
-  'referrer-policy': 'no-referrer'
+  'x-frame-options': 'DENY',
+  'referrer-policy': 'no-referrer',
+  'permissions-policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()'
 };
 
 const MAX_DEFAULT = 16_384;
@@ -328,6 +331,9 @@ export const onRequestOptions = async () =>
     headers: {
       allow: 'GET, POST, OPTIONS',
       'cache-control': 'no-store, max-age=0',
-      'x-content-type-options': 'nosniff'
+      'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+      'x-content-type-options': 'nosniff',
+      'x-frame-options': 'DENY',
+      'referrer-policy': 'no-referrer'
     }
   });

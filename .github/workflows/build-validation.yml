@@ -39,11 +39,17 @@ jobs:
       - name: Validate Turnstile integration
         run: npm run validate:turnstile
 
+      - name: Validate Cloudflare production configuration
+        run: npm run validate:cloudflare
+
       - name: Static Astro diagnostics
         run: npm run check
 
       - name: Build Astro site
         run: npm run build
+
+      - name: Compile Cloudflare Pages Functions
+        run: npm run cloudflare:build-functions
 
       - name: Validate generated links
         run: npm run validate:links

@@ -13,3 +13,9 @@
 
 /images/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+https://safetyassuranceglobal.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.safetyassuranceglobal.pages.dev/*
+  X-Robots-Tag: noindex

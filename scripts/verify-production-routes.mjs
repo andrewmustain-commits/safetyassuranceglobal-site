@@ -71,7 +71,7 @@ const expectHeaderIncludes = async (pathname, headerName, expectedValue) => {
   }
 };
 
-await retry('homepage', () => expectStatus('/', 200, 'Independent Assurance &amp; Maritime Operational Readiness'));
+await retry('homepage', () => expectStatus('/', 200, 'Maritime Assurance &amp; Operational Readiness'));
 await retry('contact route', () => expectStatus('/contact', 200, 'info@safetyassuranceglobal.com'));
 await retry('proposal route', () => expectStatus('/request-proposal', 200, 'Request a Proposal'));
 await retry('capabilities route', () => expectStatus('/capabilities', 200, 'RCUUJLWEBGD4'));

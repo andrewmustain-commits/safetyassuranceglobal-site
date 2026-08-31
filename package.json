@@ -24,7 +24,9 @@
     "validate:sitemap": "node scripts/validate-sitemap.mjs",
     "validate:brand-assets": "node scripts/validate-brand-assets.mjs",
     "validate:turnstile": "node scripts/validate-turnstile-integration.mjs",
-    "validate:public-ux": "node scripts/validate-public-ux.mjs"
+    "validate:public-ux": "node scripts/validate-public-ux.mjs",
+    "validate:cloudflare": "node scripts/validate-cloudflare-config.mjs",
+    "cloudflare:build-functions": "wrangler pages functions build functions --outdir .wrangler/functions --project-directory . --build-output-directory dist"
   },
   "repository": {
     "type": "git",

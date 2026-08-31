@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local Pages Function development. Never commit real values.
+FORM_WEBHOOK_URL="https://example.invalid/intake"
+FORM_WEBHOOK_AUTH_TOKEN="replace-with-local-only-token-if-required"
+TURNSTILE_SITE_KEY="1x00000000000000000000AA"
+TURNSTILE_SECRET_KEY="1x0000000000000000000000000000000AA"

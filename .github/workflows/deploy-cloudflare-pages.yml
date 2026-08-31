@@ -43,11 +43,17 @@ jobs:
       - name: Validate Turnstile integration
         run: npm run validate:turnstile
 
+      - name: Validate Cloudflare production configuration
+        run: npm run validate:cloudflare
+
       - name: Static Astro diagnostics
         run: npm run check
 
       - name: Build site
         run: npm run build
+
+      - name: Compile Cloudflare Pages Functions
+        run: npm run cloudflare:build-functions
 
       - name: Validate generated links
         run: npm run validate:links
@@ -73,7 +79,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.127.1'
-          command: pages deploy dist --project-name=safetyassuranceglobal --branch=main
+          command: pages deploy --branch=main --commit-hash=${{ github.sha }} --commit-dirty=false
 
       - name: Verify hosted production routes
         run: node scripts/verify-production-routes.mjs
