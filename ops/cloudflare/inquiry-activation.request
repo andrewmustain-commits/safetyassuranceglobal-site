@@ -1,0 +1,12 @@
+# Cloudflare inquiry delivery activation request
+
+status=dormant
+worker=sag-inquiry-delivery
+pages_project=safetyassuranceglobal
+binding=INQUIRY_DELIVERY
+
+# Safety control
+# The activation workflow runs only when a commit message contains:
+# [activate-inquiry-delivery]
+#
+# Updating this file without that marker does not perform Cloudflare writes.
