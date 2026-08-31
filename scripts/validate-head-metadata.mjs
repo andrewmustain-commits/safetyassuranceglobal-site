@@ -1,8 +1,9 @@
 import { access, readdir, readFile, stat } from 'node:fs/promises';
 import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const distRoot = new URL('../dist/', import.meta.url);
-const distPath = distRoot.pathname;
+const distPath = fileURLToPath(distRoot);
 const siteOrigin = 'https://safetyassuranceglobal.com';
 const requiredFavicon = '/images/brand/sag-icon.svg';
 const forbiddenAssetNames = [

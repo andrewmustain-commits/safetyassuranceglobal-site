@@ -65,14 +65,9 @@ Governance commands:
 
 ## Cloudflare Pages deployment
 
-1. Connect this repository in Cloudflare Pages.
-2. Configure build settings:
-   - **Framework preset:** Astro
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node.js version:** 22.12+ (required by Astro 7)
-3. Deploy from your production branch (e.g., `main`).
-4. Ensure Pull Request previews are enabled in Cloudflare Pages settings.
+The production Pages and Pages Functions configuration is versioned in `wrangler.jsonc`. Deployments are gated through GitHub Actions from `main`; preview deployments use the explicit preview environment. Account secrets, custom-domain activation, DNS, WAF, and rate-limiting controls remain managed in Cloudflare.
+
+See `docs/website/CLOUDFLARE-PRODUCTION.md` for the environment contract, required GitHub and Cloudflare secrets, custom-domain/DNS path, security and caching defaults, release checks, and the documented decision not to add the Next.js-only `@opennextjs/cloudflare` adapter to this Astro repository.
 
 ## CI validation
 

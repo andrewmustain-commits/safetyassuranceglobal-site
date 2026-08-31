@@ -1,5 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const distRoot = new URL('../dist/', import.meta.url);
 const requiredIdentifierValues = new Map([
@@ -104,7 +105,7 @@ function routeFor(file, rootPath) {
   return `/${rel.replace(/\/index\.html$/, '').replace(/\.html$/, '')}`;
 }
 
-const rootPath = distRoot.pathname;
+const rootPath = fileURLToPath(distRoot);
 let files;
 try {
   files = await collectHtmlFiles(rootPath);
