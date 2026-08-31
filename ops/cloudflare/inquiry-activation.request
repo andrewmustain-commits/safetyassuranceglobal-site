@@ -6,7 +6,8 @@ pages_project=safetyassuranceglobal
 binding=INQUIRY_DELIVERY
 
 # Safety control
-# The activation workflow runs only when a commit message contains:
-# [activate-inquiry-delivery]
+# The activation workflow runs only when this file changes on main and the
+# ENTIRE triggering commit message is exactly:
+# ACTIVATE_INQUIRY_DELIVERY
 #
-# Updating this file without that marker does not perform Cloudflare writes.
+# Any other commit message performs no Cloudflare activation writes.
