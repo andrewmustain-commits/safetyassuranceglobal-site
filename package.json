@@ -43,7 +43,7 @@
     "workerd@1.20260828.1": true
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "7.2.8",
     "gray-matter": "^4.0.3"
   },
