@@ -38,15 +38,15 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
 <BaseLayout title="Insights" description="Published Safety Assurance Global insights for maritime and critical-infrastructure leaders." canonical="/insights/">
   <Container>
     <HeroSection id="insights-title" badge="Insights" title="Governed insights for maritime assurance leaders." image="/images/site-2026/insights-hero.webp" imagePosition="center 54%">
-      <p>Only published articles appear on this route. Draft, review, approved-only, and archived records are excluded from public listings until formally promoted to published.</p>
+      <p>Published perspectives on operational readiness, assurance, risk, governance, and high-consequence work—written for leaders who need practical, evidence-based decision support.</p>
     </HeroSection>
 
     <Section ariaLabelledby="insights-governance-title">
-      <NoticePanel tone="info" title="Editorial and Claims Governance" id="insights-governance-title"><p>Articles are intake-reviewed, claims-reviewed when required, legally reviewed when required, and approved through GitHub branch and pull-request controls before publication.</p></NoticePanel>
+      <NoticePanel tone="info" title="Editorial Standard" id="insights-governance-title"><p>SAG publishes evidence-led perspectives with claims reviewed for accuracy and context. Articles are informational and do not replace project-specific requirements, contractual criteria, or regulatory obligations.</p></NoticePanel>
     </Section>
 
     {publishedPosts.length === 0 ? (
-      <Section ariaLabelledby="insights-empty-title"><Card as="div"><h2 id="insights-empty-title">No published insights are available yet.</h2><p>Submit article drafts through the governed intake workflow, then publish after review gates are complete.</p></Card></Section>
+      <Section ariaLabelledby="insights-empty-title"><Card as="div"><h2 id="insights-empty-title">No published insights are available at this time.</h2><p>New perspectives will appear here as they are released.</p></Card></Section>
     ) : (
       <>
         {featuredPost && (
@@ -74,7 +74,7 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
         </Section>
 
         <Section ariaLabelledby="insights-tags-title">
-          <SectionHeader id="insights-tags-title" badge="Tags" title="Browse by topic tags" />
+          <SectionHeader id="insights-tags-title" badge="Topics" title="Explore published themes" />
           <div class="tag-cloud" aria-label="Published insight tags">
             {tags.map((tag) => (<a class="tag-chip" href={`/insights/tag/${tag.slug}/`}>{tag.name}<span aria-hidden="true"> ({tag.count})</span></a>))}
           </div>
@@ -83,7 +83,7 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
         <Section ariaLabelledby="recent-insights-title">
           <SectionHeader id="recent-insights-title" badge="Recent" title="Recent published insights" />
           {recentPosts.length === 0 ? (
-            <Card as="div"><p>No additional published insights are available yet.</p></Card>
+            <Card as="div"><p>Additional published insights will appear here as they are released.</p></Card>
           ) : (
             <div class="posts-grid">
               {recentPosts.map((post, index) => (
@@ -91,11 +91,11 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
                   <p class="meta-row"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>{' · '}<span>{post.data.category}</span>{' · '}<span>{estimateReadingMinutes(post.body)} min read</span></p>
                   <h3><a href={`/insights/${post.data.slug}/`}>{post.data.title}</a></h3>
                   <p>{post.data.description}</p>
+                  <p><a href={`/insights/${post.data.slug}/`} aria-label={`Read ${post.data.title}`}>Read article</a></p>
                 </Card>
               ))}
             </div>
           )}
-          <p class="scalability-note">Scalability plan: this route surfaces featured content plus recent published entries, while full discovery is supported through category and tag archives. If article volume materially grows, paginated index routes will be introduced under `/insights/page/[n]`.</p>
         </Section>
       </>
     )}
