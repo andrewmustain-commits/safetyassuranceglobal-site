@@ -1,0 +1,1 @@
+This file records the approved 2026-09-17 public-site polish pass. It intentionally contains no new capability claims.
