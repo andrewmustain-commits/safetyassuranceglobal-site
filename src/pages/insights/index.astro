@@ -9,42 +9,25 @@ import NoticePanel from '../../components/ui/NoticePanel.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import HeroSection from '../../components/ui/HeroSection.astro';
 import CTASection from '../../components/ui/CTASection.astro';
-import {
-  isPublishedInsight,
-  normalizeTaxonomySlug,
-  sortByPublishedDateDesc,
-  estimateReadingMinutes
-} from '../../lib/insights';
+import { isPublishedInsight, normalizeTaxonomySlug, sortByPublishedDateDesc, estimateReadingMinutes } from '../../lib/insights';
 
 const publishedPosts = sortByPublishedDateDesc((await getCollection('blog')).filter(isPublishedInsight));
-
 const featuredPost = publishedPosts.find((post) => post.data.featured) ?? publishedPosts[0];
 const recentPosts = publishedPosts.filter((post) => post.id !== featuredPost?.id).slice(0, 8);
-
 const categoryMap = new Map();
 const tagMap = new Map();
+const insightImages = ['/images/site-2026/insights-hero.webp','/images/site-2026/maritime-hero.webp','/images/site-2026/capabilities-hero.webp','/images/site-2026/about-hero.webp'];
 
 for (const post of publishedPosts) {
   const categoryName = post.data.category.trim();
   const categorySlug = normalizeTaxonomySlug(categoryName);
   const categoryCount = categoryMap.get(categorySlug)?.count ?? 0;
-
-  categoryMap.set(categorySlug, {
-    slug: categorySlug,
-    name: categoryName,
-    count: categoryCount + 1
-  });
-
+  categoryMap.set(categorySlug, { slug: categorySlug, name: categoryName, count: categoryCount + 1 });
   for (const rawTag of post.data.tags) {
     const tagName = rawTag.trim();
     const tagSlug = normalizeTaxonomySlug(tagName);
     const tagCount = tagMap.get(tagSlug)?.count ?? 0;
-
-    tagMap.set(tagSlug, {
-      slug: tagSlug,
-      name: tagName,
-      count: tagCount + 1
-    });
+    tagMap.set(tagSlug, { slug: tagSlug, name: tagName, count: tagCount + 1 });
   }
 }
 
@@ -52,61 +35,26 @@ const categories = Array.from(categoryMap.values()).sort((a, b) => a.name.locale
 const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.name));
 ---
 
-<BaseLayout
-  title="Insights"
-  description="Published Safety Assurance Global insights for maritime and critical-infrastructure leaders."
-  canonical="/insights/"
->
+<BaseLayout title="Insights" description="Published Safety Assurance Global insights for maritime and critical-infrastructure leaders." canonical="/insights/">
   <Container>
-    <HeroSection
-      id="insights-title"
-      badge="Insights"
-      title="Governed insights for maritime assurance leaders."
-      image="/images/site-2026/insights-hero.webp"
-      imagePosition="center 54%"
-    >
-      <p>
-        Only published articles appear on this route. Draft, review, approved-only, and archived records are excluded
-        from public listings until formally promoted to published.
-      </p>
+    <HeroSection id="insights-title" badge="Insights" title="Governed insights for maritime assurance leaders." image="/images/site-2026/insights-hero.webp" imagePosition="center 54%">
+      <p>Only published articles appear on this route. Draft, review, approved-only, and archived records are excluded from public listings until formally promoted to published.</p>
     </HeroSection>
 
     <Section ariaLabelledby="insights-governance-title">
-      <NoticePanel tone="info" title="Editorial and Claims Governance" id="insights-governance-title">
-        <p>
-          Articles are intake-reviewed, claims-reviewed when required, legally reviewed when required, and approved
-          through GitHub branch and pull-request controls before publication.
-        </p>
-      </NoticePanel>
+      <NoticePanel tone="info" title="Editorial and Claims Governance" id="insights-governance-title"><p>Articles are intake-reviewed, claims-reviewed when required, legally reviewed when required, and approved through GitHub branch and pull-request controls before publication.</p></NoticePanel>
     </Section>
 
     {publishedPosts.length === 0 ? (
-      <Section ariaLabelledby="insights-empty-title">
-        <Card as="div">
-          <h2 id="insights-empty-title">No published insights are available yet.</h2>
-          <p>Submit article drafts through the governed intake workflow, then publish after review gates are complete.</p>
-        </Card>
-      </Section>
+      <Section ariaLabelledby="insights-empty-title"><Card as="div"><h2 id="insights-empty-title">No published insights are available yet.</h2><p>Submit article drafts through the governed intake workflow, then publish after review gates are complete.</p></Card></Section>
     ) : (
       <>
         {featuredPost && (
           <Section ariaLabelledby="featured-insight-title">
             <SectionHeader id="featured-insight-title" badge="Featured" title="Featured published article" />
-            <Card as="article" class="featured-card">
-              <p class="meta-row">
-                <time datetime={featuredPost.data.publishedAt.toISOString()}>
-                  {featuredPost.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                </time>
-                {' · '}
-                <span>{featuredPost.data.author}</span>
-                {' · '}
-                <span>{featuredPost.data.category}</span>
-                {' · '}
-                <span>{estimateReadingMinutes(featuredPost.body)} min read</span>
-              </p>
-              <h3>
-                <a href={`/insights/${featuredPost.data.slug}/`}>{featuredPost.data.title}</a>
-              </h3>
+            <Card as="article" class="featured-card image-forward-card image-forward-card-tall image-forward-card-gold" style="--card-image:url(/images/site-2026/insights-hero.webp)">
+              <p class="meta-row"><time datetime={featuredPost.data.publishedAt.toISOString()}>{featuredPost.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>{' · '}<span>{featuredPost.data.author}</span>{' · '}<span>{featuredPost.data.category}</span>{' · '}<span>{estimateReadingMinutes(featuredPost.body)} min read</span></p>
+              <h3><a href={`/insights/${featuredPost.data.slug}/`}>{featuredPost.data.title}</a></h3>
               <p>{featuredPost.data.description}</p>
               <p><a href={`/insights/${featuredPost.data.slug}/`} aria-label={`Read ${featuredPost.data.title}`}>Read article</a></p>
             </Card>
@@ -116,8 +64,8 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
         <Section ariaLabelledby="insights-categories-title">
           <SectionHeader id="insights-categories-title" badge="Categories" title="Browse by category" />
           <div class="taxonomy-grid">
-            {categories.map((category) => (
-              <Card as="article" class="taxonomy-card">
+            {categories.map((category, index) => (
+              <Card as="article" class="taxonomy-card image-forward-card image-forward-card-tall" style={`--card-image:url(${insightImages[index % insightImages.length]})`}>
                 <h3><a href={`/insights/category/${category.slug}/`}>{category.name}</a></h3>
                 <p>{category.count} published {category.count === 1 ? 'article' : 'articles'}</p>
               </Card>
@@ -128,12 +76,7 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
         <Section ariaLabelledby="insights-tags-title">
           <SectionHeader id="insights-tags-title" badge="Tags" title="Browse by topic tags" />
           <div class="tag-cloud" aria-label="Published insight tags">
-            {tags.map((tag) => (
-              <a class="tag-chip" href={`/insights/tag/${tag.slug}/`}>
-                {tag.name}
-                <span aria-hidden="true"> ({tag.count})</span>
-              </a>
-            ))}
+            {tags.map((tag) => (<a class="tag-chip" href={`/insights/tag/${tag.slug}/`}>{tag.name}<span aria-hidden="true"> ({tag.count})</span></a>))}
           </div>
         </Section>
 
@@ -143,42 +86,22 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
             <Card as="div"><p>No additional published insights are available yet.</p></Card>
           ) : (
             <div class="posts-grid">
-              {recentPosts.map((post) => (
-                <Card as="article" class="post-card">
-                  <p class="meta-row">
-                    <time datetime={post.data.publishedAt.toISOString()}>
-                      {post.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                    </time>
-                    {' · '}
-                    <span>{post.data.category}</span>
-                    {' · '}
-                    <span>{estimateReadingMinutes(post.body)} min read</span>
-                  </p>
+              {recentPosts.map((post, index) => (
+                <Card as="article" class="post-card image-forward-card" style={`--card-image:url(${insightImages[(index + 1) % insightImages.length]})`}>
+                  <p class="meta-row"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>{' · '}<span>{post.data.category}</span>{' · '}<span>{estimateReadingMinutes(post.body)} min read</span></p>
                   <h3><a href={`/insights/${post.data.slug}/`}>{post.data.title}</a></h3>
                   <p>{post.data.description}</p>
                 </Card>
               ))}
             </div>
           )}
-          <p class="scalability-note">
-            Scalability plan: this route surfaces featured content plus recent published entries, while full discovery is
-            supported through category and tag archives. If article volume materially grows, paginated index routes will
-            be introduced under `/insights/page/[n]`.
-          </p>
+          <p class="scalability-note">Scalability plan: this route surfaces featured content plus recent published entries, while full discovery is supported through category and tag archives. If article volume materially grows, paginated index routes will be introduced under `/insights/page/[n]`.</p>
         </Section>
       </>
     )}
 
-    <CTASection
-      id="insights-cta-title"
-      badge="Next Step"
-      title="Need insight tied to your operating context?"
-      intro="Request a consultation to map assurance priorities, controls, and readiness evidence for your organization."
-    >
-      <div class="ui-actions">
-        <Button href="/contact">Request a Consultation</Button>
-        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
-      </div>
+    <CTASection id="insights-cta-title" badge="Next Step" title="Need insight tied to your operating context?" intro="Request a consultation to map assurance priorities, controls, and readiness evidence for your organization.">
+      <div class="ui-actions"><Button href="/contact">Request a Consultation</Button><Button href="/request-proposal" variant="secondary">Request a Proposal</Button></div>
     </CTASection>
   </Container>
 </BaseLayout>
