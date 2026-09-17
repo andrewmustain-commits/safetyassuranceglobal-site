@@ -8,33 +8,6 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import NoticePanel from '../components/ui/NoticePanel.astro';
 import HeroSection from '../components/ui/HeroSection.astro';
 
-const audiences = [
-  'Contracting officers',
-  'Program managers',
-  'Prime contractors',
-  'Small-business specialists',
-  'Public infrastructure owners',
-  'Port authorities',
-  'Engineering teams',
-  'Construction teams'
-];
-
-const missionSupport = [
-  'Operational-readiness support',
-  'Independent assurance and evidence review',
-  'QA/QC and contractor-assurance support',
-  'Field assurance and validation support',
-  'Workforce training support aligned to assurance objectives'
-];
-
-const missionImages = [
-  '/images/site-2026/government-hero.webp',
-  '/images/site-2026/capabilities-hero.webp',
-  '/images/site-2026/services-hero.webp',
-  '/images/site-2026/home-hero.webp',
-  '/images/site-2026/institute-hero.webp'
-];
-
 const procurementIdentity = [
   ['Legal Name', 'Safety Assurance Global LLC'],
   ['UEI', 'RCUUJLWEBGD4'],
@@ -43,29 +16,93 @@ const procurementIdentity = [
   ['Primary NAICS', '541611'],
   ['Business Base', 'Oregon']
 ];
+
+const scopeOptions = [
+  {
+    title: 'Readiness review',
+    detail: 'Review plans, controls, evidence, open actions, and readiness gaps before critical work, startup, transition, or mobilization.',
+    output: 'Typical outputs: readiness assessment, gap register, corrective-action roadmap, and validation report.'
+  },
+  {
+    title: 'Field safety & quality verification',
+    detail: 'Compare approved requirements and quality controls with observed field conditions, records, inspection evidence, and nonconformance trends.',
+    output: 'Typical outputs: QA/QC review, field findings, action tracking, and validation evidence.'
+  },
+  {
+    title: 'Contractor assurance',
+    detail: 'Evaluate contractor controls, performance evidence, oversight records, and corrective-action follow-through against the agreed assignment scope.',
+    output: 'Typical outputs: contractor-assurance report, gap register, corrective-action roadmap, and closeout record.'
+  },
+  {
+    title: 'Incident & corrective-action support',
+    detail: 'Organize incident evidence, contributing-factor analysis, assigned actions, and closure verification so learning is connected to follow-through.',
+    output: 'Typical outputs: incident learning report, action record, validation report, and closeout summary.'
+  },
+  {
+    title: 'Embedded HSE support',
+    detail: 'Provide scope-defined health, safety, and environment support tied to field controls, observations, issue escalation, and action tracking.',
+    output: 'Delivery model, responsibilities, site access, schedule, and reporting cadence are defined for each proposed assignment.'
+  },
+  {
+    title: 'Workforce training support',
+    detail: 'Scope role-based training and workforce-development support through the Institute of Assurance around verified needs and operating context.',
+    output: 'Course or program availability, format, prerequisites, assessment requirements, and any completion documentation are confirmed before commitment.'
+  }
+];
 ---
 
 <BaseLayout
   title="Government"
-  description="Government and public-infrastructure assurance support from Safety Assurance Global, including operational readiness, QA/QC, contractor oversight, evidence-based risk support, and published procurement identifiers."
+  description="Government, public-infrastructure, and prime-contractor assurance support from Safety Assurance Global, including readiness review, field verification, contractor oversight, corrective-action validation, and published procurement identifiers."
 >
   <Container class="government-page">
     <HeroSection
       id="government-title"
-      badge="Government & Public Infrastructure"
-      title="Independent assurance support for public-sector and infrastructure programs."
+      badge="Government & Prime Contractor Support"
+      title="Defined assurance work that can be connected to an actual requirement."
       image="/images/site-2026/government-hero.webp"
       imagePosition="center 54%"
     >
       <p>
-        Safety Assurance Global supports public owners, agencies, prime contractors, and infrastructure teams with
-        operational-readiness, independent-assurance, QA/QC, contractor-assurance, and evidence-based risk support.
+        Safety Assurance Global supports public owners, agencies, prime contractors, and infrastructure teams by defining the
+        assignment, reviewing the applicable evidence, performing the agreed work, documenting findings and actions, and
+        following identified problems through to verified correction where that follow-through is part of the scope.
       </p>
       <div class="ui-actions">
-        <Button href="/capabilities">View Capabilities</Button>
-        <Button href="/request-proposal" variant="secondary">Teaming or Proposal Inquiry</Button>
+        <Button href="/request-proposal">Discuss a Requirement</Button>
+        <Button href="/capabilities" variant="secondary">Review Capabilities</Button>
       </div>
     </HeroSection>
+
+    <Section ariaLabelledby="government-scope-title">
+      <SectionHeader badge="Scope the Work" id="government-scope-title" title="Start with the assignment you need performed." />
+      <p class="section-intro">Each engagement is proposed against a defined scope, customer inputs, delivery assumptions, acceptance evidence, and expected outputs. The examples below describe work that can be evaluated for a specific requirement; they are not unconditional staffing or availability commitments.</p>
+      <div class="grid-two scope-grid">
+        {scopeOptions.map((item) => (
+          <Card class="scope-card">
+            <h3>{item.title}</h3>
+            <p>{item.detail}</p>
+            <p class="scope-output">{item.output}</p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="government-buyers-title">
+      <SectionHeader badge="Buying Paths" id="government-buyers-title" title="Agency requirements and prime-contractor teaming are different conversations." />
+      <div class="grid-two">
+        <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/government-hero.webp);--band-position:center 55%">
+          <h3>Agency & public-owner requirements</h3>
+          <p>Share the requirement, operating environment, procurement context, expected deliverables, schedule, location, and any mandatory qualifications or acceptance criteria. Safety Assurance Global can then evaluate fit against the requested scope.</p>
+          <p><a href="/request-proposal">Start a government requirement discussion →</a></p>
+        </Card>
+        <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/capabilities-hero.webp);--band-position:center 48%">
+          <h3>Prime contractor & teaming requirements</h3>
+          <p>Share the pursuit or project need, proposed role, flow-down requirements, supplier-qualification expectations, schedule, and the technical gap the assignment is intended to address.</p>
+          <p><a href="/request-proposal">Start a teaming or subcontract discussion →</a></p>
+        </Card>
+      </div>
+    </Section>
 
     <Section ariaLabelledby="government-identity-title">
       <SectionHeader badge="Procurement Identity" id="government-identity-title" title="Published corporate identifiers for buyer and teaming reference." />
@@ -74,45 +111,32 @@ const procurementIdentity = [
           <Card role="listitem" class="identity-card"><span>{label}</span><strong>{value}</strong></Card>
         ))}
       </div>
-      <p class="identity-note">These identifiers are reproduced from SAG's dated August 2026 capabilities statement. Their publication does not imply an agency endorsement, contract award, contract vehicle, or universal qualification for every scope.</p>
-    </Section>
-
-    <Section ariaLabelledby="government-audience-title">
-      <SectionHeader badge="Who We Support" id="government-audience-title" title="Stakeholders across public-sector and infrastructure delivery." />
-      <div class="grid-four">
-        {audiences.map((audience, index) => (
-          <Card class="image-forward-card image-forward-card-compact" style={`--card-image:url(${missionImages[index % missionImages.length]})`}><h3>{audience}</h3></Card>
-        ))}
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="government-capabilities-title">
-      <SectionHeader badge="Mission Support" id="government-capabilities-title" title="Assurance capabilities for complex programs and operating environments." />
-      <div class="grid-two">
-        {missionSupport.map((item, index) => (
-          <Card class="image-forward-card image-forward-card-gold" style={`--card-image:url(${missionImages[index]})`}><p>{item}</p></Card>
-        ))}
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="government-prime-title">
-      <SectionHeader badge="Prime & Teaming Support" id="government-prime-title" title="Support for prime-led, owner-led, and multi-party execution environments." />
-      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/government-hero.webp);--band-position:center 55%">
-        <p>SAG can support programs that require control verification, readiness evidence, QA/QC oversight, contractor-assurance discipline, field validation, or independent review within a defined scope of work.</p>
-      </Card>
+      <p class="identity-note">These identifiers are reproduced from Safety Assurance Global's dated August 2026 capabilities statement. Their publication does not imply an agency endorsement, contract award, contract vehicle, or universal qualification for every scope.</p>
     </Section>
 
     <Section ariaLabelledby="government-capability-statement-title">
-      <SectionHeader badge="Capabilities Statement" id="government-capability-statement-title" title="Review SAG's current public capability profile." />
+      <SectionHeader badge="Capabilities Statement" id="government-capability-statement-title" title="Circulate Safety Assurance Global's current public capability profile." />
       <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/capabilities-hero.webp);--band-position:center 48%">
-        <p>The August 2026 capabilities statement summarizes SAG's company overview, core capabilities, requirement-to-evidence delivery cycle, relevant individual experience base, differentiators, corporate data, points of contact, and delivery boundaries.</p>
-        <p><a href="/capabilities">Open the SAG capabilities statement</a>.</p>
+        <p>The public capability statement summarizes company identity, core capabilities, the requirement-to-evidence delivery cycle, properly attributed individual prior-employer experience, corporate data, points of contact, and delivery boundaries.</p>
+        <div class="ui-actions">
+          <Button href="/downloads/safety-assurance-global-capability-statement-2026-09.pdf">Download Capability Statement</Button>
+          <Button href="/capabilities" variant="secondary">View Web Version</Button>
+        </div>
+      </Card>
+    </Section>
+
+    <Section ariaLabelledby="government-qualification-title">
+      <SectionHeader badge="Supplier Qualification" id="government-qualification-title" title="Request opportunity-specific qualification information through a controlled path." />
+      <Card>
+        <p>Private qualification records are not published as a general website package. For an identified agency, prime, project, or procurement requirement, use the proposal path to identify the qualification items being requested. Safety Assurance Global will distinguish verified public facts from records that are applicable, available, pending verification, not located, or not currently available for that opportunity.</p>
+        <p>This route does not imply that insurance, licensing, security, safety-performance, personnel, financial, or other qualification records exist or satisfy a particular requirement until the applicable evidence has been verified.</p>
+        <p><a href="/request-proposal">Request qualification information for a defined opportunity →</a></p>
       </Card>
     </Section>
 
     <Section ariaLabelledby="government-claims-title">
-      <NoticePanel tone="warning" title="Public Claims Notice" class="qualification-notice" id="government-claims-title">
-        <p>Contract vehicles, awards, agency relationships, set-aside status, identifiers, certifications, and other procurement-specific representations are published only when supported by current approved evidence.</p>
+      <NoticePanel tone="warning" title="Procurement Boundary" class="qualification-notice" id="government-claims-title">
+        <p>Contract vehicles, awards, agency relationships, set-aside status, identifiers, certifications, and other procurement-specific representations are published only when supported by current approved evidence. Solicitation and subcontract requirements govern actual qualification for a specific opportunity.</p>
       </NoticePanel>
     </Section>
   </Container>
@@ -120,6 +144,10 @@ const procurementIdentity = [
 
 <style>
   .government-page { display:grid; gap:.25rem; }
+  .section-intro { max-width:78ch; margin:-.35rem 0 1.25rem; color:var(--color-text-muted); font-size:.96rem; line-height:1.7; }
+  .scope-grid { align-items:stretch; }
+  .scope-card { min-height:15rem; }
+  .scope-output { color:var(--color-text-soft); font-size:.9rem; }
   .identity-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
   .identity-card { min-height:112px; display:grid; align-content:space-between; gap:.85rem; }
   .identity-card span { color:#94a3b8; font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }

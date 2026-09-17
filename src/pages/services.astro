@@ -50,7 +50,7 @@ const additionalServices = serviceAreas.filter((service) => !flagshipSlugs.has(s
       imagePosition="center 52%"
     >
       <p>
-        Maritime is Safety Assurance Global's primary market. SAG helps owners, contractors, and public-sector
+        Maritime is Safety Assurance Global's primary market. Safety Assurance Global helps owners, contractors, and public-sector
         organizations verify readiness, strengthen controls, improve quality oversight, and prioritize defensible
         risk-reduction actions, with related capability available for other defined high-consequence sectors.
       </p>
@@ -95,6 +95,26 @@ const additionalServices = serviceAreas.filter((service) => !flagshipSlugs.has(s
             <p><a href={service.href}>Explore capability →</a></p>
           </ServiceCard>
         ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="services-resources-title">
+      <SectionHeader
+        badge="Buyer Resources"
+        id="services-resources-title"
+        title="Review concise scope summaries and illustrative deliverable structures."
+      />
+      <div class="grid-two">
+        <Card class="image-forward-card image-forward-card-compact" style="--card-image:url(/images/site-2026/services-hero.webp)">
+          <h3>Service sheets</h3>
+          <p>Concise summaries of the customer problem, work performed, evidence commonly reviewed, typical outputs, and engagement path.</p>
+          <p><a href="/service-sheets">Review buyer service sheets →</a></p>
+        </Card>
+        <Card class="image-forward-card image-forward-card-compact" style="--card-image:url(/images/site-2026/capabilities-hero.webp)">
+          <h3>Illustrative sample deliverables</h3>
+          <p>Sanitized structures for readiness assessments, findings and actions, inspection summaries, corrective-action validation, and management reporting.</p>
+          <p><a href="/sample-deliverables">Review sample structures →</a></p>
+        </Card>
       </div>
     </Section>
 

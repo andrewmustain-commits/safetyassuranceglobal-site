@@ -23,12 +23,31 @@ const deliveryModes = [
   }
 ];
 
-const controls = [
-  'Training-needs assessments before final scope',
+const availabilityStates = [
+  {
+    title: 'Confirmed for proposal',
+    detail: 'Used only when the specific program, delivery format, prerequisites, assessment expectations, and delivery assumptions have been verified for the proposed engagement.'
+  },
+  {
+    title: 'Custom development',
+    detail: 'Used when training must be created or adapted around a defined workforce need. Scope, review, schedule, and delivery assumptions are confirmed before a commitment is made.'
+  },
+  {
+    title: 'Pilot or controlled program',
+    detail: 'Used when a program is being evaluated in a limited or controlled context. Pilot status and limitations are stated before the organization relies on the offering.'
+  },
+  {
+    title: 'Not open for enrollment',
+    detail: 'Programs without confirmed public enrollment status are not represented as open or generally available on this site.'
+  }
+];
+
+const buyerSafeguards = [
+  'Training-needs assessment before final scope where needed',
   'Role-based delivery planning and prerequisites review',
-  'Program status controls before public enrollment claims',
-  'Inquiry and proposal process before delivery commitments',
-  'Conservative public language for approvals, accreditation, and credential claims'
+  'Program status confirmed before enrollment or delivery claims',
+  'Inquiry and proposal review before delivery commitments',
+  'Accreditation, approval, recognition, and credential claims limited to verified evidence'
 ];
 ---
 
@@ -43,13 +62,13 @@ const controls = [
       title="Workforce development connected to assurance and operational readiness."
     >
       <p>
-        Safety Assurance Global delivers training through the Institute of Assurance as a governed supporting capability
+        Training and workforce-development requirements are handled through the Institute of Assurance as a supporting capability
         for organizations and professionals. Public offerings are scoped around roles, risks, operating context, and
         readiness outcomes rather than presented as universally available or automatically credential-bearing.
       </p>
       <div class="ui-actions">
         <Button href="/maritime-training">Explore Maritime Training</Button>
-        <Button href="mailto:academy@safetyassuranceglobal.com?subject=Training%20and%20Workforce%20Development%20Inquiry" variant="secondary">Email the Academy</Button>
+        <Button href="mailto:academy@safetyassuranceglobal.com?subject=Training%20and%20Workforce%20Development%20Inquiry" variant="secondary">Email the Institute</Button>
       </div>
     </HeroSection>
 
@@ -67,6 +86,23 @@ const controls = [
           </Card>
         ))}
       </div>
+    </Section>
+
+    <Section ariaLabelledby="training-availability-title">
+      <SectionHeader
+        badge="Availability Status"
+        id="training-availability-title"
+        title="Every program should fit one clear status before a buyer relies on it."
+      />
+      <div class="grid-two">
+        {availabilityStates.map((state) => (
+          <Card>
+            <h3>{state.title}</h3>
+            <p>{state.detail}</p>
+          </Card>
+        ))}
+      </div>
+      <p class="availability-note">These are status definitions, not a representation that every course or program currently occupies a particular status. Specific availability is confirmed during the inquiry or proposal process.</p>
     </Section>
 
     <Section ariaLabelledby="training-process-title">
@@ -89,26 +125,26 @@ const controls = [
           <p>Connect learning scope to verified control gaps, role requirements, and operational-improvement priorities.</p>
         </Card>
         <Card>
-          <h3>4. Finalize governed scope</h3>
+          <h3>4. Finalize the scoped offering</h3>
           <p>Confirm program status, delivery assumptions, assessment expectations, and applicable qualification notices.</p>
         </Card>
       </div>
     </Section>
 
     <Section ariaLabelledby="training-contact-title">
-      <SectionHeader badge="Academy Contact" id="training-contact-title" title="Training and workforce-development inquiries." />
+      <SectionHeader badge="Institute Contact" id="training-contact-title" title="Training and workforce-development inquiries." />
       <Card><p>Email <a href="mailto:academy@safetyassuranceglobal.com">academy@safetyassuranceglobal.com</a> for Institute and Academy inquiries.</p></Card>
     </Section>
 
     <Section ariaLabelledby="training-controls-title">
       <SectionHeader
-        badge="Governance Controls"
+        badge="Buyer Safeguards"
         id="training-controls-title"
-        title="Controls used to keep public training claims accurate."
+        title="What is checked before a training commitment is made."
       />
       <Card>
         <ul>
-          {controls.map((control) => (
+          {buyerSafeguards.map((control) => (
             <li>{control}</li>
           ))}
         </ul>
@@ -119,7 +155,7 @@ const controls = [
       <SectionHeader
         badge="Boundary Notice"
         id="training-boundary-title"
-        title="Program, enrollment, and credential status remain controlled."
+        title="Program, enrollment, and credential status remain offering-specific."
       />
       <NoticePanel tone="warning" title="Qualification Notice" class="qualification-notice">
         <p>
@@ -131,3 +167,7 @@ const controls = [
     </Section>
   </Container>
 </BaseLayout>
+
+<style>
+  .availability-note { max-width:82ch; margin-top:1rem; color:var(--color-text-soft); font-size:.9rem; line-height:1.65; }
+</style>

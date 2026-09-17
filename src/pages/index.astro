@@ -40,7 +40,7 @@ const typicalOutputs = [
           <p>Safety Assurance Global independently reviews safety controls, contractor performance, quality processes, and operational plans. We identify gaps, prioritize corrective actions, and verify closure so leaders can make defensible readiness decisions.</p>
           <div class="hero-actions">
             <Button href="/contact">Discuss Your Requirement</Button>
-            <Button href="#engagements" variant="secondary">See How SAG Helps</Button>
+            <Button href="#engagements" variant="secondary">See How Safety Assurance Global Helps</Button>
           </div>
           <p class="hero-support">Serving shipyards, ports and terminals, vessel operators, marine contractors, and government maritime programs.</p>
         </div>
@@ -58,7 +58,7 @@ const typicalOutputs = [
 
     <section id="engagements" class="engagements" aria-labelledby="engagements-title">
       <Container>
-        <div class="light-heading"><p>How SAG Helps</p><h2 id="engagements-title">Four clear paths from uncertainty to verified readiness.</h2><span></span></div>
+        <div class="light-heading"><p>How Safety Assurance Global Helps</p><h2 id="engagements-title">Four clear paths from uncertainty to verified readiness.</h2><span></span></div>
         <div class="engagement-grid">
           {engagements.map((engagement, index) => (
             <a href={engagement.href} class="engagement-card">
@@ -72,7 +72,7 @@ const typicalOutputs = [
             </a>
           ))}
         </div>
-        <p class="service-depth">Need a broader scope? <a href="/services">View SAG’s full assurance and advisory capabilities.</a></p>
+        <p class="service-depth">Need a broader scope? <a href="/services">View Safety Assurance Global’s full assurance and advisory capabilities.</a></p>
       </Container>
     </section>
 
@@ -93,17 +93,17 @@ const typicalOutputs = [
 
     <Container class="lower-home">
       <Section class="maritime-panel photo-backed-band" style="--band-image:url(/images/site-2026/maritime-hero.webp);--band-position:center 55%" ariaLabelledby="maritime-title">
-        <div><Badge text="Primary Market" /><h2 id="maritime-title">Built around high-consequence maritime operations.</h2><p>SAG supports ports, marine terminals, shipyards, vessel operations, marine contractors, and government maritime programs with independent assurance and readiness support.</p></div><Button href="/maritime" variant="secondary">Explore Maritime</Button>
+        <div><Badge text="Primary Market" /><h2 id="maritime-title">Built around high-consequence maritime operations.</h2><p>Safety Assurance Global supports ports, marine terminals, shipyards, vessel operations, marine contractors, and government maritime programs with independent assurance and readiness support.</p></div><Button href="/maritime" variant="secondary">Explore Maritime</Button>
       </Section>
 
       <Section class="method-panel-v34 photo-backed-band" style="--band-image:url(/images/site-2026/capabilities-hero.webp);--band-position:center 45%" ariaLabelledby="method-title">
-        <div><Badge text="Our Evidence Standard" /><h2 id="method-title">A finding is not closed because someone says it is.</h2><p>SAG connects defined requirements, field evidence, findings, corrective actions, closure evidence, and management reporting. Conclusions are tied to what can be demonstrated and verified.</p></div>
+        <div><Badge text="Our Evidence Standard" /><h2 id="method-title">A finding is not closed because someone says it is.</h2><p>Safety Assurance Global connects defined requirements, field evidence, findings, corrective actions, closure evidence, and management reporting. Conclusions are tied to what can be demonstrated and verified.</p></div>
         <ol>{['Define the requirement','Review the evidence','Verify in the field','Prioritize findings','Validate corrective action','Report decision-ready status'].map((step,index)=><li><span>{String(index+1).padStart(2,'0')}</span>{step}</li>)}</ol>
         <Button href="/method" variant="secondary">See Our Method</Button>
       </Section>
 
       <Section class="institute-panel-v34 photo-backed-band" style="--band-image:url(/images/site-2026/institute-hero.webp);--band-position:center 50%" ariaLabelledby="institute-title">
-        <div><Badge text="SAG Institute of Assurance" /><h2 id="institute-title">Build the workforce behind operational readiness.</h2><p>The Institute of Assurance is SAG’s learning and workforce-development division, supporting defined readiness pathways while keeping training and assurance responsibilities clear.</p></div><Button href="/institute" variant="secondary">Explore the Institute</Button>
+        <div><Badge text="Safety Assurance Global Institute of Assurance" /><h2 id="institute-title">Build the workforce behind operational readiness.</h2><p>The Institute of Assurance is Safety Assurance Global’s learning and workforce-development division, supporting defined readiness pathways while keeping training and assurance responsibilities clear.</p></div><Button href="/institute" variant="secondary">Explore the Institute</Button>
       </Section>
 
       {approvedPosts.length > 0 && <Section ariaLabelledby="insights-title"><div class="insight-heading"><Badge text="Insights" /><h2 id="insights-title">Perspectives for leaders and operators.</h2></div><div class="insight-grid-v34">{approvedPosts.map((post,index)=><Card as="article" class="image-forward-card image-forward-card-compact" style={`--card-image:url(${['/images/site-2026/insights-hero.webp','/images/site-2026/maritime-hero.webp','/images/site-2026/about-hero.webp'][index % 3]})`}><p class="insight-meta"><span>{post.category}</span><time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></p><h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3><p>{post.summary}</p></Card>)}</div></Section>}

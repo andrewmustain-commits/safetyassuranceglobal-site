@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+import { serviceDetails } from '../data/services';
+---
+
+<BaseLayout
+  title="Service Sheets"
+  description="Concise Safety Assurance Global service sheets summarizing customer challenges, work performed, evidence reviewed, typical deliverables, and next steps."
+>
+  <Container>
+    <HeroSection
+      id="service-sheets-title"
+      badge="Buyer Service Sheets"
+      title="Understand the work before you start the procurement conversation."
+      image="/images/site-2026/services-hero.webp"
+      imagePosition="center 52%"
+    >
+      <p>Each service sheet summarizes the customer problem, work Safety Assurance Global may perform, evidence commonly reviewed, typical outputs, and the path to a scoped engagement. Final scope, delivery model, staffing, schedule, qualifications, and pricing are confirmed for the actual requirement.</p>
+      <div class="ui-actions">
+        <Button href="/request-proposal">Discuss a Defined Requirement</Button>
+        <Button href="/services" variant="secondary">View Full Service Detail</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="service-sheet-list-title">
+      <SectionHeader badge="Service Library" id="service-sheet-list-title" title="Concise summaries for buyer and procurement review." />
+      <div class="sheet-grid">
+        {serviceDetails.map((service) => (
+          <Card class="sheet-card">
+            <p class="sheet-kicker">Service sheet</p>
+            <h3><a href={`/services/${service.slug}`}>{service.title}</a></h3>
+            <p><strong>Customer challenge:</strong> {service.customerProblem}</p>
+            <p><strong>Work may include:</strong> {service.scopeOfWork.slice(0, 3).join('; ')}.</p>
+            <p><strong>Evidence commonly reviewed:</strong> {service.evidenceReviewed.slice(0, 3).join('; ')}.</p>
+            <p><strong>Typical outputs:</strong> {service.deliverables.slice(0, 4).join('; ')}.</p>
+            <p><strong>Decision support:</strong> {service.expectedResult}</p>
+            <div class="sheet-actions">
+              <a href={`/services/${service.slug}`}>Open full service detail →</a>
+              <a href={service.cta.href}>{service.cta.label} →</a>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="service-sheet-boundary-title">
+      <SectionHeader badge="Scope Boundary" id="service-sheet-boundary-title" title="A service sheet is not an unconditional commitment." />
+      <Card>
+        <p>These summaries describe capability pathways. They do not represent guaranteed availability, staffing, response time, geographic coverage, certification, licensure, accreditation, regulatory approval, contract vehicle, or authority for every jurisdiction or assignment. Those items are verified against the specific requirement before commitment.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .sheet-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+  .sheet-card { min-height:25rem; display:flex; flex-direction:column; }
+  .sheet-card h3 { font-size:1.2rem; }
+  .sheet-card p { font-size:.92rem; line-height:1.6; }
+  .sheet-kicker { margin:0 0 .4rem; color:var(--color-accent); font-size:.7rem!important; font-weight:900; letter-spacing:.13em; text-transform:uppercase; }
+  .sheet-actions { display:flex; flex-wrap:wrap; gap:.8rem 1.1rem; margin-top:auto; padding-top:1rem; }
+  .sheet-actions a { font-size:.84rem; font-weight:800; }
+  @media(max-width:760px){ .sheet-grid{grid-template-columns:1fr}.sheet-card{min-height:auto} }
+</style>

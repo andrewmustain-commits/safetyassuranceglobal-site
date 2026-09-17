@@ -4,7 +4,7 @@ slug: operational-readiness-what-maritime-leaders-should-verify-before-mobilizat
 description: >-
   Practical verification priorities maritime leaders can use to strengthen
   mobilization readiness before critical work begins.
-author: SAG Editorial Team
+author: Safety Assurance Global Editorial Team
 publishedAt: 'Sun Jul 26 2026 00:00:00 GMT+0000 (Coordinated Universal Time)'
 updatedAt: 2026-09-17
 status: published

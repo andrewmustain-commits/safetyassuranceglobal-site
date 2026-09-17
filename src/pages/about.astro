@@ -7,24 +7,23 @@ import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import HeroSection from '../components/ui/HeroSection.astro';
 
-const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'];
-const lifecycleImages = [
-  '/images/site-2026/about-hero.webp',
-  '/images/site-2026/capabilities-hero.webp',
-  '/images/site-2026/services-hero.webp',
-  '/images/site-2026/home-hero.webp'
+const engagementSteps = [
+  ['01', 'Define the assignment', 'Clarify the operating problem, scope, applicable requirements, decision need, schedule, location, and evidence expectations.'],
+  ['02', 'Perform the agreed work', 'Review the relevant records and controls, perform the scoped field or advisory work, and document what the evidence supports.'],
+  ['03', 'Turn findings into actions', 'Organize findings by priority, ownership, due date, required evidence, and the practical corrective action needed.'],
+  ['04', 'Verify correction and closeout', 'Where included in scope, review closure evidence and verify whether identified problems were actually corrected before closeout.']
 ];
 ---
 
 <BaseLayout
   title="About"
-  description="Safety Assurance Global is an independent assurance, safety, risk, QA/QC, and operational-readiness organization supporting maritime, critical infrastructure, government, and industrial operations."
+  description="Safety Assurance Global performs defined safety, quality, readiness, and assurance assignments for maritime, infrastructure, government, construction, industrial, and other high-consequence operations."
 >
   <Container>
     <HeroSection
       id="about-title"
       badge="About Safety Assurance Global"
-      title="Independent assurance for organizations where readiness, quality, and control performance matter."
+      title="Defined assurance work. Traceable evidence. Problems followed through to verified correction."
       image="/images/site-2026/about-hero.webp"
       imagePosition="center 50%"
     >
@@ -35,67 +34,68 @@ const lifecycleImages = [
       </p>
       <div class="ui-actions">
         <Button href="/services">Explore Services</Button>
-        <Button href="/contact" variant="secondary">Request a Consultation</Button>
+        <Button href="/contact" variant="secondary">Discuss Your Requirement</Button>
       </div>
     </HeroSection>
 
     <Section ariaLabelledby="about-purpose-title">
-      <SectionHeader badge="Company Purpose" id="about-purpose-title" title="Strengthen readiness through independent, evidence-based assurance." />
+      <SectionHeader badge="What We Do" id="about-purpose-title" title="Take a defined assignment from scope through evidence-backed closeout." />
       <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/about-hero.webp);--band-position:center 58%">
-        <p>SAG helps owners, contractors, operators, and public organizations identify risk, verify controls, improve execution, and make defensible readiness decisions. Engagements are structured around evidence, practical corrective action, accountability, and sustained improvement rather than unsupported compliance claims.</p>
+        <p>Safety Assurance Global helps owners, contractors, operators, and public organizations identify hazards and control gaps, review readiness, verify contractor and quality performance, investigate incidents, organize corrective actions, and validate closure within an agreed scope.</p>
+        <p>Engagements begin with the customer's requirement and decision need. Technical assurance terminology comes second to the work that actually needs to be performed and the evidence the customer needs to receive.</p>
       </Card>
     </Section>
 
-    <Section ariaLabelledby="about-philosophy-title">
-      <SectionHeader badge="Assurance Philosophy" id="about-philosophy-title" title="Evidence before assumption." />
+    <Section ariaLabelledby="about-engagement-title">
+      <SectionHeader badge="Working With Us" id="about-engagement-title" title="A straightforward path from the operating problem to verified evidence." />
       <div class="grid-two">
-        <Card class="image-forward-card image-forward-card-gold" style="--card-image:url(/images/site-2026/capabilities-hero.webp)">
-          <h3>Independent perspective</h3>
-          <p>We separate assurance judgment from unsupported approval language and focus on what records, controls, and field conditions can actually demonstrate.</p>
-        </Card>
-        <Card class="image-forward-card image-forward-card-gold" style="--card-image:url(/images/site-2026/services-hero.webp)">
-          <h3>Execution-focused improvement</h3>
-          <p>We turn findings into prioritized actions that leaders, contractors, and operating teams can implement and sustain.</p>
-        </Card>
+        {engagementSteps.map(([step, title, detail]) => (
+          <Card class="engagement-step">
+            <span>{step}</span>
+            <h3>{title}</h3>
+            <p>{detail}</p>
+          </Card>
+        ))}
       </div>
+      <p class="section-note">Delivery model, onsite or remote activities, duration, staffing, customer inputs, reporting cadence, and final deliverables are defined for the specific engagement rather than assumed from a generic service description.</p>
     </Section>
 
-    <Section ariaLabelledby="about-focus-title">
-      <SectionHeader badge="What We Do" id="about-focus-title" title="Assurance, readiness, safety, risk, and quality support across consequential operations." />
+    <Section ariaLabelledby="about-leadership-title">
+      <SectionHeader badge="Leadership" id="about-leadership-title" title="Named leadership and technical operations contacts." />
       <div class="grid-two">
-        <Card class="image-forward-card image-forward-card-tall" style="--card-image:url(/images/site-2026/maritime-hero.webp)">
-          <h3>Operational assurance</h3>
-          <p>Independent reviews, readiness assessments, contractor assurance, compliance-readiness support, incident review, and governance assistance.</p>
+        <Card class="image-forward-card image-forward-card-gold" style="--card-image:url(/images/site-2026/about-hero.webp)">
+          <h3>Andrew Mustain</h3>
+          <p>CEO / Owner</p>
+          <p><a href="mailto:andrewmustain@safetyassuranceglobal.com">andrewmustain@safetyassuranceglobal.com</a></p>
         </Card>
-        <Card class="image-forward-card image-forward-card-tall" style="--card-image:url(/images/site-2026/contact-hero.webp)">
-          <h3>Safety and quality</h3>
-          <p>Safety-management support, risk assessment, QA/QC oversight, field verification, documentation review, and corrective-action planning.</p>
+        <Card class="image-forward-card image-forward-card-gold" style="--card-image:url(/images/site-2026/capabilities-hero.webp)">
+          <h3>Daniel Owens</h3>
+          <p>COO / Director of Technical Operations</p>
+          <p><a href="mailto:danielowens@safetyassuranceglobal.com">danielowens@safetyassuranceglobal.com</a></p>
         </Card>
       </div>
+      <p class="section-note">Role-specific qualifications, resumes, availability, and assignment fit are verified against the requirement before they are represented for a proposed engagement.</p>
     </Section>
 
     <Section ariaLabelledby="about-institute-title">
-      <SectionHeader badge="Institute of Assurance" id="about-institute-title" title="Governed learning and workforce development connected to the assurance mission." />
+      <SectionHeader badge="Institute of Assurance" id="about-institute-title" title="Workforce development connected to the assurance mission." />
       <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/institute-hero.webp);--band-position:center 50%">
-        <p>The Safety Assurance Global Institute of Assurance serves as SAG's governed learning and workforce-development division. It supports professional and organizational capability in assurance, operational readiness, safety, quality, risk, leadership, and related disciplines while maintaining controlled public claims about program, enrollment, assessment, and credential status.</p>
+        <p>The Safety Assurance Global Institute of Assurance is Safety Assurance Global's learning and workforce-development division. It supports professional and organizational capability in assurance, operational readiness, safety, quality, risk, leadership, and related disciplines. Program availability, delivery status, assessment requirements, and any credential decision are confirmed for the specific offering.</p>
         <div class="ui-actions"><Button href="/institute" variant="secondary">Explore the Institute</Button></div>
       </Card>
     </Section>
 
-    <Section ariaLabelledby="about-lifecycle-title">
-      <SectionHeader badge="Assurance Lifecycle" id="about-lifecycle-title" title="A disciplined method for engagement delivery." />
-      <div class="grid-four">
-        {lifecycle.map((step, index) => (
-          <Card class="image-forward-card image-forward-card-compact" style={`--card-image:url(${lifecycleImages[index % lifecycleImages.length]})`}><h3>{step}</h3></Card>
-        ))}
-      </div>
-    </Section>
-
-    <Section ariaLabelledby="about-posture-title">
-      <SectionHeader badge="Public Claims Posture" id="about-posture-title" title="Verified positioning without overstating authority." />
+    <Section ariaLabelledby="about-brand-title">
+      <SectionHeader badge="Brand Relationship" id="about-brand-title" title="The contracted work stays at the center of the customer relationship." />
       <Card>
-        <p>This site uses conservative public language and avoids unsupported claims about regulatory approval, accreditation, certification authority, universal recognition, geographic reach, or other statuses that require specific evidence or external authorization.</p>
+        <p>Safety Assurance Global is the public-facing assurance and consulting organization described on this site. The Institute of Assurance is its learning and workforce-development division. The Safety Assurance Global brand also carries the “Powered by Mandavere” attribution. Buyers can start with the service requirement; internal product or technology names are introduced only when they are relevant to the proposed scope.</p>
       </Card>
     </Section>
   </Container>
 </BaseLayout>
+
+<style>
+  .engagement-step { min-height:13rem; }
+  .engagement-step > span { display:inline-block; margin-bottom:.65rem; color:var(--color-accent); font-size:.75rem; font-weight:900; letter-spacing:.12em; }
+  .section-note { max-width:82ch; margin-top:1rem; color:var(--color-text-soft); font-size:.9rem; line-height:1.65; }
+</style>
