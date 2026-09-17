@@ -73,11 +73,16 @@ const pathways = [
   }
 ];
 
-const focusAreas = [
-  { label: 'Shipyard assurance', href: '/industries/shipyards' },
-  { label: 'Port and terminal readiness', href: '/industries/ports-marine-terminals' },
-  { label: 'Vessel-operator support', href: '/industries/vessel-operators' },
-  { label: 'Marine-contractor oversight', href: '/industries/marine-contractors' },
+const primaryFocusAreas = [
+  { label: 'Shipyard assurance', href: '/industries/shipyards', image: '/images/site-2026/services-hero.webp' },
+  { label: 'Port and terminal readiness', href: '/industries/ports-marine-terminals', image: '/images/site-2026/maritime-hero.webp' },
+  { label: 'Vessel-operator support', href: '/industries/vessel-operators', image: '/images/site-2026/home-hero.webp' },
+  { label: 'Marine-contractor oversight', href: '/industries/marine-contractors', image: '/images/site-2026/industries-hero.webp' },
+  { label: 'Government maritime support', href: '/government', image: '/images/site-2026/government-hero.webp' },
+  { label: 'Workforce training', href: '/maritime-training', image: '/images/site-2026/institute-hero.webp' }
+];
+
+const supportingFocusAreas = [
   { label: 'Maritime safety management', href: '/services/safety-risk-management' },
   { label: 'Maritime risk management', href: '/services/safety-risk-management' },
   { label: 'QA/QC', href: '/services/qa-qc' },
@@ -87,9 +92,7 @@ const focusAreas = [
   { label: 'Contractor assurance', href: '/services/contractor-assurance' },
   { label: 'Emergency preparedness', href: '/services/emergency-preparedness' },
   { label: 'Drills and exercises', href: '/services/emergency-preparedness' },
-  { label: 'Incident investigation', href: '/services/incident-investigation' },
-  { label: 'Workforce training', href: '/maritime-training' },
-  { label: 'Government maritime support', href: '/government' }
+  { label: 'Incident investigation', href: '/services/incident-investigation' }
 ];
 ---
 
@@ -117,18 +120,32 @@ const focusAreas = [
 
     <Section ariaLabelledby="maritime-focus-title">
       <SectionHeader
-        badge="Maritime Capabilities"
+        badge="Primary Maritime Pathways"
         id="maritime-focus-title"
-        title="Support across critical maritime operating and project environments."
+        title="Start with the operating environment that best matches your need."
       />
-      <div class="grid-four maritime-focus-grid">
-        {focusAreas.map((item, index) => (
+      <p class="section-intro">SAG's maritime work is organized around the buyer, operating environment, and decision that needs evidence—not around a generic service menu.</p>
+      <div class="grid-three maritime-focus-grid">
+        {primaryFocusAreas.map((item) => (
           <a class="maritime-focus-link" href={item.href} aria-label={`Explore ${item.label}`}>
-            <Card as="div" class="maritime-focus-card image-forward-card image-forward-card-compact" style={`--card-image:url(${maritimeImages[index % maritimeImages.length]})`}>
+            <Card as="div" class="maritime-focus-card image-forward-card image-forward-card-tall image-forward-card-gold" style={`--card-image:url(${item.image})`}>
               <h3>{item.label}</h3>
-              <span class="maritime-focus-action" aria-hidden="true">Explore →</span>
+              <span class="maritime-focus-action" aria-hidden="true">Explore pathway →</span>
             </Card>
           </a>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="maritime-support-title">
+      <SectionHeader
+        badge="Supporting Capabilities"
+        id="maritime-support-title"
+        title="Add focused assurance support where the operating context requires it."
+      />
+      <div class="capability-index" aria-label="Additional maritime capabilities">
+        {supportingFocusAreas.map((item) => (
+          <a href={item.href}>{item.label}<span aria-hidden="true">→</span></a>
         ))}
       </div>
     </Section>
@@ -142,7 +159,10 @@ const focusAreas = [
       <div class="pathway-stack">
         {pathways.map((pathway, index) => (
           <Card class="pathway-card photo-backed-band" style={`--band-image:url(${maritimeImages[index % maritimeImages.length]});--band-position:center 55%`}>
-            <h3>{pathway.audience}</h3>
+            <div class="pathway-heading">
+              <div><p class="pathway-kicker">Operating context</p><h3>{pathway.audience}</h3></div>
+              <p class="pathway-outcome"><strong>Decision value:</strong> {pathway.outcome}</p>
+            </div>
             <div class="grid-two pathway-grid">
               <div>
                 <h4>Customer challenge</h4>
@@ -161,8 +181,6 @@ const focusAreas = [
                 <p>{pathway.deliverables}</p>
               </div>
             </div>
-            <h4>Expected outcome</h4>
-            <p>{pathway.outcome}</p>
             <div class="ui-actions">
               <Button href={pathway.cta}>Discuss This Need</Button>
             </div>
@@ -174,15 +192,25 @@ const focusAreas = [
 </BaseLayout>
 
 <style>
+  .section-intro { max-width:72ch; margin:-.4rem 0 1.25rem; color:var(--color-text-muted); font-size:.96rem; line-height:1.7; }
   .maritime-focus-link { display:block; color:inherit; text-decoration:none; border-radius:var(--radius-lg); }
   .maritime-focus-link:focus-visible { outline:3px solid var(--color-accent); outline-offset:3px; }
-  .maritime-focus-card { height:100%; display:flex; flex-direction:column; justify-content:flex-end; gap:1rem; transition:transform 160ms ease,border-color 160ms ease,box-shadow 160ms ease; }
+  .maritime-focus-card { min-height:19rem; height:100%; display:flex; flex-direction:column; justify-content:flex-end; gap:1rem; transition:transform 160ms ease,border-color 160ms ease,box-shadow 160ms ease; }
   .maritime-focus-link:hover .maritime-focus-card,.maritime-focus-link:focus-visible .maritime-focus-card { transform:translateY(-2px); border-color:rgba(211,154,50,.7); box-shadow:0 12px 28px rgba(0,0,0,.18); }
   .maritime-focus-card h3 { margin:0; }
   .maritime-focus-action { color:var(--color-accent); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+  .capability-index { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem; }
+  .capability-index a { display:flex; align-items:center; justify-content:space-between; gap:1rem; min-height:3.4rem; padding:.85rem 1rem; border:1px solid rgba(148,163,184,.22); border-radius:.65rem; background:rgba(9,24,40,.72); color:#e7edf5; text-decoration:none; font-weight:720; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
+  .capability-index a span { color:var(--color-accent); }
+  .capability-index a:hover,.capability-index a:focus-visible { border-color:rgba(211,154,50,.62); background:rgba(12,35,58,.9); transform:translateY(-1px); }
   .pathway-stack { display:grid; gap:var(--space-2); }
   .pathway-card { min-height:24rem; padding:clamp(1.5rem,4vw,2.3rem); }
+  .pathway-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,.72fr); gap:1.5rem; align-items:end; margin-bottom:1.15rem; }
+  .pathway-kicker { margin:0 0 .3rem; color:#f3aa35; font-size:.7rem; font-weight:850; letter-spacing:.13em; text-transform:uppercase; }
   .pathway-card h3{font-size:clamp(1.45rem,2.4vw,2rem)}
   .pathway-card h4 { margin:0 0 .4rem; font-size:1rem; color:var(--color-text-soft); }
+  .pathway-outcome { margin:0; padding:.8rem 1rem; border-left:2px solid rgba(211,154,50,.7); background:rgba(4,15,28,.58); color:#e4ebf2; font-size:.88rem; line-height:1.55; }
   .pathway-grid { margin-bottom:var(--space-1); }
+  @media (max-width:800px) { .capability-index { grid-template-columns:1fr; } .pathway-heading { grid-template-columns:1fr; } }
+  @media (max-width:640px) { .maritime-focus-grid { grid-template-columns:1fr; } .maritime-focus-card { min-height:17rem; } }
 </style>
