@@ -7,15 +7,122 @@ interface Props {
   title: string;
   badge?: string;
   intro?: string;
+  image?: string;
+  imagePosition?: string;
   class?: string;
 }
 
-const { id, title, badge, intro, class: className } = Astro.props;
+const {
+  id,
+  title,
+  badge,
+  intro,
+  image,
+  imagePosition = 'center center',
+  class: className
+} = Astro.props;
 ---
 
-<Section class:list={['hero-panel', className]} ariaLabelledby={id}>
-  {badge && <Badge text={badge} />}
-  <h1 id={id}>{title}</h1>
-  {intro && <p>{intro}</p>}
-  <slot />
+<Section class:list={['hero-panel', image && 'hero-panel-photo', className]} ariaLabelledby={id}>
+  {image && (
+    <>
+      <img
+        class="hero-panel-photo-image"
+        src={image}
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        style={`object-position: ${imagePosition};`}
+      />
+      <span class="hero-panel-photo-overlay" aria-hidden="true"></span>
+    </>
+  )}
+  <div class="hero-panel-content">
+    {badge && <Badge text={badge} />}
+    <h1 id={id}>{title}</h1>
+    {intro && <p>{intro}</p>}
+    <slot />
+  </div>
 </Section>
+
+<style>
+  .hero-panel-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-panel-photo {
+    min-height: clamp(25rem, 52vw, 34rem);
+    display: flex;
+    align-items: flex-end;
+    isolation: isolate;
+    border-color: rgba(211, 154, 50, 0.55);
+    background: #06111f;
+  }
+
+  .hero-panel-photo-image,
+  .hero-panel-photo-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-panel-photo-image {
+    z-index: 0;
+    object-fit: cover;
+    filter: saturate(.9) contrast(1.04);
+  }
+
+  .hero-panel-photo-overlay {
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(3, 15, 28, .98) 0%, rgba(3, 15, 28, .91) 34%, rgba(3, 15, 28, .63) 57%, rgba(3, 15, 28, .18) 100%),
+      linear-gradient(180deg, rgba(2, 12, 23, .06) 0%, rgba(2, 12, 23, .42) 100%);
+  }
+
+  .hero-panel-photo .hero-panel-content {
+    width: min(100%, 48rem);
+    padding-block: clamp(.5rem, 2vw, 1.2rem);
+  }
+
+  .hero-panel-photo :global(.ui-badge) {
+    border-color: rgba(232, 183, 84, .66);
+    background: rgba(7, 20, 35, .66);
+    backdrop-filter: blur(7px);
+  }
+
+  .hero-panel-photo h1 {
+    max-width: 16ch;
+    font-size: clamp(2.4rem, 5.2vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -.035em;
+    text-shadow: 0 3px 24px rgba(0, 0, 0, .42);
+  }
+
+  .hero-panel-photo p {
+    max-width: 62ch;
+    color: #edf3f8;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, .48);
+  }
+
+  @media (max-width: 700px) {
+    .hero-panel-photo {
+      min-height: 30rem;
+      align-items: flex-end;
+      padding: 1.35rem;
+    }
+
+    .hero-panel-photo-overlay {
+      background:
+        linear-gradient(180deg, rgba(3, 15, 28, .24) 0%, rgba(3, 15, 28, .74) 48%, rgba(3, 15, 28, .98) 100%);
+    }
+
+    .hero-panel-photo h1 {
+      font-size: clamp(2.15rem, 11vw, 3.35rem);
+    }
+  }
+</style>

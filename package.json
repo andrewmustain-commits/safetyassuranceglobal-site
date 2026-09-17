@@ -40,7 +40,7 @@
   "allowScripts": {
     "esbuild@0.28.1": true,
     "fsevents@2.3.3": true,
-    "workerd@1.20260828.1": true
+    "workerd@1.20260916.1": true
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
@@ -51,6 +51,6 @@
     "@astrojs/check": "^0.9.9",
     "@types/node": "^24.0.7",
     "typescript": "^5.9.3",
-    "wrangler": "4.127.1"
+    "wrangler": "4.133.0"
   }
 }
