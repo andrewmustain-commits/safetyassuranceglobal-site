@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "postbuild": "node scripts/enforce-public-company-name.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "blog:validate": "node scripts/blog-validate.mjs",
