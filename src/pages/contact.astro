@@ -7,6 +7,13 @@ import Button from '../components/ui/Button.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import HeroSection from '../components/ui/HeroSection.astro';
 import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
+
+const pathCards = [
+  { title: 'Maritime & operational assurance', copy: 'Ports, terminals, shipyards, vessel operations, contractors, readiness, safety, quality, and evidence-focused assurance needs.', image: '/images/site-2026/maritime-hero.webp' },
+  { title: 'Government & public infrastructure', copy: 'Capability discussions, procurement support, teaming conversations, and scoped assurance or readiness requirements.', image: '/images/site-2026/government-hero.webp' },
+  { title: 'Commercial & industrial', copy: 'Defined safety, risk, QA/QC, contractor-assurance, operational-readiness, and high-consequence operating support.', image: '/images/site-2026/services-hero.webp' },
+  { title: 'Institute & workforce development', copy: 'Training, workforce-readiness, and governed learning inquiries. Program availability and credential status are confirmed separately.', image: '/images/site-2026/institute-hero.webp' }
+];
 ---
 
 <BaseLayout title="Contact" description="Contact Safety Assurance Global for maritime assurance, government and commercial consulting, teaming, training, and workforce-development inquiries.">
@@ -25,22 +32,12 @@ import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
     <Section ariaLabelledby="contact-paths-title">
       <SectionHeader id="contact-paths-title" badge="Choose the Right Path" title="A clear starting point for buyers, partners, and workforce inquiries." />
       <div class="details-grid">
-        <Card>
-          <h3>Maritime & operational assurance</h3>
-          <p>Ports, terminals, shipyards, vessel operations, contractors, readiness, safety, quality, and evidence-focused assurance needs.</p>
-        </Card>
-        <Card>
-          <h3>Government & public infrastructure</h3>
-          <p>Capability discussions, procurement support, teaming conversations, and scoped assurance or readiness requirements.</p>
-        </Card>
-        <Card>
-          <h3>Commercial & industrial</h3>
-          <p>Defined safety, risk, QA/QC, contractor-assurance, operational-readiness, and high-consequence operating support.</p>
-        </Card>
-        <Card>
-          <h3>Institute & workforce development</h3>
-          <p>Training, workforce-readiness, and governed learning inquiries. Program availability and credential status are confirmed separately.</p>
-        </Card>
+        {pathCards.map((item) => (
+          <Card class="image-forward-card image-forward-card-tall image-forward-card-gold" style={`--card-image:url(${item.image})`}>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+          </Card>
+        ))}
       </div>
     </Section>
 
@@ -51,26 +48,11 @@ import ContactInquiryForm from '../components/forms/ContactInquiryForm.astro';
     <Section ariaLabelledby="details-title">
       <SectionHeader id="details-title" badge="Contact Details" title="Reach the right SAG team." />
       <div class="details-grid">
-        <Card>
-          <h3>General inquiries</h3>
-          <p><a href="mailto:info@safetyassuranceglobal.com">info@safetyassuranceglobal.com</a></p>
-        </Card>
-        <Card>
-          <h3>Secondary contact</h3>
-          <p><a href="mailto:contact@safetyassuranceglobal.com">contact@safetyassuranceglobal.com</a></p>
-        </Card>
-        <Card>
-          <h3>Institute & Academy</h3>
-          <p><a href="mailto:academy@safetyassuranceglobal.com">academy@safetyassuranceglobal.com</a></p>
-        </Card>
-        <Card>
-          <h3>SAG Command</h3>
-          <p><a href="mailto:command@safetyassuranceglobal.com">command@safetyassuranceglobal.com</a></p>
-        </Card>
-        <Card>
-          <h3>Proposal-ready scopes</h3>
-          <p><a href="/request-proposal">Use the proposal request workflow</a> when you already know the project, schedule, location, or procurement context.</p>
-        </Card>
+        <Card><h3>General inquiries</h3><p><a href="mailto:info@safetyassuranceglobal.com">info@safetyassuranceglobal.com</a></p></Card>
+        <Card><h3>Secondary contact</h3><p><a href="mailto:contact@safetyassuranceglobal.com">contact@safetyassuranceglobal.com</a></p></Card>
+        <Card><h3>Institute & Academy</h3><p><a href="mailto:academy@safetyassuranceglobal.com">academy@safetyassuranceglobal.com</a></p></Card>
+        <Card><h3>SAG Command</h3><p><a href="mailto:command@safetyassuranceglobal.com">command@safetyassuranceglobal.com</a></p></Card>
+        <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/capabilities-hero.webp);--band-position:center 48%"><h3>Proposal-ready scopes</h3><p><a href="/request-proposal">Use the proposal request workflow</a> when you already know the project, schedule, location, or procurement context.</p></Card>
       </div>
       <div class="engagement-note">
         <strong>Scope boundary:</strong> Submission starts an intake review only. It does not represent acceptance of work, contractual commitment, regulatory approval, credential issuance, or confirmation that SAG is qualified for every requested scope or jurisdiction.
