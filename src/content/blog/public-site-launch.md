@@ -2,9 +2,9 @@
 title: Safety Assurance Global Public Site Launch
 slug: public-site-launch
 description: Introducing our public website and governed publishing model for insights.
-author: SAG Editorial Team
+author: Safety Assurance Global Editorial Team
 publishedAt: 2026-06-20
-updatedAt: 2026-07-26
+updatedAt: 2026-09-17
 status: published
 category: Governance
 tags:
