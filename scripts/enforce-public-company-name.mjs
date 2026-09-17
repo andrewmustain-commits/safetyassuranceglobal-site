@@ -26,70 +26,69 @@ walk(dist);
 
 const protectBrands = (value) => {
   let output = value;
-  const tokens = [];
   protectedBrandNames.forEach((brand, index) => {
-    const token = `__SAFETY_ASSURANCE_GLOBAL_PROTECTED_BRAND_${index}__`;
-    if (output.includes(brand)) {
-      output = output.split(brand).join(token);
-      tokens.push([token, brand]);
-    }
+    output = output.split(brand).join(`__SAFETY_ASSURANCE_GLOBAL_PROTECTED_BRAND_${index}__`);
   });
-  return { output, tokens };
-};
-
-const restoreBrands = (value, tokens) => {
-  let output = value;
-  for (const [token, brand] of tokens) output = output.split(token).join(brand);
   return output;
 };
 
-const expandCompanyName = (value) => {
-  const { output: protectedValue, tokens } = protectBrands(value);
-  const expanded = protectedValue.replace(/\bSAG\b/g, 'Safety Assurance Global');
-  return restoreBrands(expanded, tokens);
+const decodeEntities = (value) => value
+  .replace(/&nbsp;/gi, ' ')
+  .replace(/&amp;/gi, '&')
+  .replace(/&quot;/gi, '"')
+  .replace(/&#39;|&apos;/gi, "'")
+  .replace(/&rsquo;|&#8217;/gi, '’')
+  .replace(/&ldquo;|&#8220;/gi, '“')
+  .replace(/&rdquo;|&#8221;/gi, '”');
+
+const stripNonPublicBlocks = (html) => html
+  .replace(/<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+  .replace(/<!--([\s\S]*?)-->/g, ' ');
+
+const collectPublicStrings = (html) => {
+  const cleaned = stripNonPublicBlocks(html);
+  const values = [];
+
+  const textOnly = cleaned.replace(/<[^>]+>/g, ' ');
+  values.push({ field: 'visible text', value: textOnly });
+
+  for (const match of cleaned.matchAll(/\b(?:alt|title|aria-label|placeholder)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi)) {
+    values.push({ field: 'public attribute', value: match[1] ?? match[2] ?? '' });
+  }
+
+  for (const meta of cleaned.matchAll(/<meta\b[^>]*>/gi)) {
+    const tag = meta[0];
+    const content = tag.match(/\bcontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i);
+    if (content) values.push({ field: 'metadata', value: content[1] ?? content[2] ?? '' });
+  }
+
+  return values;
 };
 
-const protectBlocks = (html) => {
-  const blocks = [];
-  const output = html.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, (block) => {
-    const token = `__SAFETY_ASSURANCE_GLOBAL_BLOCK_${blocks.length}__`;
-    blocks.push([token, block]);
-    return token;
-  });
-  return { output, blocks };
-};
-
-const restoreBlocks = (html, blocks) => {
-  let output = html;
-  for (const [token, block] of blocks) output = output.split(token).join(block);
-  return output;
-};
-
-let changedFiles = 0;
 const failures = [];
 
 for (const filePath of htmlFiles) {
-  const original = fs.readFileSync(filePath, 'utf8');
-  const { output: withoutBlocks, blocks } = protectBlocks(original);
-  const rewrittenOutsideBlocks = expandCompanyName(withoutBlocks);
-  const rewritten = restoreBlocks(rewrittenOutsideBlocks, blocks);
+  const html = fs.readFileSync(filePath, 'utf8');
+  const relativePath = path.relative(dist, filePath);
 
-  if (rewritten !== original) {
-    fs.writeFileSync(filePath, rewritten);
-    changedFiles += 1;
-  }
+  for (const { field, value } of collectPublicStrings(html)) {
+    const candidate = protectBrands(decodeEntities(value));
+    const match = candidate.match(/\bSAG\b/);
+    if (!match) continue;
 
-  const { output: rewrittenWithoutBlocks } = protectBlocks(rewritten);
-  const { output: protectedPublicHtml } = protectBrands(rewrittenWithoutBlocks);
-  if (/\bSAG\b/.test(protectedPublicHtml)) {
-    failures.push(`${path.relative(dist, filePath)}: public company abbreviation remains outside protected product names`);
+    const index = match.index ?? 0;
+    const start = Math.max(0, index - 70);
+    const end = Math.min(candidate.length, index + 110);
+    const context = candidate.slice(start, end).replace(/\s+/g, ' ').trim();
+    failures.push(`${relativePath} (${field}): …${context}…`);
   }
 }
 
 if (failures.length) {
-  console.error('Full-name enforcement failed:');
+  console.error('Full-name enforcement failed. Replace ordinary public company shorthand with “Safety Assurance Global”.');
+  console.error('Protected formal product names may retain their approved names. Generated files were not modified.');
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-console.log(`Full-name enforcement passed for ${htmlFiles.length} generated HTML pages; ${changedFiles} page(s) were normalized to “Safety Assurance Global”. Formal protected product names remain unchanged.`);
+console.log(`Full-name enforcement passed for ${htmlFiles.length} generated HTML pages. Validation only; no generated HTML was rewritten.`);
