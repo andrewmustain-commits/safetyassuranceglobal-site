@@ -71,11 +71,7 @@ const failures = [];
 for (const filePath of htmlFiles) {
   const original = fs.readFileSync(filePath, 'utf8');
   const { output: withoutBlocks, blocks } = protectBlocks(original);
-
-  const rewrittenOutsideBlocks = withoutBlocks.replace(/>([^<]*)</g, (match, text) => {
-    return `>${expandCompanyName(text)}<`;
-  });
-
+  const rewrittenOutsideBlocks = expandCompanyName(withoutBlocks);
   const rewritten = restoreBlocks(rewrittenOutsideBlocks, blocks);
 
   if (rewritten !== original) {
@@ -83,14 +79,10 @@ for (const filePath of htmlFiles) {
     changedFiles += 1;
   }
 
-  const visibleText = rewritten
-    .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/\s+/g, ' ');
-
-  const { output: protectedVisible } = protectBrands(visibleText);
-  if (/\bSAG\b/.test(protectedVisible)) {
-    failures.push(`${path.relative(dist, filePath)}: public company abbreviation remains in visible text`);
+  const { output: rewrittenWithoutBlocks } = protectBlocks(rewritten);
+  const { output: protectedPublicHtml } = protectBrands(rewrittenWithoutBlocks);
+  if (/\bSAG\b/.test(protectedPublicHtml)) {
+    failures.push(`${path.relative(dist, filePath)}: public company abbreviation remains outside protected product names`);
   }
 }
 
