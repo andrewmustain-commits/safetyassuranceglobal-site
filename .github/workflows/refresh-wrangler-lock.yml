@@ -24,7 +24,7 @@ jobs:
           cache: npm
 
       - name: Refresh Wrangler and lockfile
-        run: npm install --save-dev --package-lock-only wrangler@4.133.0
+        run: npm install --save-dev --package-lock-only --ignore-scripts wrangler@4.133.0
 
       - name: Verify high-severity audit is clear
         run: npm audit --audit-level=high
