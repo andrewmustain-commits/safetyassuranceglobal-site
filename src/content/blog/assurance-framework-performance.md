@@ -2,9 +2,9 @@
 title: Measuring Safety Assurance Framework Performance
 slug: measuring-assurance-framework-performance
 description: Three practical indicators organizations can use to monitor whether safety assurance frameworks are working as intended.
-author: SAG Editorial Team
+author: Safety Assurance Global Editorial Team
 publishedAt: 2026-06-01
-updatedAt: 2026-07-26
+updatedAt: 2026-09-17
 status: published
 category: Governance
 tags:
