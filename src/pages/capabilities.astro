@@ -20,6 +20,19 @@ const capabilities = [
   ['EV', 'Evidence-Based Closeout', 'Reconciled records, closure packages, trend reporting, and management-ready evidence indexes.']
 ];
 
+const capabilityImages = [
+  '/images/site-2026/home-hero.webp',
+  '/images/site-2026/services-hero.webp',
+  '/images/site-2026/contact-hero.webp',
+  '/images/site-2026/government-hero.webp',
+  '/images/site-2026/capabilities-hero.webp',
+  '/images/site-2026/about-hero.webp',
+  '/images/site-2026/insights-hero.webp',
+  '/images/site-2026/institute-hero.webp',
+  '/images/site-2026/industries-hero.webp',
+  '/images/site-2026/maritime-hero.webp'
+];
+
 const deliveryCycle = [
   ['01', 'Requirements Intake', 'Scope, criteria, hazards'],
   ['02', 'Control Crosswalk', 'Owner, control, evidence'],
@@ -70,7 +83,7 @@ const differentiators = [
 
     <Section ariaLabelledby="overview-title">
       <SectionHeader badge="Company Overview" id="overview-title" title="Requirements first. Evidence through closure." />
-      <Card>
+      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/capabilities-hero.webp);--band-position:center 46%">
         <p>
           Safety Assurance Global LLC (SAG) uses a requirements-first, evidence-bound approach to organize approved work into
           clear responsibilities, field controls, verification points, corrective actions, and closeout records.
@@ -83,8 +96,8 @@ const differentiators = [
     <Section ariaLabelledby="core-capabilities-title">
       <SectionHeader badge="Core Capabilities" id="core-capabilities-title" title="Practical support tied to requirements, controls, and evidence." />
       <div class="capability-grid">
-        {capabilities.map(([code, title, description]) => (
-          <Card class="capability-card">
+        {capabilities.map(([code, title, description], index) => (
+          <Card class="capability-card image-forward-card image-forward-card-compact" style={`--card-image:url(${capabilityImages[index % capabilityImages.length]})`}>
             <span class="capability-code">{code}</span>
             <h3>{title}</h3>
             <p>{description}</p>
@@ -109,7 +122,7 @@ const differentiators = [
 
     <Section ariaLabelledby="experience-title">
       <SectionHeader badge="Relevant Experience Base" id="experience-title" title="Selected individual prior-employer experience." />
-      <Card>
+      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/government-hero.webp);--band-position:center 52%">
         <p>
           Selected personnel bring individual prior-employer experience in Port of Portland owner-representative safety;
           PDX Terminal Core Redevelopment safety leadership; regional crane and rigging operations; Microsoft and Google
@@ -123,7 +136,7 @@ const differentiators = [
     <Section ariaLabelledby="differentiators-title">
       <SectionHeader badge="What Sets SAG Apart" id="differentiators-title" title="Disciplined delivery without overstating authority." />
       <div class="grid-two">
-        {differentiators.map((item) => <Card><p>{item}</p></Card>)}
+        {differentiators.map((item, index) => <Card class="image-forward-card image-forward-card-compact" style={`--card-image:url(${capabilityImages[(index + 2) % capabilityImages.length]})`}><p>{item}</p></Card>)}
       </div>
     </Section>
 
@@ -168,5 +181,5 @@ const differentiators = [
   .eyebrow{margin:1rem 0 .5rem;color:var(--color-accent);font-size:.82rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
   .capabilities-hero h1{max-width:14ch;margin:.3rem 0 1rem;font-size:clamp(2.4rem,6vw,5rem);line-height:1;letter-spacing:-.04em}
   .lede{max-width:850px;font-size:clamp(1.05rem,1.6vw,1.25rem);line-height:1.7}
-  .capability-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.capability-card{position:relative;padding-left:4.6rem}.capability-code{position:absolute;left:1.3rem;top:1.3rem;display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:.5rem;background:var(--color-surface-strong);color:var(--color-accent);font-weight:800;font-size:.8rem}.cycle-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.7rem;margin:0;padding:0;list-style:none}.cycle-grid li{display:grid;gap:.45rem;align-content:start;padding:1rem;border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-md);background:rgba(255,255,255,.025)}.cycle-number{color:var(--color-accent);font-weight:850;letter-spacing:.08em}.cycle-grid li span:last-child,.data-note{color:var(--color-text-soft);font-size:.9rem}.cycle-summary{margin-top:1rem;font-weight:700}.data-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}dl{display:grid;grid-template-columns:minmax(120px,.65fr) minmax(0,1.35fr);gap:.65rem 1rem;margin:0}dt{color:var(--color-text-soft);font-weight:700}dd{margin:0;font-weight:700}.data-note{max-width:900px;margin-top:1rem}@media(max-width:900px){.cycle-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.capability-grid,.data-grid,.cycle-grid{grid-template-columns:1fr}.capability-card{padding-left:1.3rem;padding-top:4.4rem}.capability-code{left:1.3rem;top:1.2rem}dl{grid-template-columns:1fr}dd{margin-bottom:.4rem}}
+  .capability-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.capability-card{position:relative}.capability-card.image-forward-card{padding-left:1.3rem}.capability-code{display:grid;place-items:center;width:2.5rem;height:2.5rem;margin-bottom:.7rem;border-radius:.5rem;background:rgba(7,20,34,.86);border:1px solid rgba(211,154,50,.42);color:var(--color-accent);font-weight:800;font-size:.8rem}.cycle-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.7rem;margin:0;padding:0;list-style:none}.cycle-grid li{display:grid;gap:.45rem;align-content:start;padding:1rem;border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-md);background:rgba(255,255,255,.025)}.cycle-number{color:var(--color-accent);font-weight:850;letter-spacing:.08em}.cycle-grid li span:last-child,.data-note{color:var(--color-text-soft);font-size:.9rem}.cycle-summary{margin-top:1rem;font-weight:700}.data-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}dl{display:grid;grid-template-columns:minmax(120px,.65fr) minmax(0,1.35fr);gap:.65rem 1rem;margin:0}dt{color:var(--color-text-soft);font-weight:700}dd{margin:0;font-weight:700}.data-note{max-width:900px;margin-top:1rem}@media(max-width:900px){.cycle-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.capability-grid,.data-grid,.cycle-grid{grid-template-columns:1fr}dl{grid-template-columns:1fr}dd{margin-bottom:.4rem}}
 </style>

@@ -10,10 +10,20 @@ import IndustryCard from '../components/ui/IndustryCard.astro';
 import SectorVisualGrid from '../components/ui/SectorVisualGrid.astro';
 import { industryDetails } from '../data/industries';
 
-const priorityIndustries = industryDetails.map((industry) => ({
+const industryImages = [
+  '/images/site-2026/maritime-hero.webp',
+  '/images/site-2026/services-hero.webp',
+  '/images/site-2026/home-hero.webp',
+  '/images/site-2026/about-hero.webp',
+  '/images/site-2026/government-hero.webp',
+  '/images/site-2026/industries-hero.webp'
+];
+
+const priorityIndustries = industryDetails.map((industry, index) => ({
   href: `/industries/${industry.slug}`,
   title: industry.title,
-  context: industry.operatingContext
+  context: industry.operatingContext,
+  image: industryImages[index % industryImages.length]
 }));
 
 const additionalTargets = [
@@ -58,7 +68,7 @@ const additionalTargets = [
       <SectionHeader badge="Priority Sectors" id="industries-priority-title" title="Explore support by operating environment." />
       <div class="grid-two">
         {priorityIndustries.map((industry) => (
-          <IndustryCard>
+          <IndustryCard class="image-forward-card image-forward-card-tall image-forward-card-gold" style={`--card-image:url(${industry.image})`}>
             <h3><a href={industry.href}>{industry.title}</a></h3>
             <p>{industry.context}</p>
             <p><a href={industry.href}>View industry detail</a></p>
@@ -75,7 +85,7 @@ const additionalTargets = [
         id="industries-additional-title"
         title="Broader high-consequence sectors supported through defined SAG service pathways."
       />
-      <Card>
+      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/industries-hero.webp);--band-position:center 58%">
         <ul>
           {additionalTargets.map((target) => (
             <li>{target}</li>

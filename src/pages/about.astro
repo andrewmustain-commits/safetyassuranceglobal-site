@@ -8,6 +8,12 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import HeroSection from '../components/ui/HeroSection.astro';
 
 const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Validate', 'Assure', 'Sustain'];
+const lifecycleImages = [
+  '/images/site-2026/about-hero.webp',
+  '/images/site-2026/capabilities-hero.webp',
+  '/images/site-2026/services-hero.webp',
+  '/images/site-2026/home-hero.webp'
+];
 ---
 
 <BaseLayout
@@ -35,23 +41,19 @@ const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Val
 
     <Section ariaLabelledby="about-purpose-title">
       <SectionHeader badge="Company Purpose" id="about-purpose-title" title="Strengthen readiness through independent, evidence-based assurance." />
-      <Card>
-        <p>
-          SAG helps owners, contractors, operators, and public organizations identify risk, verify controls, improve
-          execution, and make defensible readiness decisions. Engagements are structured around evidence, practical
-          corrective action, accountability, and sustained improvement rather than unsupported compliance claims.
-        </p>
+      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/about-hero.webp);--band-position:center 58%">
+        <p>SAG helps owners, contractors, operators, and public organizations identify risk, verify controls, improve execution, and make defensible readiness decisions. Engagements are structured around evidence, practical corrective action, accountability, and sustained improvement rather than unsupported compliance claims.</p>
       </Card>
     </Section>
 
     <Section ariaLabelledby="about-philosophy-title">
       <SectionHeader badge="Assurance Philosophy" id="about-philosophy-title" title="Evidence before assumption." />
       <div class="grid-two">
-        <Card>
+        <Card class="image-forward-card image-forward-card-gold" style="--card-image:url(/images/site-2026/capabilities-hero.webp)">
           <h3>Independent perspective</h3>
           <p>We separate assurance judgment from unsupported approval language and focus on what records, controls, and field conditions can actually demonstrate.</p>
         </Card>
-        <Card>
+        <Card class="image-forward-card image-forward-card-gold" style="--card-image:url(/images/site-2026/services-hero.webp)">
           <h3>Execution-focused improvement</h3>
           <p>We turn findings into prioritized actions that leaders, contractors, and operating teams can implement and sustain.</p>
         </Card>
@@ -61,11 +63,11 @@ const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Val
     <Section ariaLabelledby="about-focus-title">
       <SectionHeader badge="What We Do" id="about-focus-title" title="Assurance, readiness, safety, risk, and quality support across consequential operations." />
       <div class="grid-two">
-        <Card>
+        <Card class="image-forward-card image-forward-card-tall" style="--card-image:url(/images/site-2026/maritime-hero.webp)">
           <h3>Operational assurance</h3>
           <p>Independent reviews, readiness assessments, contractor assurance, compliance-readiness support, incident review, and governance assistance.</p>
         </Card>
-        <Card>
+        <Card class="image-forward-card image-forward-card-tall" style="--card-image:url(/images/site-2026/contact-hero.webp)">
           <h3>Safety and quality</h3>
           <p>Safety-management support, risk assessment, QA/QC oversight, field verification, documentation review, and corrective-action planning.</p>
         </Card>
@@ -74,24 +76,17 @@ const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Val
 
     <Section ariaLabelledby="about-institute-title">
       <SectionHeader badge="Institute of Assurance" id="about-institute-title" title="Governed learning and workforce development connected to the assurance mission." />
-      <Card>
-        <p>
-          The Safety Assurance Global Institute of Assurance serves as SAG's governed learning and workforce-development
-          division. It supports professional and organizational capability in assurance, operational readiness, safety,
-          quality, risk, leadership, and related disciplines while maintaining controlled public claims about program,
-          enrollment, assessment, and credential status.
-        </p>
-        <div class="ui-actions">
-          <Button href="/institute" variant="secondary">Explore the Institute</Button>
-        </div>
+      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/institute-hero.webp);--band-position:center 50%">
+        <p>The Safety Assurance Global Institute of Assurance serves as SAG's governed learning and workforce-development division. It supports professional and organizational capability in assurance, operational readiness, safety, quality, risk, leadership, and related disciplines while maintaining controlled public claims about program, enrollment, assessment, and credential status.</p>
+        <div class="ui-actions"><Button href="/institute" variant="secondary">Explore the Institute</Button></div>
       </Card>
     </Section>
 
     <Section ariaLabelledby="about-lifecycle-title">
       <SectionHeader badge="Assurance Lifecycle" id="about-lifecycle-title" title="A disciplined method for engagement delivery." />
       <div class="grid-four">
-        {lifecycle.map((step) => (
-          <Card><h3>{step}</h3></Card>
+        {lifecycle.map((step, index) => (
+          <Card class="image-forward-card image-forward-card-compact" style={`--card-image:url(${lifecycleImages[index % lifecycleImages.length]})`}><h3>{step}</h3></Card>
         ))}
       </div>
     </Section>
@@ -99,11 +94,7 @@ const lifecycle = ['Discover', 'Assess', 'Verify', 'Prioritize', 'Improve', 'Val
     <Section ariaLabelledby="about-posture-title">
       <SectionHeader badge="Public Claims Posture" id="about-posture-title" title="Verified positioning without overstating authority." />
       <Card>
-        <p>
-          This site uses conservative public language and avoids unsupported claims about regulatory approval,
-          accreditation, certification authority, universal recognition, geographic reach, or other statuses that require
-          specific evidence or external authorization.
-        </p>
+        <p>This site uses conservative public language and avoids unsupported claims about regulatory approval, accreditation, certification authority, universal recognition, geographic reach, or other statuses that require specific evidence or external authorization.</p>
       </Card>
     </Section>
   </Container>
