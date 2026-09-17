@@ -23,6 +23,7 @@ const serviceImages = [
 ];
 
 const serviceAreas = serviceDetails.map((service, index) => ({
+  slug: service.slug,
   href: `/services/${service.slug}`,
   title: service.title,
   summary: service.summary,
@@ -30,6 +31,10 @@ const serviceAreas = serviceDetails.map((service, index) => ({
   result: service.expectedResult,
   image: serviceImages[index % serviceImages.length]
 }));
+
+const flagshipSlugs = new Set(['operational-readiness', 'independent-assurance', 'qa-qc', 'contractor-assurance']);
+const flagshipServices = serviceAreas.filter((service) => flagshipSlugs.has(service.slug));
+const additionalServices = serviceAreas.filter((service) => !flagshipSlugs.has(service.slug));
 ---
 
 <BaseLayout
@@ -55,19 +60,39 @@ const serviceAreas = serviceDetails.map((service, index) => ({
       </div>
     </HeroSection>
 
-    <Section ariaLabelledby="services-priority-title">
+    <Section ariaLabelledby="services-flagship-title">
       <SectionHeader
-        badge="Core Service Areas"
-        id="services-priority-title"
-        title="Choose the service path that best matches your operating challenge."
+        badge="Flagship Engagements"
+        id="services-flagship-title"
+        title="Start with the assurance paths buyers use most often."
       />
-      <div class="grid-two">
-        {serviceAreas.map((service) => (
-          <ServiceCard class="image-forward-card image-forward-card-gold" style={`--card-image:url(${service.image})`}>
+      <p class="section-intro">These core engagements address the most common readiness, oversight, quality, and independent-verification needs. Each can stand alone or form part of a broader assurance program.</p>
+      <div class="grid-two flagship-grid">
+        {flagshipServices.map((service) => (
+          <ServiceCard class="image-forward-card image-forward-card-tall image-forward-card-gold" style={`--card-image:url(${service.image})`}>
+            <p class="service-kicker">Core engagement</p>
             <h3><a href={service.href}>{service.title}</a></h3>
+            <p>{service.summary}</p>
             <p><strong>Customer challenge:</strong> {service.problem}</p>
             <p><strong>Expected result:</strong> {service.result}</p>
             <p><a href={service.href}>View service detail</a></p>
+          </ServiceCard>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="services-additional-title">
+      <SectionHeader
+        badge="Additional Assurance Support"
+        id="services-additional-title"
+        title="Extend the engagement where operating risk or delivery context requires it."
+      />
+      <div class="grid-three additional-grid">
+        {additionalServices.map((service) => (
+          <ServiceCard class="image-forward-card image-forward-card-compact" style={`--card-image:url(${service.image})`}>
+            <h3><a href={service.href}>{service.title}</a></h3>
+            <p>{service.summary}</p>
+            <p><a href={service.href}>Explore capability →</a></p>
           </ServiceCard>
         ))}
       </div>
@@ -101,3 +126,12 @@ const serviceAreas = serviceDetails.map((service, index) => ({
     </Section>
   </Container>
 </BaseLayout>
+
+<style>
+  .section-intro { max-width:72ch; margin:-.4rem 0 1.25rem; color:var(--color-text-muted); font-size:.96rem; line-height:1.7; }
+  .flagship-grid :global(.ui-service-card) { min-height:26rem; }
+  .service-kicker { margin:0 0 .45rem; color:#f3aa35; font-size:.72rem; font-weight:850; letter-spacing:.14em; text-transform:uppercase; }
+  .additional-grid :global(.ui-service-card) { min-height:15.5rem; }
+  @media (max-width:900px) { .additional-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:640px) { .additional-grid { grid-template-columns:1fr; } .flagship-grid :global(.ui-service-card) { min-height:22rem; } }
+</style>
