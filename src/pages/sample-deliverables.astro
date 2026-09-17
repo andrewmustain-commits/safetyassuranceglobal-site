@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const samples = [
+  {
+    title: 'Readiness Assessment',
+    purpose: 'Summarize the agreed readiness criteria, evidence reviewed, gaps identified, priority actions, and decision-relevant status.',
+    fields: ['Assignment and scope', 'Readiness criteria', 'Evidence reviewed', 'Finding or gap', 'Priority and owner', 'Required action', 'Validation status']
+  },
+  {
+    title: 'Finding / Action / Closure Record',
+    purpose: 'Keep an identified problem connected to ownership, corrective action, required evidence, and closure verification.',
+    fields: ['Finding statement', 'Source evidence', 'Risk or priority', 'Assigned owner', 'Corrective action', 'Due date', 'Closure evidence', 'Verification result']
+  },
+  {
+    title: 'Inspection Summary',
+    purpose: 'Document what was observed against the agreed inspection scope and identify items requiring action or follow-up.',
+    fields: ['Inspection scope', 'Location or work area', 'Criteria reviewed', 'Observed condition', 'Supporting record', 'Action required', 'Follow-up status']
+  },
+  {
+    title: 'Corrective-Action Validation',
+    purpose: 'Evaluate whether submitted closure evidence demonstrates that the agreed corrective action was completed and the identified issue was addressed.',
+    fields: ['Original finding', 'Required correction', 'Evidence submitted', 'Verification method', 'Residual issue', 'Disposition', 'Verifier note']
+  },
+  {
+    title: 'Management Reporting Example',
+    purpose: 'Give leaders a concise view of open findings, action aging, verification status, recurring themes, and decisions requiring attention.',
+    fields: ['Open findings', 'Priority distribution', 'Overdue actions', 'Awaiting verification', 'Closed this period', 'Recurring themes', 'Leadership decisions']
+  }
+];
+---
+
+<BaseLayout
+  title="Sample Deliverables"
+  description="Illustrative, sanitized examples of Safety Assurance Global readiness, finding, inspection, corrective-action, and management-reporting deliverable structures."
+>
+  <Container>
+    <HeroSection
+      id="sample-deliverables-title"
+      badge="Illustrative Deliverables"
+      title="See the structure of the evidence a buyer may receive."
+      image="/images/site-2026/capabilities-hero.webp"
+      imagePosition="center 48%"
+    >
+      <p>These examples show the structure of common assurance work products without presenting fictional customers, project outcomes, or corporate past performance. Actual deliverables are defined by the contracted scope, acceptance criteria, available evidence, and reporting needs.</p>
+      <div class="ui-actions">
+        <Button href="/request-proposal">Discuss Required Deliverables</Button>
+        <Button href="/service-sheets" variant="secondary">Review Service Sheets</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="samples-title">
+      <SectionHeader badge="Sample Structures" id="samples-title" title="Sanitized templates for buyer understanding." />
+      <div class="sample-grid">
+        {samples.map((sample, index) => (
+          <Card class="sample-card">
+            <div class="sample-heading"><span>{String(index + 1).padStart(2, '0')}</span><h3>{sample.title}</h3></div>
+            <p>{sample.purpose}</p>
+            <div class="field-list" aria-label={`${sample.title} illustrative fields`}>
+              {sample.fields.map((field) => <span>{field}</span>)}
+            </div>
+            <p class="sample-label">Illustrative structure — not a customer or project record.</p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="sample-boundary-title">
+      <SectionHeader badge="Evidence Boundary" id="sample-boundary-title" title="The sample is not the evidence." />
+      <Card>
+        <p>Safety Assurance Global does not use these examples to imply that a specific project, customer, agency, outcome, inspection, corrective action, or closure event occurred. Engagement records are created from the actual requirement and the evidence produced or reviewed during the assignment.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .sample-grid { display:grid; gap:1rem; }
+  .sample-card { min-height:17rem; }
+  .sample-heading { display:flex; gap:.9rem; align-items:center; }
+  .sample-heading > span { color:var(--color-accent); font-size:.72rem; font-weight:900; letter-spacing:.12em; }
+  .sample-heading h3 { margin:0; }
+  .field-list { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0; }
+  .field-list span { padding:.45rem .65rem; border:1px solid rgba(148,163,184,.24); border-radius:999px; background:rgba(15,23,42,.72); color:#dbe4ed; font-size:.78rem; }
+  .sample-label { margin-top:1.1rem; color:var(--color-text-soft); font-size:.78rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+</style>
