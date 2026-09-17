@@ -54,11 +54,11 @@ const {
   }
 
   .hero-panel-photo {
-    min-height: clamp(25rem, 52vw, 34rem);
+    min-height: clamp(27rem, 54vw, 37rem);
     display: flex;
     align-items: flex-end;
     isolation: isolate;
-    border-color: rgba(211, 154, 50, 0.55);
+    border-color: rgba(211, 154, 50, 0.58);
     background: #06111f;
   }
 
@@ -73,56 +73,60 @@ const {
   .hero-panel-photo-image {
     z-index: 0;
     object-fit: cover;
-    filter: saturate(.9) contrast(1.04);
+    filter: saturate(.98) contrast(1.035) brightness(1.04);
   }
 
   .hero-panel-photo-overlay {
     z-index: 1;
     pointer-events: none;
     background:
-      linear-gradient(90deg, rgba(3, 15, 28, .98) 0%, rgba(3, 15, 28, .91) 34%, rgba(3, 15, 28, .63) 57%, rgba(3, 15, 28, .18) 100%),
-      linear-gradient(180deg, rgba(2, 12, 23, .06) 0%, rgba(2, 12, 23, .42) 100%);
+      linear-gradient(90deg, rgba(3, 15, 28, .97) 0%, rgba(3, 15, 28, .88) 31%, rgba(3, 15, 28, .52) 54%, rgba(3, 15, 28, .10) 76%, rgba(3, 15, 28, .02) 100%),
+      linear-gradient(180deg, rgba(2, 12, 23, .02) 0%, rgba(2, 12, 23, .30) 100%);
   }
 
   .hero-panel-photo .hero-panel-content {
-    width: min(100%, 48rem);
-    padding-block: clamp(.5rem, 2vw, 1.2rem);
+    width: min(100%, 49rem);
+    padding-block: clamp(.7rem, 2vw, 1.35rem);
   }
 
   .hero-panel-photo :global(.ui-badge) {
-    border-color: rgba(232, 183, 84, .66);
-    background: rgba(7, 20, 35, .66);
+    border-color: rgba(232, 183, 84, .72);
+    background: rgba(7, 20, 35, .60);
     backdrop-filter: blur(7px);
   }
 
   .hero-panel-photo h1 {
     max-width: 16ch;
-    font-size: clamp(2.4rem, 5.2vw, 4.5rem);
-    line-height: 1.02;
-    letter-spacing: -.035em;
-    text-shadow: 0 3px 24px rgba(0, 0, 0, .42);
+    font-size: clamp(2.5rem, 5.35vw, 4.75rem);
+    line-height: 1.01;
+    letter-spacing: -.037em;
+    text-shadow: 0 3px 24px rgba(0, 0, 0, .44);
   }
 
   .hero-panel-photo p {
     max-width: 62ch;
-    color: #edf3f8;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, .48);
+    color: #f2f6fa;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, .5);
   }
 
   @media (max-width: 700px) {
     .hero-panel-photo {
-      min-height: 30rem;
+      min-height: 33rem;
       align-items: flex-end;
       padding: 1.35rem;
     }
 
+    .hero-panel-photo-image {
+      filter: saturate(.98) contrast(1.02) brightness(1.06);
+    }
+
     .hero-panel-photo-overlay {
       background:
-        linear-gradient(180deg, rgba(3, 15, 28, .24) 0%, rgba(3, 15, 28, .74) 48%, rgba(3, 15, 28, .98) 100%);
+        linear-gradient(180deg, rgba(3, 15, 28, .05) 0%, rgba(3, 15, 28, .22) 35%, rgba(3, 15, 28, .72) 66%, rgba(3, 15, 28, .97) 100%);
     }
 
     .hero-panel-photo h1 {
-      font-size: clamp(2.15rem, 11vw, 3.35rem);
+      font-size: clamp(2.2rem, 11vw, 3.45rem);
     }
   }
 </style>
