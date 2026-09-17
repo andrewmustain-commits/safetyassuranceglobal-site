@@ -70,7 +70,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4.127.1'
+          wranglerVersion: '4.133.0'
           command: deploy --config workers/inquiry-delivery/wrangler.jsonc
 
       - name: Add production Pages Service Binding
@@ -108,7 +108,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4.127.1'
+          wranglerVersion: '4.133.0'
           command: pages deploy dist --project-name=safetyassuranceglobal --branch=main
 
       - name: Verify hosted runtime reports server delivery ready
