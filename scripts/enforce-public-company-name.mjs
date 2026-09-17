@@ -32,13 +32,22 @@ const protectBrands = (value) => {
   return output;
 };
 
+const collectStructuredData = (markup) => {
+  const values = [];
+  const structuredDataPattern = /<script\b[^>]*\btype\s*=\s*(?:"application\/ld\+json"|'application\/ld\+json')[^>]*>([\s\S]*?)<\/script>/gi;
+  for (const match of markup.matchAll(structuredDataPattern)) {
+    values.push({ field: 'structured data', value: match[1] ?? '' });
+  }
+  return values;
+};
+
 const stripNonPublicBlocks = (markup) => markup
   .replace(/<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
   .replace(/<!--([\s\S]*?)-->/g, ' ');
 
 const collectPublicStrings = (markup) => {
+  const values = collectStructuredData(markup);
   const cleaned = stripNonPublicBlocks(markup);
-  const values = [];
 
   const textOnly = cleaned.replace(/<[^>]+>/g, ' ');
   values.push({ field: 'public text', value: textOnly });
