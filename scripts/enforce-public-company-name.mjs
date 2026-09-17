@@ -14,12 +14,12 @@ const protectedBrandNames = [
   'SAG SECURE'
 ];
 
-const htmlFiles = [];
+const publicFiles = [];
 const walk = (directory) => {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
     const fullPath = path.join(directory, entry.name);
     if (entry.isDirectory()) walk(fullPath);
-    else if (entry.isFile() && entry.name.endsWith('.html')) htmlFiles.push(fullPath);
+    else if (entry.isFile() && /\.(?:html|xml)$/i.test(entry.name)) publicFiles.push(fullPath);
   }
 };
 walk(dist);
@@ -32,25 +32,16 @@ const protectBrands = (value) => {
   return output;
 };
 
-const decodeEntities = (value) => value
-  .replace(/&nbsp;/gi, ' ')
-  .replace(/&amp;/gi, '&')
-  .replace(/&quot;/gi, '"')
-  .replace(/&#39;|&apos;/gi, "'")
-  .replace(/&rsquo;|&#8217;/gi, '’')
-  .replace(/&ldquo;|&#8220;/gi, '“')
-  .replace(/&rdquo;|&#8221;/gi, '”');
-
-const stripNonPublicBlocks = (html) => html
+const stripNonPublicBlocks = (markup) => markup
   .replace(/<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
   .replace(/<!--([\s\S]*?)-->/g, ' ');
 
-const collectPublicStrings = (html) => {
-  const cleaned = stripNonPublicBlocks(html);
+const collectPublicStrings = (markup) => {
+  const cleaned = stripNonPublicBlocks(markup);
   const values = [];
 
   const textOnly = cleaned.replace(/<[^>]+>/g, ' ');
-  values.push({ field: 'visible text', value: textOnly });
+  values.push({ field: 'public text', value: textOnly });
 
   for (const match of cleaned.matchAll(/\b(?:alt|title|aria-label|placeholder)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi)) {
     values.push({ field: 'public attribute', value: match[1] ?? match[2] ?? '' });
@@ -67,12 +58,12 @@ const collectPublicStrings = (html) => {
 
 const failures = [];
 
-for (const filePath of htmlFiles) {
-  const html = fs.readFileSync(filePath, 'utf8');
+for (const filePath of publicFiles) {
+  const markup = fs.readFileSync(filePath, 'utf8');
   const relativePath = path.relative(dist, filePath);
 
-  for (const { field, value } of collectPublicStrings(html)) {
-    const candidate = protectBrands(decodeEntities(value));
+  for (const { field, value } of collectPublicStrings(markup)) {
+    const candidate = protectBrands(value);
     const match = candidate.match(/\bSAG\b/);
     if (!match) continue;
 
@@ -91,4 +82,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Full-name enforcement passed for ${htmlFiles.length} generated HTML pages. Validation only; no generated HTML was rewritten.`);
+console.log(`Full-name enforcement passed for ${publicFiles.length} generated HTML/XML files. Validation only; no generated public file was rewritten.`);
