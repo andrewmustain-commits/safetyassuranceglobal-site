@@ -12,4 +12,4 @@ Technical filenames, repository paths, record IDs, code identifiers, and other n
 
 Formally approved product names may retain their actual names when they are product identities rather than shorthand references to the company. Current protected names include `SAG Command`, `SAG Academy`, and `SAG SECURE`.
 
-The production build enforces this rule after static generation so legacy shorthand in source content cannot leak into rendered public HTML except for protected product names.
+The production build validates rendered public text, accessibility-facing labels, and page metadata after static generation. The validator is a guardrail only: it fails the build when ordinary public company shorthand remains and does not rewrite generated HTML, URLs, scripts, styles, structured data, or product names.
