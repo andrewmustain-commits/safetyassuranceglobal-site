@@ -9,12 +9,26 @@ import HeroSection from '../components/ui/HeroSection.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
 import { serviceDetails } from '../data/services';
 
-const serviceAreas = serviceDetails.map((service) => ({
+const serviceImages = [
+  '/images/site-2026/home-hero.webp',
+  '/images/site-2026/about-hero.webp',
+  '/images/site-2026/maritime-hero.webp',
+  '/images/site-2026/contact-hero.webp',
+  '/images/site-2026/capabilities-hero.webp',
+  '/images/site-2026/industries-hero.webp',
+  '/images/site-2026/insights-hero.webp',
+  '/images/site-2026/institute-hero.webp',
+  '/images/site-2026/government-hero.webp',
+  '/images/site-2026/services-hero.webp'
+];
+
+const serviceAreas = serviceDetails.map((service, index) => ({
   href: `/services/${service.slug}`,
   title: service.title,
   summary: service.summary,
   problem: service.customerProblem,
-  result: service.expectedResult
+  result: service.expectedResult,
+  image: serviceImages[index % serviceImages.length]
 }));
 ---
 
@@ -49,7 +63,7 @@ const serviceAreas = serviceDetails.map((service) => ({
       />
       <div class="grid-two">
         {serviceAreas.map((service) => (
-          <ServiceCard>
+          <ServiceCard class="image-forward-card image-forward-card-gold" style={`--card-image:url(${service.image})`}>
             <h3><a href={service.href}>{service.title}</a></h3>
             <p><strong>Customer challenge:</strong> {service.problem}</p>
             <p><strong>Expected result:</strong> {service.result}</p>
@@ -66,12 +80,12 @@ const serviceAreas = serviceDetails.map((service) => ({
         title="Start with the level of scoping that fits your need."
       />
       <div class="grid-two">
-        <Card>
+        <Card class="image-forward-card image-forward-card-compact" style="--card-image:url(/images/site-2026/contact-hero.webp)">
           <h3>Consultation</h3>
           <p>Best for early-stage scope definition, readiness concerns, assurance priorities, or a focused operational challenge.</p>
           <p><a href="/contact">Start a consultation</a>.</p>
         </Card>
-        <Card>
+        <Card class="image-forward-card image-forward-card-compact" style="--card-image:url(/images/site-2026/capabilities-hero.webp)">
           <h3>Proposal request</h3>
           <p>Best when procurement context, schedule, deliverables, or delivery model require a structured response.</p>
           <p><a href="/request-proposal">Start a proposal request</a>.</p>
