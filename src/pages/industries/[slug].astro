@@ -38,8 +38,8 @@ const isMaritime = maritimeSlugs.has(slug);
       <span>{isMaritime ? 'Maritime-first application' : 'Scope-controlled application'}</span>
       <p>
         {isMaritime
-          ? 'This sector is part of SAG’s primary Maritime market focus. Specific engagements remain subject to documented scope, personnel capability, evidence, contractual authority, and applicable jurisdictional requirements.'
-          : 'SAG considers work in this sector only where the requested scope is supported by verified personnel capability, available evidence, contractual authority, and applicable jurisdictional requirements.'}
+          ? 'This sector is part of Safety Assurance Global’s primary Maritime market focus. Specific engagements remain subject to documented scope, personnel capability, evidence, contractual authority, and applicable jurisdictional requirements.'
+          : 'Safety Assurance Global considers work in this sector only where the requested scope is supported by verified personnel capability, available evidence, contractual authority, and applicable jurisdictional requirements.'}
       </p>
     </div>
 
@@ -62,7 +62,7 @@ const isMaritime = maritimeSlugs.has(slug);
     </Section>
 
     <Section ariaLabelledby="industry-services-title">
-      <SectionHeader badge="Relevant SAG Services" id="industry-services-title" title="Most relevant service pathways." />
+      <SectionHeader badge="Relevant Safety Assurance Global Services" id="industry-services-title" title="Most relevant service pathways." />
       <div class="grid-two">
         {industry.relevantServices.map((service) => (
           <Card><h3><a href={service.href}>{service.label}</a></h3><p>Review the service scope, evidence model, deliverables, and engagement pathway.</p></Card>
