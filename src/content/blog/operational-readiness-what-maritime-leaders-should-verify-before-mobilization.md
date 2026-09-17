@@ -2,11 +2,11 @@
 title: 'Operational Readiness: What Maritime Leaders Should Verify Before Mobilization'
 slug: operational-readiness-what-maritime-leaders-should-verify-before-mobilization
 description: >-
-  A governed draft from Penny outlining practical verification priorities for
-  maritime mobilization readiness.
-author: Penny Assisted Draft
+  Practical verification priorities maritime leaders can use to strengthen
+  mobilization readiness before critical work begins.
+author: SAG Editorial Team
 publishedAt: 'Sun Jul 26 2026 00:00:00 GMT+0000 (Coordinated Universal Time)'
-updatedAt: 2026-07-26
+updatedAt: 2026-09-17
 status: published
 category: Maritime Assurance
 tags:
