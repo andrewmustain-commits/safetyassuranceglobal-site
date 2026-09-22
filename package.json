@@ -27,7 +27,8 @@
     "validate:brand-assets": "node scripts/validate-brand-assets.mjs",
     "validate:turnstile": "node scripts/validate-turnstile-integration.mjs",
     "validate:inquiry-delivery": "wrangler deploy --dry-run --config workers/inquiry-delivery/wrangler.jsonc",
-    "validate:public-ux": "node scripts/validate-public-ux.mjs"
+    "validate:public-ux": "node scripts/validate-public-ux.mjs",
+    "validate:institute-os": "node scripts/validate-institute-os-foundation.mjs"
   },
   "repository": {
     "type": "git",
