@@ -1,8 +1,8 @@
 # FORM-BACKEND-DISPOSITION
 
-Date: 2026-08-31
+Date: 2026-09-27
 Repository: andrewmustain-commits/safetyassuranceglobal-site
-Status: Production architecture current; account-side delivery activation pending
+Status: Production inquiry delivery activated; controlled positive end-to-end receipt verification pending
 
 ## Objective
 
@@ -104,10 +104,10 @@ No account IDs, API tokens, Turnstile secrets, webhook tokens, or other producti
 
 ## Residual Risks
 
-- Cloudflare Email Service and production Service Binding activation are account-side prerequisites and must be verified before Issue #58 can close.
+- The production Service Binding is active. Cloudflare Email Service runtime delivery and mailbox receipt still require controlled positive end-to-end verification before Issue #58 can close.
 - No persisted queue/retry mechanism exists for a temporary Email Service outage; the controlled fallback remains the user's email client.
 - Rate limiting remains primarily a Cloudflare WAF/platform control in addition to Turnstile and application validation.
 
 ## Release Decision
 
-Keep Issue #58 open until the private delivery binding is active in production and both Contact and Proposal flows are independently proven end-to-end. The source implementation is designed to preserve the existing safe fallback until that operational activation occurs.
+Keep Issue #58 open until both Contact and Proposal flows are independently proven end-to-end at the approved destination. The private delivery binding is active in production, while the existing fallback remains available if delivery fails.
