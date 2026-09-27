@@ -43,4 +43,21 @@
       emit('capability_statement_download');
     }
   });
+  const assistant = document.querySelector('[data-site-assistant]');
+  if (assistant) {
+    let assistantSeen = false;
+    const markAssistantOpen = () => {
+      if (assistantSeen) return;
+      assistantSeen = true;
+      emit('assistant_open');
+    };
+    assistant.addEventListener('focusin', markAssistantOpen, { once: true });
+    assistant.addEventListener('pointerdown', markAssistantOpen, { once: true });
+    assistant.querySelectorAll('[data-assistant-action]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (link.getAttribute('data-assistant-action') === 'handoff') emit('assistant_handoff');
+      });
+    });
+  }
+
 })();
