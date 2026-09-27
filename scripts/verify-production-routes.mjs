@@ -11,8 +11,10 @@ const request = async (pathname, options = {}) => {
 
   try {
     return await fetch(new URL(pathname, SITE_ORIGIN), {
+      method: options.method ?? 'GET',
       redirect: options.redirect ?? 'follow',
       headers: { 'user-agent': 'SAG-Production-Smoke/1.0', ...(options.headers ?? {}) },
+      body: options.body,
       signal: controller.signal
     });
   } finally {
@@ -113,6 +115,54 @@ await retry('inquiry runtime configuration', async () => {
   }
   console.log(`INFO inquiry delivery configured: ${payload.delivery.configured}`);
   console.log(`INFO Turnstile enabled: ${payload.turnstile.enabled}`);
+});
+
+const syntheticContactPayload = {
+  formType: 'contact',
+  name: 'SAG Production Smoke',
+  organization: 'Safety Assurance Global',
+  email: 'info@safetyassuranceglobal.com',
+  inquiryType: 'Production verification',
+  serviceInterest: 'Inquiry delivery negative-path verification',
+  message: 'Synthetic request used to confirm Turnstile rejects unauthenticated production submissions before delivery.',
+  privacyAcknowledgement: true,
+  website: ''
+};
+
+await retry('inquiry rejects missing Turnstile token before delivery', async () => {
+  const response = await request('/api/inquiry', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Origin: SITE_ORIGIN,
+      'Sec-Fetch-Site': 'same-origin'
+    },
+    body: JSON.stringify(syntheticContactPayload)
+  });
+  const payload = await response.json();
+  if (response.status !== 400) throw new Error(`expected HTTP 400, received ${response.status}`);
+  if (payload?.ok !== false || payload?.message !== 'Spam verification token missing.') {
+    throw new Error('missing-token response did not fail closed as expected');
+  }
+});
+
+await retry('inquiry rejects invalid Turnstile token before delivery', async () => {
+  const response = await request('/api/inquiry', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Origin: SITE_ORIGIN,
+      'Sec-Fetch-Site': 'same-origin'
+    },
+    body: JSON.stringify({ ...syntheticContactPayload, turnstileToken: 'synthetic-invalid-token' })
+  });
+  const payload = await response.json();
+  if (response.status !== 403) throw new Error(`expected HTTP 403, received ${response.status}`);
+  if (payload?.ok !== false || payload?.message !== 'Spam verification failed.') {
+    throw new Error('invalid-token response did not fail closed as expected');
+  }
 });
 
 if (failures.length) {
