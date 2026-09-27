@@ -8,10 +8,12 @@ const svgAssets = [
   'public/images/brand/sag-logo-white.svg',
   'public/images/brand/sag-icon.svg',
   'public/images/brand/sag-official-seal-2026.svg',
-  'public/images/brand/maritime-hero-v20.svg',
-  'public/images/brand/institute-crest.svg'
+  'public/images/brand/maritime-hero-v20.svg'
 ];
-const pngAssets = ['public/images/brand/sag-official-seal-2026.png'];
+const pngAssets = [
+  'public/images/brand/sag-official-seal-2026.png',
+  'public/images/brand/institute-primary-seal.png'
+];
 const jpegAssets = ['public/images/brand/sag-maritime-hero-2026.jpeg'];
 const failures = [];
 
@@ -52,7 +54,7 @@ for (const relativePath of jpegAssets) {
 
 const configPath = path.join(root, 'src', 'config', 'brand-assets.ts');
 const config = fs.existsSync(configPath) ? fs.readFileSync(configPath, 'utf8') : '';
-for (const expected of ['/images/brand/sag-official-seal-2026.png', '/images/brand/institute-crest.svg']) {
+for (const expected of ['/images/brand/sag-official-seal-2026.png', '/images/brand/institute-primary-seal.png']) {
   if (!config.includes(expected)) failures.push(`brand asset registry does not reference ${expected}`);
 }
 
@@ -93,7 +95,7 @@ for (const filePath of sourceFiles) {
 }
 
 const institutePage = fs.readFileSync(path.join(root, 'src', 'pages', 'institute.astro'), 'utf8');
-if (!institutePage.includes('brandAssets.instituteCrest')) failures.push('Institute page does not use centralized Institute emblem path');
+if (!institutePage.includes('brandAssets.instituteSeal')) failures.push('Institute page does not use centralized canonical Institute seal path');
 
 if (failures.length) {
   console.error('Brand asset validation failed:');
@@ -101,4 +103,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${pngAssets.length} approved PNG master, ${jpegAssets.length} approved JPEG master, direct mobile hero rendering, footer-only VetCert controls, and attribution controls verified.`);
+console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${pngAssets.length} approved PNG masters, ${jpegAssets.length} approved JPEG master, direct mobile hero rendering, footer-only VetCert controls, and attribution controls verified.`);
