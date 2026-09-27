@@ -39,6 +39,17 @@ type DeliveryPayload = {
 const FROM_ADDRESS = 'website@safetyassuranceglobal.com';
 const DESTINATION = 'info@safetyassuranceglobal.com';
 const MAX_BODY_BYTES = 16_384;
+const MAX_AGE_MS = 10 * 60 * 1000;
+const MAX_FUTURE_SKEW_MS = 2 * 60 * 1000;
+
+const isFreshSubmission = (submittedAt: unknown, now = Date.now()) => {
+  const value = clean(submittedAt, 64);
+  if (!value) return false;
+  const submitted = Date.parse(value);
+  if (!Number.isFinite(submitted)) return false;
+  const age = now - submitted;
+  return age >= -MAX_FUTURE_SKEW_MS && age <= MAX_AGE_MS;
+};
 
 const json = (body: Record<string, unknown>, status: number) =>
   new Response(JSON.stringify(body), {
@@ -138,6 +149,10 @@ export default {
       payload = JSON.parse(new TextDecoder().decode(body)) as DeliveryPayload;
     } catch {
       return json({ ok: false, message: 'Invalid JSON payload.' }, 400);
+    }
+
+    if (!isFreshSubmission(payload.submittedAt)) {
+      return json({ ok: false, message: 'Submission timestamp is missing, expired, or invalid.' }, 400);
     }
 
     const formType = cleanHeader(payload.formType, 24).toLowerCase();
