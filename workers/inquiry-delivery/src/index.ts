@@ -149,6 +149,11 @@ export default {
       return json({ ok: false, message: 'Origin not allowed.' }, 403);
     }
 
+    const fetchSite = request.headers.get('sec-fetch-site');
+    if (fetchSite && !['same-origin', 'same-site'].includes(fetchSite)) {
+      return json({ ok: false, message: 'Cross-site request not allowed.' }, 403);
+    }
+
     const contentType = request.headers.get('content-type')?.toLowerCase() ?? '';
     if (!contentType.startsWith('application/json')) {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415);
@@ -194,7 +199,11 @@ export default {
       return json({ ok: true, messageId: result.messageId }, 200);
     } catch (error) {
       const code = typeof error === 'object' && error && 'code' in error ? String(error.code) : 'EMAIL_DELIVERY_FAILED';
-      console.error('Inquiry email delivery failed', { code });
+      console.error('Inquiry email delivery failed', {
+        code,
+        formType,
+        occurredAt: new Date().toISOString()
+      });
       return json({ ok: false, message: 'Email delivery failed.' }, 502);
     }
   }
