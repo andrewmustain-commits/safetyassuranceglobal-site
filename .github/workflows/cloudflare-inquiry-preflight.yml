@@ -152,11 +152,12 @@ jobs:
             --header 'Origin: https://safetyassuranceglobal.com' \
             --header 'Sec-Fetch-Site: same-origin' \
             'https://safetyassuranceglobal.com/api/inquiry')"
+          ok="$(jq -r '.ok // "missing"' "$response")"
           configured="$(jq -r '.delivery.configured // "missing"' "$response")"
           turnstile="$(jq -r '.turnstile.enabled // "missing"' "$response")"
 
-          if [[ "$status" != "200" ]] || [[ "$configured" != "false" ]] || [[ "$turnstile" != "true" ]]; then
-            echo "Production runtime is not safely held (HTTP ${status}, delivery configured=${configured}, Turnstile enabled=${turnstile})." >&2
+          if [[ "$status" != "200" ]] || [[ "$ok" != "true" ]] || [[ "$configured" != "false" ]] || [[ "$turnstile" != "true" ]]; then
+            echo "Production runtime is not safely held (HTTP ${status}, ok=${ok}, delivery configured=${configured}, Turnstile enabled=${turnstile})." >&2
             exit 1
           fi
 
