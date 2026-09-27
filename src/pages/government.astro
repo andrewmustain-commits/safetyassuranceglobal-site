@@ -74,6 +74,25 @@ const scopeOptions = [
       </div>
     </HeroSection>
 
+    <Section ariaLabelledby="government-fast-path-title">
+      <SectionHeader badge="Buyer Fast Path" id="government-fast-path-title" title="Get to the procurement facts and next action quickly." />
+      <div class="grid-two fast-path-grid">
+        <Card>
+          <h3>Review before outreach</h3>
+          <p>Use the web capability profile and downloadable capability statement to review the published corporate identity, scope examples, delivery approach, and stated boundaries before starting a procurement conversation.</p>
+          <div class="ui-actions">
+            <Button href="/capabilities" variant="secondary">Review Capability Profile</Button>
+            <Button href="/downloads/safety-assurance-global-capability-statement-2026-09.pdf" variant="secondary">Download Statement</Button>
+          </div>
+        </Card>
+        <Card>
+          <h3>Bring a defined requirement</h3>
+          <p>For an agency requirement, teaming need, subcontract scope, or qualification request, provide the procurement context, expected work, location, schedule, deliverables, and mandatory acceptance or qualification criteria.</p>
+          <p><a href="/request-proposal">Start the controlled proposal path →</a></p>
+        </Card>
+      </div>
+    </Section>
+
     <Section ariaLabelledby="government-scope-title">
       <SectionHeader badge="Scope the Work" id="government-scope-title" title="Start with the assignment you need performed." />
       <p class="section-intro">Each engagement is proposed against a defined scope, customer inputs, delivery assumptions, acceptance evidence, and expected outputs. The examples below describe work that can be evaluated for a specific requirement; they are not unconditional staffing or availability commitments.</p>
@@ -145,7 +164,7 @@ const scopeOptions = [
 <style>
   .government-page { display:grid; gap:.25rem; }
   .section-intro { max-width:78ch; margin:-.35rem 0 1.25rem; color:var(--color-text-muted); font-size:.96rem; line-height:1.7; }
-  .scope-grid { align-items:stretch; }
+  .fast-path-grid, .scope-grid { align-items:stretch; }
   .scope-card { min-height:15rem; }
   .scope-output { color:var(--color-text-soft); font-size:.9rem; }
   .identity-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
