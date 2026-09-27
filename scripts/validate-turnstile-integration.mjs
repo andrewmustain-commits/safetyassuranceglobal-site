@@ -19,6 +19,7 @@ const privacyPage = read('src/pages/privacy-policy.astro');
 const headers = read('public/_headers');
 const activationWorkflow = read('.github/workflows/cloudflare-inquiry-activate.yml');
 const preflightWorkflow = read('.github/workflows/cloudflare-inquiry-preflight.yml');
+const productionSmoke = read('scripts/verify-production-routes.mjs');
 
 const requireText = (source, needle, label) => {
   if (!source.includes(needle)) failures.push(label);
@@ -131,6 +132,10 @@ requireText(preflightWorkflow, `ok="$(jq -r 'if (.ok | type) == "boolean" then .
 requireText(preflightWorkflow, `configured="$(jq -r 'if (.delivery.configured | type) == "boolean" then .delivery.configured else "missing" end' "$response")"`, 'Preflight workflow must preserve delivery.configured=false as a boolean result.');
 requireText(preflightWorkflow, `turnstile="$(jq -r 'if (.turnstile.enabled | type) == "boolean" then .turnstile.enabled else "missing" end' "$response")"`, 'Preflight workflow must read the production runtime Turnstile flag as a boolean.');
 requireText(preflightWorkflow, `[[ "$ok" != "true" ]]`, 'Preflight workflow must fail closed unless the production runtime reports ok=true.');
+requireText(productionSmoke, 'payload.delivery.configured !== true', 'Production smoke must fail unless inquiry delivery remains configured=true.');
+requireText(productionSmoke, 'payload.turnstile.enabled !== true', 'Production smoke must fail unless Turnstile remains enabled=true.');
+requireText(productionSmoke, 'Spam verification token missing.', 'Production smoke must verify missing Turnstile tokens are rejected.');
+requireText(productionSmoke, 'Spam verification failed.', 'Production smoke must verify invalid Turnstile tokens are rejected.');
 if (preflightWorkflow.includes(`.delivery.configured // "missing"`)) {
   failures.push('Preflight workflow must not use jq // for delivery.configured because false is a valid held-state value.');
 }
