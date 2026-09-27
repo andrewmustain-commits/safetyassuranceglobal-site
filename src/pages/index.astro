@@ -80,6 +80,22 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
       </Container>
     </section>
 
+    <section class="assurance-story" aria-labelledby="assurance-story-title">
+      <Container>
+        <div class="assurance-story__intro">
+          <p>From requirement to closure</p>
+          <h2 id="assurance-story-title">Evidence stays connected to the decision.</h2>
+          <p>Safety Assurance Global structures assurance work so requirements, field verification, findings, corrective actions, and closure evidence remain traceable through the engagement.</p>
+        </div>
+        <ol class="assurance-flow" aria-label="Assurance engagement flow">
+          {['Requirement', 'Control', 'Verification', 'Finding', 'Corrective Action', 'Closure'].map((step, index) => (
+            <li><span>{String(index + 1).padStart(2, '0')}</span><strong>{step}</strong></li>
+          ))}
+        </ol>
+        <p class="assurance-story__boundary">The exact sequence, evidence requirements, and deliverables are defined by the agreed engagement scope.</p>
+      </Container>
+    </section>
+
     <section class="output-strip" aria-labelledby="output-strip-title">
       <Container class="output-strip-shell">
         <div class="output-strip-heading">
