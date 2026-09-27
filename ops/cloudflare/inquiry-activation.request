@@ -1,6 +1,6 @@
 # Cloudflare inquiry delivery activation request
 
-status=requested
+status=authorized
 worker=sag-inquiry-delivery
 pages_project=safetyassuranceglobal
 binding=INQUIRY_DELIVERY
