@@ -5,7 +5,7 @@ The release remains fail-closed until the applicable automated and human evidenc
 ## Required qualification
 
 1. Build and static validation pass on the exact release head.
-2. CodeQL passes on the exact release head.
+2. Both required CodeQL matrix analyses—JavaScript/TypeScript and GitHub Actions—pass on the exact release head.
 3. Public claims governance passes with no unsupported amplification.
 4. Public UX and accessibility validation pass, including keyboard navigation, focus visibility, responsive reflow, and reduced-motion behavior.
 5. Internal and governed external routes are validated.
