@@ -29,7 +29,8 @@
     "validate:inquiry-delivery": "wrangler deploy --dry-run --config workers/inquiry-delivery/wrangler.jsonc",
     "validate:public-ux": "node scripts/validate-public-ux.mjs",
     "validate:public-claims": "node scripts/validate-public-claims-governance.mjs",
-    "validate:inquiry-hardening": "node scripts/validate-inquiry-hardening.mjs"
+    "validate:inquiry-hardening": "node scripts/validate-inquiry-hardening.mjs",
+    "validate:site-assistant": "node scripts/validate-site-assistant.mjs"
   },
   "repository": {
     "type": "git",

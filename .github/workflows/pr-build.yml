@@ -66,3 +66,5 @@ jobs:
 
       - name: Validate public UX
         run: npm run validate:public-ux
+      - name: Validate website assistant governance
+        run: npm run validate:site-assistant
