@@ -56,6 +56,6 @@
     "@astrojs/check": "^0.9.9",
     "@types/node": "^24.0.7",
     "typescript": "^5.9.3",
-    "wrangler": "4.133.0"
+    "wrangler": "4.139.0"
   }
 }
