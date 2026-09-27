@@ -23,12 +23,49 @@ const requireText = (source, needle, label) => {
   if (!source.includes(needle)) failures.push(label);
 };
 
+const readStringConstant = (source, name, label) => {
+  const match = source.match(new RegExp(`const ${name} = '([^']+)';`));
+  if (!match) {
+    failures.push(label);
+    return null;
+  }
+  return match[1];
+};
+
+const expectedTurnstileAction = 'inquiry_submit';
+const serverTurnstileAction = readStringConstant(server, 'TURNSTILE_ACTION', 'Server runtime is missing its Turnstile action declaration.');
+const clientTurnstileAction = readStringConstant(client, 'TURNSTILE_ACTION', 'Client runtime is missing its Turnstile action declaration.');
+
+if (serverTurnstileAction !== expectedTurnstileAction) {
+  failures.push(`Server Turnstile action must be ${expectedTurnstileAction}.`);
+}
+if (clientTurnstileAction !== expectedTurnstileAction) {
+  failures.push(`Client Turnstile action must be ${expectedTurnstileAction}.`);
+}
+if (serverTurnstileAction !== clientTurnstileAction) {
+  failures.push('Client and server Turnstile action values do not match.');
+}
+
+const acceptsTurnstileResult = (result, expectedHostname) =>
+  result.success === true && result.action === serverTurnstileAction && result.hostname === expectedHostname;
+
+if (!acceptsTurnstileResult({ success: true, action: expectedTurnstileAction, hostname: 'safetyassuranceglobal.com' }, 'safetyassuranceglobal.com')) {
+  failures.push('Turnstile validation rejects the expected action and hostname.');
+}
+if (acceptsTurnstileResult({ success: true, hostname: 'safetyassuranceglobal.com' }, 'safetyassuranceglobal.com')) {
+  failures.push('Turnstile validation must fail closed when the action is missing.');
+}
+if (acceptsTurnstileResult({ success: true, action: 'wrong_action', hostname: 'safetyassuranceglobal.com' }, 'safetyassuranceglobal.com')) {
+  failures.push('Turnstile validation must fail closed when the action is wrong.');
+}
+
 requireText(server, 'TURNSTILE_SITE_KEY', 'Server runtime is missing TURNSTILE_SITE_KEY support.');
 requireText(server, 'TURNSTILE_SECRET_KEY', 'Server runtime is missing TURNSTILE_SECRET_KEY support.');
 requireText(server, 'turnstile.misconfigured', 'Server runtime does not fail closed on mismatched Turnstile keys.');
 requireText(server, 'deliveryConfigured && !turnstile.enabled', 'Server runtime does not require Turnstile when delivery is configured.');
 requireText(server, 'readBodyWithinLimit', 'Server runtime does not bound streamed request bodies.');
 requireText(server, 'verifyTurnstile', 'Server runtime is missing Turnstile verification.');
+requireText(server, 'result.action === TURNSTILE_ACTION', 'Server runtime does not fail closed on a missing or incorrect Turnstile action.');
 requireText(server, 'onRequestGet', 'Server runtime is missing same-origin runtime configuration discovery.');
 requireText(server, 'INQUIRY_DELIVERY', 'Server runtime is missing private inquiry Service Binding support.');
 requireText(server, 'hasServiceBinding(context.env)', 'Delivery readiness does not include the private Service Binding.');
@@ -54,6 +91,7 @@ requireText(client, "fetch('/api/inquiry'", 'Client does not read the intake run
 requireText(client, 'challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', 'Client is missing the official Turnstile script endpoint.');
 requireText(client, 'payload.turnstileToken', 'Client does not forward a Turnstile token.');
 requireText(client, 'data-turnstile-container', 'Client does not target a Turnstile render container.');
+requireText(client, 'action: TURNSTILE_ACTION', 'Client does not bind the Turnstile widget to the shared action declaration.');
 requireText(client, "form.dataset.deliveryConfigured = 'unknown'", 'Client does not initialize delivery readiness state.');
 requireText(client, "form.dataset.turnstileEnabled = 'unknown'", 'Client does not initialize Turnstile readiness state.');
 requireText(client, 'config.delivery.configured === true', 'Client does not consume the server delivery readiness state.');

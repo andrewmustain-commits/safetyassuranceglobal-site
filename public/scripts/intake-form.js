@@ -5,6 +5,7 @@
   const MAX_FALLBACK_BODY_CHARS = 1400;
   const MAX_FALLBACK_SUBJECT_CHARS = 160;
   const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  const TURNSTILE_ACTION = 'inquiry_submit';
   const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
   const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
   let turnstileScriptPromise;
@@ -190,6 +191,7 @@
     const turnstile = await loadTurnstile();
     turnstile.render(container, {
       sitekey: turnstileConfig.siteKey,
+      action: TURNSTILE_ACTION,
       theme: 'dark',
       appearance: 'interaction-only',
       callback: (token) => {

@@ -24,6 +24,27 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
+      - name: Verify Cloudflare API token is active
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          token_json="$(mktemp)"
+          status="$(curl --silent --show-error --output "$token_json" --write-out '%{http_code}' \
+            --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            'https://api.cloudflare.com/client/v4/user/tokens/verify')"
+          token_status="$(jq -r '.result.status // "unknown"' "$token_json")"
+
+          if [[ "$status" != "200" ]] || [[ "$(jq -r '.success' "$token_json")" != "true" ]] || [[ "$token_status" != "active" ]]; then
+            echo "Cloudflare API token verification failed (HTTP ${status}, status ${token_status})." >&2
+            exit 1
+          fi
+
+          echo 'Cloudflare API token status: active'
+          echo '- Cloudflare API token status: `active`' >> "$GITHUB_STEP_SUMMARY"
+
       - name: Inspect Cloudflare Pages bindings safely
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -53,6 +74,25 @@ jobs:
           production_branch="$(jq -r '.result.production_branch // "unknown"' "$project_json")"
           service_names="$(jq -r '(.result.deployment_configs.production.services // {}) | keys | if length == 0 then ["(none)"] else . end | join(", ")' "$project_json")"
           env_summary="$(jq -r '(.result.deployment_configs.production.env_vars // {}) | to_entries | map(.key + ":" + (.value.type // "unknown")) | if length == 0 then ["(none)"] else . end | join(", ")' "$project_json")"
+          turnstile_site_key_present="$(jq -r '(.result.deployment_configs.production.env_vars // {}) | has("TURNSTILE_SITE_KEY")' "$project_json")"
+          turnstile_secret_key_present="$(jq -r '(.result.deployment_configs.production.env_vars // {}) | has("TURNSTILE_SECRET_KEY")' "$project_json")"
+          delivery_binding_present="$(jq -r '(.result.deployment_configs.production.services // {}) | has("INQUIRY_DELIVERY")' "$project_json")"
+          webhook_present="$(jq -r '(.result.deployment_configs.production.env_vars // {}) | has("FORM_WEBHOOK_URL") or has("FORM_WEBHOOK_AUTH_TOKEN")' "$project_json")"
+
+          if [[ "$production_branch" != "main" ]]; then
+            echo "Cloudflare Pages production branch must be main; received ${production_branch}." >&2
+            exit 1
+          fi
+
+          if [[ "$turnstile_site_key_present" != "true" ]] || [[ "$turnstile_secret_key_present" != "true" ]]; then
+            echo 'Cloudflare Pages production must contain both Turnstile variables.' >&2
+            exit 1
+          fi
+
+          if [[ "$delivery_binding_present" == "true" ]] || [[ "$webhook_present" == "true" ]]; then
+            echo 'Inquiry delivery must remain unconfigured during activation qualification.' >&2
+            exit 1
+          fi
 
           echo "Production branch: ${production_branch}"
           echo "Production service binding names: ${service_names}"
@@ -90,8 +130,9 @@ jobs:
               echo '- Inquiry delivery Worker: `not deployed`' >> "$GITHUB_STEP_SUMMARY"
               ;;
             401|403)
-              echo "Inquiry delivery Worker visibility: API token cannot read Worker settings (HTTP ${status})"
+              echo "Inquiry delivery Worker visibility: API token cannot read Worker settings (HTTP ${status})" >&2
               echo "- Inquiry delivery Worker visibility: \`permission unavailable (HTTP ${status})\`" >> "$GITHUB_STEP_SUMMARY"
+              exit 1
               ;;
             *)
               echo "Unexpected Worker settings response: HTTP ${status}" >&2
@@ -100,9 +141,26 @@ jobs:
               ;;
           esac
 
-      - name: Record production runtime expectation
+      - name: Verify production runtime remains held
+        shell: bash
         run: |
+          set -euo pipefail
+
+          response="$(mktemp)"
+          status="$(curl --silent --show-error --output "$response" --write-out '%{http_code}' \
+            --header 'Accept: application/json' \
+            --header 'Origin: https://safetyassuranceglobal.com' \
+            --header 'Sec-Fetch-Site: same-origin' \
+            'https://safetyassuranceglobal.com/api/inquiry')"
+          configured="$(jq -r '.delivery.configured // "missing"' "$response")"
+          turnstile="$(jq -r '.turnstile.enabled // "missing"' "$response")"
+
+          if [[ "$status" != "200" ]] || [[ "$configured" != "false" ]] || [[ "$turnstile" != "true" ]]; then
+            echo "Production runtime is not safely held (HTTP ${status}, delivery configured=${configured}, Turnstile enabled=${turnstile})." >&2
+            exit 1
+          fi
+
           {
-            echo '- Current hosted verifier state before activation: `Turnstile enabled=true`, `delivery configured=false`'
+            echo '- Current hosted verifier state: `Turnstile enabled=true`, `delivery configured=false`'
             echo '- This workflow performs no Cloudflare writes.'
           } >> "$GITHUB_STEP_SUMMARY"
