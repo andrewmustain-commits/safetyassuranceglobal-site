@@ -28,6 +28,7 @@ const JSON_HEADERS = {
 const MAX_DEFAULT = 16_384;
 const UPSTREAM_TIMEOUT_MS = 10_000;
 const TURNSTILE_ACTION = 'inquiry_submit';
+const TURNSTILE_HOSTNAME = 'safetyassuranceglobal.com';
 const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
 const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
 const SERVICE_BINDING_URL = 'https://inquiry-delivery.internal/deliver';
@@ -212,7 +213,7 @@ const validatePayload = (payload: IntakePayload) => {
   return null;
 };
 
-const verifyTurnstile = async (token: string, secret: string, ip: string | null, expectedHostname: string) => {
+const verifyTurnstile = async (token: string, secret: string, ip: string | null) => {
   const body = new URLSearchParams();
   body.set('secret', secret);
   body.set('response', token);
@@ -232,7 +233,7 @@ const verifyTurnstile = async (token: string, secret: string, ip: string | null,
     }
 
     const result = (await response.json()) as { success?: boolean; action?: string; hostname?: string };
-    return result.success === true && result.action === TURNSTILE_ACTION && result.hostname === expectedHostname;
+    return result.success === true && result.action === TURNSTILE_ACTION && result.hostname === TURNSTILE_HOSTNAME;
   } catch {
     return false;
   }
@@ -342,8 +343,7 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
   }
 
   const ip = context.request.headers.get('cf-connecting-ip');
-  const expectedHostname = new URL(context.request.url).hostname;
-  const passed = await verifyTurnstile(token, turnstile.secretKey, ip, expectedHostname);
+  const passed = await verifyTurnstile(token, turnstile.secretKey, ip);
   if (!passed) {
     return badRequest('Spam verification failed.', 403, requestId);
   }
