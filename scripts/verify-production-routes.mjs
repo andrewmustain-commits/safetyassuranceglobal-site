@@ -107,11 +107,11 @@ await retry('inquiry runtime configuration', async () => {
   if (response.status !== 200) throw new Error(`expected HTTP 200, received ${response.status}`);
   const payload = await response.json();
   if (!payload || payload.ok !== true) throw new Error('runtime response is not ok');
-  if (!payload.delivery || typeof payload.delivery.configured !== 'boolean') {
-    throw new Error('runtime response is missing delivery.configured boolean');
+  if (!payload.delivery || payload.delivery.configured !== true) {
+    throw new Error('production inquiry delivery is not configured=true');
   }
-  if (!payload.turnstile || typeof payload.turnstile.enabled !== 'boolean') {
-    throw new Error('runtime response is missing turnstile.enabled boolean');
+  if (!payload.turnstile || payload.turnstile.enabled !== true) {
+    throw new Error('production Turnstile is not enabled=true');
   }
   console.log(`INFO inquiry delivery configured: ${payload.delivery.configured}`);
   console.log(`INFO Turnstile enabled: ${payload.turnstile.enabled}`);
