@@ -34,7 +34,7 @@ const schedules = ['Immediate or urgent planning', 'Within 30 days', 'Within 90 
     <p class="lead-form-description">Provide enough context for Safety Assurance Global to evaluate capability fit, operating conditions, procurement requirements, and the responsible next step.</p>
   </div>
 
-  <form class="lead-form" id="proposal-form" data-intake-form data-form-type="proposal" novalidate>
+  <form class="lead-form" id="proposal-form" method="post" action="/api/inquiry" data-intake-form data-form-type="proposal" novalidate>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
 
     <div class="lead-form-grid">
@@ -99,7 +99,7 @@ const schedules = ['Immediate or urgent planning', 'Within 30 days', 'Within 90 
 
       <label class="lead-field lead-field-full lead-checkbox" for="proposal-privacy">
         <input id="proposal-privacy" name="privacyAcknowledgement" type="checkbox" required aria-describedby="proposal-status" />
-        <span>I acknowledge the privacy notice and agree to proposal-intake processing.</span>
+        <span>I acknowledge the <a href="/privacy-policy">Privacy Policy</a> and agree to proposal-intake processing.</span>
       </label>
 
       <div class="lead-field lead-field-full lead-turnstile" data-turnstile-container hidden aria-label="Spam verification"></div>

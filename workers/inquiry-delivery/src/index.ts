@@ -56,6 +56,41 @@ const clean = (value: unknown, max = 3_000) =>
 const cleanHeader = (value: unknown, max: number) =>
   clean(value, max).replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
 
+const readBodyWithinLimit = async (request: Request, maxBytes: number) => {
+  const declaredLength = Number(request.headers.get('content-length'));
+  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
+    return null;
+  }
+
+  if (!request.body) {
+    return new Uint8Array();
+  }
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    totalBytes += value.byteLength;
+    if (totalBytes > maxBytes) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return body;
+};
+
 const formatBody = (payload: DeliveryPayload) => {
   const data = payload.data ?? {};
   const rows: Array<[string, string]> = [
@@ -94,15 +129,10 @@ export default {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415);
     }
 
-    const declaredLength = Number(request.headers.get('content-length'));
-    if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
-      return json({ ok: false, message: 'Payload too large.' }, 413);
-    }
-
     let payload: DeliveryPayload;
     try {
-      const body = await request.arrayBuffer();
-      if (body.byteLength > MAX_BODY_BYTES) {
+      const body = await readBodyWithinLimit(request, MAX_BODY_BYTES);
+      if (!body) {
         return json({ ok: false, message: 'Payload too large.' }, 413);
       }
       payload = JSON.parse(new TextDecoder().decode(body)) as DeliveryPayload;

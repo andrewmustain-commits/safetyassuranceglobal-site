@@ -15,7 +15,9 @@ const contactPage = read('src/pages/contact.astro');
 const institutePage = read('src/pages/institute.astro');
 const trainingPage = read('src/pages/training.astro');
 const commandPage = read('src/pages/sag-command.astro');
+const privacyPage = read('src/pages/privacy-policy.astro');
 const headers = read('public/_headers');
+const activationWorkflow = read('.github/workflows/cloudflare-inquiry-activate.yml');
 
 const requireText = (source, needle, label) => {
   if (!source.includes(needle)) failures.push(label);
@@ -24,6 +26,8 @@ const requireText = (source, needle, label) => {
 requireText(server, 'TURNSTILE_SITE_KEY', 'Server runtime is missing TURNSTILE_SITE_KEY support.');
 requireText(server, 'TURNSTILE_SECRET_KEY', 'Server runtime is missing TURNSTILE_SECRET_KEY support.');
 requireText(server, 'turnstile.misconfigured', 'Server runtime does not fail closed on mismatched Turnstile keys.');
+requireText(server, 'deliveryConfigured && !turnstile.enabled', 'Server runtime does not require Turnstile when delivery is configured.');
+requireText(server, 'readBodyWithinLimit', 'Server runtime does not bound streamed request bodies.');
 requireText(server, 'verifyTurnstile', 'Server runtime is missing Turnstile verification.');
 requireText(server, 'onRequestGet', 'Server runtime is missing same-origin runtime configuration discovery.');
 requireText(server, 'INQUIRY_DELIVERY', 'Server runtime is missing private inquiry Service Binding support.');
@@ -39,6 +43,7 @@ requireText(worker, "DESTINATION = 'info@safetyassuranceglobal.com'", 'Delivery 
 requireText(worker, "FROM_ADDRESS = 'website@safetyassuranceglobal.com'", 'Delivery Worker sender must remain the controlled website sender.');
 requireText(worker, 'env.EMAIL.send', 'Delivery Worker is missing Cloudflare Email Service delivery.');
 requireText(worker, 'cleanHeader', 'Delivery Worker is missing email-header sanitization.');
+requireText(worker, 'readBodyWithinLimit', 'Delivery Worker does not bound streamed request bodies.');
 requireText(workerConfig, '"workers_dev": false', 'Delivery Worker must not expose a workers.dev route.');
 requireText(workerConfig, '"preview_urls": false', 'Delivery Worker preview URLs must remain disabled.');
 requireText(workerConfig, '"send_email"', 'Delivery Worker is missing the Cloudflare send_email binding.');
@@ -67,6 +72,18 @@ requireText(client, 'submitButton.disabled = false', 'Client must enable submiss
 
 requireText(contact, 'data-turnstile-container', 'Contact form is missing its Turnstile render container.');
 requireText(proposal, 'data-turnstile-container', 'Proposal form is missing its Turnstile render container.');
+requireText(contact, 'method="post" action="/api/inquiry"', 'Contact form must fail closed through the inquiry endpoint when client JavaScript is unavailable.');
+requireText(proposal, 'method="post" action="/api/inquiry"', 'Proposal form must fail closed through the inquiry endpoint when client JavaScript is unavailable.');
+requireText(contact, '<a href="/privacy-policy">Privacy Policy</a>', 'Contact form privacy acknowledgement must link to the policy.');
+requireText(proposal, '<a href="/privacy-policy">Privacy Policy</a>', 'Proposal form privacy acknowledgement must link to the policy.');
+requireText(privacyPage, 'browser information and the originating IP address', 'Privacy policy must disclose technical inquiry data.');
+requireText(privacyPage, 'Cloudflare', 'Privacy policy must identify Cloudflare processing.');
+
+requireText(activationWorkflow, 'Build production site', 'Activation workflow must build before production writes.');
+requireText(activationWorkflow, 'Require Workers Scripts access before writes', 'Activation workflow must check authorization before production writes.');
+if (/^    env:\n      CLOUDFLARE_API_TOKEN:/m.test(activationWorkflow)) {
+  failures.push('Activation workflow must not expose Cloudflare credentials at job scope.');
+}
 
 requireText(contactPage, 'mailto:info@safetyassuranceglobal.com', 'Contact page must expose info@safetyassuranceglobal.com as the primary general mailbox.');
 requireText(contactPage, 'mailto:contact@safetyassuranceglobal.com', 'Contact page must retain contact@safetyassuranceglobal.com as a secondary mailbox.');

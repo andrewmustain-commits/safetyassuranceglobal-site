@@ -117,6 +117,40 @@ const exceedsDeclaredBodyLimit = (request: Request, maxBytes: number) => {
   return Number.isFinite(length) && length > maxBytes;
 };
 
+const readBodyWithinLimit = async (request: Request, maxBytes: number) => {
+  if (exceedsDeclaredBodyLimit(request, maxBytes)) {
+    return null;
+  }
+
+  if (!request.body) {
+    return new Uint8Array();
+  }
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    totalBytes += value.byteLength;
+    if (totalBytes > maxBytes) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return body;
+};
+
 const validatePayload = (payload: IntakePayload) => {
   const formType = asString(payload.formType).toLowerCase();
 
@@ -209,6 +243,10 @@ export const onRequestGet = async (context: PagesContext<Env>) => {
 
   const deliveryConfigured = hasServiceBinding(context.env) || Boolean(getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL));
 
+  if (deliveryConfigured && !turnstile.enabled) {
+    return badRequest('Secure inquiry delivery requires spam protection.', 503);
+  }
+
   return jsonResponse(
     {
       ok: true,
@@ -236,15 +274,11 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
   const rawMaxBytes = Number(context.env.FORM_MAX_BODY_BYTES);
   const maxBytes = Number.isFinite(rawMaxBytes) && rawMaxBytes > 0 ? rawMaxBytes : MAX_DEFAULT;
 
-  if (exceedsDeclaredBodyLimit(context.request, maxBytes)) {
-    return badRequest('Submission is too large.', 413);
-  }
-
   let payload: IntakePayload;
 
   try {
-    const buffer = await context.request.arrayBuffer();
-    if (buffer.byteLength > maxBytes) {
+    const buffer = await readBodyWithinLimit(context.request, maxBytes);
+    if (!buffer) {
       return badRequest('Submission is too large.', 413);
     }
 
@@ -267,17 +301,26 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
     return badRequest(`Spam protection is not fully configured for this environment. ${fallbackMessage}`, 503);
   }
 
-  if (turnstile.enabled) {
-    const token = asString(payload.turnstileToken);
-    if (!token) {
-      return badRequest('Spam verification token missing.');
-    }
+  const serviceBinding = hasServiceBinding(context.env) ? context.env.INQUIRY_DELIVERY : undefined;
+  const webhookUrl = getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL);
 
-    const ip = context.request.headers.get('cf-connecting-ip');
-    const passed = await verifyTurnstile(token, turnstile.secretKey, ip);
-    if (!passed) {
-      return badRequest('Spam verification failed.', 403);
-    }
+  if (!serviceBinding && !webhookUrl) {
+    return badRequest(`Submission service is not configured for this environment. ${fallbackMessage}`, 503);
+  }
+
+  if (!turnstile.enabled) {
+    return badRequest(`Secure inquiry delivery requires spam protection. ${fallbackMessage}`, 503);
+  }
+
+  const token = asString(payload.turnstileToken);
+  if (!token) {
+    return badRequest('Spam verification token missing.');
+  }
+
+  const ip = context.request.headers.get('cf-connecting-ip');
+  const passed = await verifyTurnstile(token, turnstile.secretKey, ip);
+  if (!passed) {
+    return badRequest('Spam verification failed.', 403);
   }
 
   const forwardPayload = {
@@ -299,13 +342,6 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
       procurementContext: asString(payload.procurementContext)
     }
   };
-
-  const serviceBinding = hasServiceBinding(context.env) ? context.env.INQUIRY_DELIVERY : undefined;
-  const webhookUrl = getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL);
-
-  if (!serviceBinding && !webhookUrl) {
-    return badRequest(`Submission service is not configured for this environment. ${fallbackMessage}`, 503);
-  }
 
   if (serviceBinding) {
     try {
