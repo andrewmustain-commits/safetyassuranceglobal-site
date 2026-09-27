@@ -153,9 +153,9 @@ jobs:
             --header 'Origin: https://safetyassuranceglobal.com' \
             --header 'Sec-Fetch-Site: same-origin' \
             'https://safetyassuranceglobal.com/api/inquiry')"
-          ok="$(jq -r '.ok // "missing"' "$response")"
-          configured="$(jq -r '.delivery.configured // "missing"' "$response")"
-          turnstile="$(jq -r '.turnstile.enabled // "missing"' "$response")"
+          ok="$(jq -r 'if (.ok | type) == "boolean" then .ok else "missing" end' "$response")"
+          configured="$(jq -r 'if (.delivery.configured | type) == "boolean" then .delivery.configured else "missing" end' "$response")"
+          turnstile="$(jq -r 'if (.turnstile.enabled | type) == "boolean" then .turnstile.enabled else "missing" end' "$response")"
 
           if [[ "$status" != "200" ]] || [[ "$ok" != "true" ]] || [[ "$configured" != "false" ]] || [[ "$turnstile" != "true" ]]; then
             echo "Production runtime is not safely held (HTTP ${status}, ok=${ok}, delivery configured=${configured}, Turnstile enabled=${turnstile})." >&2

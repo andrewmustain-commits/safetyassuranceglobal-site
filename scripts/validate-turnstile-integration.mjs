@@ -127,8 +127,13 @@ requireText(proposal, '<a href="/privacy-policy">Privacy Policy</a>', 'Proposal 
 requireText(privacyPage, 'browser information and the originating IP address', 'Privacy policy must disclose technical inquiry data.');
 requireText(privacyPage, 'Cloudflare', 'Privacy policy must identify Cloudflare processing.');
 
-requireText(preflightWorkflow, `ok="$(jq -r '.ok // "missing"' "$response")"`, 'Preflight workflow must read the production runtime ok flag.');
+requireText(preflightWorkflow, `ok="$(jq -r 'if (.ok | type) == "boolean" then .ok else "missing" end' "$response")"`, 'Preflight workflow must read the production runtime ok flag without collapsing false.');
+requireText(preflightWorkflow, `configured="$(jq -r 'if (.delivery.configured | type) == "boolean" then .delivery.configured else "missing" end' "$response")"`, 'Preflight workflow must preserve delivery.configured=false as a boolean result.');
+requireText(preflightWorkflow, `turnstile="$(jq -r 'if (.turnstile.enabled | type) == "boolean" then .turnstile.enabled else "missing" end' "$response")"`, 'Preflight workflow must read the production runtime Turnstile flag as a boolean.');
 requireText(preflightWorkflow, `[[ "$ok" != "true" ]]`, 'Preflight workflow must fail closed unless the production runtime reports ok=true.');
+if (preflightWorkflow.includes(`.delivery.configured // "missing"`)) {
+  failures.push('Preflight workflow must not use jq // for delivery.configured because false is a valid held-state value.');
+}
 
 requireText(activationWorkflow, 'Build production site', 'Activation workflow must build before production writes.');
 requireText(activationWorkflow, 'Require Workers Scripts access before writes', 'Activation workflow must check authorization before production writes.');
