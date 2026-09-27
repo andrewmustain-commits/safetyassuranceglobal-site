@@ -40,6 +40,9 @@ jobs:
       - name: Validate Cloudflare inquiry delivery worker
         run: npm run validate:inquiry-delivery
 
+      - name: Validate inquiry delivery hardening
+        run: npm run validate:inquiry-hardening
+
       - name: Static Astro diagnostics
         run: npm run check
 
