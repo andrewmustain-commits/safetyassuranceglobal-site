@@ -41,6 +41,16 @@ const DESTINATION = 'info@safetyassuranceglobal.com';
 const MAX_BODY_BYTES = 16_384;
 const MAX_AGE_MS = 10 * 60 * 1000;
 const MAX_FUTURE_SKEW_MS = 2 * 60 * 1000;
+const ALLOWED_ORIGINS = new Set([
+  'https://safetyassuranceglobal.com',
+  'https://www.safetyassuranceglobal.com'
+]);
+
+const isAllowedOrigin = (request: Request) => {
+  const origin = request.headers.get('origin');
+  if (!origin) return false;
+  return ALLOWED_ORIGINS.has(origin);
+};
 
 const isFreshSubmission = (submittedAt: unknown, now = Date.now()) => {
   const value = clean(submittedAt, 64);
@@ -133,6 +143,10 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method !== 'POST') {
       return json({ ok: false, message: 'Method not allowed.' }, 405);
+    }
+
+    if (!isAllowedOrigin(request)) {
+      return json({ ok: false, message: 'Origin not allowed.' }, 403);
     }
 
     const contentType = request.headers.get('content-type')?.toLowerCase() ?? '';
