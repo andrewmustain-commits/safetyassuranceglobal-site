@@ -33,8 +33,10 @@ const readStringConstant = (source, name, label) => {
 };
 
 const expectedTurnstileAction = 'inquiry_submit';
+const expectedTurnstileHostname = 'safetyassuranceglobal.com';
 const serverTurnstileAction = readStringConstant(server, 'TURNSTILE_ACTION', 'Server runtime is missing its Turnstile action declaration.');
 const clientTurnstileAction = readStringConstant(client, 'TURNSTILE_ACTION', 'Client runtime is missing its Turnstile action declaration.');
+const serverTurnstileHostname = readStringConstant(server, 'TURNSTILE_HOSTNAME', 'Server runtime is missing its fixed Turnstile hostname declaration.');
 
 if (serverTurnstileAction !== expectedTurnstileAction) {
   failures.push(`Server Turnstile action must be ${expectedTurnstileAction}.`);
@@ -45,17 +47,20 @@ if (clientTurnstileAction !== expectedTurnstileAction) {
 if (serverTurnstileAction !== clientTurnstileAction) {
   failures.push('Client and server Turnstile action values do not match.');
 }
+if (serverTurnstileHostname !== expectedTurnstileHostname) {
+  failures.push(`Server Turnstile hostname must be ${expectedTurnstileHostname}.`);
+}
 
-const acceptsTurnstileResult = (result, expectedHostname) =>
-  result.success === true && result.action === serverTurnstileAction && result.hostname === expectedHostname;
+const acceptsTurnstileResult = (result) =>
+  result.success === true && result.action === serverTurnstileAction && result.hostname === serverTurnstileHostname;
 
-if (!acceptsTurnstileResult({ success: true, action: expectedTurnstileAction, hostname: 'safetyassuranceglobal.com' }, 'safetyassuranceglobal.com')) {
+if (!acceptsTurnstileResult({ success: true, action: expectedTurnstileAction, hostname: 'safetyassuranceglobal.com' })) {
   failures.push('Turnstile validation rejects the expected action and hostname.');
 }
-if (acceptsTurnstileResult({ success: true, hostname: 'safetyassuranceglobal.com' }, 'safetyassuranceglobal.com')) {
+if (acceptsTurnstileResult({ success: true, hostname: 'safetyassuranceglobal.com' })) {
   failures.push('Turnstile validation must fail closed when the action is missing.');
 }
-if (acceptsTurnstileResult({ success: true, action: 'wrong_action', hostname: 'safetyassuranceglobal.com' }, 'safetyassuranceglobal.com')) {
+if (acceptsTurnstileResult({ success: true, action: 'wrong_action', hostname: 'safetyassuranceglobal.com' })) {
   failures.push('Turnstile validation must fail closed when the action is wrong.');
 }
 
@@ -66,6 +71,7 @@ requireText(server, 'deliveryConfigured && !turnstile.enabled', 'Server runtime 
 requireText(server, 'readBodyWithinLimit', 'Server runtime does not bound streamed request bodies.');
 requireText(server, 'verifyTurnstile', 'Server runtime is missing Turnstile verification.');
 requireText(server, 'result.action === TURNSTILE_ACTION', 'Server runtime does not fail closed on a missing or incorrect Turnstile action.');
+requireText(server, 'result.hostname === TURNSTILE_HOSTNAME', 'Server runtime does not bind Turnstile verification to the fixed production hostname.');
 requireText(server, 'onRequestGet', 'Server runtime is missing same-origin runtime configuration discovery.');
 requireText(server, 'INQUIRY_DELIVERY', 'Server runtime is missing private inquiry Service Binding support.');
 requireText(server, 'hasServiceBinding(context.env)', 'Delivery readiness does not include the private Service Binding.');
