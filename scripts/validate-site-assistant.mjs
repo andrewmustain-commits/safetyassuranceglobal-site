@@ -8,6 +8,7 @@ const required = [
   [component, 'data-assistant-action="handoff"'],
   [component, 'The assistant does not make pricing, availability, qualification, credential, accreditation, or regulatory claims.'],
   [component, 'https://institute.safetyassuranceglobal.com'],
+  [component, 'No question or personal information is collected by this helper.'],
   [layout, '<SiteAssistant />'],
   [measurement, "emit('assistant_open')"],
   [measurement, "emit('assistant_handoff')"]
