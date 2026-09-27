@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+---
+
+<BaseLayout title="Accessibility" description="Safety Assurance Global accessibility statement and contact pathway for reporting barriers on safetyassuranceglobal.com.">
+  <Container>
+    <HeroSection id="accessibility-title" badge="Accessibility" title="We are working to make this website usable by as many people as possible.">
+      <p>Safety Assurance Global is improving this public website toward WCAG 2.2 Level AA. Accessibility is treated as an ongoing engineering and content responsibility, not a one-time certification.</p>
+    </HeroSection>
+
+    <Section ariaLabelledby="accessibility-standard-title">
+      <SectionHeader id="accessibility-standard-title" badge="Our Standard" title="Accessible by design, tested over time." />
+      <p>Our current work includes keyboard operation, visible focus, semantic structure, readable contrast, responsive reflow, reduced-motion support, accessible forms, descriptive links and alternative text where images convey information.</p>
+      <p>Automated testing can identify many barriers, but it does not prove that a website is fully accessible. We pair automated checks with manual review of important user journeys.</p>
+    </Section>
+
+    <Section ariaLabelledby="accessibility-help-title">
+      <SectionHeader id="accessibility-help-title" badge="Need Assistance?" title="Tell us if something on this site creates a barrier." />
+      <p>If you have difficulty accessing information or completing a task on this website, email <a href="mailto:info@safetyassuranceglobal.com?subject=Website%20Accessibility">info@safetyassuranceglobal.com</a>. Please identify the page or task and, when useful, the browser or assistive technology involved. Do not include sensitive personal information that is not necessary to describe the barrier.</p>
+      <p>We will use the information to evaluate the barrier and, where practicable, provide the information through an alternative accessible method while remediation is reviewed.</p>
+    </Section>
+
+    <Section ariaLabelledby="accessibility-scope-title">
+      <SectionHeader id="accessibility-scope-title" badge="Scope" title="A statement of intent, not a legal certification." />
+      <p>This statement describes Safety Assurance Global's accessibility target and improvement process. It is not a representation that every page, third-party service, or external destination satisfies every accessibility requirement at all times.</p>
+      <p><strong>Last reviewed:</strong> September 27, 2026.</p>
+    </Section>
+  </Container>
+</BaseLayout>
