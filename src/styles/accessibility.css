@@ -137,6 +137,11 @@
   select {
     min-height: 44px;
   }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    min-width: 44px;
+  }
 }
 
 @media (max-width: 320px) {
@@ -177,12 +182,14 @@
   border-radius: .55rem;
 }
 
-.lead-form-status[data-state='error'] {
+.lead-form-status[data-state='error'],
+.lead-form-status-error {
   border: 1px solid var(--color-error-border);
   background: var(--color-error-bg);
 }
 
-.lead-form-status[data-state='success'] {
+.lead-form-status[data-state='success'],
+.lead-form-status-success {
   border: 1px solid var(--color-success-border);
   background: var(--color-success-bg);
 }
