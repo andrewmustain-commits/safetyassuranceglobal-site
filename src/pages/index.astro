@@ -80,6 +80,22 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
       </Container>
     </section>
 
+    <section class="assurance-story" aria-labelledby="assurance-story-title">
+      <Container>
+        <div class="assurance-story__intro">
+          <p>From requirement to closure</p>
+          <h2 id="assurance-story-title">Evidence stays connected to the decision.</h2>
+          <p>Safety Assurance Global structures assurance work so requirements, field verification, findings, corrective actions, and closure evidence remain traceable through the engagement.</p>
+        </div>
+        <ol class="assurance-flow" aria-label="Assurance engagement flow">
+          {['Requirement', 'Control', 'Verification', 'Finding', 'Corrective Action', 'Closure'].map((step, index) => (
+            <li><span>{String(index + 1).padStart(2, '0')}</span><strong>{step}</strong></li>
+          ))}
+        </ol>
+        <p class="assurance-story__boundary">The exact sequence, evidence requirements, and deliverables are defined by the agreed engagement scope.</p>
+      </Container>
+    </section>
+
     <section class="output-strip" aria-labelledby="output-strip-title">
       <Container class="output-strip-shell">
         <div class="output-strip-heading">
@@ -105,6 +121,20 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
         <ol>{['Define the requirement','Review the evidence','Verify in the field','Prioritize findings','Validate corrective action','Report decision-ready status'].map((step,index)=><li><span>{String(index+1).padStart(2,'0')}</span>{step}</li>)}</ol>
         <Button href="/method" variant="secondary">See Our Method</Button>
       </Section>
+
+      <section class="evidence-proof" aria-labelledby="evidence-proof-title">
+        <div class="evidence-proof__heading">
+          <p>Evidence before claims</p>
+          <h2 id="evidence-proof-title">Assurance should leave a defensible trail.</h2>
+          <p>Our public commitments stay tied to defined scope, accepted evidence, documented findings, and the work actually performed.</p>
+        </div>
+        <dl class="evidence-proof__principles">
+          <div><dt>Defined scope</dt><dd>Work begins against identified requirements and an agreed engagement boundary.</dd></div>
+          <div><dt>Traceable findings</dt><dd>Observations are connected to evidence and the requirement or condition being evaluated.</dd></div>
+          <div><dt>Closure validation</dt><dd>When included in scope, corrective actions are followed through to closure evidence and validation.</dd></div>
+          <div><dt>Decision-ready reporting</dt><dd>Results are organized so leaders can understand status, open issues, and the evidence supporting conclusions.</dd></div>
+        </dl>
+      </section>
 
       <section class="institute-gateway" aria-labelledby="institute-title">
         <img class="institute-gateway-scene" src="/images/site-2026/institute-hero.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
@@ -134,7 +164,25 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
         </aside>
       </section>
 
-      {approvedPosts.length > 0 && <Section ariaLabelledby="insights-title"><div class="insight-heading"><Badge text="Insights" /><h2 id="insights-title">Perspectives for leaders and operators.</h2></div><div class="insight-grid-v34">{approvedPosts.map((post,index)=><Card as="article" class="image-forward-card image-forward-card-compact" style={`--card-image:url(${['/images/site-2026/insights-hero.webp','/images/site-2026/maritime-hero.webp','/images/site-2026/about-hero.webp'][index % 3]})`}><p class="insight-meta"><span>{post.category}</span><time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></p><h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3><p>{post.summary}</p></Card>)}</div></Section>}
+      <section class="conversion-close" aria-labelledby="conversion-close-title">
+        <p class="conversion-close__eyebrow">Start with the requirement</p>
+        <h2 id="conversion-close-title">What needs to be proven before the work moves forward?</h2>
+        <p>Share the operating environment, requirement, schedule, and expected outcome. Safety Assurance Global can use that context to determine the appropriate next conversation.</p>
+        <div class="conversion-close__actions">
+          <a class="ui-button ui-button-primary" href="/contact">Discuss a Requirement</a>
+          <a class="ui-button ui-button-secondary" href="/request-proposal">Request a Proposal</a>
+        </div>
+      </section>
+
+      {approvedPosts.length > 0 && <section class="editorial-insights" aria-labelledby="insights-title">
+        <div class="editorial-insights__heading"><p>Insights</p><h2 id="insights-title">Thinking from the field.</h2><a href="/insights">View all insights →</a></div>
+        <div class="editorial-insights__grid">
+          {approvedPosts.map((post,index)=><article class={index === 0 ? 'editorial-insight editorial-insight--featured' : 'editorial-insight'}>
+            <p class="insight-meta"><span>{post.category}</span><time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></p>
+            <h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3><p>{post.summary}</p><a class="editorial-insight__link" href={`/insights/${post.slug}`}>Read insight →</a>
+          </article>)}
+        </div>
+      </section>}
     </Container>
   </div>
 </BaseLayout>
