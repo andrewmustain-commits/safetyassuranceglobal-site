@@ -20,8 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       PAGES_PROJECT: safetyassuranceglobal
       DELIVERY_WORKER: sag-inquiry-delivery
 
@@ -41,8 +39,14 @@ jobs:
       - name: Validate inquiry delivery Worker
         run: npm run validate:inquiry-delivery
 
+      - name: Build production site
+        run: npm run build
+
       - name: Require Workers Scripts access before writes
         shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           set -euo pipefail
           response="$(mktemp)"
@@ -75,6 +79,9 @@ jobs:
 
       - name: Add production Pages Service Binding
         shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           set -euo pipefail
           response="$(mktemp)"
@@ -99,9 +106,6 @@ jobs:
             exit 1
           fi
           echo 'Production INQUIRY_DELIVERY Service Binding configured.'
-
-      - name: Build production site
-        run: npm run build
 
       - name: Redeploy Pages so binding takes effect
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v3

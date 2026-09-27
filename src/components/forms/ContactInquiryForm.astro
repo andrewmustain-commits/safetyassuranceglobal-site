@@ -32,7 +32,7 @@ const serviceOptions = [
     <p class="lead-form-description">Tell us the operating environment, challenge, and outcome you need. Safety Assurance Global will use that information to evaluate the appropriate next step.</p>
   </div>
 
-  <form class="lead-form" id="contact-form" data-intake-form data-form-type="contact" novalidate>
+  <form class="lead-form" id="contact-form" method="post" action="/api/inquiry" data-intake-form data-form-type="contact" novalidate>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
 
     <div class="lead-form-grid">
@@ -79,7 +79,7 @@ const serviceOptions = [
 
       <label class="lead-field lead-field-full lead-checkbox" for="contact-privacy">
         <input id="contact-privacy" name="privacyAcknowledgement" type="checkbox" required aria-describedby="contact-status" />
-        <span>I acknowledge the privacy notice and agree to inquiry-response processing.</span>
+        <span>I acknowledge the <a href="/privacy-policy">Privacy Policy</a> and agree to inquiry-response processing.</span>
       </label>
 
       <div class="lead-field lead-field-full lead-turnstile" data-turnstile-container hidden aria-label="Spam verification"></div>
