@@ -10,6 +10,8 @@
   const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
   let turnstileScriptPromise;
 
+  const emitMeasurement = (name) => document.dispatchEvent(new CustomEvent('sag:intake-event', { detail: { name } }));
+
   const setStatus = (statusEl, message, kind) => {
     if (!statusEl) {
       return;
@@ -292,6 +294,9 @@
         return;
       }
 
+      if (form.getAttribute('data-form-type') !== 'proposal') {
+        emitMeasurement('inquiry_start');
+      }
       setStatus(status, 'Submitting your inquiry...', '');
       if (submitButton instanceof HTMLButtonElement) {
         submitButton.disabled = true;
@@ -320,6 +325,7 @@
 
         form.reset();
         form.dataset.turnstileToken = '';
+        emitMeasurement(form.getAttribute('data-form-type') === 'proposal' ? 'proposal_success' : 'inquiry_success');
         setStatus(status, 'Submission received. Our team will follow up using your provided contact details.', 'success');
       } catch (_error) {
         const payload = toPayload(form);
