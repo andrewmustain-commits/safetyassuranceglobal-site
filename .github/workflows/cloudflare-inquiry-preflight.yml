@@ -27,6 +27,7 @@ jobs:
       - name: Verify Cloudflare API token is active
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         shell: bash
         run: |
           set -euo pipefail
@@ -34,16 +35,16 @@ jobs:
           token_json="$(mktemp)"
           status="$(curl --silent --show-error --output "$token_json" --write-out '%{http_code}' \
             --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-            'https://api.cloudflare.com/client/v4/user/tokens/verify')"
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/tokens/verify")"
           token_status="$(jq -r '.result.status // "unknown"' "$token_json")"
 
           if [[ "$status" != "200" ]] || [[ "$(jq -r '.success' "$token_json")" != "true" ]] || [[ "$token_status" != "active" ]]; then
-            echo "Cloudflare API token verification failed (HTTP ${status}, status ${token_status})." >&2
+            echo "Cloudflare account API token verification failed (HTTP ${status}, status ${token_status})." >&2
             exit 1
           fi
 
-          echo 'Cloudflare API token status: active'
-          echo '- Cloudflare API token status: `active`' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Cloudflare account API token status: active'
+          echo '- Cloudflare account API token status: `active`' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Inspect Cloudflare Pages bindings safely
         env:
