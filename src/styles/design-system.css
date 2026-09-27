@@ -95,3 +95,9 @@
  .home-v34 .conversion-close{margin-inline:-1rem;padding-inline:1rem}
  .home-v34 .conversion-close__actions :global(.ui-button){width:100%;justify-content:center}
 }
+
+.primary-nav .nav-external{margin-left:.45rem;padding-left:.8rem;padding-right:.8rem;border-color:rgba(214,173,85,.28);color:#f1d493}
+.primary-nav .nav-external:hover,.primary-nav .nav-external:focus-visible{border-color:rgba(214,173,85,.58);background:rgba(214,173,85,.08);color:#fff4d8}
+@media(max-width:980px){
+ .primary-nav .nav-external{margin-left:0}
+}
