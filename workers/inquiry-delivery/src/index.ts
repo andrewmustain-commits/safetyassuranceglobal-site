@@ -39,6 +39,27 @@ type DeliveryPayload = {
 const FROM_ADDRESS = 'website@safetyassuranceglobal.com';
 const DESTINATION = 'info@safetyassuranceglobal.com';
 const MAX_BODY_BYTES = 16_384;
+const MAX_AGE_MS = 10 * 60 * 1000;
+const MAX_FUTURE_SKEW_MS = 2 * 60 * 1000;
+const ALLOWED_ORIGINS = new Set([
+  'https://safetyassuranceglobal.com',
+  'https://www.safetyassuranceglobal.com'
+]);
+
+const isAllowedOrigin = (request: Request) => {
+  const origin = request.headers.get('origin');
+  if (!origin) return false;
+  return ALLOWED_ORIGINS.has(origin);
+};
+
+const isFreshSubmission = (submittedAt: unknown, now = Date.now()) => {
+  const value = clean(submittedAt, 64);
+  if (!value) return false;
+  const submitted = Date.parse(value);
+  if (!Number.isFinite(submitted)) return false;
+  const age = now - submitted;
+  return age >= -MAX_FUTURE_SKEW_MS && age <= MAX_AGE_MS;
+};
 
 const json = (body: Record<string, unknown>, status: number) =>
   new Response(JSON.stringify(body), {
@@ -124,6 +145,15 @@ export default {
       return json({ ok: false, message: 'Method not allowed.' }, 405);
     }
 
+    if (!isAllowedOrigin(request)) {
+      return json({ ok: false, message: 'Origin not allowed.' }, 403);
+    }
+
+    const fetchSite = request.headers.get('sec-fetch-site');
+    if (fetchSite && !['same-origin', 'same-site'].includes(fetchSite)) {
+      return json({ ok: false, message: 'Cross-site request not allowed.' }, 403);
+    }
+
     const contentType = request.headers.get('content-type')?.toLowerCase() ?? '';
     if (!contentType.startsWith('application/json')) {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415);
@@ -138,6 +168,10 @@ export default {
       payload = JSON.parse(new TextDecoder().decode(body)) as DeliveryPayload;
     } catch {
       return json({ ok: false, message: 'Invalid JSON payload.' }, 400);
+    }
+
+    if (!isFreshSubmission(payload.submittedAt)) {
+      return json({ ok: false, message: 'Submission timestamp is missing, expired, or invalid.' }, 400);
     }
 
     const formType = cleanHeader(payload.formType, 24).toLowerCase();
@@ -165,7 +199,11 @@ export default {
       return json({ ok: true, messageId: result.messageId }, 200);
     } catch (error) {
       const code = typeof error === 'object' && error && 'code' in error ? String(error.code) : 'EMAIL_DELIVERY_FAILED';
-      console.error('Inquiry email delivery failed', { code });
+      console.error('Inquiry email delivery failed', {
+        code,
+        formType,
+        occurredAt: new Date().toISOString()
+      });
       return json({ ok: false, message: 'Email delivery failed.' }, 502);
     }
   }
