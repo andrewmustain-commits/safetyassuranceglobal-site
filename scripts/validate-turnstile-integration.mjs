@@ -18,6 +18,7 @@ const commandPage = read('src/pages/sag-command.astro');
 const privacyPage = read('src/pages/privacy-policy.astro');
 const headers = read('public/_headers');
 const activationWorkflow = read('.github/workflows/cloudflare-inquiry-activate.yml');
+const preflightWorkflow = read('.github/workflows/cloudflare-inquiry-preflight.yml');
 
 const requireText = (source, needle, label) => {
   if (!source.includes(needle)) failures.push(label);
@@ -62,6 +63,9 @@ if (acceptsTurnstileResult({ success: true, hostname: 'safetyassuranceglobal.com
 }
 if (acceptsTurnstileResult({ success: true, action: 'wrong_action', hostname: 'safetyassuranceglobal.com' })) {
   failures.push('Turnstile validation must fail closed when the action is wrong.');
+}
+if (acceptsTurnstileResult({ success: true, action: expectedTurnstileAction, hostname: 'preview.safetyassuranceglobal.com' })) {
+  failures.push('Turnstile validation must fail closed when the hostname is not the fixed production hostname.');
 }
 
 requireText(server, 'TURNSTILE_SITE_KEY', 'Server runtime is missing TURNSTILE_SITE_KEY support.');
@@ -122,6 +126,9 @@ requireText(contact, '<a href="/privacy-policy">Privacy Policy</a>', 'Contact fo
 requireText(proposal, '<a href="/privacy-policy">Privacy Policy</a>', 'Proposal form privacy acknowledgement must link to the policy.');
 requireText(privacyPage, 'browser information and the originating IP address', 'Privacy policy must disclose technical inquiry data.');
 requireText(privacyPage, 'Cloudflare', 'Privacy policy must identify Cloudflare processing.');
+
+requireText(preflightWorkflow, `ok="$(jq -r '.ok // "missing"' "$response")"`, 'Preflight workflow must read the production runtime ok flag.');
+requireText(preflightWorkflow, `[[ "$ok" != "true" ]]`, 'Preflight workflow must fail closed unless the production runtime reports ok=true.');
 
 requireText(activationWorkflow, 'Build production site', 'Activation workflow must build before production writes.');
 requireText(activationWorkflow, 'Require Workers Scripts access before writes', 'Activation workflow must check authorization before production writes.');
