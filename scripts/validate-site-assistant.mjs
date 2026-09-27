@@ -15,7 +15,10 @@ const required = [
 ];
 for (const [source, marker] of required) if (!source.includes(marker)) throw new Error(`Assistant governance marker missing: ${marker}`);
 const forbidden = ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'innerHTML', 'eval(', 'new Function'];
-for (const marker of forbidden) {\n  if (component.includes(marker)) throw new Error(`Assistant component contains forbidden runtime behavior: ${marker}`);\n  if (measurement.includes(marker)) throw new Error(`Assistant measurement contains forbidden runtime behavior: ${marker}`);\n}
+for (const marker of forbidden) {
+  if (component.includes(marker)) throw new Error(`Assistant component contains forbidden runtime behavior: ${marker}`);
+  if (measurement.includes(marker)) throw new Error(`Assistant measurement contains forbidden runtime behavior: ${marker}`);
+}
 const allowedActions = ['services', 'government', 'proposal', 'institute', 'handoff'];
 const actions = [...component.matchAll(/data-assistant-action="([^"]+)"/g)].map((match) => match[1]);
 for (const action of actions) if (!allowedActions.includes(action)) throw new Error(`Unapproved assistant action: ${action}`);
