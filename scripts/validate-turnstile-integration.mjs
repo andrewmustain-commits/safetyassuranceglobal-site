@@ -18,10 +18,55 @@ const commandPage = read('src/pages/sag-command.astro');
 const privacyPage = read('src/pages/privacy-policy.astro');
 const headers = read('public/_headers');
 const activationWorkflow = read('.github/workflows/cloudflare-inquiry-activate.yml');
+const preflightWorkflow = read('.github/workflows/cloudflare-inquiry-preflight.yml');
 
 const requireText = (source, needle, label) => {
   if (!source.includes(needle)) failures.push(label);
 };
+
+const readStringConstant = (source, name, label) => {
+  const match = source.match(new RegExp(`const ${name} = '([^']+)';`));
+  if (!match) {
+    failures.push(label);
+    return null;
+  }
+  return match[1];
+};
+
+const expectedTurnstileAction = 'inquiry_submit';
+const expectedTurnstileHostname = 'safetyassuranceglobal.com';
+const serverTurnstileAction = readStringConstant(server, 'TURNSTILE_ACTION', 'Server runtime is missing its Turnstile action declaration.');
+const clientTurnstileAction = readStringConstant(client, 'TURNSTILE_ACTION', 'Client runtime is missing its Turnstile action declaration.');
+const serverTurnstileHostname = readStringConstant(server, 'TURNSTILE_HOSTNAME', 'Server runtime is missing its fixed Turnstile hostname declaration.');
+
+if (serverTurnstileAction !== expectedTurnstileAction) {
+  failures.push(`Server Turnstile action must be ${expectedTurnstileAction}.`);
+}
+if (clientTurnstileAction !== expectedTurnstileAction) {
+  failures.push(`Client Turnstile action must be ${expectedTurnstileAction}.`);
+}
+if (serverTurnstileAction !== clientTurnstileAction) {
+  failures.push('Client and server Turnstile action values do not match.');
+}
+if (serverTurnstileHostname !== expectedTurnstileHostname) {
+  failures.push(`Server Turnstile hostname must be ${expectedTurnstileHostname}.`);
+}
+
+const acceptsTurnstileResult = (result) =>
+  result.success === true && result.action === serverTurnstileAction && result.hostname === serverTurnstileHostname;
+
+if (!acceptsTurnstileResult({ success: true, action: expectedTurnstileAction, hostname: 'safetyassuranceglobal.com' })) {
+  failures.push('Turnstile validation rejects the expected action and hostname.');
+}
+if (acceptsTurnstileResult({ success: true, hostname: 'safetyassuranceglobal.com' })) {
+  failures.push('Turnstile validation must fail closed when the action is missing.');
+}
+if (acceptsTurnstileResult({ success: true, action: 'wrong_action', hostname: 'safetyassuranceglobal.com' })) {
+  failures.push('Turnstile validation must fail closed when the action is wrong.');
+}
+if (acceptsTurnstileResult({ success: true, action: expectedTurnstileAction, hostname: 'preview.safetyassuranceglobal.com' })) {
+  failures.push('Turnstile validation must fail closed when the hostname is not the fixed production hostname.');
+}
 
 requireText(server, 'TURNSTILE_SITE_KEY', 'Server runtime is missing TURNSTILE_SITE_KEY support.');
 requireText(server, 'TURNSTILE_SECRET_KEY', 'Server runtime is missing TURNSTILE_SECRET_KEY support.');
@@ -29,6 +74,8 @@ requireText(server, 'turnstile.misconfigured', 'Server runtime does not fail clo
 requireText(server, 'deliveryConfigured && !turnstile.enabled', 'Server runtime does not require Turnstile when delivery is configured.');
 requireText(server, 'readBodyWithinLimit', 'Server runtime does not bound streamed request bodies.');
 requireText(server, 'verifyTurnstile', 'Server runtime is missing Turnstile verification.');
+requireText(server, 'result.action === TURNSTILE_ACTION', 'Server runtime does not fail closed on a missing or incorrect Turnstile action.');
+requireText(server, 'result.hostname === TURNSTILE_HOSTNAME', 'Server runtime does not bind Turnstile verification to the fixed production hostname.');
 requireText(server, 'onRequestGet', 'Server runtime is missing same-origin runtime configuration discovery.');
 requireText(server, 'INQUIRY_DELIVERY', 'Server runtime is missing private inquiry Service Binding support.');
 requireText(server, 'hasServiceBinding(context.env)', 'Delivery readiness does not include the private Service Binding.');
@@ -54,6 +101,7 @@ requireText(client, "fetch('/api/inquiry'", 'Client does not read the intake run
 requireText(client, 'challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', 'Client is missing the official Turnstile script endpoint.');
 requireText(client, 'payload.turnstileToken', 'Client does not forward a Turnstile token.');
 requireText(client, 'data-turnstile-container', 'Client does not target a Turnstile render container.');
+requireText(client, 'action: TURNSTILE_ACTION', 'Client does not bind the Turnstile widget to the shared action declaration.');
 requireText(client, "form.dataset.deliveryConfigured = 'unknown'", 'Client does not initialize delivery readiness state.');
 requireText(client, "form.dataset.turnstileEnabled = 'unknown'", 'Client does not initialize Turnstile readiness state.');
 requireText(client, 'config.delivery.configured === true', 'Client does not consume the server delivery readiness state.');
@@ -78,6 +126,9 @@ requireText(contact, '<a href="/privacy-policy">Privacy Policy</a>', 'Contact fo
 requireText(proposal, '<a href="/privacy-policy">Privacy Policy</a>', 'Proposal form privacy acknowledgement must link to the policy.');
 requireText(privacyPage, 'browser information and the originating IP address', 'Privacy policy must disclose technical inquiry data.');
 requireText(privacyPage, 'Cloudflare', 'Privacy policy must identify Cloudflare processing.');
+
+requireText(preflightWorkflow, `ok="$(jq -r '.ok // "missing"' "$response")"`, 'Preflight workflow must read the production runtime ok flag.');
+requireText(preflightWorkflow, `[[ "$ok" != "true" ]]`, 'Preflight workflow must fail closed unless the production runtime reports ok=true.');
 
 requireText(activationWorkflow, 'Build production site', 'Activation workflow must build before production writes.');
 requireText(activationWorkflow, 'Require Workers Scripts access before writes', 'Activation workflow must check authorization before production writes.');

@@ -27,6 +27,8 @@ const JSON_HEADERS = {
 
 const MAX_DEFAULT = 16_384;
 const UPSTREAM_TIMEOUT_MS = 10_000;
+const TURNSTILE_ACTION = 'inquiry_submit';
+const TURNSTILE_HOSTNAME = 'safetyassuranceglobal.com';
 const PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com';
 const SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com';
 const SERVICE_BINDING_URL = 'https://inquiry-delivery.internal/deliver';
@@ -69,11 +71,30 @@ const fieldLimits: Record<string, number> = {
 
 const asString = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
 
-const jsonResponse = (body: Record<string, unknown>, status: number) =>
-  new Response(JSON.stringify(body), { status, headers: JSON_HEADERS });
+const jsonResponse = (body: Record<string, unknown>, status: number, requestId?: string) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: requestId ? { ...JSON_HEADERS, 'x-request-id': requestId } : JSON_HEADERS
+  });
 
-const badRequest = (message: string, status = 400) => jsonResponse({ ok: false, message }, status);
-const okResponse = (message: string) => jsonResponse({ ok: true, message }, 200);
+const badRequest = (message: string, status = 400, requestId?: string) =>
+  jsonResponse({ ok: false, message }, status, requestId);
+const okResponse = (message: string, requestId: string) =>
+  jsonResponse({ ok: true, message }, 200, requestId);
+
+type DeliveryEvent = {
+  requestId: string;
+  formType: string;
+  transport: 'service-binding' | 'webhook' | 'none';
+  outcome: 'success' | 'failure' | 'unavailable';
+  status?: number;
+  durationMs?: number;
+};
+
+const logDeliveryEvent = (event: DeliveryEvent) => {
+  const method = event.outcome === 'success' ? 'info' : 'error';
+  console[method]('Inquiry delivery event', event);
+};
 
 const getTurnstileState = (env: Env) => {
   const siteKey = asString(env.TURNSTILE_SITE_KEY);
@@ -211,8 +232,8 @@ const verifyTurnstile = async (token: string, secret: string, ip: string | null)
       return false;
     }
 
-    const result = (await response.json()) as { success?: boolean };
-    return result.success === true;
+    const result = (await response.json()) as { success?: boolean; action?: string; hostname?: string };
+    return result.success === true && result.action === TURNSTILE_ACTION && result.hostname === TURNSTILE_HOSTNAME;
   } catch {
     return false;
   }
@@ -296,35 +317,40 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
     return badRequest(validationError);
   }
 
+  const requestId = crypto.randomUUID();
+  const formType = asString(payload.formType);
+
   const turnstile = getTurnstileState(context.env);
   if (turnstile.misconfigured) {
-    return badRequest(`Spam protection is not fully configured for this environment. ${fallbackMessage}`, 503);
+    return badRequest(`Spam protection is not fully configured for this environment. ${fallbackMessage}`, 503, requestId);
   }
 
   const serviceBinding = hasServiceBinding(context.env) ? context.env.INQUIRY_DELIVERY : undefined;
   const webhookUrl = getSecureWebhookUrl(context.env.FORM_WEBHOOK_URL);
 
   if (!serviceBinding && !webhookUrl) {
-    return badRequest(`Submission service is not configured for this environment. ${fallbackMessage}`, 503);
+    logDeliveryEvent({ requestId, formType, transport: 'none', outcome: 'unavailable' });
+    return badRequest(`Submission service is not configured for this environment. ${fallbackMessage}`, 503, requestId);
   }
 
   if (!turnstile.enabled) {
-    return badRequest(`Secure inquiry delivery requires spam protection. ${fallbackMessage}`, 503);
+    return badRequest(`Secure inquiry delivery requires spam protection. ${fallbackMessage}`, 503, requestId);
   }
 
   const token = asString(payload.turnstileToken);
   if (!token) {
-    return badRequest('Spam verification token missing.');
+    return badRequest('Spam verification token missing.', 400, requestId);
   }
 
   const ip = context.request.headers.get('cf-connecting-ip');
   const passed = await verifyTurnstile(token, turnstile.secretKey, ip);
   if (!passed) {
-    return badRequest('Spam verification failed.', 403);
+    return badRequest('Spam verification failed.', 403, requestId);
   }
 
   const forwardPayload = {
-    formType: asString(payload.formType),
+    requestId,
+    formType,
     submittedAt: new Date().toISOString(),
     data: {
       name: asString(payload.name),
@@ -344,26 +370,30 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
   };
 
   if (serviceBinding) {
+    const startedAt = Date.now();
     try {
       const upstream = await serviceBinding.fetch(SERVICE_BINDING_URL, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: { 'content-type': 'application/json', 'x-inquiry-request-id': requestId },
         body: JSON.stringify(forwardPayload),
         signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
       });
 
       if (upstream.ok) {
-        return okResponse('Submission received.');
+        logDeliveryEvent({ requestId, formType, transport: 'service-binding', outcome: 'success', status: upstream.status, durationMs: Date.now() - startedAt });
+        return okResponse('Submission received.', requestId);
       }
+      logDeliveryEvent({ requestId, formType, transport: 'service-binding', outcome: 'failure', status: upstream.status, durationMs: Date.now() - startedAt });
     } catch {
-      // Fall through to the HTTPS webhook when configured. The browser fallback
-      // remains authoritative if every server-side transport fails.
+      logDeliveryEvent({ requestId, formType, transport: 'service-binding', outcome: 'failure', durationMs: Date.now() - startedAt });
     }
   }
 
   if (webhookUrl) {
+    const startedAt = Date.now();
     const headers: Record<string, string> = {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'x-inquiry-request-id': requestId
     };
 
     if (context.env.FORM_WEBHOOK_AUTH_TOKEN) {
@@ -379,15 +409,16 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
       });
 
       if (upstream.ok) {
-        return okResponse('Submission received.');
+        logDeliveryEvent({ requestId, formType, transport: 'webhook', outcome: 'success', status: upstream.status, durationMs: Date.now() - startedAt });
+        return okResponse('Submission received.', requestId);
       }
+      logDeliveryEvent({ requestId, formType, transport: 'webhook', outcome: 'failure', status: upstream.status, durationMs: Date.now() - startedAt });
     } catch {
-      // Return the truthful failure below so the client opens its prefilled
-      // email fallback rather than claiming the submission was delivered.
+      logDeliveryEvent({ requestId, formType, transport: 'webhook', outcome: 'failure', durationMs: Date.now() - startedAt });
     }
   }
 
-  return badRequest(`Submission could not be delivered. ${fallbackMessage}`, 502);
+  return badRequest(`Submission could not be delivered. ${fallbackMessage}`, 502, requestId);
 };
 
 export const onRequestOptions = async () =>
