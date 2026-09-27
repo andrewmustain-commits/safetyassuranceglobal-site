@@ -374,7 +374,7 @@ export const onRequestPost = async (context: PagesContext<Env>) => {
     try {
       const upstream = await serviceBinding.fetch(SERVICE_BINDING_URL, {
         method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-inquiry-request-id': requestId },
+        headers: { 'content-type': 'application/json', 'x-inquiry-request-id': requestId, origin: TURNSTILE_HOSTNAME.startsWith('http') ? TURNSTILE_HOSTNAME : `https://${TURNSTILE_HOSTNAME}` },
         body: JSON.stringify(forwardPayload),
         signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
       });
