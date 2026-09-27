@@ -174,7 +174,15 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
         </div>
       </section>
 
-      {approvedPosts.length > 0 && <Section ariaLabelledby="insights-title"><div class="insight-heading"><Badge text="Insights" /><h2 id="insights-title">Perspectives for leaders and operators.</h2></div><div class="insight-grid-v34">{approvedPosts.map((post,index)=><Card as="article" class="image-forward-card image-forward-card-compact" style={`--card-image:url(${['/images/site-2026/insights-hero.webp','/images/site-2026/maritime-hero.webp','/images/site-2026/about-hero.webp'][index % 3]})`}><p class="insight-meta"><span>{post.category}</span><time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></p><h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3><p>{post.summary}</p></Card>)}</div></Section>}
+      {approvedPosts.length > 0 && <section class="editorial-insights" aria-labelledby="insights-title">
+        <div class="editorial-insights__heading"><p>Insights</p><h2 id="insights-title">Thinking from the field.</h2><a href="/insights">View all insights →</a></div>
+        <div class="editorial-insights__grid">
+          {approvedPosts.map((post,index)=><article class={index === 0 ? 'editorial-insight editorial-insight--featured' : 'editorial-insight'}>
+            <p class="insight-meta"><span>{post.category}</span><time datetime={post.date.toISOString()}>{post.date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></p>
+            <h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3><p>{post.summary}</p><a class="editorial-insight__link" href={`/insights/${post.slug}`}>Read insight →</a>
+          </article>)}
+        </div>
+      </section>}
     </Container>
   </div>
 </BaseLayout>
