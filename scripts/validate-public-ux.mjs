@@ -83,6 +83,10 @@ for (const filePath of htmlFiles) {
 
   const mains = [...html.matchAll(/<main\b[^>]*>/gi)];
   if (mains.length !== 1) failures.push(`${relative}: expected exactly one <main> landmark, found ${mains.length}`);
+  if (mains.length === 1) {
+    const mainId = attrValue(mains[0][0], 'id');
+    if (mainId !== 'main-content') failures.push(`${relative}: main landmark must expose the stable skip-link target id main-content`);
+  }
 
   const h1s = [...html.matchAll(/<h1\b[^>]*>/gi)];
   if (h1s.length !== 1) failures.push(`${relative}: expected exactly one <h1>, found ${h1s.length}`);
