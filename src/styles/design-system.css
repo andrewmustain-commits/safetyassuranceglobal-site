@@ -93,7 +93,7 @@
 .home-v34 .conversion-close__actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem}
 @media(max-width:760px){
  .home-v34 .conversion-close{margin-inline:-1rem;padding-inline:1rem}
- .home-v34 .conversion-close__actions :global(.ui-button){width:100%;justify-content:center}
+ .home-v34 .conversion-close__actions .ui-button{width:100%;justify-content:center}
 }
 
 .primary-nav .nav-external{margin-left:.45rem;padding-left:.8rem;padding-right:.8rem;border-color:rgba(214,173,85,.28);color:#f1d493}
