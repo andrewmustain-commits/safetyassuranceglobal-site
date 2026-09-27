@@ -294,7 +294,9 @@
         return;
       }
 
-      emitMeasurement(form.getAttribute('data-form-type') === 'proposal' ? 'proposal_start' : 'inquiry_start');
+      if (form.getAttribute('data-form-type') !== 'proposal') {
+        emitMeasurement('inquiry_start');
+      }
       setStatus(status, 'Submitting your inquiry...', '');
       if (submitButton instanceof HTMLButtonElement) {
         submitButton.disabled = true;
