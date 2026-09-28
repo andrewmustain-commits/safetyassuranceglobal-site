@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Audit dependencies
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=moderate
 
       - name: Validate brand assets
         run: npm run validate:brand-assets
