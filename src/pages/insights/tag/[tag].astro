@@ -53,6 +53,7 @@ const { tagName, tagSlug, posts } = Astro.props as TagProps;
   title={`Tag: ${tagName}`}
   description={`Published insights tagged with ${tagName}.`}
   canonical={`/insights/tag/${tagSlug}/`}
+  noIndex={true}
 >
   <Container>
     <HeroSection id="tag-title" badge="Tag" title={tagName}>
