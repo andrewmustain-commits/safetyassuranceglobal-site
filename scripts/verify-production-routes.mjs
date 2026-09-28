@@ -94,6 +94,14 @@ await retry('homepage security headers', () => expectHeaderIncludes('/', 'conten
 await retry('Cloudflare analytics CSP script allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://static.cloudflareinsights.com'));
 await retry('Cloudflare analytics CSP connection allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://cloudflareinsights.com'));
 await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/image.png', 'cache-control', 'max-age=604800'));
+await retry('stable public scripts revalidate across releases', async () => {
+  const response = await request('/scripts/intake-form.js');
+  if (!response.ok) throw new Error(`expected successful script response, received ${response.status}`);
+  const value = (response.headers.get('cache-control') || '').toLowerCase();
+  for (const required of ['no-cache', 'max-age=0', 'must-revalidate']) {
+    if (!value.includes(required)) throw new Error(`cache-control missing ${required}: ${value || 'missing header'}`);
+  }
+});
 await retry('completed demonstration download', () => expectStatus('/downloads/completed-readiness-demonstration.csv', 200, 'DEMO-001'));
 await retry('readiness matrix download', () => expectStatus('/downloads/readiness-evidence-matrix-template.csv', 200, 'Requirement'));
 await retry('corrective-action register download', () => expectStatus('/downloads/corrective-action-register-template.csv', 200, 'Finding'));
