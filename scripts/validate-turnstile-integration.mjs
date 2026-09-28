@@ -112,9 +112,15 @@ requireText(client, 'FIELD_LIMITS', 'Client must declare supported long-text fie
 requireText(client, 'validateSupportedLengths', 'Client must visibly reject over-limit long text without shortening it.');
 requireText(client, "data-max-length", 'Client must discover governed long-text limits from rendered fields.');
 requireText(client, 'MAX_FALLBACK_SUBJECT_CHARS', 'Client fallback email subject must remain bounded.');
-requireText(client, 'buildFallbackMailto', 'Client is missing the prefilled email fallback builder.');
+requireText(client, 'buildFallbackText', 'Client is missing the full-request fallback serializer.');
+requireText(client, 'downloadFallbackRequest', 'Client is missing the full-request download fallback.');
+requireText(client, 'new Blob([rawBody]', 'Client fallback does not preserve the completed request outside the mailto URI.');
+requireText(client, 'handoffFallbackRequest', 'Client is missing the preserved-request email handoff.');
 if (/slice\(0,\s*MAX_MESSAGE_LENGTH\)/.test(client) || client.includes('truncateForMailto')) {
   failures.push('Client must not silently truncate supported buyer requirement text.');
+}
+if (client.includes('buildFallbackMailto') || client.includes('body=${encodeURIComponent(rawBody)}')) {
+  failures.push('Client must not encode the full buyer request into a mailto URI.');
 }
 for (const marker of ['data-max-length="3000"', 'Your text is never silently shortened.']) {
   requireText(contact + proposal, marker, `Forms must disclose the supported long-text boundary: ${marker}`);
@@ -125,7 +131,8 @@ requireText(server, 'procurementContext: 3_000', 'Server procurementContext limi
 requireText(client, 'openEmailFallback', 'Client is missing the email fallback submission path.');
 requireText(client, "form.dataset.deliveryConfigured === 'unknown'", 'Client must wait for runtime delivery detection before choosing the fallback path.');
 requireText(client, 'Please wait a moment while secure inquiry delivery is checked.', 'Client does not provide a pending-delivery status before runtime configuration resolves.');
-requireText(client, 'window.location.href = buildFallbackMailto(payload)', 'Client does not open the completed request in the visitor email app when secure delivery fails.');
+requireText(client, 'window.location.href = `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shortBody)}`', 'Client does not open a bounded email handoff when secure delivery fails.');
+requireText(client, 'handoffFallbackRequest(payload, status)', 'Client does not route secure-delivery failures through the preserved-request handoff.');
 requireText(client, 'submitButton.disabled = true', 'Client must disable submission while delivery readiness is unknown.');
 requireText(client, 'submitButton.disabled = false', 'Client must enable submission after delivery readiness is resolved.');
 
