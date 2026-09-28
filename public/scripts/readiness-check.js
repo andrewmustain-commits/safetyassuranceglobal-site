@@ -16,6 +16,19 @@
     leadership: 'Leadership visibility'
   };
 
+  const focusNeedByDomain = {
+    requirements: 'Operational Readiness',
+    evidence: 'Independent Assurance',
+    ownership: 'Program Assurance',
+    contractors: 'Contractor Assurance',
+    field: 'Operational Readiness',
+    quality: 'QA/QC and Quality Oversight',
+    emergency: 'Emergency Preparedness',
+    change: 'Program Assurance',
+    closure: 'Independent Assurance',
+    leadership: 'Program Assurance'
+  };
+
   const state = (value) => {
     if (value >= 3) return 'Evidence visible';
     if (value === 2) return 'Partially visible';
@@ -54,6 +67,12 @@
     const titleNode = result.querySelector('[data-readiness-title]');
     const summaryNode = result.querySelector('[data-readiness-summary]');
     const domains = result.querySelector('[data-readiness-domains]');
+    const focusNode = result.querySelector('[data-readiness-focus]');
+    const scopeLink = result.querySelector('[data-readiness-scope-link]');
+
+    const minimumVisibility = Math.min(...entries.map((entry) => entry[1]));
+    const focusDomain = entries.find((entry) => entry[1] === minimumVisibility)?.[0];
+    const focusNeed = focusNeedByDomain[focusDomain] || 'Operational Readiness';
 
     if (titleNode) titleNode.textContent = title;
     if (summaryNode) {
@@ -62,6 +81,15 @@
         counts.partial + ' partially visible, ' +
         counts.gaps + ' material gaps, ' +
         counts.unknown + ' not yet verified.';
+    }
+
+    if (focusNode) {
+      focusNode.textContent = `Suggested starting path: ${focusNeed}. This routing suggestion is based only on one of the least-visible evidence areas you selected and is not a formal assurance recommendation.`;
+    }
+
+    if (scopeLink instanceof HTMLAnchorElement) {
+      scopeLink.href = `/start?need=${encodeURIComponent(focusNeed)}`;
+      scopeLink.textContent = `Build a ${focusNeed} Scope`;
     }
 
     if (domains) {
