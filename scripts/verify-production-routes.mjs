@@ -94,14 +94,38 @@ await retry('homepage security headers', () => expectHeaderIncludes('/', 'conten
 await retry('Cloudflare analytics CSP script allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://static.cloudflareinsights.com'));
 await retry('Cloudflare analytics CSP connection allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://cloudflareinsights.com'));
 await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/image.png', 'cache-control', 'max-age=604800'));
-await retry('stable public scripts revalidate across releases', async () => {
-  const response = await request('/scripts/intake-form.js');
-  if (!response.ok) throw new Error(`expected successful script response, received ${response.status}`);
-  const value = (response.headers.get('cache-control') || '').toLowerCase();
-  for (const required of ['no-cache', 'max-age=0', 'must-revalidate']) {
-    if (!value.includes(required)) throw new Error(`cache-control missing ${required}: ${value || 'missing header'}`);
+await retry('contact page references fingerprinted intake runtime', () =>
+  expectStatus('/contact', 200, '/scripts/intake-form.9c71f918392c.js')
+);
+await retry('proposal page references fingerprinted intake and prefill runtimes', async () => {
+  const response = await request('/request-proposal');
+  if (!response.ok) throw new Error(`expected successful response, received ${response.status}`);
+  const body = await response.text();
+  for (const marker of ['/scripts/intake-form.9c71f918392c.js', '/scripts/proposal-prefill.764102aac31a.js']) {
+    if (!body.includes(marker)) throw new Error(`proposal HTML missing fingerprinted asset: ${marker}`);
   }
 });
+await retry('scope page references fingerprinted runtime', () =>
+  expectStatus('/start', 200, '/scripts/scope-builder.e639faf0074d.js')
+);
+await retry('readiness page references fingerprinted runtime', () =>
+  expectStatus('/readiness-check', 200, '/scripts/readiness-check.1057d906c68b.js')
+);
+await retry('fingerprinted intake runtime is current', () =>
+  expectStatus('/scripts/intake-form.9c71f918392c.js', 200, 'validateSupportedLengths')
+);
+await retry('fingerprinted proposal prefill runtime is current', () =>
+  expectStatus('/scripts/proposal-prefill.764102aac31a.js', 200, "form.dataset.prefillApplied = 'true'")
+);
+await retry('fingerprinted scope runtime has stale-result invalidation', () =>
+  expectStatus('/scripts/scope-builder.e639faf0074d.js', 200, 'invalidateResult')
+);
+await retry('fingerprinted readiness runtime has stale-result invalidation', () =>
+  expectStatus('/scripts/readiness-check.1057d906c68b.js', 200, 'invalidateResult')
+);
+await retry('fingerprinted measurement runtime is deployed', () =>
+  expectStatus('/scripts/site-measurement.11122ffd15b8.js', 200, 'allowedEvents')
+);
 await retry('completed demonstration download', () => expectStatus('/downloads/completed-readiness-demonstration.csv', 200, 'DEMO-001'));
 await retry('readiness matrix download', () => expectStatus('/downloads/readiness-evidence-matrix-template.csv', 200, 'Requirement'));
 await retry('corrective-action register download', () => expectStatus('/downloads/corrective-action-register-template.csv', 200, 'Finding'));
