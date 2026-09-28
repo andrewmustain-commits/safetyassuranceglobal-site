@@ -110,8 +110,15 @@ for (const sourcePath of [
 }
 
 const proposal = pages['/request-proposal'];
-if (!proposal.includes('/scripts/proposal-prefill.js')) failures.push('/request-proposal: scope carry-forward script missing');
+if (!proposal.includes('/scripts/proposal-prefill.764102aac31a.js')) failures.push('/request-proposal: fingerprinted scope carry-forward script missing');
 if (!proposal.includes('data-prefill-status')) failures.push('/request-proposal: persistent scope carry-forward notice missing');
+for (const [html, asset] of [
+  [pages['/start'], '/scripts/scope-builder.e639faf0074d.js'],
+  [pages['/readiness-check'], '/scripts/readiness-check.1057d906c68b.js'],
+  [pages['/request-proposal'], '/scripts/intake-form.9c71f918392c.js']
+]) {
+  if (!html.includes(asset)) failures.push(`fingerprinted release asset reference missing: ${asset}`);
+}
 
 const prefillRuntime = fs.readFileSync('public/scripts/proposal-prefill.js', 'utf8');
 for (const marker of [
