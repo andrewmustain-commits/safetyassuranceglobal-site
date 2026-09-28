@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const tools = [
+  { title: 'Readiness Snapshot', copy: 'Ten evidence-focused questions that highlight where readiness visibility may need review.', href: '/readiness-check', action: 'Run the snapshot' },
+  { title: 'Start a Scope', copy: 'Turn an operating environment, lifecycle stage, assurance need, desired outcome, and timing into a preliminary engagement path.', href: '/start', action: 'Build a scope' },
+  { title: 'Sample Deliverables', copy: 'Inspect sanitized structures for readiness, findings, inspections, corrective actions, validation, and management reporting.', href: '/sample-deliverables', action: 'See the structures' },
+  { title: 'Service Sheets', copy: 'Review concise buyer-oriented descriptions of scope, evidence, process, deliverables, and expected result.', href: '/service-sheets', action: 'Review service sheets' }
+];
+
+const downloads = [
+  { title: 'Readiness Evidence Matrix', href: '/downloads/readiness-evidence-matrix-template.csv', copy: 'Map requirements to evidence, owner, status, gap, required action, and validation.' },
+  { title: 'Corrective-Action Register', href: '/downloads/corrective-action-register-template.csv', copy: 'Track findings, owners, actions, due dates, closure evidence, verification, and disposition.' },
+  { title: 'Contractor Readiness Checklist', href: '/downloads/contractor-readiness-checklist.csv', copy: 'A generic starting checklist for plans, personnel, controls, equipment, records, interfaces, and open actions.' },
+  { title: 'QA/QC Verification Log', href: '/downloads/qa-qc-verification-log-template.csv', copy: 'Capture criteria, verification evidence, observed condition, nonconformance, action, and follow-up.' }
+];
+---
+
+<BaseLayout title="Customer Resources" description="Practical Safety Assurance Global customer tools, readiness resources, sample deliverables, service sheets, and downloadable assurance templates.">
+  <Container>
+    <HeroSection id="resources-title" badge="Customer Resource Center" title="Useful tools before you ever hire us." image="/images/site-2026/insights-hero.webp" imagePosition="center 50%">
+      <p>Use these tools to clarify the requirement, organize evidence, identify where follow-through may be weak, and understand what a formal assurance engagement could produce.</p>
+      <div class="ui-actions"><Button href="/readiness-check">Run Readiness Snapshot</Button><Button href="/start" variant="secondary">Start a Scope</Button></div>
+    </HeroSection>
+
+    <Section ariaLabelledby="resources-tools-title">
+      <SectionHeader badge="Interactive Tools" id="resources-tools-title" title="Move from uncertainty to a clearer next step." />
+      <div class="grid-two">
+        {tools.map((item) => <Card><h3>{item.title}</h3><p>{item.copy}</p><p><a href={item.href}>{item.action} →</a></p></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="resources-download-title">
+      <SectionHeader badge="Downloadable Templates" id="resources-download-title" title="Simple working files you can adapt to your own process." />
+      <div class="resource-downloads">
+        {downloads.map((item) => <article><div><h3>{item.title}</h3><p>{item.copy}</p></div><a class="ui-button ui-button-secondary" href={item.href} download>Download CSV</a></article>)}
+      </div>
+      <p class="resource-boundary">Templates are generic starting structures. They are not legal advice, regulatory forms, certification evidence, audit conclusions, or substitutes for requirements applicable to your organization, contract, jurisdiction, or operation.</p>
+    </Section>
+
+    <Section ariaLabelledby="resources-next-title">
+      <SectionHeader badge="Need More Than a Template?" id="resources-next-title" title="Convert the tool into a defined assurance engagement." />
+      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/home-hero.webp);--band-position:center 52%">
+        <p>Bring the operating environment, decision point, schedule, evidence available, and desired output. Safety Assurance Global can evaluate whether a readiness review, contractor-assurance review, QA/QC engagement, corrective-action validation, or another defined scope fits the requirement.</p>
+        <div class="ui-actions"><Button href="/start">Start a Scope</Button><Button href="/request-proposal" variant="secondary">Request a Proposal</Button></div>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+.resource-downloads{display:grid;border-top:1px solid rgba(148,163,184,.22)}.resource-downloads article{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:center;padding:1.25rem 0;border-bottom:1px solid rgba(148,163,184,.22)}.resource-downloads h3{margin:0 0 .35rem}.resource-downloads p{margin:0;max-width:75ch}.resource-boundary{max-width:85ch;margin-top:1rem;color:var(--color-text-soft);font-size:.85rem}@media(max-width:680px){.resource-downloads article{grid-template-columns:1fr;align-items:start}.resource-downloads a{justify-self:start}}
+</style>
