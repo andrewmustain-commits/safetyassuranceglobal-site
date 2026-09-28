@@ -36,6 +36,12 @@ const records = [
     disposition: 'Conforming demonstration item'
   }
 ];
+
+const evidenceRecordCount = new Set(
+  records.flatMap((record) =>
+    [record.evidence, record.closure].flatMap((value) => value.match(/DEMO-EV-\d+/g) ?? [])
+  )
+).size;
 ---
 
 <BaseLayout
@@ -62,7 +68,7 @@ const records = [
       <SectionHeader badge="Demonstration Executive Summary" id="demo-summary-title" title="Synthetic pre-mobilization readiness review." />
       <div class="demo-summary">
         <Card><span>Decision point</span><strong>Pre-mobilization readiness review</strong><p>Illustrative only</p></Card>
-        <Card><span>Evidence set</span><strong>9 synthetic records</strong><p>Invented identifiers</p></Card>
+        <Card><span>Evidence set</span><strong>{evidenceRecordCount} synthetic records</strong><p>Invented identifiers</p></Card>
         <Card><span>Initial gaps</span><strong>2 demonstration gaps</strong><p>Both carried to action</p></Card>
         <Card><span>Final disposition</span><strong>2 verified closures</strong><p>Demonstration outcome only</p></Card>
       </div>
