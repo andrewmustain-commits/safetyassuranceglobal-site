@@ -22,6 +22,15 @@ if (!industry) {
 
 const maritimeSlugs = new Set(['shipyards', 'ports-marine-terminals', 'vessel-operators', 'marine-contractors']);
 const isMaritime = maritimeSlugs.has(slug);
+const environmentBySlug: Record<string, string> = {
+  shipyards: 'Shipyard or Vessel Operations',
+  'ports-marine-terminals': 'Maritime or Port Operations',
+  'vessel-operators': 'Shipyard or Vessel Operations',
+  'marine-contractors': 'Maritime or Port Operations',
+  government: 'Government or Public Infrastructure',
+  'critical-infrastructure': 'Critical Infrastructure or Facility'
+};
+const startScopeHref = `/start?environment=${encodeURIComponent(environmentBySlug[slug] ?? 'Other Defined Scope')}`;
 ---
 
 <BaseLayout title={industry.title} description={industry.operatingContext}>
@@ -29,8 +38,8 @@ const isMaritime = maritimeSlugs.has(slug);
     <HeroSection id="industry-title" badge={isMaritime ? 'Primary Maritime Market' : 'Defined Sector Coverage'} title={industry.title}>
       <p>{industry.operatingContext}</p>
       <div class="ui-actions">
-        <Button href={industry.cta.href}>{industry.cta.label}</Button>
-        {isMaritime ? <Button href="/maritime" variant="secondary">Maritime Overview</Button> : <Button href="/industries" variant="secondary">Back to Industries</Button>}
+        <Button href={startScopeHref}>Start a {industry.title} Scope</Button>
+        {isMaritime ? <Button href="/maritime" variant="secondary">Maritime Overview</Button> : <Button href="/proof" variant="secondary">Review Evidence & Deliverables</Button>}
       </div>
     </HeroSection>
 
@@ -89,6 +98,14 @@ const isMaritime = maritimeSlugs.has(slug);
       <Card><p>{industry.decisionSupport}</p></Card>
     </Section>
 
+    <Section ariaLabelledby="industry-example-title">
+      <SectionHeader badge="Buyer Preparation" id="industry-example-title" title="See the assurance structure before defining the final scope." />
+      <div class="grid-two">
+        <Card><h3>Illustrative engagements</h3><p>Review clearly labeled scenarios that show how a buyer problem can translate into evidence review, actions, deliverables, and decision support.</p><p><a href="/engagement-examples">View illustrative engagements →</a></p></Card>
+        <Card><h3>Working resources</h3><p>Use readiness, corrective-action, contractor-assurance, and QA/QC tools to organize the requirement before a commercial conversation.</p><p><a href="/resources">Open customer resources →</a></p></Card>
+      </div>
+    </Section>
+
     <Section ariaLabelledby="industry-boundary-title">
       <SectionHeader badge="Public Claims Boundary" id="industry-boundary-title" title="Industry support is always scope-specific." />
       <Card>
@@ -98,7 +115,7 @@ const isMaritime = maritimeSlugs.has(slug);
 
     <CTASection id="industry-cta-title" badge="Next Step" title="Discuss scope, controls, and assurance priorities.">
       <div class="ui-actions">
-        <Button href={industry.cta.href}>{industry.cta.label}</Button>
+        <Button href={startScopeHref}>Start This Scope</Button>
         <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
     </CTASection>
