@@ -43,6 +43,9 @@ jobs:
       - name: Validate inquiry delivery hardening
         run: npm run validate:inquiry-hardening
 
+      - name: Validate measurement privacy
+        run: npm run validate:measurement-privacy
+
       - name: Static Astro diagnostics
         run: npm run check
 

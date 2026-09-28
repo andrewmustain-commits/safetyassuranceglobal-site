@@ -15,4 +15,6 @@ Conversion surfaces must begin with a buyer requirement, not an unsupported outc
 - Preserve distinct paths for discussion, proposal requests, government procurement, teaming, and the Institute.
 - Do not activate inquiry delivery merely because a conversion surface exists.
 - Do not collect additional personal information without an approved purpose and privacy boundary.
-- Measurement remains event-name-only under the existing allowlist; form or assistant content is never analytics payload.
+- Measurement remains event-name-only under a governed allowlist; form, assistant, scope-builder selections, readiness answers, query values, and other customer content are never analytics payload.
+- Buyer-journey measurement may record only approved event names for page-path views, tool completion, resource downloads, proposal/contact starts and successes, capability-statement downloads, and assistant use.
+- Interactive readiness and scope tools process their substantive selections locally in the browser unless the user explicitly continues into the governed proposal workflow.

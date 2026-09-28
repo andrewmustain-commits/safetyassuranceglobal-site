@@ -42,6 +42,9 @@ jobs:
       - name: Validate Cloudflare inquiry delivery worker
         run: npm run validate:inquiry-delivery
 
+      - name: Validate measurement privacy
+        run: npm run validate:measurement-privacy
+
       - name: Static Astro diagnostics
         run: npm run check
 
