@@ -90,13 +90,16 @@
     return payload;
   };
 
-  const buildFallbackMailto = (payload) => {
+  const buildFallbackSubject = (payload) => {
     const isProposal = payload.formType === 'proposal';
     const rawSubject = isProposal
       ? `Website proposal request — ${payload.organization || payload.name || 'Prospective client'}`
       : `Website inquiry — ${payload.organization || payload.name || 'Prospective client'}`;
-    const subject = rawSubject.slice(0, MAX_FALLBACK_SUBJECT_CHARS);
+    return rawSubject.slice(0, MAX_FALLBACK_SUBJECT_CHARS);
+  };
 
+  const buildFallbackText = (payload) => {
+    const isProposal = payload.formType === 'proposal';
     const fields = isProposal
       ? [
           ['Name', payload.name],
@@ -120,16 +123,50 @@
           ['Operating challenge or need', payload.message]
         ];
 
-    const rawBody = [
+    return [
       'Safety Assurance Global website request',
       '',
       ...fields.map(([label, value]) => `${label}: ${value || ''}`),
       '',
       'Privacy acknowledgement: Yes',
       '',
-      `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please forward to ${SECONDARY_FALLBACK_EMAIL}.`
+      `Primary destination: ${PRIMARY_FALLBACK_EMAIL}`,
+      `Secondary destination: ${SECONDARY_FALLBACK_EMAIL}`
     ].join('\n');
-    return `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(rawBody)}`;
+  };
+
+  const downloadFallbackRequest = (payload) => {
+    const rawBody = buildFallbackText(payload);
+    const blob = new Blob([rawBody], { type: 'text/plain;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = payload.formType === 'proposal'
+      ? 'sag-proposal-request.txt'
+      : 'sag-contact-request.txt';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  };
+
+  const handoffFallbackRequest = (payload, status) => {
+    downloadFallbackRequest(payload);
+    setStatus(
+      status,
+      `Secure delivery is unavailable. Your completed request was downloaded as a text file. Your email app will open next; paste or attach that file to ${PRIMARY_FALLBACK_EMAIL}. If needed, use ${SECONDARY_FALLBACK_EMAIL}.`,
+      'success'
+    );
+
+    const subject = buildFallbackSubject(payload);
+    const shortBody = [
+      'My completed Safety Assurance Global website request was preserved in a downloaded text file.',
+      '',
+      'Please paste or attach that file to this email before sending.',
+      '',
+      `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please send it to ${SECONDARY_FALLBACK_EMAIL}.`
+    ].join('\n');
+    window.location.href = `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shortBody)}`;
   };
 
   const updateCharacterCount = (field) => {
@@ -176,12 +213,7 @@
     }
 
     const payload = toPayload(form);
-    setStatus(
-      status,
-      `Opening your email app to send this request to ${PRIMARY_FALLBACK_EMAIL}. If needed, you can also email ${SECONDARY_FALLBACK_EMAIL}.`,
-      'success'
-    );
-    window.location.href = buildFallbackMailto(payload);
+    handoffFallbackRequest(payload, status);
     return true;
   };
 
@@ -257,7 +289,7 @@
           }
           setStatus(
             status,
-            `Secure online delivery is being configured. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+            `Secure online delivery is being configured. Submit will preserve your completed request in a text file and open an email draft to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
             ''
           );
           return;
@@ -276,7 +308,7 @@
         }
         setStatus(
           status,
-          `Online delivery could not be verified. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+          `Online delivery could not be verified. Submit will preserve your completed request in a text file and open an email draft to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
           ''
         );
       });
@@ -345,8 +377,7 @@
         });
 
         if (!response.ok || !result.ok) {
-          setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
-          window.location.href = buildFallbackMailto(payload);
+          handoffFallbackRequest(payload, status);
           return;
         }
 
@@ -356,8 +387,7 @@
         setStatus(status, 'Submission received. Our team will follow up using your provided contact details.', 'success');
       } catch (_error) {
         const payload = toPayload(form);
-        setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
-        window.location.href = buildFallbackMailto(payload);
+        handoffFallbackRequest(payload, status);
       } finally {
         if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = false;
