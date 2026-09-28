@@ -86,41 +86,41 @@ const schedules = [
       <div class="scope-builder-shell" id="scope-builder" data-scope-builder>
         <form class="scope-builder-form" data-scope-builder-form>
           <div class="scope-builder-grid">
-            <label>
+            <label for="scope-environment">
               <span>1. Operating environment</span>
-              <select name="environment" required>
+              <select id="scope-environment" name="environment" required>
                 <option value="">Select environment</option>
                 {environments.map((item) => <option value={item}>{item}</option>)}
               </select>
             </label>
 
-            <label>
+            <label for="scope-stage">
               <span>2. Where are you in the lifecycle?</span>
-              <select name="stage" required>
+              <select id="scope-stage" name="stage" required>
                 <option value="">Select stage</option>
                 {stages.map((item) => <option value={item}>{item}</option>)}
               </select>
             </label>
 
-            <label>
+            <label for="scope-need">
               <span>3. What needs assurance?</span>
-              <select name="need" required>
+              <select id="scope-need" name="need" required>
                 <option value="">Select need</option>
                 {needs.map((item) => <option value={item}>{item}</option>)}
               </select>
             </label>
 
-            <label>
+            <label for="scope-outcome">
               <span>4. What decision or output do you need?</span>
-              <select name="outcome" required>
+              <select id="scope-outcome" name="outcome" required>
                 <option value="">Select outcome</option>
                 {outcomes.map((item) => <option value={item}>{item}</option>)}
               </select>
             </label>
 
-            <label class="scope-builder-wide">
+            <label class="scope-builder-wide" for="scope-schedule">
               <span>5. When do you need support?</span>
-              <select name="schedule" required>
+              <select id="scope-schedule" name="schedule" required>
                 <option value="">Select timing</option>
                 {schedules.map((item) => <option value={item}>{item}</option>)}
               </select>
