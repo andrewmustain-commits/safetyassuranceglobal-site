@@ -51,6 +51,7 @@ const { categoryName, categorySlug, posts } = Astro.props as CategoryProps;
   title={`${categoryName} Insights`}
   description={`Published insights in the ${categoryName} category.`}
   canonical={`/insights/category/${categorySlug}/`}
+  noIndex={true}
 >
   <Container>
     <HeroSection id="category-title" badge="Category" title={categoryName}>
