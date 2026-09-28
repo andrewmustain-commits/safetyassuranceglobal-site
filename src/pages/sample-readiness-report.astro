@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const status = [
+  ['Readiness criteria', 'Evidence visible', 'Criteria and hold points are defined for this illustrative scope.'],
+  ['Contractor controls', 'Partially visible', 'Two contractor control records require follow-up evidence.'],
+  ['Quality evidence', 'Evidence visible', 'Inspection and acceptance records are available for reviewed work packages.'],
+  ['Corrective actions', 'Material gaps', 'Two actions lack closure evidence and one lacks a verified owner.'],
+  ['Emergency readiness', 'Evidence visible', 'Current plan and drill records are present in this illustrative example.'],
+  ['Leadership visibility', 'Partially visible', 'Priority actions are visible, but aging and closure evidence require tighter reporting.']
+];
+
+const actions = [
+  ['F-01', 'Contractor mobilization evidence incomplete', 'High', 'Contractor Lead', 'Provide missing competency and equipment-readiness records', 'Open'],
+  ['F-02', 'Corrective-action closure evidence not attached', 'Medium', 'Operations Manager', 'Submit closure evidence and verification record', 'Awaiting evidence'],
+  ['F-03', 'Inspection hold-point record inconsistent', 'Medium', 'Quality Lead', 'Reconcile controlled inspection record and acceptance signoff', 'In progress'],
+  ['F-04', 'Emergency interface briefing evidence complete', 'Low', 'HSE Lead', 'No further action in this illustrative example', 'Validated']
+];
+
+const evidence = [
+  ['R-01', 'Approved mobilization plan', 'Reviewed', 'Current controlled revision visible'],
+  ['R-02', 'Contractor competency records', 'Partial', 'Two roles require supporting evidence'],
+  ['R-03', 'Inspection and test plan', 'Reviewed', 'Acceptance criteria visible'],
+  ['R-04', 'Corrective-action register', 'Partial', 'Closure evidence inconsistent'],
+  ['R-05', 'Emergency response plan', 'Reviewed', 'Current plan and drill record visible']
+];
+---
+
+<BaseLayout
+  title="Illustrative Readiness Report"
+  description="A fully illustrative Safety Assurance Global readiness-report example showing how evidence, findings, actions, and decision support can be organized without representing an actual customer or project."
+>
+  <Container class="sample-report-page">
+    <HeroSection
+      id="sample-report-title"
+      badge="Illustrative Work Product"
+      title="See what decision-ready assurance evidence can look like."
+      image="/images/site-2026/capabilities-hero.webp"
+      imagePosition="center 48%"
+    >
+      <p>This demonstration uses invented, generic data solely to show report structure. It is not a customer record, completed engagement, project result, assurance conclusion, certification, or statement of corporate past performance.</p>
+      <div class="ui-actions">
+        <Button href="/start">Build a Scope</Button>
+        <Button href="/proof" variant="secondary">Back to Evidence & Results</Button>
+      </div>
+    </HeroSection>
+
+    <section class="report-cover" aria-labelledby="report-cover-title">
+      <div>
+        <p class="eyebrow">Illustrative readiness review</p>
+        <h2 id="report-cover-title">Demonstration Operating Readiness Report</h2>
+        <p>Reference: DEMO-READINESS-001 · Status: Illustrative only · Decision point: Pre-mobilization review</p>
+      </div>
+      <div class="report-cover-mark">
+        <span>DEMO</span>
+        <strong>Not a customer record</strong>
+      </div>
+    </section>
+
+    <Section ariaLabelledby="executive-view-title">
+      <SectionHeader badge="Executive View" id="executive-view-title" title="The first page should tell leadership where attention is needed." />
+      <div class="report-summary-grid">
+        <Card class="summary-card"><span>Decision context</span><strong>Pre-mobilization readiness</strong><p>Illustrative review of selected controls and evidence before a defined mobilization decision.</p></Card>
+        <Card class="summary-card"><span>Primary concern</span><strong>Closure evidence</strong><p>Several actions remain open because supporting closure evidence is incomplete or not yet verified.</p></Card>
+        <Card class="summary-card"><span>Immediate focus</span><strong>Contractor + action evidence</strong><p>Resolve the missing contractor records and validate open corrective actions before relying on the readiness picture.</p></Card>
+      </div>
+      <p class="report-boundary">This demonstration intentionally avoids a numeric score or go/no-go recommendation. Formal readiness conclusions require a defined scope, applicable criteria, competent review, and actual evidence.</p>
+    </Section>
+
+    <Section ariaLabelledby="status-view-title">
+      <SectionHeader badge="Readiness Visibility" id="status-view-title" title="Show what is visible, partial, or still unresolved." />
+      <div class="status-ledger">
+        {status.map(([area, state, note]) => (
+          <article>
+            <div><span>{area}</span><strong>{state}</strong></div>
+            <p>{note}</p>
+          </article>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="evidence-map-title">
+      <SectionHeader badge="Evidence Map" id="evidence-map-title" title="Connect the requirement to what was actually reviewed." />
+      <div class="table-shell" role="region" aria-label="Illustrative evidence map" tabindex="0">
+        <table>
+          <thead><tr><th>ID</th><th>Evidence item</th><th>Review status</th><th>Illustrative note</th></tr></thead>
+          <tbody>
+            {evidence.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="action-ledger-title">
+      <SectionHeader badge="Finding → Action → Closure" id="action-ledger-title" title="Every finding should stay connected to ownership and closure evidence." />
+      <div class="table-shell" role="region" aria-label="Illustrative corrective-action ledger" tabindex="0">
+        <table>
+          <thead><tr><th>Finding</th><th>Issue</th><th>Priority</th><th>Owner</th><th>Required action</th><th>Status</th></tr></thead>
+          <tbody>
+            {actions.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="decision-brief-title">
+      <SectionHeader badge="Decision Brief" id="decision-brief-title" title="End with what leadership needs to understand—not a wall of observations." />
+      <div class="decision-brief">
+        <div><span>01</span><h3>What is supported</h3><p>Several core planning, quality, and emergency-readiness records are visible in this demonstration.</p></div>
+        <div><span>02</span><h3>What remains unresolved</h3><p>Contractor evidence and corrective-action closure records require additional support before they should be treated as complete.</p></div>
+        <div><span>03</span><h3>What should happen next</h3><p>Obtain the missing evidence, assign unresolved ownership, validate corrective actions, and update the executive view against the agreed decision criteria.</p></div>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="sample-report-next-title">
+      <SectionHeader badge="Use This as a Buyer Preview" id="sample-report-next-title" title="Define the report around your actual decision and evidence." />
+      <Card class="photo-backed-band" style="--band-image:url(/images/site-2026/home-hero.webp);--band-position:center 52%">
+        <p>An actual Safety Assurance Global deliverable would be designed around the contracted scope, applicable requirements, available evidence, customer reporting needs, and agreed acceptance criteria.</p>
+        <div class="ui-actions">
+          <Button href="/start">Start a Scope</Button>
+          <Button href="/sample-deliverables" variant="secondary">Review Other Deliverable Structures</Button>
+        </div>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+.sample-report-page{display:grid;gap:.25rem}.report-cover{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:2rem;align-items:center;margin:1rem 0;padding:clamp(1.3rem,4vw,2.4rem);border:1px solid rgba(214,173,85,.34);border-radius:1.1rem;background:linear-gradient(135deg,rgba(15,23,42,.96),rgba(9,18,31,.9))}.report-cover h2{margin:.25rem 0 .6rem;font-size:clamp(2rem,4vw,3.5rem);line-height:1}.report-cover-mark{justify-self:end;display:grid;gap:.35rem;text-align:right}.report-cover-mark span{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:950;letter-spacing:.06em;color:rgba(214,173,85,.28)}.report-cover-mark strong{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:#f1d493}.report-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.summary-card span{display:block;color:#94a3b8;font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.summary-card strong{display:block;margin:.55rem 0;font-size:1.25rem;color:#fff}.report-boundary{max-width:86ch;margin-top:1rem;color:var(--color-text-soft);font-size:.86rem;line-height:1.65}.status-ledger{display:grid;border-top:1px solid rgba(148,163,184,.24)}.status-ledger article{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:1.5rem;padding:1rem 0;border-bottom:1px solid rgba(148,163,184,.24)}.status-ledger article>div{display:grid;gap:.25rem}.status-ledger span{font-size:.75rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em}.status-ledger strong{font-size:1rem;color:#fff}.status-ledger p{margin:0}.table-shell{overflow:auto;border:1px solid rgba(148,163,184,.22);border-radius:.9rem}.table-shell table{width:100%;border-collapse:collapse;min-width:780px}.table-shell th,.table-shell td{padding:.85rem .9rem;text-align:left;border-bottom:1px solid rgba(148,163,184,.18);vertical-align:top}.table-shell th{background:rgba(15,23,42,.95);color:#f1d493;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.table-shell td{color:#e2e8f0;font-size:.88rem}.decision-brief{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.decision-brief>div{padding:1.15rem;border-top:1px solid rgba(214,173,85,.38)}.decision-brief span{color:#f1d493;font-size:.72rem;font-weight:900;letter-spacing:.1em}.decision-brief h3{margin:.55rem 0}@media(max-width:860px){.report-cover,.status-ledger article{grid-template-columns:1fr}.report-cover-mark{justify-self:start;text-align:left}.report-summary-grid,.decision-brief{grid-template-columns:1fr}}
+</style>
