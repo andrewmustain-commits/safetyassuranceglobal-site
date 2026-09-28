@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const leaders = [
+  {
+    name: 'Andrew Mustain',
+    role: 'CEO / Owner',
+    email: 'andrewmustain@safetyassuranceglobal.com',
+    focus: ['Executive assurance and client engagement', 'Safety, risk, governance, and operational readiness', 'Government and commercial buyer requirements', 'Engagement scope, claims discipline, and decision support'],
+    buyer: 'Executive point of contact for business requirements, assurance scope, strategic relationships, and customer decision needs.'
+  },
+  {
+    name: 'Daniel Owens',
+    role: 'COO / Director of Technical Operations',
+    email: 'danielowens@safetyassuranceglobal.com',
+    focus: ['Technical operations and delivery coordination', 'Operational execution and assurance support', 'Implementation planning and technical interfaces', 'Delivery controls, evidence, and closeout coordination'],
+    buyer: 'Technical-operations point of contact for delivery planning, execution interfaces, and opportunity-specific technical requirements.'
+  }
+];
+---
+
+<BaseLayout title="Leadership" description="Safety Assurance Global leadership contacts and buyer-focused role information for defined assurance, maritime, government, technical-operations, and commercial requirements.">
+  <Container>
+    <HeroSection id="leadership-title" badge="Leadership" title="Know who is accountable for the conversation and the work." image="/images/site-2026/about-hero.webp" imagePosition="center 50%">
+      <p>Safety Assurance Global keeps leadership visible to buyers. Assignment-specific qualifications, resumes, availability, and role fit are verified against the actual requirement before they are represented in a proposal or qualification package.</p>
+      <div class="ui-actions"><Button href="/start">Start a Scope</Button><Button href="/partners" variant="secondary">Prime & Teaming Path</Button></div>
+    </HeroSection>
+
+    <Section ariaLabelledby="leadership-people-title">
+      <SectionHeader badge="Named Leadership" id="leadership-people-title" title="Direct accountability for business and technical conversations." />
+      <div class="leadership-grid">
+        {leaders.map((leader, index) => (
+          <Card class="leadership-card">
+            <span class="leader-index">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{leader.name}</h3>
+            <p class="leader-role">{leader.role}</p>
+            <p>{leader.buyer}</p>
+            <h4>Engagement focus</h4>
+            <ul>{leader.focus.map((item) => <li>{item}</li>)}</ul>
+            <p><a href={'mailto:' + leader.email}>{leader.email}</a></p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="leadership-qualification-title">
+      <SectionHeader badge="Opportunity-Specific Evidence" id="leadership-qualification-title" title="Request the qualifications that matter for the actual scope." />
+      <Card>
+        <p>For a defined opportunity, proposal, subcontract, or assignment, Safety Assurance Global can evaluate which personnel qualifications, resumes, experience records, licenses, certifications, availability evidence, or other role-specific documentation are relevant and supportable. Public role descriptions are not a substitute for that opportunity-specific verification.</p>
+        <div class="ui-actions"><Button href="/request-proposal">Request Qualification Review</Button><Button href="/capabilities" variant="secondary">Review Corporate Capabilities</Button></div>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+.leadership-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.leadership-card{min-height:26rem}.leader-index{display:inline-block;margin-bottom:.7rem;color:var(--color-accent);font-size:.72rem;font-weight:900;letter-spacing:.1em}.leadership-card h3{margin:.1rem 0;font-size:clamp(1.5rem,2.5vw,2rem)}.leader-role{margin:.2rem 0 1rem;color:#f1d493;font-weight:800}.leadership-card h4{margin:1.2rem 0 .5rem}.leadership-card ul{padding-left:1.2rem}@media(max-width:760px){.leadership-grid{grid-template-columns:1fr}}
+</style>

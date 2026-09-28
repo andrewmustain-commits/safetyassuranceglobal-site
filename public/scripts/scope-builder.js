@@ -53,6 +53,20 @@
     }
   };
 
+  const applyPrefill = (name, param) => {
+    const value = new URLSearchParams(window.location.search).get(param);
+    const field = form.elements.namedItem(name);
+    if (!(field instanceof HTMLSelectElement) || !value) return;
+    const allowed = [...field.options].some((option) => option.value === value);
+    if (allowed) field.value = value;
+  };
+
+  applyPrefill('environment', 'environment');
+  applyPrefill('stage', 'stage');
+  applyPrefill('need', 'need');
+  applyPrefill('outcome', 'outcome');
+  applyPrefill('schedule', 'schedule');
+
   const text = (selector, value) => {
     const node = result.querySelector(selector);
     if (node) node.textContent = value;
