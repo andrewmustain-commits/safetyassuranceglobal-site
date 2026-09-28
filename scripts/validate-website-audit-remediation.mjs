@@ -50,6 +50,13 @@ for (const marker of ['message: 3_000', 'briefScope: 3_000', 'procurementContext
   requireText(server, marker, `F04: server/client long-text contract missing: ${marker}`);
 }
 
+for (const marker of ['buildFallbackText', 'downloadFallbackRequest', 'new Blob([rawBody]', 'handoffFallbackRequest', 'sag-proposal-request.txt']) {
+  requireText(intake, marker, `F04: full-request fallback preservation missing: ${marker}`);
+}
+if (intake.includes('buildFallbackMailto') || intake.includes('body=${encodeURIComponent(rawBody)}')) {
+  failures.push('F04: fallback still attempts to place the full buyer request in a mailto URI.');
+}
+
 requireText(headers, 'https://static.cloudflareinsights.com', 'F05: CSP does not allow Cloudflare analytics script.');
 requireText(headers, 'https://cloudflareinsights.com', 'F05: CSP does not allow Cloudflare analytics collection.');
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'navigator.sendBeacon', 'localStorage', 'sessionStorage']) {
@@ -63,6 +70,11 @@ if (sealSize > 100_000) failures.push(`F06: production seal exceeds 100 KB budge
 for (const marker of ['Synthetic Demonstration', 'Observed condition', 'Supporting evidence', 'Corrective action', 'Closure evidence', 'Disposition']) {
   requireText(completed, marker, `F07: completed synthetic example missing: ${marker}`);
 }
+const completedEvidenceIds = new Set(completed.match(/DEMO-EV-\d+/g) ?? []);
+if (completedEvidenceIds.size !== 11) failures.push(`F07: completed example currently exposes ${completedEvidenceIds.size} distinct evidence IDs; expected 11.`);
+requireText(completed, 'const evidenceRecordCount = new Set(', 'F07: evidence-set count is not derived from the referenced synthetic evidence IDs.');
+requireText(completed, '<strong>{evidenceRecordCount} synthetic records</strong>', 'F07: buyer-facing evidence count is not bound to the derived synthetic record count.');
+if (/<strong>\d+ synthetic records<\/strong>/.test(completed)) failures.push('F07: buyer-facing synthetic evidence count is hard-coded and can drift from referenced IDs.');
 requireText(proof, 'href="/completed-example"', 'F07: Proof Center does not expose completed example in one click.');
 
 if (!(contactPage.indexOf('<ContactInquiryForm />') < contactPage.indexOf('contact-paths-title'))) {
