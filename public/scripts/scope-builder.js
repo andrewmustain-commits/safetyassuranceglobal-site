@@ -5,7 +5,10 @@
   const form = root.querySelector('[data-scope-builder-form]');
   const result = root.querySelector('[data-scope-result]');
   const staleStatus = root.querySelector('[data-scope-stale-status]');
+  const downloadButton = root.querySelector('[data-scope-download]');
   if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
+
+  let activeBrief = null;
 
   const recommendations = {
     'Operational Readiness': {
@@ -73,7 +76,39 @@
     if (node) node.textContent = value;
   };
 
+  const downloadTextFile = (filename, body) => {
+    const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  };
+
+  const buildScopeBriefText = (brief) => [
+    'Safety Assurance Global — Preliminary Scope Brief',
+    '',
+    'Generated locally from the selection-only Start a Scope tool.',
+    '',
+    `Recommended starting point: ${brief.title}`,
+    `Operating environment: ${brief.environment}`,
+    `Lifecycle stage: ${brief.stage}`,
+    `Primary need: ${brief.need}`,
+    `Decision / output: ${brief.outcome}`,
+    `Timing: ${brief.schedule}`,
+    '',
+    'Typical outputs to discuss:',
+    ...brief.outputs.map((item) => `- ${item}`),
+    '',
+    'Boundary:',
+    'This preliminary brief is an informational routing aid, not an assurance conclusion, proposal, availability commitment, qualification decision, regulatory determination, or fixed scope. Final work is defined against the actual requirement and evidence.'
+  ].join('\n');
+
   const invalidateResult = (message = 'Your selections changed. Build the preliminary scope again before continuing.') => {
+    activeBrief = null;
     if (result.hidden) return;
     result.hidden = true;
     const proposal = result.querySelector('[data-scope-proposal-link]');
@@ -112,6 +147,16 @@
       outputs: ['Defined scope', 'Evidence requirements', 'Gap/action structure', 'Reporting expectations']
     };
 
+    activeBrief = {
+      title: recommendation.title,
+      environment,
+      stage,
+      need,
+      outcome,
+      schedule,
+      outputs: [...recommendation.outputs]
+    };
+
     text('[data-result-title]', recommendation.title);
     text('[data-result-summary]', `A practical starting point is ${recommendation.title}. Safety Assurance Global would confirm the actual requirement, acceptance criteria, evidence, jurisdiction, resources, and schedule before proposing work.`);
     text('[data-result-environment]', environment);
@@ -140,9 +185,18 @@
     result.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   });
 
+  if (downloadButton instanceof HTMLButtonElement) {
+    downloadButton.addEventListener('click', () => {
+      if (!activeBrief || result.hidden) return;
+      downloadTextFile('safety-assurance-global-preliminary-scope.txt', buildScopeBriefText(activeBrief));
+      window.dispatchEvent(new CustomEvent('sag:site-event', { detail: { name: 'resource_download' } }));
+    });
+  }
+
   form.addEventListener('change', () => invalidateResult());
 
   form.addEventListener('reset', () => {
+    activeBrief = null;
     result.hidden = true;
     if (staleStatus) staleStatus.textContent = '';
   });
