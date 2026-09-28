@@ -121,6 +121,16 @@ requireText(training, 'Current Buyer Path', 'F15: training page lacks plain curr
 // Final re-audit R01 — stable public scripts must revalidate on every navigation/release.
 requireText(headers, '/scripts/*', 'R01: stable first-party script cache policy is missing.');
 requireText(headers, 'Cache-Control: no-cache, max-age=0, must-revalidate', 'R01: stable first-party scripts can remain fresh across releases without revalidation.');
+for (const [source, markerText, label] of [
+  [contact, '/scripts/intake-form.js?v=20260928-final', 'contact intake'],
+  [proposal, '/scripts/intake-form.js?v=20260928-final', 'proposal intake'],
+  [proposal, '/scripts/proposal-prefill.js?v=20260928-final', 'proposal prefill'],
+  [startPage, '/scripts/scope-builder.js?v=20260928-final', 'scope builder'],
+  [readinessPage, '/scripts/readiness-check.js?v=20260928-final', 'readiness snapshot'],
+  [layout, '/scripts/site-measurement.js?v=20260928-final', 'site measurement']
+]) {
+  requireText(source, markerText, `R01: ${label} HTML reference is not release-versioned.`);
+}
 
 // Final re-audit R02 — changed inputs must invalidate prior interactive results.
 for (const [source, label, statusMarker] of [
