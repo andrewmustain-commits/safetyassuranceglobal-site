@@ -22,6 +22,7 @@ const requiredRoutes = [
   '/',
   '/start',
   '/proof',
+  '/completed-example',
   '/resources',
   '/readiness-check',
   '/partners',
@@ -50,9 +51,9 @@ const requireLinkPrefix = (route, hrefPrefix) => {
 };
 
 for (const href of ['/start', '/proof', '/resources', '/readiness-check']) requireLink('/', href);
-for (const href of ['/sample-deliverables', '/service-sheets', '/method', '/capabilities', '/engagement-examples', '/leadership']) requireLink('/proof', href);
+for (const href of ['/completed-example', '/sample-deliverables', '/service-sheets', '/method', '/capabilities', '/engagement-examples', '/leadership']) requireLink('/proof', href);
 for (const href of ['/partners', '/resources', '/capabilities']) requireLink('/government', href);
-for (const href of ['/readiness-check', '/start', '/sample-deliverables', '/service-sheets', '/request-proposal']) requireLink('/resources', href);
+for (const href of ['/completed-example', '/readiness-check', '/start', '/sample-deliverables', '/service-sheets', '/request-proposal']) requireLink('/resources', href);
 for (const href of ['/start', '/proof']) requireLink('/engagement-examples', href);
 for (const href of ['/start', '/partners', '/request-proposal', '/capabilities']) requireLink('/leadership', href);
 for (const href of ['/proof']) requireLink('/partners', href);
