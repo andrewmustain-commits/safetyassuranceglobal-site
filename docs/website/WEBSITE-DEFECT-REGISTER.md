@@ -1,7 +1,8 @@
 # WEBSITE-DEFECT-REGISTER
 
-Date: 2026-07-26
-Phase: 2 integration + preview gate
+Date: 2026-09-27  
+Phase: Operational Authority / production maintenance  
+Posture: Stability, Security, Truth
 
 Severity scale:
 - P0 Critical
@@ -9,43 +10,72 @@ Severity scale:
 - P2 Medium
 - P3 Low
 
-## Defect Register
+## Current Open / Held Defects
 
-| Defect ID | Severity | Route or Component | Description | Business Impact | Required Correction | Verification Method | Disposition |
-|---|---|---|---|---|---|---|---|
-| WEB-DEF-001 | P0 Critical | `/blog/infrastructure-of-integrity-risk-governance` | Article contains numerous unsupported/high-risk public claims (status, capability, operational availability, proprietary frameworks, federal-facing positioning) that are not substantiated in this repo evidence set. | Legal, credibility, and commercial risk; elevated risk of public misrepresentation. | Rewrite article to substantiated public-safe claims only; remove or qualify unverified statements; require executive/legal signoff. | Claims-by-claims evidence review against approved source package. | Hold |
-| WEB-DEF-002 | P1 High | `/`, `/command`, shared home components | Positioning language emphasizes "command center" and product-like narratives over independent assurance consulting position required for phase target. | Market confusion and lower message clarity for consulting buyers. | Rewrite core narrative to "Independent Assurance for Maritime and Critical Infrastructure". | Executive content review + copy QA against positioning standard. | Rewrite |
-| WEB-DEF-003 | P1 High | `/academy`, `/training`, `/services`, `/command` | Public website messaging over-couples consulting site with Academy/Command as if integrated runtime systems. | Blurs system boundary and increases expectation risk for unavailable offerings. | Add boundary-safe language and reduce cross-system dependency framing. | Content policy QA against system-boundary checklist. | Rewrite |
-| WEB-DEF-004 | P1 High | `/command` | Route communicates platform capability set and demonstration CTAs without public evidence package of availability/scope/version. | Potential unsupported product availability claims. | Reframe as method/approach page or hold until substantiation package exists. | Evidence checklist + executive confirmation. | Hold |
-| WEB-DEF-005 | P1 High | `/industries` | Government/federal support messaging appears without public substantiation artifacts in repo. | Procurement credibility and compliance risk. | Qualify statements and add proof-governed language pending confirmation package. | Claims register closure for government-related claims. | Rewrite |
-| WEB-DEF-006 | P1 High | Global IA | Current route architecture lacks most of the approved target IA sections (maritime, government, service/industry children, insights taxonomy, request-proposal). | Limits conversion pathways, discoverability, and execution sequencing for phase rollout. | Implement proposed IA in phased rollout with consolidation/redirect controls. | Route acceptance checklist in Phase 2+ implementation. | Rewrite |
-| WEB-DEF-007 | P1 High | `/contact`, `/request-proposal`, shared lead form | Forms are frontend-only placeholders with no approved backend integration; submissions are intentionally non-operational. | Lead capture is non-operational for production and can block conversion if misrepresented. | Implement approved backend form workflow, preserve truthful non-success behavior until live, and complete operational verification. | End-to-end submission verification in preview/prod with approved data-handling path. | Rewrite |
-| WEB-DEF-008 | P2 Medium | `/terms` and `/terms-of-use` | Duplicate legal intent split across two routes; one is thin. | Legal ambiguity and SEO duplication. | Consolidate legal terms into one canonical endpoint and redirect legacy route. | Route response and canonical checks post-redirect. | Redirect |
-| WEB-DEF-009 | P2 Medium | Site routing / Cloudflare serving behavior | Custom 404 source route exists, but hosted unknown-route behavior currently resolves as 200/home fallback instead of explicit not-found response. | Users and crawlers can receive ambiguous not-found behavior; SEO and UX quality risk. | Verify and correct edge/platform handling so unknown routes return the intended custom 404 experience and status behavior. | Hosted route test matrix including intentional nonexistent paths. | Rewrite |
-| WEB-DEF-010 | P2 Medium | Site syndication | No `rss.xml` route found. | Missed content syndication/distribution channel. | Add RSS output for insights/blog collection. | Validate generated `rss.xml` in build output. | Rewrite |
-| WEB-DEF-011 | P2 Medium | Redirect behavior (`/blog`, `/terms`, `/academy`) | Repository `_redirects` is now present, but hosted behavior currently returns slash-normalization redirects rather than required IA redirects (`/blog` -> `/insights`, `/terms` -> `/terms-of-use`, `/academy` -> `/training`). | Legacy-route migration intent is not yet realized in hosted behavior; routing inconsistency risk persists. | Validate Cloudflare redirect rule application for this repo and environment; enforce required redirect targets. | Hosted redirect matrix against preview and merged commit. | Rewrite |
-| WEB-DEF-012 | P2 Medium | Deployment config | No repository-level `_headers` file with explicit security/cache headers baseline. | Inconsistent edge behavior and harder security hardening. | Add Cloudflare-compatible headers baseline. | Header validation in preview/prod response checks. | Rewrite |
-| WEB-DEF-013 | P2 Medium | `.github/workflows/build-validation.yml` | Workflow uses Node 24 while project baseline calls for Node 22.12.0 compatibility control. | CI drift risk vs production runtime baseline. | Align CI runtime to supported Node 22 baseline. | CI run with pinned Node 22.x. | Rewrite |
-| WEB-DEF-014 | P2 Medium | `src/content.config.ts` | Astro check reports 12 deprecation hints for `z` import usage in content schema definitions. | Future upgrade friction and avoidable technical debt. | Migrate to supported schema API per Astro guidance. | `npm run check` hints reduced/cleared for content schema. | Rewrite |
-| WEB-DEF-015 | P2 Medium | `src/content/blog/infrastructure-of-integrity-risk-governance.md` | External third-party CDN-hosted images are embedded in public content body. | External dependency risk for availability/trust/control. | Replace with governed first-party hosted assets in `public/`. | Build output asset-link validation and content review. | Rewrite |
-| WEB-DEF-016 | P2 Medium | Structured data implementation | Structured data appears in layout and inline markdown; no centralized utility or policy guard. | Inconsistent metadata quality and change-control risk. | Implement centralized structured-data helper and publication checks. | Schema validation and linting in CI pipeline. | Rewrite |
-| WEB-DEF-017 | P3 Low | `src/components/ui/Container.astro` | Unused `Props` interface hint in check output. | Low-risk code hygiene issue. | Remove unused type or use it explicitly. | `npm run check` hint review. | Retain |
-| WEB-DEF-018 | P2 Medium | Production dependencies (`astro`) | `npm audit --omit=dev` reports direct moderate vulnerabilities on `astro` (GHSA-4g3v-8h47-v7g6, GHSA-8mv7-9c27-98vc, GHSA-cqv2-6xg8-jjv8). Classification: production, direct. | Public-site runtime dependency risk until patched release is adopted. | Upgrade `astro` to non-vulnerable release and re-run audit gate. | `npm audit --omit=dev` returns zero findings for `astro`. | Rewrite |
-| WEB-DEF-019 | P1 High | Production dependencies (`postcss`) | `npm audit --omit=dev` reports transitive high vulnerability on `postcss` (GHSA-7fh5-64p2-3v2j, `<=8.5.17`). Classification: production, transitive. | Potential CSS processing security exposure in runtime dependency chain. | Upgrade parent dependency set to pull patched `postcss`. | `npm audit --omit=dev` clears `postcss` path. | Rewrite |
-| WEB-DEF-020 | P1 High | Production dependencies (`svgo`) | `npm audit --omit=dev` reports transitive high vulnerability on `svgo` (GHSA-cf4h-3jhx-xvhq, `>=4.0.0 <4.0.2`). Classification: production, transitive. | SVG optimization chain risk in production dependency graph. | Upgrade dependency chain to patched `svgo` release. | `npm audit --omit=dev` clears `svgo` path. | Rewrite |
-| WEB-DEF-021 | P1 High | Development dependencies (`fast-uri`) | Full `npm audit` reports transitive high vulnerability on `fast-uri` (GHSA-4f7p-27jc-3c36, `>=3.0.0 <=3.1.3`). Classification: development-only, transitive. | Developer toolchain exposure and CI dependency risk. | Upgrade dependent tooling to consume patched `fast-uri`. | Full `npm audit` clears `fast-uri` path. | Rewrite |
-| WEB-DEF-022 | P2 Medium | Development dependencies (`@astrojs/language-server`) | Full `npm audit` reports transitive moderate vulnerability path via `@astrojs/language-server` -> `volar-service-yaml` -> `yaml-language-server`. Classification: development-only, transitive. | Editor/CI tooling hygiene debt and potential future support friction. | Upgrade Astro language tooling stack to patched versions. | Full `npm audit` clears language-server vulnerability chain. | Rewrite |
-| WEB-DEF-023 | P2 Medium | Development dependencies (`volar-service-yaml`) | Full `npm audit` reports transitive moderate vulnerability path through `volar-service-yaml` dependency chain. Classification: development-only, transitive. | Ongoing security debt in YAML language tooling path. | Upgrade or replace affected YAML language tooling dependency chain. | Full `npm audit` clears `volar-service-yaml` finding. | Rewrite |
-| WEB-DEF-024 | P2 Medium | Development dependencies (`yaml-language-server`) | Full `npm audit` reports transitive moderate vulnerability path in `yaml-language-server` via `yaml`. Classification: development-only, transitive. | Toolchain maintenance and security posture degradation if left unresolved. | Upgrade to patched `yaml-language-server` and compatible dependents. | Full `npm audit` clears `yaml-language-server` finding. | Rewrite |
-| WEB-DEF-025 | P2 Medium | Development dependencies (`yaml`) | Full `npm audit` reports transitive moderate vulnerability on `yaml` (`>=2.0.0 <2.8.3`). Classification: development-only, transitive. | Shared parser package risk within local tooling chain. | Upgrade dependency graph to patched `yaml` release (`>=2.8.3`). | Full `npm audit` clears `yaml` finding. | Rewrite |
-| WEB-DEF-026 | P1 High | Anti-spam control on public forms | Cloudflare Turnstile is not integrated on public inquiry/proposal forms; current control is honeypot-only. | Elevated spam/abuse risk and control-gap vs expected Cloudflare-grade protection. | Integrate and validate Cloudflare Turnstile (or approved equivalent) for public forms. | Hosted form abuse-control validation in preview before production approval. | Rewrite |
-| WEB-DEF-027 | P1 High | CTA and form analytics | CTA and form analytics instrumentation is not implemented in the current public-site release. | No reliable funnel measurement for consultation/proposal conversion and UX optimization. | Add approved analytics instrumentation for CTA clicks and form interaction events. | Analytics event verification in preview and post-merge telemetry check. | Rewrite |
-| WEB-DEF-028 | P2 Medium | Sitemap generation/validation | Local build output does not generate sitemap artifacts; hosted sitemap endpoints require explicit validation to ensure canonical route coverage. | Search discovery/crawl reliability risk and weak SEO verification confidence. | Add explicit sitemap generation and validate canonical route inclusion. | Verify sitemap artifact in build output and hosted XML endpoint content. | Rewrite |
-| WEB-DEF-029 | P0 Critical | Hosted content-control boundary (`/blog/infrastructure-of-integrity-risk-governance`) | Hosted route probing indicates legacy high-risk claims article remains publicly reachable via blog route, while local governed build suppresses it from approved insights publication. | Public claims-control breach risk until hosted state aligns with governed content controls. | Ensure deployment state and route policy remove or safely gate unsupported-claims article from public access. | Hosted URL verification against merged commit and claims register disposition. | Hold |
+| Defect ID | Severity | Route or Component | Current Condition | Control / Mitigation | Required Closure Evidence | Disposition |
+|---|---|---|---|---|---|---|
+| WEB-DEF-007 | P1 High | `/contact`, `/request-proposal`, inquiry delivery Worker | Application, Turnstile, Service Binding, Worker deployment, runtime readiness, negative-path checks, and fallback behavior are qualified. The first real Contact positive-path test reached delivery but Cloudflare Email Sending is not enabled on the account because it requires the Workers Paid entitlement. The browser correctly opened the email fallback instead of reporting false success. | Turnstile remains active; server delivery fails closed; prefilled email fallback remains available; Issue #58 remains open. | Enable Cloudflare Email Sending or approve another server-side transport, then complete and independently verify one live Contact and one live Proposal delivery to the approved mailbox. | **HOLD — EXTERNAL ACCOUNT/BILLING GATE** |
 
-## Severity Totals
+## Resolved / Superseded Defects
 
-- P0 Critical: 2
-- P1 High: 11
-- P2 Medium: 15
-- P3 Low: 1
+| Defect ID | Former Severity | Former Concern | Current Evidence / Resolution | Disposition |
+|---|---|---|---|---|
+| WEB-DEF-001 | P0 | Unsupported high-risk legacy article | Article is held at `claims-review`, excluded from approved listings, and the legacy hosted route redirects to `/insights`. Claims governance validation is enforced in CI. | Resolved |
+| WEB-DEF-002 | P1 | Product-like “command center” positioning | Public narrative was rebuilt around independent assurance, operational readiness, evidence, and executive decision support. | Resolved |
+| WEB-DEF-003 | P1 | Corporate / Institute / Command boundary confusion | Public claims and cross-system boundaries are governed; Institute remains a separate authority surface and corporate pages do not imply unavailable authority. | Resolved |
+| WEB-DEF-004 | P1 | Unsupported Command capability claims | Legacy `/command` redirects to governed `/sag-command`; current page language is subject to public-claims validation. | Resolved |
+| WEB-DEF-005 | P1 | Government/federal messaging substantiation | Government and public-sector claims are governed by the public-claims validator and controlled evidence language. | Resolved |
+| WEB-DEF-006 | P1 | Incomplete information architecture | Maritime, Government, Capabilities, Industries, Services, Insights, Contact, Proposal, Institute gateway, and supporting routes are implemented and route-validated. | Resolved |
+| WEB-DEF-008 | P2 | Duplicate Terms routes | `/terms` and `/terms/` redirect to canonical `/terms-of-use`. | Resolved |
+| WEB-DEF-009 | P2 | Hosted unknown routes returned an ambiguous success page | Production smoke verification requires an unknown route to return HTTP 404. | Resolved |
+| WEB-DEF-010 | P2 | Missing RSS | `src/pages/rss.xml.ts` generates the governed Insights feed and the layout advertises `/rss.xml`. | Resolved |
+| WEB-DEF-011 | P2 | Legacy redirect behavior | Production verification covers governed redirects including blog, terms, academy, command, and security aliases. | Resolved |
+| WEB-DEF-012 | P2 | Missing edge security/cache headers | `public/_headers` defines CSP, HSTS, frame protection, permissions policy, referrer policy, MIME protection, and asset cache controls; production verifies key headers. | Resolved |
+| WEB-DEF-013 | P2 | Node runtime drift | Current qualified CI/deploy baseline uses Node 24 while the package engine remains compatible from Node 22.12 upward. Node 24 is the accepted operational baseline. | Superseded by qualified baseline |
+| WEB-DEF-014 | P2 | Astro content-schema deprecation hints | Current `astro check` no longer reports the former content-schema deprecation set. | Resolved |
+| WEB-DEF-015 | P2 | External images in held legacy article | The held article now contains only the controlled claims-review notice and is not publicly published; legacy URL redirects away from it. | Resolved |
+| WEB-DEF-016 | P2 | Structured-data inconsistency | Structured data is centralized through the site layout and checked by dedicated CI validation. | Resolved |
+| WEB-DEF-017 | P3 | Container Props hygiene | `Container.astro` actively types `Astro.props` with its `Props` interface. The separate unused homepage `Card` import identified during current maintenance is removed in this cleanup. | Resolved |
+| WEB-DEF-018 | P2 | Astro production dependency advisories | Dependency maintenance and audit gates cleared the former Astro findings. | Resolved |
+| WEB-DEF-019 | P1 | PostCSS advisory | Current dependency audit no longer reports the former PostCSS finding. | Resolved |
+| WEB-DEF-020 | P1 | SVGO advisory | Current dependency audit no longer reports the former SVGO finding. | Resolved |
+| WEB-DEF-021 | P1 | fast-uri development advisory | Current dependency audit no longer reports the former fast-uri finding. | Resolved |
+| WEB-DEF-022 | P2 | Astro language-server advisory chain | Current dependency audit no longer reports the former language-server finding. | Resolved |
+| WEB-DEF-023 | P2 | volar-service-yaml advisory | Current dependency audit no longer reports the former Volar YAML finding. | Resolved |
+| WEB-DEF-024 | P2 | yaml-language-server advisory | Current dependency audit no longer reports the former YAML language-server finding. | Resolved |
+| WEB-DEF-025 | P2 | yaml advisory | Current dependency audit no longer reports the former YAML finding. | Resolved |
+| WEB-DEF-026 | P1 | Honeypot-only anti-spam control | Production Turnstile is active. Missing and invalid tokens are rejected in production before delivery. | Resolved |
+| WEB-DEF-027 | P1 | Missing CTA/form measurement | Privacy-safe allowlisted measurement events are implemented without collecting form or assistant content. | Resolved |
+| WEB-DEF-028 | P2 | Sitemap generation/verification | Sitemap artifacts are generated and validated in build and production workflows. | Resolved |
+| WEB-DEF-029 | P0 | Hosted claims-control breach on legacy article | Production redirect and route verification prevent the legacy high-risk article from being served as an approved public article. | Resolved |
+
+## Current Security / Quality Gate
+
+The production workflow currently enforces:
+
+- deterministic dependency installation;
+- dependency audit;
+- blog/frontmatter governance;
+- brand asset validation;
+- Turnstile and inquiry-delivery validation;
+- static Astro diagnostics;
+- production build;
+- link validation;
+- structured-data validation;
+- head metadata validation;
+- publication-route validation;
+- sitemap validation;
+- public UX validation;
+- CodeQL;
+- Cloudflare Pages production deployment and hosted-route smoke verification;
+- post-deployment Lighthouse monitoring.
+
+As part of the 2026-09-27 maintenance cleanup, dependency audit enforcement is tightened from **high** to **moderate** severity because the dependency graph has been returned to zero known npm audit findings.
+
+## Current Disposition Summary
+
+- P0 open: **0**
+- P1 open/held: **1** — WEB-DEF-007, external Cloudflare Email Sending entitlement / positive-path delivery acceptance
+- P2 open: **0**
+- P3 open: **0**
+- Institute OS draft work remains outside this corporate-site defect register and stays governed by its own fail-closed authority gates.
