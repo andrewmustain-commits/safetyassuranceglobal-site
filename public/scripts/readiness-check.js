@@ -2,7 +2,10 @@
   const form = document.querySelector('[data-readiness-assessment]');
   const result = document.querySelector('[data-readiness-result]');
   const staleStatus = document.querySelector('[data-readiness-stale-status]');
+  const downloadButton = document.querySelector('[data-readiness-download]');
   if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
+
+  let activeSnapshot = null;
 
   const labels = {
     requirements: 'Requirements',
@@ -37,7 +40,37 @@
     return 'Not yet verified';
   };
 
+  const downloadTextFile = (filename, body) => {
+    const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  };
+
+  const buildSnapshotText = (snapshot) => [
+    'Safety Assurance Global — Preliminary Readiness Snapshot',
+    '',
+    'Generated locally from the browser-based readiness tool.',
+    '',
+    snapshot.title,
+    snapshot.summary,
+    '',
+    'Evidence visibility by domain:',
+    ...snapshot.domains.map((item) => `- ${item.label}: ${item.state}`),
+    '',
+    snapshot.focus,
+    '',
+    'Boundary:',
+    'This is an informational self-assessment, not an audit, certification, assurance opinion, compliance determination, regulatory finding, or go/no-go decision. A formal conclusion requires a defined scope and review of actual evidence.'
+  ].join('\n');
+
   const invalidateResult = (message = 'Your answers changed. Recompute the snapshot before using the result or continuing to scope.') => {
+    activeSnapshot = null;
     if (result.hidden) return;
     result.hidden = true;
     const scopeLink = result.querySelector('[data-readiness-scope-link]');
@@ -99,6 +132,17 @@
       focusNode.textContent = `Suggested starting path: ${focusNeed}. This routing suggestion is based only on one of the least-visible evidence areas you selected and is not a formal assurance recommendation.`;
     }
 
+    activeSnapshot = {
+      title,
+      summary: summary + ' Pattern: ' +
+        counts.visible + ' evidence visible, ' +
+        counts.partial + ' partially visible, ' +
+        counts.gaps + ' material gaps, ' +
+        counts.unknown + ' not yet verified.',
+      domains: entries.map(([key, value]) => ({ label: labels[key], state: state(value) })),
+      focus: `Suggested starting path: ${focusNeed}. This routing suggestion is based only on one of the least-visible evidence areas you selected and is not a formal assurance recommendation.`
+    };
+
     if (scopeLink instanceof HTMLAnchorElement) {
       scopeLink.href = `/start?need=${encodeURIComponent(focusNeed)}`;
       scopeLink.textContent = `Build a ${focusNeed} Scope`;
@@ -125,9 +169,18 @@
     });
   });
 
+  if (downloadButton instanceof HTMLButtonElement) {
+    downloadButton.addEventListener('click', () => {
+      if (!activeSnapshot || result.hidden) return;
+      downloadTextFile('safety-assurance-global-readiness-snapshot.txt', buildSnapshotText(activeSnapshot));
+      window.dispatchEvent(new CustomEvent('sag:site-event', { detail: { name: 'resource_download' } }));
+    });
+  }
+
   form.addEventListener('change', () => invalidateResult());
 
   form.addEventListener('reset', () => {
+    activeSnapshot = null;
     result.hidden = true;
     if (staleStatus) staleStatus.textContent = '';
   });
