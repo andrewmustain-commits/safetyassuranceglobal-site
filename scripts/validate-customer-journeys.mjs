@@ -60,7 +60,7 @@ for (const href of ['/proof']) requireLink('/partners', href);
 requireLinkPrefix('/partners', '/request-proposal?');
 
 const start = pages['/start'];
-for (const marker of ['data-scope-builder', 'Build Preliminary Scope', 'Continue to Proposal Request']) {
+for (const marker of ['data-scope-builder', 'Build Preliminary Scope', 'Continue to Proposal Request', 'data-scope-download', 'Download Scope Brief']) {
   if (!start.includes(marker)) failures.push(`/start: missing governed scope-builder marker: ${marker}`);
 }
 if (/<input\b|<textarea\b/i.test(start)) {
@@ -71,19 +71,19 @@ const scopeRuntime = fs.readFileSync('public/scripts/scope-builder.js', 'utf8');
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
   if (scopeRuntime.includes(forbidden)) failures.push(`scope builder contains forbidden persistence/network behavior: ${forbidden}`);
 }
-for (const marker of ['invalidateResult', "form.addEventListener('change'", "window.addEventListener('pageshow'"]) {
+for (const marker of ['invalidateResult', "form.addEventListener('change'", "window.addEventListener('pageshow'", 'buildScopeBriefText', 'downloadTextFile', 'safety-assurance-global-preliminary-scope.txt', "name: 'resource_download'"]) {
   if (!scopeRuntime.includes(marker)) failures.push(`scope builder stale-result control missing: ${marker}`);
 }
 if (!start.includes('data-scope-stale-status')) failures.push('/start: accessible stale-result status region missing');
 if ((start.match(/Not Sure Yet/g) ?? []).length < 2) failures.push('/start: novice Not Sure Yet choices must exist for need and outcome');
 
 const readiness = pages['/readiness-check'];
-for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment', 'data-readiness-scope-link']) {
+for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment', 'data-readiness-scope-link', 'data-readiness-download', 'Download Snapshot']) {
   if (!readiness.includes(marker)) failures.push(`/readiness-check: missing governed readiness marker: ${marker}`);
 }
 
 const readinessRuntime = fs.readFileSync('public/scripts/readiness-check.js', 'utf8');
-for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 'Not yet verified', 'focusNeedByDomain', 'data-readiness-scope-link', '/start?need=']) {
+for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 'Not yet verified', 'focusNeedByDomain', 'data-readiness-scope-link', '/start?need=', 'buildSnapshotText', 'downloadTextFile', 'safety-assurance-global-readiness-snapshot.txt', "name: 'resource_download'"]) {
   if (!readinessRuntime.includes(marker)) failures.push(`readiness runtime missing qualitative routing control: ${marker}`);
 }
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
@@ -113,8 +113,8 @@ const proposal = pages['/request-proposal'];
 if (!proposal.includes('/scripts/proposal-prefill.764102aac31a.js')) failures.push('/request-proposal: fingerprinted scope carry-forward script missing');
 if (!proposal.includes('data-prefill-status')) failures.push('/request-proposal: persistent scope carry-forward notice missing');
 for (const [html, asset] of [
-  [pages['/start'], '/scripts/scope-builder.e639faf0074d.js'],
-  [pages['/readiness-check'], '/scripts/readiness-check.1057d906c68b.js'],
+  [pages['/start'], '/scripts/scope-builder.f007161d5676.js'],
+  [pages['/readiness-check'], '/scripts/readiness-check.7c1209a7c75e.js'],
   [pages['/request-proposal'], '/scripts/intake-form.9c71f918392c.js']
 ]) {
   if (!html.includes(asset)) failures.push(`fingerprinted release asset reference missing: ${asset}`);

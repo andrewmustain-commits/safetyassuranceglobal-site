@@ -125,8 +125,8 @@ const releaseScripts = [
   [contact, '/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js', 'public/scripts/intake-form.9c71f918392c.js', 'contact intake'],
   [proposal, '/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js', 'public/scripts/intake-form.9c71f918392c.js', 'proposal intake'],
   [proposal, '/scripts/proposal-prefill.764102aac31a.js', 'public/scripts/proposal-prefill.js', 'public/scripts/proposal-prefill.764102aac31a.js', 'proposal prefill'],
-  [startPage, '/scripts/scope-builder.e639faf0074d.js', 'public/scripts/scope-builder.js', 'public/scripts/scope-builder.e639faf0074d.js', 'scope builder'],
-  [readinessPage, '/scripts/readiness-check.1057d906c68b.js', 'public/scripts/readiness-check.js', 'public/scripts/readiness-check.1057d906c68b.js', 'readiness snapshot'],
+  [startPage, '/scripts/scope-builder.f007161d5676.js', 'public/scripts/scope-builder.js', 'public/scripts/scope-builder.f007161d5676.js', 'scope builder'],
+  [readinessPage, '/scripts/readiness-check.7c1209a7c75e.js', 'public/scripts/readiness-check.js', 'public/scripts/readiness-check.7c1209a7c75e.js', 'readiness snapshot'],
   [layout, '/scripts/site-measurement.11122ffd15b8.js', 'public/scripts/site-measurement.js', 'public/scripts/site-measurement.11122ffd15b8.js', 'site measurement']
 ];
 const gitBlobSha = (content) =>
@@ -172,6 +172,20 @@ requireText(home, 'See an Example Report', 'R03: homepage lacks one-click comple
 requireText(home, 'Help Me Define the Work', 'R03: guided scope is not presented as the optional alternative.');
 if ((startPage.match(/'Not Sure Yet'/g) ?? []).length < 2) failures.push('R03: scope builder must offer Not Sure Yet for both assurance need and desired output.');
 if (!(layout.indexOf('<SiteAssistant />') < layout.indexOf('<main id="main-content"'))) failures.push('R03: mobile customer help is not placed near the top of the document flow.');
+
+// Customer value extension — generated result briefs stay local until the visitor chooses a next step.
+for (const [page, runtime, label, pageMarker, filename] of [
+  [startPage, scopeRuntime, 'scope builder', 'data-scope-download', 'safety-assurance-global-preliminary-scope.txt'],
+  [readinessPage, readinessRuntime, 'readiness snapshot', 'data-readiness-download', 'safety-assurance-global-readiness-snapshot.txt']
+]) {
+  requireText(page, pageMarker, `Customer result export missing from ${label} page.`);
+  requireText(runtime, 'downloadTextFile', `Customer result export helper missing from ${label} runtime.`);
+  requireText(runtime, filename, `Customer result export filename missing from ${label} runtime.`);
+  requireText(runtime, "name: 'resource_download'", `Privacy-safe result-download measurement event missing from ${label} runtime.`);
+  for (const forbidden of ['fetch(', 'XMLHttpRequest', 'navigator.sendBeacon', 'localStorage', 'sessionStorage']) {
+    if (runtime.includes(forbidden)) failures.push(`Customer result export for ${label} must remain browser-local; forbidden behavior found: ${forbidden}`);
+  }
+}
 
 // Final re-audit R04 — compact lockup and single desktop navigation treatment.
 requireText(layout, 'className="brand header-brand"', 'R04: shared header is not using the compact brand lockup.');

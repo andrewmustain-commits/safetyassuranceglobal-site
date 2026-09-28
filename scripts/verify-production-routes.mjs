@@ -90,10 +90,12 @@ await retry('contact route', () => expectStatus('/contact', 200, 'info@safetyass
 await retry('proposal route', () => expectStatus('/request-proposal', 200, 'Request a Proposal'));
 await retry('capabilities route', () => expectStatus('/capabilities', 200, 'RCUUJLWEBGD4'));
 await retry('start-a-scope route', () => expectStatus('/start', 200, 'Build a preliminary assurance scope'));
+await retry('start-a-scope local brief action', () => expectStatus('/start', 200, 'Download Scope Brief'));
 await retry('proof center route', () => expectStatus('/proof', 200, 'Evidence Before Claims'));
 await retry('completed demonstration route', () => expectStatus('/completed-example', 200, 'Synthetic Demonstration'));
 await retry('customer resources route', () => expectStatus('/resources', 200, 'Customer Resource Center'));
 await retry('readiness snapshot route', () => expectStatus('/readiness-check', 200, 'Preliminary readiness snapshot'));
+await retry('readiness local snapshot action', () => expectStatus('/readiness-check', 200, 'Download Snapshot'));
 await retry('prime and teaming route', () => expectStatus('/partners', 200, 'Prime Contractor &amp; Teaming'));
 await retry('illustrative engagements route', () => expectStatus('/engagement-examples', 200, 'Illustrative Engagements'));
 await retry('leadership route', () => expectStatus('/leadership', 200, 'Named Leadership'));
@@ -121,10 +123,10 @@ await retry('proposal page references fingerprinted intake and prefill runtimes'
   }
 });
 await retry('scope page references fingerprinted runtime', () =>
-  expectStatus('/start', 200, '/scripts/scope-builder.e639faf0074d.js')
+  expectStatus('/start', 200, '/scripts/scope-builder.f007161d5676.js')
 );
 await retry('readiness page references fingerprinted runtime', () =>
-  expectStatus('/readiness-check', 200, '/scripts/readiness-check.1057d906c68b.js')
+  expectStatus('/readiness-check', 200, '/scripts/readiness-check.7c1209a7c75e.js')
 );
 await retry('fingerprinted intake runtime exactly matches canonical script', () =>
   expectBodyEqualsFile('/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js')
@@ -133,10 +135,10 @@ await retry('fingerprinted proposal prefill runtime exactly matches canonical sc
   expectBodyEqualsFile('/scripts/proposal-prefill.764102aac31a.js', 'public/scripts/proposal-prefill.js')
 );
 await retry('fingerprinted scope runtime exactly matches canonical script', () =>
-  expectBodyEqualsFile('/scripts/scope-builder.e639faf0074d.js', 'public/scripts/scope-builder.js')
+  expectBodyEqualsFile('/scripts/scope-builder.f007161d5676.js', 'public/scripts/scope-builder.js')
 );
 await retry('fingerprinted readiness runtime exactly matches canonical script', () =>
-  expectBodyEqualsFile('/scripts/readiness-check.1057d906c68b.js', 'public/scripts/readiness-check.js')
+  expectBodyEqualsFile('/scripts/readiness-check.7c1209a7c75e.js', 'public/scripts/readiness-check.js')
 );
 await retry('fingerprinted measurement runtime exactly matches canonical script', () =>
   expectBodyEqualsFile('/scripts/site-measurement.11122ffd15b8.js', 'public/scripts/site-measurement.js')
