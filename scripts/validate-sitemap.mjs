@@ -9,7 +9,6 @@ const requiredPaths = [
   '/maritime/',
   '/services/',
   '/capabilities/',
-  '/institute/',
   '/training/',
   '/industries/',
   '/government/',
@@ -30,6 +29,7 @@ const requiredPaths = [
   '/service-sheets/'
 ];
 const forbiddenPaths = [
+  '/institute/',
   '/academy/',
   '/command/',
   '/terms/',
