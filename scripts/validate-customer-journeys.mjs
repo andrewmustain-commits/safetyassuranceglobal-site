@@ -72,19 +72,31 @@ for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionSto
 }
 
 const readiness = pages['/readiness-check'];
-for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment']) {
+for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment', 'data-readiness-scope-link']) {
   if (!readiness.includes(marker)) failures.push(`/readiness-check: missing governed readiness marker: ${marker}`);
 }
 
 const readinessRuntime = fs.readFileSync('public/scripts/readiness-check.js', 'utf8');
-for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 'Not yet verified']) {
-  if (!readinessRuntime.includes(marker)) failures.push(`readiness runtime missing qualitative state: ${marker}`);
+for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 'Not yet verified', 'focusNeedByDomain', 'data-readiness-scope-link', '/start?need=']) {
+  if (!readinessRuntime.includes(marker)) failures.push(`readiness runtime missing qualitative routing control: ${marker}`);
 }
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
   if (readinessRuntime.includes(forbidden)) failures.push(`readiness snapshot contains forbidden persistence/network behavior: ${forbidden}`);
 }
 if (readinessRuntime.includes('%') || /\b(?:score|rating|percentile|percentage|index)\b/i.test(readinessRuntime)) {
   failures.push('/readiness-check: runtime numeric pseudo-precision or scoring language reintroduced');
+}
+
+for (const sourcePath of [
+  'src/data/services.ts',
+  'src/data/industries.ts',
+  'src/pages/method.astro',
+  'src/pages/maritime.astro'
+]) {
+  const source = fs.readFileSync(sourcePath, 'utf8');
+  if (/readiness\s+score(?:card)?/i.test(source)) {
+    failures.push(`${sourcePath}: qualitative readiness policy violated by score/scorecard language`);
+  }
 }
 
 const proposal = pages['/request-proposal'];

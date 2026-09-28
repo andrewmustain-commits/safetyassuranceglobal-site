@@ -34,7 +34,7 @@ export const serviceDetails: ServiceDetail[] = [
     scopeOfWork: ['Current-state readiness assessment', 'Control and workflow review', 'Critical-path risk identification', 'Readiness validation checkpoints'],
     engagementProcess: ['Discover context and mission priorities', 'Assess current controls and dependencies', 'Prioritize high-impact readiness actions', 'Validate completion against acceptance criteria'],
     evidenceReviewed: ['Readiness plans and procedures', 'Work-pack and handover records', 'Training and competency artifacts', 'Incident and corrective-action history'],
-    deliverables: ['Readiness assessment', 'Gap register', 'Readiness score', 'Corrective-action roadmap', 'Validation report'],
+    deliverables: ['Readiness assessment', 'Gap register', 'Readiness status summary', 'Corrective-action roadmap', 'Validation report'],
     expectedResult: 'Clearer go/no-go decision support and a prioritized readiness improvement path.',
     relatedServices: [
       { href: '/services/independent-assurance', label: 'Independent Assurance' },
@@ -124,7 +124,7 @@ export const serviceDetails: ServiceDetail[] = [
     scopeOfWork: ['Risk and safety-control review', 'Control-priority alignment', 'Operational risk monitoring support', 'Improvement planning'],
     engagementProcess: ['Profile operating risk context', 'Assess control design and execution', 'Prioritize risk-reduction actions', 'Validate implementation and sustainment'],
     evidenceReviewed: ['Risk registers', 'Safety-management documentation', 'Incident and near-miss trends', 'Corrective-action effectiveness records'],
-    deliverables: ['Assurance review', 'Gap register', 'Readiness score', 'Corrective-action roadmap', 'Executive dashboard'],
+    deliverables: ['Assurance review', 'Gap register', 'Readiness status summary', 'Corrective-action roadmap', 'Executive dashboard'],
     expectedResult: 'Improved risk visibility and stronger safety-control follow-through in operations.',
     relatedServices: [
       { href: '/services/incident-investigation', label: 'Incident Investigation' },
