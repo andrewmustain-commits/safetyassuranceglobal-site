@@ -30,7 +30,7 @@ export const industryDetails: IndustryDetail[] = [
       { href: '/services/operational-readiness', label: 'Operational Readiness' }
     ],
     evidenceReviewed: ['Inspection and test records', 'Work-pack closeout artifacts', 'Contractor performance records', 'Corrective-action histories'],
-    deliverables: ['QA/QC review', 'Contractor assurance report', 'Gap register', 'Readiness score', 'Closeout report'],
+    deliverables: ['QA/QC review', 'Contractor assurance report', 'Gap register', 'Readiness status summary', 'Closeout report'],
     decisionSupport: 'Supports go/no-go readiness and targeted quality-control interventions.',
     cta: { href: '/contact', label: 'Discuss Shipyard Assurance' }
   },
