@@ -11,6 +11,8 @@ const assistant = read('src/components/ui/SiteAssistant.astro');
 const intake = read('public/scripts/intake-form.js');
 const contact = read('src/components/forms/ContactInquiryForm.astro');
 const proposal = read('src/components/forms/ProposalRequestForm.astro');
+const contactPage = read('src/pages/contact.astro');
+const proposalPage = read('src/pages/request-proposal.astro');
 const server = read('functions/api/inquiry.ts');
 const headers = read('public/_headers');
 const brand = read('src/config/brand-assets.ts');
@@ -63,15 +65,15 @@ for (const marker of ['Synthetic Demonstration', 'Observed condition', 'Supporti
 }
 requireText(proof, 'href="/completed-example"', 'F07: Proof Center does not expose completed example in one click.');
 
-if (!(contact.indexOf('<ContactInquiryForm />') < contact.indexOf('contact-paths-title'))) {
+if (!(contactPage.indexOf('<ContactInquiryForm />') < contactPage.indexOf('contact-paths-title'))) {
   failures.push('F08: contact form is not positioned before explanatory path content.');
 }
-if (!(proposal.indexOf('<ProposalRequestForm />') < proposal.indexOf('proposal-ready-title'))) {
+if (!(proposalPage.indexOf('<ProposalRequestForm />') < proposalPage.indexOf('proposal-ready-title'))) {
   failures.push('F08: proposal form is not positioned before explanatory proposal content.');
 }
 requireText(server, "contact: ['name', 'email', 'message', 'privacyAcknowledgement']", 'F08: short contact path is not aligned on the server.');
-requireText(contact, 'Response timing:', 'F08: contact page lacks response-timing guidance.');
-requireText(proposal, 'Response timing:', 'F08: proposal page lacks response-timing guidance.');
+requireText(contactPage, 'Response timing:', 'F08: contact page lacks response-timing guidance.');
+requireText(proposalPage, 'Response timing:', 'F08: proposal page lacks response-timing guidance.');
 
 if (capabilities.includes('Port of Portland owner-representative safety') || capabilities.includes('Microsoft and Google')) {
   failures.push('F10: unattributed prior-employer experience list remains public.');
