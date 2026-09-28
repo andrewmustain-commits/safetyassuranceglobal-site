@@ -1,8 +1,11 @@
 (function () {
   const forms = document.querySelectorAll('[data-intake-form]');
 
-  const MAX_MESSAGE_LENGTH = 3000;
-  const MAX_FALLBACK_BODY_CHARS = 1400;
+  const FIELD_LIMITS = Object.freeze({
+    message: 3000,
+    briefScope: 3000,
+    procurementContext: 3000
+  });
   const MAX_FALLBACK_SUBJECT_CHARS = 160;
   const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
   const TURNSTILE_ACTION = 'inquiry_submit';
@@ -82,31 +85,9 @@
     payload.userAgent = navigator.userAgent;
     payload.turnstileToken = form.dataset.turnstileToken || '';
 
-    if (typeof payload.message === 'string' && payload.message.length > MAX_MESSAGE_LENGTH) {
-      payload.message = payload.message.slice(0, MAX_MESSAGE_LENGTH);
-    }
-
-    if (typeof payload.briefScope === 'string' && payload.briefScope.length > MAX_MESSAGE_LENGTH) {
-      payload.briefScope = payload.briefScope.slice(0, MAX_MESSAGE_LENGTH);
-    }
-
-    if (typeof payload.procurementContext === 'string' && payload.procurementContext.length > MAX_MESSAGE_LENGTH) {
-      payload.procurementContext = payload.procurementContext.slice(0, MAX_MESSAGE_LENGTH);
-    }
-
     payload.privacyAcknowledgement = formData.get('privacyAcknowledgement') === 'on';
 
     return payload;
-  };
-
-  const truncateForMailto = (text, maxLength) => {
-    if (text.length <= maxLength) {
-      return text;
-    }
-
-    const note = '\n\n[Request details truncated for email-client compatibility. Please review and add any omitted details before sending.]';
-    const available = Math.max(0, maxLength - note.length);
-    return `${text.slice(0, available)}${note}`;
   };
 
   const buildFallbackMailto = (payload) => {
@@ -148,12 +129,40 @@
       '',
       `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please forward to ${SECONDARY_FALLBACK_EMAIL}.`
     ].join('\n');
-    const body = truncateForMailto(rawBody, MAX_FALLBACK_BODY_CHARS);
+    return `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(rawBody)}`;
+  };
 
-    return `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const updateCharacterCount = (field) => {
+    const limit = Number(field.dataset.maxLength || 0);
+    const count = field.closest('.lead-field')?.querySelector('[data-char-count]');
+    if (count) count.textContent = String(field.value.length);
+    if (limit > 0) {
+      field.setAttribute('aria-invalid', field.value.length > limit ? 'true' : 'false');
+    }
+  };
+
+  const validateSupportedLengths = (form, status) => {
+    for (const field of form.querySelectorAll('[data-max-length]')) {
+      if (!(field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement)) continue;
+      const limit = Number(field.dataset.maxLength || FIELD_LIMITS[field.name] || 0);
+      field.setCustomValidity('');
+      updateCharacterCount(field);
+      if (limit > 0 && field.value.length > limit) {
+        field.setCustomValidity(`Please keep this field to ${limit.toLocaleString()} characters or fewer. Your text has not been shortened.`);
+        setStatus(status, `${field.labels?.[0]?.innerText?.trim() || 'This field'} is ${field.value.length - limit} characters over the supported limit. Your text is still intact—please shorten it before submitting.`, 'error');
+        field.focus();
+        return false;
+      }
+    }
+    return true;
   };
 
   const openEmailFallback = (form, status) => {
+    if (!validateSupportedLengths(form, status)) {
+      form.reportValidity();
+      return false;
+    }
+
     if (!form.checkValidity()) {
       setStatus(status, 'Please complete the required fields before continuing.', 'error');
       form.reportValidity();
@@ -216,6 +225,19 @@
     const status = form.querySelector('[data-form-status]');
     const submitButton = form.querySelector('button[type="submit"]');
 
+    form.querySelectorAll('[data-max-length]').forEach((field) => {
+      if (!(field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement)) return;
+      updateCharacterCount(field);
+      field.addEventListener('input', () => {
+        field.setCustomValidity('');
+        updateCharacterCount(field);
+        const limit = Number(field.dataset.maxLength || FIELD_LIMITS[field.name] || 0);
+        if (limit > 0 && field.value.length > limit) {
+          field.setCustomValidity(`Please keep this field to ${limit.toLocaleString()} characters or fewer. Your text has not been shortened.`);
+        }
+      });
+    });
+
     if (submitButton instanceof HTMLButtonElement) {
       submitButton.disabled = true;
     }
@@ -269,6 +291,11 @@
 
       if (form.dataset.deliveryConfigured !== 'true') {
         openEmailFallback(form, status);
+        return;
+      }
+
+      if (!validateSupportedLengths(form, status)) {
+        form.reportValidity();
         return;
       }
 
