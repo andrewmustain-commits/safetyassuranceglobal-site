@@ -20,7 +20,31 @@
 
   .brand {
     min-width: 0;
-    max-width: min(78vw, 22rem);
+    max-width: calc(100% - 5.6rem);
+    overflow: hidden;
+  }
+
+  .brand .sag-logo-link {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .brand .sag-seal-image {
+    width: clamp(3rem, 11vw, 4.4rem) !important;
+    height: clamp(3rem, 11vw, 4.4rem) !important;
+  }
+
+  .brand .sag-wordmark {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand .sag-wordmark strong,
+  .brand .sag-wordmark > span,
+  .brand .sag-wordmark small {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
   }
 
   .nav-toggle {
@@ -89,14 +113,31 @@
     grid-column: 1 / -1;
   }
 
-  .mobile-nav-cta .ui-button {
+  .primary-nav .mobile-nav-cta .ui-button {
     justify-content: center !important;
     margin-top: .2rem;
+    border-color: #f6c65c !important;
+    background: #f3b33d !important;
+    color: #07192a !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,.28) !important;
+    font-weight: 900 !important;
+  }
+
+  .primary-nav .mobile-nav-cta .ui-button:hover,
+  .primary-nav .mobile-nav-cta .ui-button:focus-visible {
+    border-color: #ffe09a !important;
+    background: #ffd06a !important;
+    color: #07192a !important;
+    outline: 3px solid #93c5fd !important;
+    outline-offset: 2px !important;
   }
 }
 
 @media (max-width: 520px) {
   body { font-size: 16px; }
+  .header-inner { gap: .45rem; }
+  .brand { max-width: calc(100% - 5.35rem); }
+  .nav-toggle { min-width: 4.65rem; padding-inline: .55rem !important; }
   .ui-actions { align-items: stretch; }
   .ui-actions .ui-button { width: 100%; }
   .breadcrumbs { overflow-x: auto; }
