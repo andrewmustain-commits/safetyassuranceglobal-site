@@ -91,6 +91,8 @@ await retry('robots.txt', () => expectStatus('/robots.txt', 200, 'sitemap-index.
 await retry('security.txt', () => expectStatus('/.well-known/security.txt', 200, 'Contact:'));
 await retry('sitemap index', () => expectStatus('/sitemap-index.xml', 200, '<sitemapindex'));
 await retry('homepage security headers', () => expectHeaderIncludes('/', 'content-security-policy', "default-src 'self'"));
+await retry('Cloudflare analytics CSP script allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://static.cloudflareinsights.com'));
+await retry('Cloudflare analytics CSP connection allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://cloudflareinsights.com'));
 await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/image.png', 'cache-control', 'max-age=604800'));
 await retry('completed demonstration download', () => expectStatus('/downloads/completed-readiness-demonstration.csv', 200, 'DEMO-001'));
 await retry('readiness matrix download', () => expectStatus('/downloads/readiness-evidence-matrix-template.csv', 200, 'Requirement'));
