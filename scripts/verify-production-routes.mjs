@@ -93,7 +93,7 @@ await retry('homepage security headers', () => expectHeaderIncludes('/', 'conten
 await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/sag-official-seal-2026.png', 'cache-control', 'max-age=604800'));
 await retry('readiness matrix download', () => expectStatus('/downloads/readiness-evidence-matrix-template.csv', 200, 'Requirement'));
 await retry('corrective-action register download', () => expectStatus('/downloads/corrective-action-register-template.csv', 200, 'Finding'));
-await retry('contractor readiness checklist download', () => expectStatus('/downloads/contractor-readiness-checklist.csv', 200, 'Contractor'));
+await retry('contractor readiness checklist download', () => expectStatus('/downloads/contractor-readiness-checklist.csv', 200, 'Readiness Question'));
 await retry('QA/QC verification log download', () => expectStatus('/downloads/qa-qc-verification-log-template.csv', 200, 'Verification'));
 
 await retry('academy redirect', () => expectRedirect('/academy', '/institute'));
