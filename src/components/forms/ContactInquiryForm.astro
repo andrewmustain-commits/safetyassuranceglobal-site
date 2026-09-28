@@ -74,7 +74,8 @@ const serviceOptions = [
 
       <label class="lead-field lead-field-full" for="contact-message">
         <span>Operating Challenge or Need</span>
-        <textarea id="contact-message" name="message" rows="5" required aria-describedby="contact-status" placeholder="Describe the operating environment, challenge, timing, location, and desired outcome where known."></textarea>
+        <textarea id="contact-message" name="message" rows="5" required data-max-length="3000" aria-describedby="contact-message-limit contact-status" placeholder="Describe the operating environment, challenge, timing, location, and desired outcome where known."></textarea>
+        <small id="contact-message-limit" class="lead-field-limit">Up to 3,000 characters. <span data-char-count>0</span>/3,000 used. Your text is never silently shortened.</small>
       </label>
 
       <label class="lead-field lead-field-full lead-checkbox" for="contact-privacy">
