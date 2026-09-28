@@ -20,6 +20,7 @@ const requiredPaths = [
   '/method/',
   '/start/',
   '/proof/',
+  '/completed-example/',
   '/resources/',
   '/readiness-check/',
   '/partners/',
