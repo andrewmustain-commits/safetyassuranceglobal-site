@@ -79,6 +79,7 @@ await retry('proposal route', () => expectStatus('/request-proposal', 200, 'Requ
 await retry('capabilities route', () => expectStatus('/capabilities', 200, 'RCUUJLWEBGD4'));
 await retry('start-a-scope route', () => expectStatus('/start', 200, 'Build a preliminary assurance scope'));
 await retry('proof center route', () => expectStatus('/proof', 200, 'Evidence Before Claims'));
+await retry('completed demonstration route', () => expectStatus('/completed-example', 200, 'Synthetic Demonstration'));
 await retry('customer resources route', () => expectStatus('/resources', 200, 'Customer Resource Center'));
 await retry('readiness snapshot route', () => expectStatus('/readiness-check', 200, 'Preliminary readiness snapshot'));
 await retry('prime and teaming route', () => expectStatus('/partners', 200, 'Prime Contractor &amp; Teaming'));
@@ -90,7 +91,10 @@ await retry('robots.txt', () => expectStatus('/robots.txt', 200, 'sitemap-index.
 await retry('security.txt', () => expectStatus('/.well-known/security.txt', 200, 'Contact:'));
 await retry('sitemap index', () => expectStatus('/sitemap-index.xml', 200, '<sitemapindex'));
 await retry('homepage security headers', () => expectHeaderIncludes('/', 'content-security-policy', "default-src 'self'"));
-await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/sag-official-seal-2026.png', 'cache-control', 'max-age=604800'));
+await retry('Cloudflare analytics CSP script allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://static.cloudflareinsights.com'));
+await retry('Cloudflare analytics CSP connection allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://cloudflareinsights.com'));
+await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/image.png', 'cache-control', 'max-age=604800'));
+await retry('completed demonstration download', () => expectStatus('/downloads/completed-readiness-demonstration.csv', 200, 'DEMO-001'));
 await retry('readiness matrix download', () => expectStatus('/downloads/readiness-evidence-matrix-template.csv', 200, 'Requirement'));
 await retry('corrective-action register download', () => expectStatus('/downloads/corrective-action-register-template.csv', 200, 'Finding'));
 await retry('contractor readiness checklist download', () => expectStatus('/downloads/contractor-readiness-checklist.csv', 200, 'Readiness Question'));

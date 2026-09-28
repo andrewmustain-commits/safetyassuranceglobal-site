@@ -21,7 +21,7 @@ const buyerQuestions = [
   ['What is actually available?', 'Confirm program status, format, prerequisites, duration, assessment expectations, instructor requirements, and any completion documentation before commitment.']
 ];
 ---
-<BaseLayout title="Institute of Assurance" description="The Safety Assurance Global Institute of Assurance is a professional-education and workforce-development institution associated with the Safety Assurance Global ecosystem, supporting assurance, readiness, safety, quality, risk, and professional development.">
+<BaseLayout title="Institute of Assurance" description="Corporate gateway to the Safety Assurance Global Institute of Assurance for current course information, program status, workforce-development inquiries, and next steps." noIndex={true}>
   <Container class="institute-shell">
     <section class="institute-hero" aria-labelledby="institute-title">
       <img class="institute-scene" src="/images/site-2026/institute-hero.webp" alt="" aria-hidden="true" loading="eager" decoding="async" fetchpriority="high" />
@@ -30,7 +30,7 @@ const buyerQuestions = [
         <p class="institute-eyebrow">Safety Assurance Global Institute of Assurance</p>
         <h1 id="institute-title">Workforce development connected to operational readiness.</h1>
         <p class="institute-lede">The Safety Assurance Global Institute of Assurance is a professional-education and workforce-development institution associated with the Safety Assurance Global ecosystem. It connects professional development with evidence-first principles used across assurance, safety, risk, QA/QC, and operational-readiness work.</p>
-        <div class="ui-actions"><Button href="/training">Explore Training</Button><Button href="mailto:academy@safetyassuranceglobal.com?subject=Institute%20of%20Assurance%20Inquiry" variant="secondary">Discuss Workforce Needs</Button></div>
+        <div class="ui-actions"><Button href="https://institute.safetyassuranceglobal.com/">Open the Institute Site</Button><Button href="mailto:academy@safetyassuranceglobal.com?subject=Institute%20of%20Assurance%20Inquiry" variant="secondary">Ask About a Workforce Need</Button></div>
       </div>
       <aside class="institute-crest" aria-label="Institute of Assurance identity">
         <div class="crest-halo"></div>
@@ -38,6 +38,15 @@ const buyerQuestions = [
         <p>Learning built around role needs, operating context, evidence, and readiness outcomes.</p>
       </aside>
     </section>
+
+    <Section ariaLabelledby="institute-today-title">
+      <SectionHeader badge="What You Can Do Today" id="institute-today-title" title="Use the dedicated Institute site for current offering status." />
+      <div class="grid-three">
+        <Card><h3>Course information</h3><p><strong>Available now:</strong> review published course and Academy information on the dedicated Institute website.</p><p><a href="https://institute.safetyassuranceglobal.com/">Open Institute information →</a></p></Card>
+        <Card><h3>Public enrollment</h3><p><strong>Do not assume enrollment is open.</strong> The current status, prerequisites, assessment expectations, and next action are confirmed for each offering on the Institute site.</p></Card>
+        <Card><h3>Employer or workforce need</h3><p><strong>Inquiry available:</strong> employers may contact the Institute team to discuss a defined workforce-development need. An inquiry is not an enrollment or delivery commitment.</p><p><a href="mailto:academy@safetyassuranceglobal.com?subject=Workforce%20Development%20Inquiry">Email the Institute team →</a></p></Card>
+      </div>
+    </Section>
 
     <Section ariaLabelledby="institute-purpose-title"><SectionHeader badge="Purpose" id="institute-purpose-title" title="Build capability without separating learning from operational reality." /><Card class="photo-backed-band" style="--band-image:url(/images/site-2026/institute-hero.webp);--band-position:center 55%"><p>Institute programs are intended to support organizations and professionals who need stronger assurance judgment, safer execution, better quality controls, and clearer readiness evidence. Public offerings are presented only when their delivery status and applicable prerequisites are confirmed.</p></Card></Section>
 
@@ -54,7 +63,7 @@ const buyerQuestions = [
 
     <Section ariaLabelledby="institute-contact-title"><SectionHeader badge="Institute Contact" id="institute-contact-title" title="Questions about training or workforce development?" /><Card class="photo-backed-band" style="--band-image:url(/images/site-2026/contact-hero.webp);--band-position:center 50%"><p>Email the Institute team at <a href="mailto:academy@safetyassuranceglobal.com">academy@safetyassuranceglobal.com</a>.</p></Card></Section>
 
-    <Section ariaLabelledby="institute-boundary-title"><SectionHeader badge="Program Status" id="institute-boundary-title" title="Availability and credential status are confirmed per offering." /><NoticePanel tone="warning" title="Program and Credential Status"><p>This public page does not represent every Institute program as open for enrollment and does not claim external accreditation, licensure, regulatory approval, or automatic credential issuance. Availability, delivery status, assessment requirements, and any credential decision are confirmed for the applicable program before commitment.</p></NoticePanel></Section>
+    <Section ariaLabelledby="institute-boundary-title"><SectionHeader badge="Plain-Language Status" id="institute-boundary-title" title="Check the offering before you rely on availability." /><NoticePanel tone="warning" title="Current-status rule"><p><strong>Information available</strong> does not mean <strong>enrollment open</strong>. Course availability, delivery format, prerequisites, assessment requirements, recognition or approval claims, and any credential decision remain offering-specific and are confirmed on the dedicated Institute site or directly by the Institute team before commitment.</p></NoticePanel></Section>
   </Container>
 </BaseLayout>
 <style>

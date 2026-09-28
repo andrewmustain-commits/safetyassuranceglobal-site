@@ -1,4 +1,9 @@
 (function () {
+  // Local-only funnel hooks: event names are exposed as browser CustomEvents for
+  // first-party QA/integration use. This runtime intentionally sends no analytics
+  // payloads and never includes form text, tool answers, or personal information.
+  // Cloudflare Web Analytics, when enabled by the platform, remains separate and
+  // is used only for page/performance telemetry under its own approved configuration.
   const allowedEvents = new Set([
     'service_view',
     'capability_view',

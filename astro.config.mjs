@@ -3,6 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 const sitemapExcludedPaths = new Set([
   '/academy/',
+  '/institute/',
   '/command/',
   '/terms/'
 ]);
@@ -10,9 +11,15 @@ const sitemapExcludedPaths = new Set([
 export default defineConfig({
   site: 'https://safetyassuranceglobal.com',
   output: 'static',
+  trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => !sitemapExcludedPaths.has(new URL(page).pathname)
+      filter: (page) => {
+        const pathname = new URL(page).pathname;
+        if (sitemapExcludedPaths.has(pathname)) return false;
+        if (pathname.startsWith('/insights/category/') || pathname.startsWith('/insights/tag/')) return false;
+        return true;
+      }
     })
   ]
 });

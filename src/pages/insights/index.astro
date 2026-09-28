@@ -14,25 +14,6 @@ import { isPublishedInsight, normalizeTaxonomySlug, sortByPublishedDateDesc, est
 const publishedPosts = sortByPublishedDateDesc((await getCollection('blog')).filter(isPublishedInsight));
 const featuredPost = publishedPosts.find((post) => post.data.featured) ?? publishedPosts[0];
 const recentPosts = publishedPosts.filter((post) => post.id !== featuredPost?.id).slice(0, 8);
-const categoryMap = new Map();
-const tagMap = new Map();
-const insightImages = ['/images/site-2026/insights-hero.webp','/images/site-2026/maritime-hero.webp','/images/site-2026/capabilities-hero.webp','/images/site-2026/about-hero.webp'];
-
-for (const post of publishedPosts) {
-  const categoryName = post.data.category.trim();
-  const categorySlug = normalizeTaxonomySlug(categoryName);
-  const categoryCount = categoryMap.get(categorySlug)?.count ?? 0;
-  categoryMap.set(categorySlug, { slug: categorySlug, name: categoryName, count: categoryCount + 1 });
-  for (const rawTag of post.data.tags) {
-    const tagName = rawTag.trim();
-    const tagSlug = normalizeTaxonomySlug(tagName);
-    const tagCount = tagMap.get(tagSlug)?.count ?? 0;
-    tagMap.set(tagSlug, { slug: tagSlug, name: tagName, count: tagCount + 1 });
-  }
-}
-
-const categories = Array.from(categoryMap.values()).sort((a, b) => a.name.localeCompare(b.name));
-const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <BaseLayout title="Insights" description="Published Safety Assurance Global insights for maritime and critical-infrastructure leaders." canonical="/insights/">
@@ -63,23 +44,9 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
           </Section>
         )}
 
-        <Section ariaLabelledby="insights-categories-title">
-          <SectionHeader id="insights-categories-title" badge="Categories" title="Browse by category" />
-          <div class="taxonomy-grid">
-            {categories.map((category, index) => (
-              <Card as="article" class="taxonomy-card image-forward-card image-forward-card-tall" style={`--card-image:url(${insightImages[index % insightImages.length]})`}>
-                <h3><a href={`/insights/category/${category.slug}/`}>{category.name}</a></h3>
-                <p>{category.count} published {category.count === 1 ? 'article' : 'articles'}</p>
-              </Card>
-            ))}
-          </div>
-        </Section>
-
-        <Section ariaLabelledby="insights-tags-title">
-          <SectionHeader id="insights-tags-title" badge="Topics" title="Explore published themes" />
-          <div class="tag-cloud" aria-label="Published insight tags">
-            {tags.map((tag) => (<a class="tag-chip" href={`/insights/tag/${tag.slug}/`}>{tag.name}<span aria-hidden="true"> ({tag.count})</span></a>))}
-          </div>
+        <Section ariaLabelledby="insights-library-title">
+          <SectionHeader id="insights-library-title" badge="Published Library" title="Practical articles before taxonomy." />
+          <p class="insights-library-note">The public library is intentionally small. Safety Assurance Global prioritizes substantive, reviewed articles over creating large numbers of thin category and tag pages. Topic archives remain available for navigation but are not intended as search landing pages until the library has enough distinct depth.</p>
         </Section>
 
         <Section ariaLabelledby="recent-insights-title">
@@ -89,7 +56,7 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
           ) : (
             <div class="posts-grid">
               {recentPosts.map((post, index) => (
-                <Card as="article" class="post-card image-forward-card" style={`--card-image:url(${insightImages[(index + 1) % insightImages.length]})`}>
+                <Card as="article" class="post-card image-forward-card" style="--card-image:url(/images/site-2026/maritime-hero.webp)">
                   <p class="meta-row"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>{' · '}<span>{post.data.category}</span>{' · '}<span>{estimateReadingMinutes(post.body)} min read</span></p>
                   <h3><a href={`/insights/${post.data.slug}/`}>{post.data.title}</a></h3>
                   <p>{post.data.description}</p>
@@ -107,3 +74,5 @@ const tags = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.n
     </CTASection>
   </Container>
 </BaseLayout>
+
+<style>.insights-library-note{max-width:78ch;color:var(--color-text-soft);line-height:1.7}</style>

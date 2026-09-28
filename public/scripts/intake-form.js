@@ -1,8 +1,11 @@
 (function () {
   const forms = document.querySelectorAll('[data-intake-form]');
 
-  const MAX_MESSAGE_LENGTH = 3000;
-  const MAX_FALLBACK_BODY_CHARS = 1400;
+  const FIELD_LIMITS = Object.freeze({
+    message: 3000,
+    briefScope: 3000,
+    procurementContext: 3000
+  });
   const MAX_FALLBACK_SUBJECT_CHARS = 160;
   const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
   const TURNSTILE_ACTION = 'inquiry_submit';
@@ -82,40 +85,21 @@
     payload.userAgent = navigator.userAgent;
     payload.turnstileToken = form.dataset.turnstileToken || '';
 
-    if (typeof payload.message === 'string' && payload.message.length > MAX_MESSAGE_LENGTH) {
-      payload.message = payload.message.slice(0, MAX_MESSAGE_LENGTH);
-    }
-
-    if (typeof payload.briefScope === 'string' && payload.briefScope.length > MAX_MESSAGE_LENGTH) {
-      payload.briefScope = payload.briefScope.slice(0, MAX_MESSAGE_LENGTH);
-    }
-
-    if (typeof payload.procurementContext === 'string' && payload.procurementContext.length > MAX_MESSAGE_LENGTH) {
-      payload.procurementContext = payload.procurementContext.slice(0, MAX_MESSAGE_LENGTH);
-    }
-
     payload.privacyAcknowledgement = formData.get('privacyAcknowledgement') === 'on';
 
     return payload;
   };
 
-  const truncateForMailto = (text, maxLength) => {
-    if (text.length <= maxLength) {
-      return text;
-    }
-
-    const note = '\n\n[Request details truncated for email-client compatibility. Please review and add any omitted details before sending.]';
-    const available = Math.max(0, maxLength - note.length);
-    return `${text.slice(0, available)}${note}`;
-  };
-
-  const buildFallbackMailto = (payload) => {
+  const buildFallbackSubject = (payload) => {
     const isProposal = payload.formType === 'proposal';
     const rawSubject = isProposal
       ? `Website proposal request — ${payload.organization || payload.name || 'Prospective client'}`
       : `Website inquiry — ${payload.organization || payload.name || 'Prospective client'}`;
-    const subject = rawSubject.slice(0, MAX_FALLBACK_SUBJECT_CHARS);
+    return rawSubject.slice(0, MAX_FALLBACK_SUBJECT_CHARS);
+  };
 
+  const buildFallbackText = (payload) => {
+    const isProposal = payload.formType === 'proposal';
     const fields = isProposal
       ? [
           ['Name', payload.name],
@@ -139,21 +123,83 @@
           ['Operating challenge or need', payload.message]
         ];
 
-    const rawBody = [
+    return [
       'Safety Assurance Global website request',
       '',
       ...fields.map(([label, value]) => `${label}: ${value || ''}`),
       '',
       'Privacy acknowledgement: Yes',
       '',
-      `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please forward to ${SECONDARY_FALLBACK_EMAIL}.`
+      `Primary destination: ${PRIMARY_FALLBACK_EMAIL}`,
+      `Secondary destination: ${SECONDARY_FALLBACK_EMAIL}`
     ].join('\n');
-    const body = truncateForMailto(rawBody, MAX_FALLBACK_BODY_CHARS);
+  };
 
-    return `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const downloadFallbackRequest = (payload) => {
+    const rawBody = buildFallbackText(payload);
+    const blob = new Blob([rawBody], { type: 'text/plain;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = payload.formType === 'proposal'
+      ? 'sag-proposal-request.txt'
+      : 'sag-contact-request.txt';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  };
+
+  const handoffFallbackRequest = (payload, status) => {
+    downloadFallbackRequest(payload);
+    setStatus(
+      status,
+      `Secure delivery is unavailable. Your completed request was downloaded as a text file. Your email app will open next; paste or attach that file to ${PRIMARY_FALLBACK_EMAIL}. If needed, use ${SECONDARY_FALLBACK_EMAIL}.`,
+      'success'
+    );
+
+    const subject = buildFallbackSubject(payload);
+    const shortBody = [
+      'My completed Safety Assurance Global website request was preserved in a downloaded text file.',
+      '',
+      'Please paste or attach that file to this email before sending.',
+      '',
+      `If delivery to ${PRIMARY_FALLBACK_EMAIL} is unavailable, please send it to ${SECONDARY_FALLBACK_EMAIL}.`
+    ].join('\n');
+    window.location.href = `mailto:${PRIMARY_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shortBody)}`;
+  };
+
+  const updateCharacterCount = (field) => {
+    const limit = Number(field.dataset.maxLength || 0);
+    const count = field.closest('.lead-field')?.querySelector('[data-char-count]');
+    if (count) count.textContent = String(field.value.length);
+    if (limit > 0) {
+      field.setAttribute('aria-invalid', field.value.length > limit ? 'true' : 'false');
+    }
+  };
+
+  const validateSupportedLengths = (form, status) => {
+    for (const field of form.querySelectorAll('[data-max-length]')) {
+      if (!(field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement)) continue;
+      const limit = Number(field.dataset.maxLength || FIELD_LIMITS[field.name] || 0);
+      field.setCustomValidity('');
+      updateCharacterCount(field);
+      if (limit > 0 && field.value.length > limit) {
+        field.setCustomValidity(`Please keep this field to ${limit.toLocaleString()} characters or fewer. Your text has not been shortened.`);
+        setStatus(status, `${field.labels?.[0]?.innerText?.trim() || 'This field'} is ${field.value.length - limit} characters over the supported limit. Your text is still intact—please shorten it before submitting.`, 'error');
+        field.focus();
+        return false;
+      }
+    }
+    return true;
   };
 
   const openEmailFallback = (form, status) => {
+    if (!validateSupportedLengths(form, status)) {
+      form.reportValidity();
+      return false;
+    }
+
     if (!form.checkValidity()) {
       setStatus(status, 'Please complete the required fields before continuing.', 'error');
       form.reportValidity();
@@ -167,12 +213,7 @@
     }
 
     const payload = toPayload(form);
-    setStatus(
-      status,
-      `Opening your email app to send this request to ${PRIMARY_FALLBACK_EMAIL}. If needed, you can also email ${SECONDARY_FALLBACK_EMAIL}.`,
-      'success'
-    );
-    window.location.href = buildFallbackMailto(payload);
+    handoffFallbackRequest(payload, status);
     return true;
   };
 
@@ -216,6 +257,19 @@
     const status = form.querySelector('[data-form-status]');
     const submitButton = form.querySelector('button[type="submit"]');
 
+    form.querySelectorAll('[data-max-length]').forEach((field) => {
+      if (!(field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement)) return;
+      updateCharacterCount(field);
+      field.addEventListener('input', () => {
+        field.setCustomValidity('');
+        updateCharacterCount(field);
+        const limit = Number(field.dataset.maxLength || FIELD_LIMITS[field.name] || 0);
+        if (limit > 0 && field.value.length > limit) {
+          field.setCustomValidity(`Please keep this field to ${limit.toLocaleString()} characters or fewer. Your text has not been shortened.`);
+        }
+      });
+    });
+
     if (submitButton instanceof HTMLButtonElement) {
       submitButton.disabled = true;
     }
@@ -235,7 +289,7 @@
           }
           setStatus(
             status,
-            `Secure online delivery is being configured. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+            `Secure online delivery is being configured. Submit will preserve your completed request in a text file and open an email draft to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
             ''
           );
           return;
@@ -254,7 +308,7 @@
         }
         setStatus(
           status,
-          `Online delivery could not be verified. Submit will open a prefilled email to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
+          `Online delivery could not be verified. Submit will preserve your completed request in a text file and open an email draft to ${PRIMARY_FALLBACK_EMAIL}; ${SECONDARY_FALLBACK_EMAIL} is also available.`,
           ''
         );
       });
@@ -269,6 +323,11 @@
 
       if (form.dataset.deliveryConfigured !== 'true') {
         openEmailFallback(form, status);
+        return;
+      }
+
+      if (!validateSupportedLengths(form, status)) {
+        form.reportValidity();
         return;
       }
 
@@ -318,8 +377,7 @@
         });
 
         if (!response.ok || !result.ok) {
-          setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
-          window.location.href = buildFallbackMailto(payload);
+          handoffFallbackRequest(payload, status);
           return;
         }
 
@@ -329,8 +387,7 @@
         setStatus(status, 'Submission received. Our team will follow up using your provided contact details.', 'success');
       } catch (_error) {
         const payload = toPayload(form);
-        setStatus(status, 'Secure delivery was unavailable. Opening your email app with the completed request instead.', 'error');
-        window.location.href = buildFallbackMailto(payload);
+        handoffFallbackRequest(payload, status);
       } finally {
         if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = false;

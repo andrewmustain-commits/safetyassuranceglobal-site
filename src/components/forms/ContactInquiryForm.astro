@@ -29,7 +29,7 @@ const serviceOptions = [
 <section class="lead-form-shell" aria-labelledby="contact-form-title">
   <div class="lead-form-intro">
     <p class="lead-form-eyebrow" id="contact-form-title">Inquiry Form</p>
-    <p class="lead-form-description">Tell us the operating environment, challenge, and outcome you need. Safety Assurance Global will use that information to evaluate the appropriate next step.</p>
+    <p class="lead-form-description">Tell us the operating environment, challenge, and outcome you need. Safety Assurance Global will use that information to evaluate the appropriate next step. Only your name, business email, operating challenge, and privacy acknowledgement are required; the other fields help us route the conversation.</p>
   </div>
 
   <form class="lead-form" id="contact-form" method="post" action="/api/inquiry" data-intake-form data-form-type="contact" novalidate>
@@ -42,8 +42,8 @@ const serviceOptions = [
       </label>
 
       <label class="lead-field" for="contact-organization">
-        <span>Organization</span>
-        <input id="contact-organization" name="organization" type="text" autocomplete="organization" required aria-describedby="contact-status" />
+        <span>Organization, optional</span>
+        <input id="contact-organization" name="organization" type="text" autocomplete="organization" aria-describedby="contact-status" />
       </label>
 
       <label class="lead-field" for="contact-email">
@@ -57,16 +57,16 @@ const serviceOptions = [
       </label>
 
       <label class="lead-field" for="contact-inquiry-type">
-        <span>Inquiry Type</span>
-        <select id="contact-inquiry-type" name="inquiryType" required aria-describedby="contact-status">
+        <span>Inquiry Type, optional</span>
+        <select id="contact-inquiry-type" name="inquiryType" aria-describedby="contact-status">
           <option value="">Select inquiry type</option>
           {inquiryTypes.map((item) => <option value={item}>{item}</option>)}
         </select>
       </label>
 
       <label class="lead-field" for="contact-service-interest">
-        <span>Service Interest</span>
-        <select id="contact-service-interest" name="serviceInterest" required aria-describedby="contact-status">
+        <span>Service Interest, optional</span>
+        <select id="contact-service-interest" name="serviceInterest" aria-describedby="contact-status">
           <option value="">Select service interest</option>
           {serviceOptions.map((item) => <option value={item}>{item}</option>)}
         </select>
@@ -74,7 +74,8 @@ const serviceOptions = [
 
       <label class="lead-field lead-field-full" for="contact-message">
         <span>Operating Challenge or Need</span>
-        <textarea id="contact-message" name="message" rows="5" required aria-describedby="contact-status" placeholder="Describe the operating environment, challenge, timing, location, and desired outcome where known."></textarea>
+        <textarea id="contact-message" name="message" rows="5" required data-max-length="3000" aria-describedby="contact-message-limit contact-status" placeholder="Describe the operating environment, challenge, timing, location, and desired outcome where known."></textarea>
+        <small id="contact-message-limit" class="lead-field-limit">Up to 3,000 characters. <span data-char-count>0</span>/3,000 used. Your text is never silently shortened.</small>
       </label>
 
       <label class="lead-field lead-field-full lead-checkbox" for="contact-privacy">

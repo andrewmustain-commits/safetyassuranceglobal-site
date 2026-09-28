@@ -29,7 +29,7 @@ const tags = Array.from(tagMap.entries())
   .sort((a, b) => a.name.localeCompare(b.name));
 ---
 
-<BaseLayout title="Insight Tags" description="Browse published insights by topic tag." canonical="/insights/tag/">
+<BaseLayout title="Insight Tags" description="Browse published insights by topic tag." canonical="/insights/tag/" noIndex={true}>
   <Container>
     <HeroSection id="tags-title" badge="Insights" title="Insight Tags">
       <p>Browse published insight topics.</p>

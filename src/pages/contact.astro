@@ -26,10 +26,16 @@ const pathCards = [
         contractor assurance, government or commercial support, teaming, training, and other defined high-consequence needs.
       </p>
       <div class="ui-actions">
-        <Button href="/request-proposal">Request a Proposal</Button>
+        <Button href="#contact-form">Start the Short Inquiry</Button>
         <Button href="mailto:info@safetyassuranceglobal.com" variant="secondary">Email the Team</Button>
       </div>
     </HeroSection>
+
+    <Section ariaLabelledby="contact-lead-title">
+      <ContactInquiryForm />
+      <p class="response-note"><strong>Response timing:</strong> We do not publish a fixed response-time promise. If your need is schedule-critical, include the required decision or response date in the message, or email <a href="mailto:contact@safetyassuranceglobal.com">contact@safetyassuranceglobal.com</a>.</p>
+      <p class="proposal-route">Already have a defined project, procurement context, location, and schedule? <a href="/request-proposal">Use the structured proposal request instead →</a></p>
+    </Section>
 
     <Section ariaLabelledby="contact-paths-title">
       <SectionHeader id="contact-paths-title" badge="Choose the Right Path" title="A clear starting point for buyers, partners, and workforce inquiries." />
@@ -48,10 +54,6 @@ const pathCards = [
         <div><p class="eyebrow">Buyer decision path</p><h2 id="contact-decision-title">Define the requirement before selecting the engagement.</h2></div>
         <ul class="oa-rule-list"><li>Operating environment and location</li><li>Requirement or decision that needs support</li><li>Schedule and critical milestones</li><li>Expected evidence, output, or closeout need</li></ul>
       </div>
-    </Section>
-
-    <Section ariaLabelledby="contact-lead-title">
-      <ContactInquiryForm />
     </Section>
 
     <Section ariaLabelledby="details-title">
@@ -75,4 +77,5 @@ const pathCards = [
   .engagement-note { margin-top:var(--space-2); padding:1rem 1.1rem; border:1px solid rgba(245,158,11,.35); border-radius:var(--radius-md); background:rgba(180,83,9,.09); color:var(--color-text-muted); }
   .engagement-note strong { color:#fbbf24; }
   @media (max-width:860px) { .details-grid { grid-template-columns:1fr; } }
+  .response-note,.proposal-route{max-width:82ch;margin-top:.8rem;color:var(--color-text-soft);font-size:.88rem;line-height:1.6}
 </style>
