@@ -52,6 +52,9 @@ jobs:
       - name: Validate build
         run: npm run build
 
+      - name: Validate customer journeys
+        run: npm run validate:customer-journeys
+
       - name: Validate generated links
         run: npm run validate:links
 
