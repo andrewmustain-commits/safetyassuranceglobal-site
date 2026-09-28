@@ -108,10 +108,20 @@ requireText(client, "form.dataset.turnstileEnabled = 'unknown'", 'Client does no
 requireText(client, 'config.delivery.configured === true', 'Client does not consume the server delivery readiness state.');
 requireText(client, "PRIMARY_FALLBACK_EMAIL = 'info@safetyassuranceglobal.com'", 'Client primary fallback email must be info@safetyassuranceglobal.com.');
 requireText(client, "SECONDARY_FALLBACK_EMAIL = 'contact@safetyassuranceglobal.com'", 'Client secondary fallback email must remain contact@safetyassuranceglobal.com.');
-requireText(client, 'MAX_FALLBACK_BODY_CHARS', 'Client fallback email body is not bounded for email-client compatibility.');
-requireText(client, 'MAX_FALLBACK_SUBJECT_CHARS', 'Client fallback email subject is not bounded for email-client compatibility.');
-requireText(client, 'truncateForMailto', 'Client is missing mailto length truncation.');
+requireText(client, 'FIELD_LIMITS', 'Client must declare supported long-text field limits.');
+requireText(client, 'validateSupportedLengths', 'Client must visibly reject over-limit long text without shortening it.');
+requireText(client, "data-max-length", 'Client must discover governed long-text limits from rendered fields.');
+requireText(client, 'MAX_FALLBACK_SUBJECT_CHARS', 'Client fallback email subject must remain bounded.');
 requireText(client, 'buildFallbackMailto', 'Client is missing the prefilled email fallback builder.');
+if (/slice\(0,\s*MAX_MESSAGE_LENGTH\)/.test(client) || client.includes('truncateForMailto')) {
+  failures.push('Client must not silently truncate supported buyer requirement text.');
+}
+for (const marker of ['data-max-length="3000"', 'Your text is never silently shortened.']) {
+  requireText(contact + proposal, marker, `Forms must disclose the supported long-text boundary: ${marker}`);
+}
+requireText(server, 'message: 3_000', 'Server message limit must remain 3,000 characters.');
+requireText(server, 'briefScope: 3_000', 'Server briefScope limit must remain 3,000 characters.');
+requireText(server, 'procurementContext: 3_000', 'Server procurementContext limit must remain 3,000 characters.');
 requireText(client, 'openEmailFallback', 'Client is missing the email fallback submission path.');
 requireText(client, "form.dataset.deliveryConfigured === 'unknown'", 'Client must wait for runtime delivery detection before choosing the fallback path.');
 requireText(client, 'Please wait a moment while secure inquiry delivery is checked.', 'Client does not provide a pending-delivery status before runtime configuration resolves.');
@@ -157,6 +167,8 @@ requireText(commandPage, 'command@safetyassuranceglobal.com', 'SAG Command page 
 requireText(headers, "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com", 'CSP script-src does not allow Cloudflare Turnstile.');
 requireText(headers, 'frame-src https://challenges.cloudflare.com', 'CSP frame-src does not allow Cloudflare Turnstile.');
 requireText(headers, "connect-src 'self' https://challenges.cloudflare.com", 'CSP connect-src does not allow Cloudflare Turnstile.');
+requireText(headers, 'https://static.cloudflareinsights.com', 'CSP script-src must permit the approved Cloudflare Web Analytics beacon.');
+requireText(headers, 'https://cloudflareinsights.com', 'CSP connect-src must permit Cloudflare Web Analytics collection.');
 
 if (failures.length) {
   console.error('Turnstile and intake delivery integration validation failed:');
