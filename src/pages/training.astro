@@ -67,10 +67,19 @@ const buyerSafeguards = [
         readiness outcomes rather than presented as universally available or automatically credential-bearing.
       </p>
       <div class="ui-actions">
-        <Button href="/maritime-training">Explore Maritime Training</Button>
-        <Button href="mailto:academy@safetyassuranceglobal.com?subject=Training%20and%20Workforce%20Development%20Inquiry" variant="secondary">Email the Institute</Button>
+        <Button href="https://institute.safetyassuranceglobal.com/">Check Current Institute Offerings</Button>
+        <Button href="mailto:academy@safetyassuranceglobal.com?subject=Training%20and%20Workforce%20Development%20Inquiry" variant="secondary">Discuss a Workforce Need</Button>
       </div>
     </HeroSection>
+
+    <Section ariaLabelledby="training-today-title">
+      <SectionHeader badge="Current Buyer Path" id="training-today-title" title="Know what you can do now." />
+      <div class="grid-three">
+        <Card><h3>Review information</h3><p>Go to the dedicated Institute website for the current published course and Academy information.</p><p><a href="https://institute.safetyassuranceglobal.com/">Open Institute site →</a></p></Card>
+        <Card><h3>Ask about delivery</h3><p>Email the Institute team with the audience, operating need, location, timing, and desired outcome. Availability is confirmed before any commitment.</p></Card>
+        <Card><h3>Enrollment and credentials</h3><p>Do not treat a course description as proof that public enrollment, external approval, recognition, or credential issuance is currently available. Check the specific offering status.</p></Card>
+      </div>
+    </Section>
 
     <Section ariaLabelledby="training-delivery-title">
       <SectionHeader
@@ -92,7 +101,7 @@ const buyerSafeguards = [
       <SectionHeader
         badge="Availability Status"
         id="training-availability-title"
-        title="Every program should fit one clear status before a buyer relies on it."
+        title="Use plain status language before a buyer relies on an offering."
       />
       <div class="grid-two">
         {availabilityStates.map((state) => (
