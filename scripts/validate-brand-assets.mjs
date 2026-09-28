@@ -95,12 +95,13 @@ for (const filePath of sourceFiles) {
 const institutePage = fs.readFileSync(path.join(root, 'src', 'pages', 'institute.astro'), 'utf8');
 if (!institutePage.includes('brandAssets.instituteSeal')) failures.push('Institute page does not use centralized canonical Institute seal path');
 
+const productionSeal = fs.statSync(path.join(root, 'public', 'images', 'brand', 'image.png'));
+if (productionSeal.size > 100_000) failures.push('production SAG seal exceeds 100 KB delivery budget');
+
 if (failures.length) {
   console.error('Brand asset validation failed:');
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-const productionSeal = fs.statSync(path.join(root, 'public', 'images', 'brand', 'image.png'));
-if (productionSeal.size > 100_000) failures.push('production SAG seal exceeds 100 KB delivery budget');
 console.log(`Brand asset validation passed: ${svgAssets.length} required SVG assets, ${pngAssets.length} approved PNG delivery assets, ${jpegAssets.length} approved JPEG master, production SAG seal budget, direct mobile hero rendering, footer-only VetCert controls, and attribution controls verified.`);
