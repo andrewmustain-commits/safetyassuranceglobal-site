@@ -21,6 +21,19 @@ if (!service) {
 }
 
 const isMaritimeSpecific = slug === 'maritime-compliance';
+const serviceNeedBySlug: Record<string, string> = {
+  'operational-readiness': 'Operational Readiness',
+  'independent-assurance': 'Independent Assurance',
+  'maritime-compliance': 'Compliance Readiness',
+  'qa-qc': 'QA/QC and Quality Oversight',
+  'contractor-assurance': 'Contractor Assurance',
+  'safety-risk-management': 'Safety and Risk Management',
+  'incident-investigation': 'Incident Investigation',
+  'embedded-hse-support': 'Embedded HSE Support',
+  'emergency-preparedness': 'Emergency Preparedness',
+  'program-assurance': 'Program Assurance'
+};
+const startScopeHref = `/start?need=${encodeURIComponent(serviceNeedBySlug[slug] ?? service.title)}`;
 ---
 
 <BaseLayout title={service.title} description={service.summary}>
@@ -28,8 +41,8 @@ const isMaritimeSpecific = slug === 'maritime-compliance';
     <HeroSection id="service-title" badge={isMaritimeSpecific ? 'Primary Maritime Service' : 'Maritime-First Assurance Service'} title={service.title}>
       <p>{service.summary}</p>
       <div class="ui-actions">
-        <Button href={service.cta.href}>{service.cta.label}</Button>
-        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
+        <Button href={startScopeHref}>Start a {service.title} Scope</Button>
+        <Button href="/proof" variant="secondary">Review Evidence & Deliverables</Button>
       </div>
     </HeroSection>
 
@@ -87,6 +100,17 @@ const isMaritimeSpecific = slug === 'maritime-compliance';
       <Card><p>{service.expectedResult}</p></Card>
     </Section>
 
+    <Section ariaLabelledby="service-example-title">
+      <SectionHeader badge="See the Work in Context" id="service-example-title" title="Understand how a defined problem may become an engagement." />
+      <Card>
+        <p>Review clearly labeled illustrative scenarios showing how operating context, evidence, assurance activity, corrective action, and deliverables can be structured without implying fictional customers or past performance.</p>
+        <div class="ui-actions">
+          <Button href="/engagement-examples">View Illustrative Engagements</Button>
+          <Button href="/sample-deliverables" variant="secondary">See Sample Deliverables</Button>
+        </div>
+      </Card>
+    </Section>
+
     <Section ariaLabelledby="service-related-title">
       <SectionHeader badge="Related Services" id="service-related-title" title="Adjacent support areas." />
       <div class="grid-two">
@@ -111,8 +135,8 @@ const isMaritimeSpecific = slug === 'maritime-compliance';
 
     <CTASection id="service-cta-title" badge="Next Step" title="Discuss scope and readiness priorities.">
       <div class="ui-actions">
-        <Button href={service.cta.href}>{service.cta.label}</Button>
-        <Button href="/capabilities" variant="secondary">Review Capabilities</Button>
+        <Button href={startScopeHref}>Start This Scope</Button>
+        <Button href="/request-proposal" variant="secondary">Request a Proposal</Button>
       </div>
     </CTASection>
   </Container>
