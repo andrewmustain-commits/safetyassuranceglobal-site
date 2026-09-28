@@ -71,6 +71,11 @@ const scopeRuntime = fs.readFileSync('public/scripts/scope-builder.js', 'utf8');
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
   if (scopeRuntime.includes(forbidden)) failures.push(`scope builder contains forbidden persistence/network behavior: ${forbidden}`);
 }
+for (const marker of ['invalidateResult', "form.addEventListener('change'", "window.addEventListener('pageshow'"]) {
+  if (!scopeRuntime.includes(marker)) failures.push(`scope builder stale-result control missing: ${marker}`);
+}
+if (!start.includes('data-scope-stale-status')) failures.push('/start: accessible stale-result status region missing');
+if ((start.match(/Not Sure Yet/g) ?? []).length < 2) failures.push('/start: novice Not Sure Yet choices must exist for need and outcome');
 
 const readiness = pages['/readiness-check'];
 for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment', 'data-readiness-scope-link']) {
@@ -84,6 +89,10 @@ for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
   if (readinessRuntime.includes(forbidden)) failures.push(`readiness snapshot contains forbidden persistence/network behavior: ${forbidden}`);
 }
+for (const marker of ['invalidateResult', "form.addEventListener('change'", "window.addEventListener('pageshow'"]) {
+  if (!readinessRuntime.includes(marker)) failures.push(`readiness snapshot stale-result control missing: ${marker}`);
+}
+if (!readiness.includes('data-readiness-stale-status')) failures.push('/readiness-check: accessible stale-result status region missing');
 if (readinessRuntime.includes('%') || /\b(?:score|rating|percentile|percentage|index)\b/i.test(readinessRuntime)) {
   failures.push('/readiness-check: runtime numeric pseudo-precision or scoring language reintroduced');
 }
@@ -114,6 +123,9 @@ for (const marker of [
 }
 
 const home = pages['/'];
+for (const marker of ['Tell Us What You Need', 'See an Example Report', 'Help Me Define the Work']) {
+  if (!home.includes(marker)) failures.push(`/: beginner hero action missing: ${marker}`);
+}
 if (!home.includes('Need help choosing?')) failures.push('/: persistent customer pathfinder trigger missing');
 for (const href of ['/start', '/resources', '/proof', '/government', '/partners', '/request-proposal', '/contact']) requireLink('/', href);
 if (!home.includes('href="https://institute.safetyassuranceglobal.com"')) {
