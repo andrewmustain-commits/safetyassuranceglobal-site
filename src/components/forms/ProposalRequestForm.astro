@@ -89,12 +89,14 @@ const schedules = ['Immediate or urgent planning', 'Within 30 days', 'Within 90 
 
       <label class="lead-field lead-field-full" for="proposal-scope">
         <span>Brief Scope and Required Outcome</span>
-        <textarea id="proposal-scope" name="briefScope" rows="5" required aria-describedby="proposal-status" placeholder="Describe the work, operating environment, known hazards or controls, expected deliverables, and desired outcome."></textarea>
+        <textarea id="proposal-scope" name="briefScope" rows="5" required data-max-length="3000" aria-describedby="proposal-scope-limit proposal-status" placeholder="Describe the work, operating environment, known hazards or controls, expected deliverables, and desired outcome."></textarea>
+        <small id="proposal-scope-limit" class="lead-field-limit">Up to 3,000 characters. <span data-char-count>0</span>/3,000 used. Your text is never silently shortened.</small>
       </label>
 
       <label class="lead-field lead-field-full" for="proposal-procurement-context">
         <span>Procurement or Teaming Context</span>
-        <textarea id="proposal-procurement-context" name="procurementContext" rows="4" required aria-describedby="proposal-status" placeholder="Include RFP/RFQ details, prime/subcontract context, teaming needs, key dates, or direct commercial procurement information where applicable."></textarea>
+        <textarea id="proposal-procurement-context" name="procurementContext" rows="4" required data-max-length="3000" aria-describedby="proposal-procurement-limit proposal-status" placeholder="Include RFP/RFQ details, prime/subcontract context, teaming needs, key dates, or direct commercial procurement information where applicable."></textarea>
+        <small id="proposal-procurement-limit" class="lead-field-limit">Up to 3,000 characters. <span data-char-count>0</span>/3,000 used. Your text is never silently shortened.</small>
       </label>
 
       <label class="lead-field lead-field-full lead-checkbox" for="proposal-privacy">
