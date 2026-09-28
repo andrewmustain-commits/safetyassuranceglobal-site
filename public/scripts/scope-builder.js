@@ -4,6 +4,7 @@
 
   const form = root.querySelector('[data-scope-builder-form]');
   const result = root.querySelector('[data-scope-result]');
+  const staleStatus = root.querySelector('[data-scope-stale-status]');
   if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
 
   const recommendations = {
@@ -72,6 +73,14 @@
     if (node) node.textContent = value;
   };
 
+  const invalidateResult = (message = 'Your selections changed. Build the preliminary scope again before continuing.') => {
+    if (result.hidden) return;
+    result.hidden = true;
+    const proposal = result.querySelector('[data-scope-proposal-link]');
+    if (proposal instanceof HTMLAnchorElement) proposal.href = '/request-proposal';
+    if (staleStatus) staleStatus.textContent = message;
+  };
+
   const buildProposalHref = ({ environment, stage, need, outcome, schedule, title, outputs }) => {
     const params = new URLSearchParams({
       projectType: environment,
@@ -125,12 +134,22 @@
       proposal.href = buildProposalHref({ environment, stage, need, outcome, schedule, title: recommendation.title, outputs: recommendation.outputs });
     }
 
+    if (staleStatus) staleStatus.textContent = '';
     result.hidden = false;
     window.dispatchEvent(new CustomEvent('sag:site-event', { detail: { name: 'scope_builder_complete' } }));
     result.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   });
 
+  form.addEventListener('change', () => invalidateResult());
+
   form.addEventListener('reset', () => {
     result.hidden = true;
+    if (staleStatus) staleStatus.textContent = '';
+  });
+
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted && !result.hidden) {
+      invalidateResult('This page was restored from browser history. Rebuild the preliminary scope to confirm the current selections.');
+    }
   });
 })();

@@ -1,6 +1,7 @@
 (function () {
   const form = document.querySelector('[data-readiness-assessment]');
   const result = document.querySelector('[data-readiness-result]');
+  const staleStatus = document.querySelector('[data-readiness-stale-status]');
   if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
 
   const labels = {
@@ -34,6 +35,17 @@
     if (value === 2) return 'Partially visible';
     if (value === 1) return 'Material gaps';
     return 'Not yet verified';
+  };
+
+  const invalidateResult = (message = 'Your answers changed. Recompute the snapshot before using the result or continuing to scope.') => {
+    if (result.hidden) return;
+    result.hidden = true;
+    const scopeLink = result.querySelector('[data-readiness-scope-link]');
+    if (scopeLink instanceof HTMLAnchorElement) {
+      scopeLink.href = '/start';
+      scopeLink.textContent = 'Build an Assurance Scope';
+    }
+    if (staleStatus) staleStatus.textContent = message;
   };
 
   form.addEventListener('submit', (event) => {
@@ -104,6 +116,7 @@
       }));
     }
 
+    if (staleStatus) staleStatus.textContent = '';
     result.hidden = false;
     window.dispatchEvent(new CustomEvent('sag:site-event', { detail: { name: 'readiness_snapshot_complete' } }));
     result.scrollIntoView({
@@ -112,7 +125,16 @@
     });
   });
 
+  form.addEventListener('change', () => invalidateResult());
+
   form.addEventListener('reset', () => {
     result.hidden = true;
+    if (staleStatus) staleStatus.textContent = '';
+  });
+
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted && !result.hidden) {
+      invalidateResult('This page was restored from browser history. Recompute the snapshot to confirm the current answers.');
+    }
   });
 })();

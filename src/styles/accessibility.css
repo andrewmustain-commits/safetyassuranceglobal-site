@@ -21,7 +21,7 @@
   .brand {
     min-width: 0;
     max-width: calc(100% - 5.6rem);
-    overflow: hidden;
+    overflow: visible;
   }
 
   .brand .sag-logo-link {
@@ -30,22 +30,26 @@
   }
 
   .brand .sag-seal-image {
-    width: clamp(3rem, 11vw, 4.4rem) !important;
-    height: clamp(3rem, 11vw, 4.4rem) !important;
+    width: clamp(2.35rem, 8vw, 2.8rem) !important;
+    height: clamp(2.35rem, 8vw, 2.8rem) !important;
   }
 
   .brand .sag-wordmark {
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .brand .sag-wordmark strong,
   .brand .sag-wordmark > span,
   .brand .sag-wordmark small {
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: clip;
+    overflow: visible;
+    text-overflow: unset;
   }
+
+  .brand .sag-wordmark strong { font-size: .88rem !important; }
+  .brand .sag-wordmark > span { font-size: .62rem !important; letter-spacing: .2em !important; }
+  .brand .sag-wordmark small { font-size: .38rem !important; letter-spacing: .07em !important; }
 
   .nav-toggle {
     display: inline-flex !important;
@@ -246,4 +250,18 @@
     text-decoration: underline;
     text-underline-offset: .2em;
   }
+}
+
+@media (min-width: 921px) {
+  .site-header .nav-toggle { display: none !important; }
+  .site-header .primary-nav { display: block !important; position: static; }
+}
+
+@media (max-width: 360px) {
+  .brand { max-width: calc(100% - 5rem); }
+  .brand .sag-seal-image { width: 2.25rem !important; height: 2.25rem !important; }
+  .brand .sag-wordmark strong { font-size: .7rem !important; }
+  .brand .sag-wordmark > span { font-size: .5rem !important; letter-spacing: .14em !important; }
+  .brand .sag-wordmark small { display: none !important; }
+  .site-header .nav-toggle { min-width: 4.4rem; padding-inline: .45rem !important; }
 }
