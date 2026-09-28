@@ -28,7 +28,7 @@ const protectedRows = [
   },
   {
     label: 'Institute authority boundary',
-    claim: 'Institute of Assurance as Safety Assurance Global’s professional education and assurance-learning institution',
+    claim: 'Safety Assurance Global Institute of Assurance as a professional-education and assurance-learning institution associated with the Safety Assurance Global ecosystem',
     disposition: 'Qualified'
   },
   {
@@ -56,6 +56,35 @@ for (const protectedRow of protectedRows) {
 
 if (/\|\s*Unsupported\s*\|/i.test(currentSection)) {
   failures.push('current claims table uses legacy Unsupported status; reconcile to a controlled current disposition');
+}
+
+function collectSourceText(directory) {
+  const entries = fs.readdirSync(directory, { withFileTypes: true });
+  let combined = '';
+  for (const entry of entries) {
+    const entryPath = `${directory}/${entry.name}`;
+    if (entry.isDirectory()) {
+      combined += collectSourceText(entryPath);
+    } else if (entry.isFile() && /\.(astro|ts|js|mjs|md)$/i.test(entry.name)) {
+      combined += `\n${entryPath}\n${fs.readFileSync(entryPath, 'utf8')}`;
+    }
+  }
+  return combined;
+}
+
+const sourceText = collectSourceText('src');
+const forbiddenInstituteRelationshipClaims = [
+  /learning and workforce-development division/i,
+  /Safety Assurance Global[’']s professional education and assurance-learning institution/i,
+  /governed professional-education and workforce-development institution associated with the Safety Assurance Global ecosystem/i,
+  /One destination for governed professional learning/i,
+  /offerings governed through the Safety Assurance Global Institute of Assurance/i
+];
+
+for (const pattern of forbiddenInstituteRelationshipClaims) {
+  if (pattern.test(sourceText)) {
+    failures.push(`public source contains an Institute relationship/governance claim outside the verified association boundary: ${pattern}`);
+  }
 }
 
 if (failures.length) {
