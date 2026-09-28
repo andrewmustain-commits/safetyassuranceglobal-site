@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const questions = [
+  ['requirements','Requirements are clearly defined and tied to the work or decision.'],
+  ['evidence','Required records, plans, inspections, training, and supporting evidence are current and accessible.'],
+  ['ownership','Open actions have clear owners, due dates, and escalation paths.'],
+  ['contractors','Contractor or supplier readiness is verified against defined expectations.'],
+  ['field','Field conditions and actual work practices have been checked against documented controls.'],
+  ['quality','Quality requirements, inspection criteria, and nonconformance controls are understood and in use.'],
+  ['emergency','Emergency, contingency, or recovery arrangements have been reviewed and exercised where appropriate.'],
+  ['change','Changes, exceptions, and deviations are visible to the people making readiness decisions.'],
+  ['closure','Corrective actions require evidence before they are treated as closed.'],
+  ['leadership','Leadership can see the most important open risks, gaps, and evidence before deciding to proceed.']
+];
+
+const options = [
+  ['3','Yes — current evidence supports this'],
+  ['2','Mostly — some evidence or follow-through is incomplete'],
+  ['1','Limited — significant gaps remain'],
+  ['0','Unknown / not yet verified']
+];
+---
+
+<BaseLayout
+  title="Readiness Snapshot"
+  description="A private, browser-based Safety Assurance Global readiness snapshot that helps teams identify where evidence, controls, contractor assurance, corrective actions, and leadership visibility may need review."
+>
+  <Container>
+    <HeroSection
+      id="readiness-check-title"
+      badge="Customer Tool"
+      title="Get a preliminary readiness snapshot before the decision point."
+      image="/images/site-2026/maritime-hero.webp"
+      imagePosition="center 54%"
+    >
+      <p>Answer ten evidence-focused questions. The result stays in your browser and highlights where additional review may be useful. No name, email, project identifier, or free-text project information is requested.</p>
+      <div class="ui-actions">
+        <Button href="#readiness-assessment">Start the Snapshot</Button>
+        <Button href="/start" variant="secondary">Build a Scope Instead</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="readiness-assessment-title">
+      <SectionHeader badge="10 Questions" id="readiness-assessment-title" title="How visible and verifiable is your current readiness evidence?" />
+      <form class="readiness-assessment" id="readiness-assessment" data-readiness-assessment>
+        <ol class="readiness-questions">
+          {questions.map(([domain, question], index) => (
+            <li>
+              <fieldset>
+                <legend><span>{String(index + 1).padStart(2, '0')}</span>{question}</legend>
+                <div class="readiness-options">
+                  {options.map(([value, label], optionIndex) => (
+                    <label for={'readiness-' + domain + '-' + optionIndex}>
+                      <input id={'readiness-' + domain + '-' + optionIndex} type="radio" name={domain} value={value} required />
+                      <span>{label}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            </li>
+          ))}
+        </ol>
+        <div class="readiness-actions">
+          <button class="ui-button ui-button-primary" type="submit">Show My Snapshot</button>
+          <button class="ui-button ui-button-secondary" type="reset">Reset</button>
+        </div>
+        <p class="readiness-privacy">Your selections are processed only in this browser. This tool does not send or store your answers.</p>
+      </form>
+
+      <section class="readiness-result" data-readiness-result hidden aria-live="polite" aria-labelledby="readiness-result-title">
+        <p class="eyebrow">Preliminary readiness snapshot</p>
+        <h2 id="readiness-result-title" data-readiness-title>Readiness visibility</h2>
+        <p data-readiness-summary></p>
+        <div class="readiness-meter" aria-hidden="true"><span data-readiness-meter></span></div>
+        <dl class="readiness-domains" data-readiness-domains></dl>
+        <div class="readiness-actions">
+          <a class="ui-button ui-button-primary" href="/start">Build an Assurance Scope</a>
+          <a class="ui-button ui-button-secondary" href="/proof">Review Evidence & Deliverables</a>
+        </div>
+        <p class="readiness-boundary">This is an informational self-assessment, not an audit, certification, assurance opinion, compliance determination, regulatory finding, or go/no-go decision. A formal conclusion requires a defined scope and review of actual evidence.</p>
+      </section>
+    </Section>
+
+    <Section ariaLabelledby="readiness-use-title">
+      <SectionHeader badge="Use the Result" id="readiness-use-title" title="Turn uncertainty into a focused review plan." />
+      <div class="grid-three">
+        <Card><h3>Unknown evidence</h3><p>Use the snapshot to identify where the team cannot yet show what supports a readiness claim.</p></Card>
+        <Card><h3>Incomplete follow-through</h3><p>Focus on actions, owners, closure evidence, contractor controls, and unresolved exceptions before the decision point.</p></Card>
+        <Card><h3>Leadership visibility</h3><p>Organize the most important open gaps and evidence into a concise decision-ready view.</p></Card>
+      </div>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<script is:inline src="/scripts/readiness-check.js" defer></script>
+
+<style>
+.readiness-assessment{display:grid;gap:1.5rem}.readiness-questions{list-style:none;margin:0;padding:0;display:grid;gap:1rem}.readiness-questions fieldset{margin:0;padding:1.1rem;border:1px solid rgba(148,163,184,.22);border-radius:1rem;background:rgba(15,23,42,.72)}.readiness-questions legend{display:flex;gap:.7rem;max-width:90ch;padding:0 .3rem;color:#fff;font-weight:800}.readiness-questions legend span{color:var(--color-accent);font-size:.72rem;letter-spacing:.1em}.readiness-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin-top:.9rem}.readiness-options label{display:flex;gap:.65rem;align-items:flex-start;padding:.75rem;border:1px solid rgba(148,163,184,.18);border-radius:.7rem;cursor:pointer}.readiness-options input{margin-top:.2rem}.readiness-actions{display:flex;gap:.75rem;flex-wrap:wrap}.readiness-privacy,.readiness-boundary{max-width:85ch;color:var(--color-text-soft);font-size:.85rem;line-height:1.65}.readiness-result{margin-top:2rem;padding:clamp(1.2rem,3vw,2rem);border:1px solid rgba(214,173,85,.35);border-radius:1.2rem;background:linear-gradient(140deg,rgba(15,23,42,.95),rgba(9,18,31,.9))}.readiness-meter{height:.65rem;margin:1rem 0 1.4rem;border-radius:999px;background:rgba(148,163,184,.18);overflow:hidden}.readiness-meter span{display:block;height:100%;width:0;background:#d6ad55;transition:width .25s ease}.readiness-domains{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin:0 0 1.5rem}.readiness-domains>div{padding:.8rem;border-top:1px solid rgba(148,163,184,.2)}.readiness-domains dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8}.readiness-domains dd{margin:.2rem 0 0;color:#fff;font-weight:800}@media(max-width:760px){.readiness-options,.readiness-domains{grid-template-columns:1fr}}
+</style>
