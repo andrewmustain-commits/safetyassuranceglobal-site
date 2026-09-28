@@ -55,6 +55,9 @@ jobs:
       - name: Validate customer journeys
         run: npm run validate:customer-journeys
 
+      - name: Validate September 27 website audit remediation
+        run: npm run validate:website-audit
+
       - name: Validate generated links
         run: npm run validate:links
 
