@@ -126,6 +126,7 @@
     }
 
     result.hidden = false;
+    window.dispatchEvent(new CustomEvent('sag:site-event', { detail: { name: 'scope_builder_complete' } }));
     result.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   });
 
