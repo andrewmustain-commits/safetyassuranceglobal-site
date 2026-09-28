@@ -77,11 +77,24 @@ await retry('homepage', () => expectStatus('/', 200, 'Maritime Assurance &amp; O
 await retry('contact route', () => expectStatus('/contact', 200, 'info@safetyassuranceglobal.com'));
 await retry('proposal route', () => expectStatus('/request-proposal', 200, 'Request a Proposal'));
 await retry('capabilities route', () => expectStatus('/capabilities', 200, 'RCUUJLWEBGD4'));
+await retry('start-a-scope route', () => expectStatus('/start', 200, 'Build a preliminary assurance scope'));
+await retry('proof center route', () => expectStatus('/proof', 200, 'Evidence Before Claims'));
+await retry('customer resources route', () => expectStatus('/resources', 200, 'Customer Resource Center'));
+await retry('readiness snapshot route', () => expectStatus('/readiness-check', 200, 'Preliminary readiness snapshot'));
+await retry('prime and teaming route', () => expectStatus('/partners', 200, 'Prime Contractor &amp; Teaming'));
+await retry('illustrative engagements route', () => expectStatus('/engagement-examples', 200, 'Illustrative Engagements'));
+await retry('leadership route', () => expectStatus('/leadership', 200, 'Named Leadership'));
+await retry('sample deliverables route', () => expectStatus('/sample-deliverables', 200, 'Illustrative Deliverables'));
+await retry('service sheets route', () => expectStatus('/service-sheets', 200, 'Service Sheets'));
 await retry('robots.txt', () => expectStatus('/robots.txt', 200, 'sitemap-index.xml'));
 await retry('security.txt', () => expectStatus('/.well-known/security.txt', 200, 'Contact:'));
 await retry('sitemap index', () => expectStatus('/sitemap-index.xml', 200, '<sitemapindex'));
 await retry('homepage security headers', () => expectHeaderIncludes('/', 'content-security-policy', "default-src 'self'"));
 await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/sag-official-seal-2026.png', 'cache-control', 'max-age=604800'));
+await retry('readiness matrix download', () => expectStatus('/downloads/readiness-evidence-matrix-template.csv', 200, 'Requirement'));
+await retry('corrective-action register download', () => expectStatus('/downloads/corrective-action-register-template.csv', 200, 'Finding'));
+await retry('contractor readiness checklist download', () => expectStatus('/downloads/contractor-readiness-checklist.csv', 200, 'Contractor'));
+await retry('QA/QC verification log download', () => expectStatus('/downloads/qa-qc-verification-log-template.csv', 200, 'Verification'));
 
 await retry('academy redirect', () => expectRedirect('/academy', '/institute'));
 await retry('academy trailing-slash redirect', () => expectRedirect('/academy/', '/institute'));
