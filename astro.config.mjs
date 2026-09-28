@@ -13,7 +13,12 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => !sitemapExcludedPaths.has(new URL(page).pathname)
+      filter: (page) => {
+        const pathname = new URL(page).pathname;
+        if (sitemapExcludedPaths.has(pathname)) return false;
+        if (pathname.startsWith('/insights/category/') || pathname.startsWith('/insights/tag/')) return false;
+        return true;
+      }
     })
   ]
 });
