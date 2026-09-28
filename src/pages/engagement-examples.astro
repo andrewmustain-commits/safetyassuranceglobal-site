@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const examples = [
+  {
+    title: 'Shipyard pre-mobilization readiness',
+    situation: 'A shipyard or marine project team is approaching mobilization with multiple contractors, open actions, training records, work controls, and quality requirements that must be visible before work proceeds.',
+    focus: ['Readiness criteria and decision point', 'Contractor plans and role assignments', 'Training and competency evidence', 'Inspection and quality records', 'Open findings and corrective actions'],
+    outputs: ['Readiness assessment', 'Gap register', 'Corrective-action roadmap', 'Validation report', 'Executive readiness brief'],
+    path: '/services/operational-readiness'
+  },
+  {
+    title: 'Port contractor-assurance review',
+    situation: 'A port or terminal owner needs clearer evidence that a contractor is implementing agreed controls and following through on findings during active work.',
+    focus: ['Contractor-control requirements', 'Field verification evidence', 'Performance records', 'Issue escalation', 'Action and closeout evidence'],
+    outputs: ['Contractor-assurance report', 'Gap register', 'Action tracker', 'Validation record', 'Management summary'],
+    path: '/services/contractor-assurance'
+  },
+  {
+    title: 'QA/QC verification for critical work',
+    situation: 'A project team needs independent visibility into whether quality requirements, inspection records, observed conditions, and nonconformance follow-through are aligned.',
+    focus: ['Acceptance criteria', 'Inspection and test records', 'Observed field conditions', 'Nonconformance records', 'Corrective-action evidence'],
+    outputs: ['QA/QC review', 'Verification log', 'Gap register', 'Corrective-action roadmap', 'Validation report'],
+    path: '/services/qa-qc'
+  },
+  {
+    title: 'Corrective-action closure after an incident',
+    situation: 'Leadership has open actions after an incident or significant event and needs to know whether submitted closure evidence demonstrates that the agreed corrective actions were actually completed.',
+    focus: ['Original finding and contributing factors', 'Assigned corrective action', 'Closure evidence', 'Residual issues', 'Verification method'],
+    outputs: ['Incident learning record', 'Corrective-action register', 'Closure-evidence review', 'Validation report', 'Closeout summary'],
+    path: '/services/incident-investigation'
+  },
+  {
+    title: 'Government or prime-contractor assurance scope',
+    situation: 'An agency, public owner, or prime contractor has a defined requirement and needs to evaluate capability fit, evidence, deliverables, qualifications, and teaming context before a proposal or subcontract representation is made.',
+    focus: ['Statement of work or requirement', 'Applicable procurement context', 'Mandatory qualifications', 'Expected deliverables', 'Schedule and acceptance evidence'],
+    outputs: ['Defined scope', 'Capability-fit review', 'Evidence requirements', 'Delivery assumptions', 'Proposal inputs'],
+    path: '/government'
+  },
+  {
+    title: 'Program-level assurance visibility',
+    situation: 'A complex program has multiple workstreams, vendors, risks, findings, and action owners, but leadership lacks one evidence-backed view of what is open and what requires intervention.',
+    focus: ['Program governance', 'Risk and issue registers', 'Workstream evidence', 'Contractor and quality reporting', 'Action aging and closeout'],
+    outputs: ['Program assurance review', 'Cross-workstream gap view', 'Executive dashboard', 'Corrective-action roadmap', 'Closeout report'],
+    path: '/services/program-assurance'
+  }
+];
+---
+
+<BaseLayout title="Illustrative Engagements" description="Illustrative Safety Assurance Global engagement examples showing how a defined operating problem can translate into evidence review, assurance work, deliverables, and decision support without implying fictional customer past performance.">
+  <Container>
+    <HeroSection id="engagement-examples-title" badge="Illustrative Engagements" title="See how an operating problem can become a defined assurance engagement." image="/images/site-2026/services-hero.webp" imagePosition="center 50%">
+      <p>These scenarios explain how Safety Assurance Global capabilities can be structured around a buyer's decision. They are illustrative examples only and do not represent unnamed customers, completed contracts, agency relationships, awards, or claimed project outcomes.</p>
+      <div class="ui-actions"><Button href="/start">Build Your Own Scope</Button><Button href="/proof" variant="secondary">Review Evidence & Deliverables</Button></div>
+    </HeroSection>
+
+    <Section ariaLabelledby="engagement-examples-list-title">
+      <SectionHeader badge="From Problem to Evidence" id="engagement-examples-list-title" title="Six examples of how the work may be structured." />
+      <div class="engagement-example-list">
+        {examples.map((item, index) => (
+          <article class="engagement-example">
+            <div class="engagement-example-heading">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><p>Illustrative example — not a customer record</p><h3>{item.title}</h3></div>
+            </div>
+            <p class="engagement-situation">{item.situation}</p>
+            <div class="engagement-columns">
+              <div><h4>What may be examined</h4><ul>{item.focus.map((entry) => <li>{entry}</li>)}</ul></div>
+              <div><h4>Typical outputs to discuss</h4><ul>{item.outputs.map((entry) => <li>{entry}</li>)}</ul></div>
+            </div>
+            <div class="engagement-actions"><a href={item.path}>Review related capability →</a><a href="/start">Build a similar scope →</a></div>
+          </article>
+        ))}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="engagement-example-boundary-title">
+      <SectionHeader badge="Evidence Boundary" id="engagement-example-boundary-title" title="Examples demonstrate structure, not performance claims." />
+      <Card><p>Actual engagements vary by customer requirement, jurisdiction, personnel qualifications, access, schedule, evidence available, contractual authority, and accepted deliverables. A scenario on this page does not establish that Safety Assurance Global has performed that exact engagement for a specific customer.</p></Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+.engagement-example-list{display:grid;gap:1.25rem}.engagement-example{padding:clamp(1.2rem,3vw,2rem);border:1px solid rgba(148,163,184,.2);border-radius:1.1rem;background:linear-gradient(145deg,rgba(15,23,42,.94),rgba(9,18,31,.84))}.engagement-example-heading{display:grid;grid-template-columns:3rem 1fr;gap:1rem;align-items:start}.engagement-example-heading>span{color:var(--color-accent);font-size:.72rem;font-weight:900;letter-spacing:.12em}.engagement-example-heading p{margin:0 0 .35rem;color:#94a3b8;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.engagement-example-heading h3{margin:0;font-size:clamp(1.4rem,2.6vw,2.15rem)}.engagement-situation{max-width:85ch;margin:1rem 0 1.3rem}.engagement-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}.engagement-columns>div{padding-top:1rem;border-top:1px solid rgba(148,163,184,.22)}.engagement-columns h4{margin:0 0 .65rem}.engagement-columns ul{margin:0;padding-left:1.2rem}.engagement-columns li{margin:.35rem 0}.engagement-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem}.engagement-actions a{font-weight:800}@media(max-width:700px){.engagement-columns{grid-template-columns:1fr}}
+</style>
