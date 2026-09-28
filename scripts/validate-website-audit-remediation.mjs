@@ -125,8 +125,8 @@ const releaseScripts = [
   [contact, '/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js', 'public/scripts/intake-form.9c71f918392c.js', 'contact intake'],
   [proposal, '/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js', 'public/scripts/intake-form.9c71f918392c.js', 'proposal intake'],
   [proposal, '/scripts/proposal-prefill.764102aac31a.js', 'public/scripts/proposal-prefill.js', 'public/scripts/proposal-prefill.764102aac31a.js', 'proposal prefill'],
-  [startPage, '/scripts/scope-builder.e639faf0074d.js', 'public/scripts/scope-builder.js', 'public/scripts/scope-builder.e639faf0074d.js', 'scope builder'],
-  [readinessPage, '/scripts/readiness-check.1057d906c68b.js', 'public/scripts/readiness-check.js', 'public/scripts/readiness-check.1057d906c68b.js', 'readiness snapshot'],
+  [startPage, '/scripts/scope-builder.f007161d5676.js', 'public/scripts/scope-builder.js', 'public/scripts/scope-builder.f007161d5676.js', 'scope builder'],
+  [readinessPage, '/scripts/readiness-check.7c1209a7c75e.js', 'public/scripts/readiness-check.js', 'public/scripts/readiness-check.7c1209a7c75e.js', 'readiness snapshot'],
   [layout, '/scripts/site-measurement.11122ffd15b8.js', 'public/scripts/site-measurement.js', 'public/scripts/site-measurement.11122ffd15b8.js', 'site measurement']
 ];
 const gitBlobSha = (content) =>
