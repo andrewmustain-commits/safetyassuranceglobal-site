@@ -129,3 +129,6 @@
 .oa-rule-list{list-style:none;margin:0;padding:0;border-top:1px solid rgba(148,163,184,.25)}
 .oa-rule-list>li{padding:1.5rem 0;border-bottom:1px solid rgba(148,163,184,.25)}
 @media(max-width:760px){.oa-page-intro,.oa-editorial-split{grid-template-columns:1fr}}
+
+.lead-field-limit{display:block;margin-top:.18rem;color:#aeb8c5;font-size:.76rem;line-height:1.45}
+.lead-field [aria-invalid='true']{border-color:#f87171!important;outline-color:rgba(248,113,113,.34)!important}
