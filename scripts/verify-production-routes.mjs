@@ -121,10 +121,10 @@ await retry('proposal page references fingerprinted intake and prefill runtimes'
   }
 });
 await retry('scope page references fingerprinted runtime', () =>
-  expectStatus('/start', 200, '/scripts/scope-builder.e639faf0074d.js')
+  expectStatus('/start', 200, '/scripts/scope-builder.f007161d5676.js')
 );
 await retry('readiness page references fingerprinted runtime', () =>
-  expectStatus('/readiness-check', 200, '/scripts/readiness-check.1057d906c68b.js')
+  expectStatus('/readiness-check', 200, '/scripts/readiness-check.7c1209a7c75e.js')
 );
 await retry('fingerprinted intake runtime exactly matches canonical script', () =>
   expectBodyEqualsFile('/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js')
@@ -133,10 +133,10 @@ await retry('fingerprinted proposal prefill runtime exactly matches canonical sc
   expectBodyEqualsFile('/scripts/proposal-prefill.764102aac31a.js', 'public/scripts/proposal-prefill.js')
 );
 await retry('fingerprinted scope runtime exactly matches canonical script', () =>
-  expectBodyEqualsFile('/scripts/scope-builder.e639faf0074d.js', 'public/scripts/scope-builder.js')
+  expectBodyEqualsFile('/scripts/scope-builder.f007161d5676.js', 'public/scripts/scope-builder.js')
 );
 await retry('fingerprinted readiness runtime exactly matches canonical script', () =>
-  expectBodyEqualsFile('/scripts/readiness-check.1057d906c68b.js', 'public/scripts/readiness-check.js')
+  expectBodyEqualsFile('/scripts/readiness-check.7c1209a7c75e.js', 'public/scripts/readiness-check.js')
 );
 await retry('fingerprinted measurement runtime exactly matches canonical script', () =>
   expectBodyEqualsFile('/scripts/site-measurement.11122ffd15b8.js', 'public/scripts/site-measurement.js')
