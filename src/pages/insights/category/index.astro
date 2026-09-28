@@ -27,7 +27,7 @@ const categories = Array.from(categoryMap.entries())
   .sort((a, b) => a.name.localeCompare(b.name));
 ---
 
-<BaseLayout title="Insight Categories" description="Browse published insights by category." canonical="/insights/category/">
+<BaseLayout title="Insight Categories" description="Browse published insights by category." canonical="/insights/category/" noIndex={true}>
   <Container>
     <HeroSection id="categories-title" badge="Insights" title="Insight Categories">
       <p>Browse published insight categories.</p>
