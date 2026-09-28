@@ -15,17 +15,9 @@ const customerProblems = [
   { href: '/services/operational-readiness', title: 'Prove operational readiness', copy: 'Verify whether plans, controls, people, evidence, and open actions support the decision to proceed.' },
   { href: '/services/contractor-assurance', title: 'Verify contractor readiness', copy: 'Understand whether contractor controls, records, performance evidence, and corrective actions are ready for execution.' },
   { href: '/services/qa-qc', title: 'Strengthen quality verification', copy: 'Connect requirements, inspection evidence, field conditions, nonconformance, and corrective action.' },
-  { href: '/method', title: 'Close corrective actions defensibly', copy: 'Keep findings connected to ownership, required evidence, validation, and an explicit closure disposition.' },
-  { href: '/government', title: 'Prepare for a government requirement', copy: 'Move quickly to procurement facts, capability fit, teaming information, and a defined requirement.' },
-  { href: '/start', title: 'Not sure what service you need?', copy: 'Use the guided scope builder to turn the operating problem into a preliminary engagement path.' }
-];
+  { href: '/government', title: 'Prepare for a government or prime requirement', copy: 'Move quickly to procurement facts, capability fit, teaming information, and a defined requirement.' }
+]
 
-const engagements = [
-  { href: '/services/operational-readiness', title: 'Operational Readiness Review', copy: 'Independent review of operational plans, controls, evidence, and open actions before critical work, transition, or startup.', image: '/images/site-2026/home-hero.webp' },
-  { href: '/services/contractor-assurance', title: 'Contractor & Supplier Assurance', copy: 'Focused oversight of contractor safety, quality, performance, and readiness from pre-mobilization through closeout.', image: '/images/site-2026/about-hero.webp' },
-  { href: '/services/qa-qc', title: 'Safety & Quality Verification', copy: 'Field verification and QA/QC review that connects requirements to observed conditions, records, findings, and decision-ready evidence.', image: '/images/site-2026/services-hero.webp' },
-  { href: '/method', title: 'Corrective-Action Closure & Validation', copy: 'Structured follow-through from finding and corrective action to independent closure validation and management reporting.', image: '/images/site-2026/capabilities-hero.webp' }
-];
 
 const typicalOutputs = [
   'Readiness assessment',
@@ -49,7 +41,7 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
           <p class="hero-eyebrow">Maritime assurance for safer, stronger, ready operations</p>
           <h1 id="home-hero-title">Know your operation is ready—<strong>before it matters.</strong></h1>
           <span class="hero-rule" aria-hidden="true"></span>
-          <p>Safety Assurance Global independently reviews safety controls, contractor performance, quality processes, and operational plans. We identify gaps, prioritize corrective actions, and verify closure so leaders can make defensible readiness decisions.</p>
+          <p>We help maritime operators and high-consequence teams verify safety controls, contractor readiness, quality, and operational plans before critical work moves forward. Buyers receive traceable findings, actions, closure evidence, and decision-ready reporting.</p>
           <div class="hero-actions">
             <Button href="/start">Start a Scope</Button>
             <Button href="/proof" variant="secondary">See Evidence & Deliverables</Button>
@@ -83,64 +75,13 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
       </Container>
     </section>
 
-    <section id="engagements" class="engagements" aria-labelledby="engagements-title">
-      <Container>
-        <div class="light-heading"><p>How Safety Assurance Global Helps</p><h2 id="engagements-title">Four clear paths from uncertainty to verified readiness.</h2><span></span></div>
-        <div class="engagement-grid">
-          {engagements.map((engagement, index) => (
-            <a href={engagement.href} class="engagement-card">
-              <img src={engagement.image} alt="" loading="lazy" decoding="async" />
-              <div class="engagement-card-body">
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <h3>{engagement.title}</h3>
-                <p>{engagement.copy}</p>
-                <strong>Explore engagement →</strong>
-              </div>
-            </a>
-          ))}
-        </div>
-        <p class="service-depth">Need a broader scope? <a href="/services">View Safety Assurance Global’s full assurance and advisory capabilities.</a></p>
-      </Container>
-    </section>
-
-    <section class="assurance-story" aria-labelledby="assurance-story-title">
-      <Container>
-        <div class="assurance-story__intro">
-          <p>From requirement to closure</p>
-          <h2 id="assurance-story-title">Evidence stays connected to the decision.</h2>
-          <p>Safety Assurance Global structures assurance work so requirements, field verification, findings, corrective actions, and closure evidence remain traceable through the engagement.</p>
-        </div>
-        <ol class="assurance-flow" aria-label="Assurance engagement flow">
-          {['Requirement', 'Control', 'Verification', 'Finding', 'Corrective Action', 'Closure'].map((step, index) => (
-            <li><span>{String(index + 1).padStart(2, '0')}</span><strong>{step}</strong></li>
-          ))}
-        </ol>
-        <p class="assurance-story__boundary">The exact sequence, evidence requirements, and deliverables are defined by the agreed engagement scope.</p>
-      </Container>
-    </section>
-
-    <section class="output-strip" aria-labelledby="output-strip-title">
-      <Container class="output-strip-shell">
-        <div class="output-strip-heading">
-          <p>Decision-ready evidence</p>
-          <h2 id="output-strip-title">Typical engagement outputs are built to help leaders act.</h2>
-        </div>
-        <div class="output-strip-grid">
-          {typicalOutputs.map((output, index) => (
-            <div class="output-item"><span>{String(index + 1).padStart(2, '0')}</span><strong>{output}</strong></div>
-          ))}
-        </div>
-        <p class="output-note">Specific deliverables are defined by engagement scope, requirements, accepted evidence, and the decision the work is intended to support.</p>
-      </Container>
-    </section>
-
     <section class="home-proof" aria-labelledby="home-proof-title">
       <Container class="home-proof-shell">
         <div>
           <p class="eyebrow">See what the work looks like</p>
           <h2 id="home-proof-title">A buyer should know what evidence may come back before the engagement starts.</h2>
-          <p>Review sanitized deliverable structures, service sheets, the assurance method, procurement information, and the boundaries that keep public claims tied to evidence.</p>
-          <div class="ui-actions"><a class="ui-button ui-button-primary" href="/proof">Open Evidence & Results</a><a class="ui-button ui-button-secondary" href="/sample-deliverables">See Sample Deliverables</a></div>
+          <p>Inspect a populated synthetic work product, then review the people, method, procurement information, and scope boundaries behind the offer.</p>
+          <div class="ui-actions"><a class="ui-button ui-button-primary" href="/completed-example">Inspect a Completed Example</a><a class="ui-button ui-button-secondary" href="/leadership">Meet the People Behind the Work</a></div>
         </div>
         <div class="home-proof-ledger">
           {typicalOutputs.map((output, index) => <div><span>{String(index + 1).padStart(2, '0')}</span><strong>{output}</strong><small>Representative work product</small></div>)}
@@ -152,26 +93,6 @@ const academiesUrl = 'https://institute.safetyassuranceglobal.com/institute/acad
       <Section class="maritime-panel photo-backed-band" style="--band-image:url(/images/site-2026/maritime-hero.webp);--band-position:center 55%" ariaLabelledby="maritime-title">
         <div><Badge text="Primary Market" /><h2 id="maritime-title">Built around high-consequence maritime operations.</h2><p>Safety Assurance Global supports ports, marine terminals, shipyards, vessel operations, marine contractors, and government maritime programs with independent assurance and readiness support.</p></div><Button href="/maritime" variant="secondary">Explore Maritime</Button>
       </Section>
-
-      <Section class="method-panel-v34 photo-backed-band" style="--band-image:url(/images/site-2026/capabilities-hero.webp);--band-position:center 45%" ariaLabelledby="method-title">
-        <div><Badge text="Our Evidence Standard" /><h2 id="method-title">A finding is not closed because someone says it is.</h2><p>Safety Assurance Global connects defined requirements, field evidence, findings, corrective actions, closure evidence, and management reporting. Conclusions are tied to what can be demonstrated and verified.</p></div>
-        <ol>{['Define the requirement','Review the evidence','Verify in the field','Prioritize findings','Validate corrective action','Report decision-ready status'].map((step,index)=><li><span>{String(index+1).padStart(2,'0')}</span>{step}</li>)}</ol>
-        <Button href="/method" variant="secondary">See Our Method</Button>
-      </Section>
-
-      <section class="evidence-proof" aria-labelledby="evidence-proof-title">
-        <div class="evidence-proof__heading">
-          <p>Evidence before claims</p>
-          <h2 id="evidence-proof-title">Assurance should leave a defensible trail.</h2>
-          <p>Our public commitments stay tied to defined scope, accepted evidence, documented findings, and the work actually performed.</p>
-        </div>
-        <dl class="evidence-proof__principles">
-          <div><dt>Defined scope</dt><dd>Work begins against identified requirements and an agreed engagement boundary.</dd></div>
-          <div><dt>Traceable findings</dt><dd>Observations are connected to evidence and the requirement or condition being evaluated.</dd></div>
-          <div><dt>Closure validation</dt><dd>When included in scope, corrective actions are followed through to closure evidence and validation.</dd></div>
-          <div><dt>Decision-ready reporting</dt><dd>Results are organized so leaders can understand status, open issues, and the evidence supporting conclusions.</dd></div>
-        </dl>
-      </section>
 
       <section class="home-tools" aria-labelledby="home-tools-title">
         <div class="home-tools__intro">
