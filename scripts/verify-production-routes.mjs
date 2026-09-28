@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+
 const SITE_ORIGIN = 'https://safetyassuranceglobal.com';
 const MAX_ATTEMPTS = 10;
 const RETRY_DELAY_MS = 6000;
@@ -73,6 +75,16 @@ const expectHeaderIncludes = async (pathname, headerName, expectedValue) => {
   }
 };
 
+const expectBodyEqualsFile = async (pathname, canonicalPath) => {
+  const response = await request(pathname);
+  if (!response.ok) throw new Error(`expected successful response, received ${response.status}`);
+  const deployed = await response.text();
+  const canonical = fs.readFileSync(canonicalPath, 'utf8');
+  if (deployed !== canonical) {
+    throw new Error(`deployed body does not exactly match repository canonical script: ${canonicalPath}`);
+  }
+};
+
 await retry('homepage', () => expectStatus('/', 200, 'Maritime Assurance &amp; Operational Readiness'));
 await retry('contact route', () => expectStatus('/contact', 200, 'info@safetyassuranceglobal.com'));
 await retry('proposal route', () => expectStatus('/request-proposal', 200, 'Request a Proposal'));
@@ -94,6 +106,9 @@ await retry('homepage security headers', () => expectHeaderIncludes('/', 'conten
 await retry('Cloudflare analytics CSP script allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://static.cloudflareinsights.com'));
 await retry('Cloudflare analytics CSP connection allowance', () => expectHeaderIncludes('/', 'content-security-policy', 'https://cloudflareinsights.com'));
 await retry('brand image cache policy', () => expectHeaderIncludes('/images/brand/image.png', 'cache-control', 'max-age=604800'));
+await retry('homepage references fingerprinted measurement runtime', () =>
+  expectStatus('/', 200, '/scripts/site-measurement.11122ffd15b8.js')
+);
 await retry('contact page references fingerprinted intake runtime', () =>
   expectStatus('/contact', 200, '/scripts/intake-form.9c71f918392c.js')
 );
@@ -111,20 +126,20 @@ await retry('scope page references fingerprinted runtime', () =>
 await retry('readiness page references fingerprinted runtime', () =>
   expectStatus('/readiness-check', 200, '/scripts/readiness-check.1057d906c68b.js')
 );
-await retry('fingerprinted intake runtime is current', () =>
-  expectStatus('/scripts/intake-form.9c71f918392c.js', 200, 'validateSupportedLengths')
+await retry('fingerprinted intake runtime exactly matches canonical script', () =>
+  expectBodyEqualsFile('/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js')
 );
-await retry('fingerprinted proposal prefill runtime is current', () =>
-  expectStatus('/scripts/proposal-prefill.764102aac31a.js', 200, "form.dataset.prefillApplied = 'true'")
+await retry('fingerprinted proposal prefill runtime exactly matches canonical script', () =>
+  expectBodyEqualsFile('/scripts/proposal-prefill.764102aac31a.js', 'public/scripts/proposal-prefill.js')
 );
-await retry('fingerprinted scope runtime has stale-result invalidation', () =>
-  expectStatus('/scripts/scope-builder.e639faf0074d.js', 200, 'invalidateResult')
+await retry('fingerprinted scope runtime exactly matches canonical script', () =>
+  expectBodyEqualsFile('/scripts/scope-builder.e639faf0074d.js', 'public/scripts/scope-builder.js')
 );
-await retry('fingerprinted readiness runtime has stale-result invalidation', () =>
-  expectStatus('/scripts/readiness-check.1057d906c68b.js', 200, 'invalidateResult')
+await retry('fingerprinted readiness runtime exactly matches canonical script', () =>
+  expectBodyEqualsFile('/scripts/readiness-check.1057d906c68b.js', 'public/scripts/readiness-check.js')
 );
-await retry('fingerprinted measurement runtime is deployed', () =>
-  expectStatus('/scripts/site-measurement.11122ffd15b8.js', 200, 'allowedEvents')
+await retry('fingerprinted measurement runtime exactly matches canonical script', () =>
+  expectBodyEqualsFile('/scripts/site-measurement.11122ffd15b8.js', 'public/scripts/site-measurement.js')
 );
 await retry('completed demonstration download', () => expectStatus('/downloads/completed-readiness-demonstration.csv', 200, 'DEMO-001'));
 await retry('readiness matrix download', () => expectStatus('/downloads/readiness-evidence-matrix-template.csv', 200, 'Requirement'));
