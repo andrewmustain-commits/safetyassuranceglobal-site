@@ -17,7 +17,16 @@ const requiredPaths = [
   '/insights/',
   '/contact/',
   '/request-proposal/',
-  '/method/'
+  '/method/',
+  '/start/',
+  '/proof/',
+  '/resources/',
+  '/readiness-check/',
+  '/partners/',
+  '/engagement-examples/',
+  '/leadership/',
+  '/sample-deliverables/',
+  '/service-sheets/'
 ];
 const forbiddenPaths = [
   '/academy/',
