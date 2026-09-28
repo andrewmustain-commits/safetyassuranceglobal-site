@@ -60,7 +60,7 @@ for (const href of ['/proof']) requireLink('/partners', href);
 requireLinkPrefix('/partners', '/request-proposal?');
 
 const start = pages['/start'];
-for (const marker of ['data-scope-builder', 'Build Preliminary Scope', 'Continue to Proposal Request']) {
+for (const marker of ['data-scope-builder', 'Build Preliminary Scope', 'Continue to Proposal Request', 'data-scope-download', 'Download Scope Brief']) {
   if (!start.includes(marker)) failures.push(`/start: missing governed scope-builder marker: ${marker}`);
 }
 if (/<input\b|<textarea\b/i.test(start)) {
@@ -71,19 +71,19 @@ const scopeRuntime = fs.readFileSync('public/scripts/scope-builder.js', 'utf8');
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
   if (scopeRuntime.includes(forbidden)) failures.push(`scope builder contains forbidden persistence/network behavior: ${forbidden}`);
 }
-for (const marker of ['invalidateResult', "form.addEventListener('change'", "window.addEventListener('pageshow'"]) {
+for (const marker of ['invalidateResult', "form.addEventListener('change'", "window.addEventListener('pageshow'", 'buildScopeBriefText', 'downloadTextFile', 'safety-assurance-global-preliminary-scope.txt', "name: 'resource_download'"]) {
   if (!scopeRuntime.includes(marker)) failures.push(`scope builder stale-result control missing: ${marker}`);
 }
 if (!start.includes('data-scope-stale-status')) failures.push('/start: accessible stale-result status region missing');
 if ((start.match(/Not Sure Yet/g) ?? []).length < 2) failures.push('/start: novice Not Sure Yet choices must exist for need and outcome');
 
 const readiness = pages['/readiness-check'];
-for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment', 'data-readiness-scope-link']) {
+for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment', 'data-readiness-scope-link', 'data-readiness-download', 'Download Snapshot']) {
   if (!readiness.includes(marker)) failures.push(`/readiness-check: missing governed readiness marker: ${marker}`);
 }
 
 const readinessRuntime = fs.readFileSync('public/scripts/readiness-check.js', 'utf8');
-for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 'Not yet verified', 'focusNeedByDomain', 'data-readiness-scope-link', '/start?need=']) {
+for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 'Not yet verified', 'focusNeedByDomain', 'data-readiness-scope-link', '/start?need=', 'buildSnapshotText', 'downloadTextFile', 'safety-assurance-global-readiness-snapshot.txt', "name: 'resource_download'"]) {
   if (!readinessRuntime.includes(marker)) failures.push(`readiness runtime missing qualitative routing control: ${marker}`);
 }
 for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
