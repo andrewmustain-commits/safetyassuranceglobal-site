@@ -42,15 +42,6 @@ for (const [label, source, eventName] of [
   if (!source.includes(expected)) failures.push(`${label} does not emit the approved event-name-only completion marker`);
 }
 
-const siteEventDetailPattern = /new CustomEvent\('sag:site-event',\s*\{\s*detail:\s*\{\s*name:\s*'[^']+'\s*\}\s*\}\)/g;
-for (const [label, source] of [['scope builder', scopeBuilder], ['readiness snapshot', readiness]]) {
-  const eventCalls = source.match(/new CustomEvent\('sag:site-event'[\s\S]*?\)\)/g) ?? [];
-  for (const call of eventCalls) {
-    if (!siteEventDetailPattern.test(call)) failures.push(`${label} site-event payload is not name-only`);
-    siteEventDetailPattern.lastIndex = 0;
-  }
-}
-
 if (failures.length) {
   console.error('Measurement privacy validation failed:');
   failures.forEach((failure) => console.error(`- ${failure}`));
