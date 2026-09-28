@@ -13,14 +13,16 @@ const leaders = [
     role: 'CEO / Owner',
     email: 'andrewmustain@safetyassuranceglobal.com',
     focus: ['Executive assurance and client engagement', 'Safety, risk, governance, and operational readiness', 'Government and commercial buyer requirements', 'Engagement scope, claims discipline, and decision support'],
-    buyer: 'Executive point of contact for business requirements, assurance scope, strategic relationships, and customer decision needs.'
+    buyer: 'Executive point of contact for business requirements, assurance scope, strategic relationships, and customer decision needs.',
+    responsibility: 'Accountable for executive client engagement, business scope, public claims discipline, and the decision to represent Safety Assurance Global capability for a proposed opportunity.'
   },
   {
     name: 'Daniel Owens',
     role: 'COO / Director of Technical Operations',
     email: 'danielowens@safetyassuranceglobal.com',
     focus: ['Technical operations and delivery coordination', 'Operational execution and assurance support', 'Implementation planning and technical interfaces', 'Delivery controls, evidence, and closeout coordination'],
-    buyer: 'Technical-operations point of contact for delivery planning, execution interfaces, and opportunity-specific technical requirements.'
+    buyer: 'Technical-operations point of contact for delivery planning, execution interfaces, and opportunity-specific technical requirements.',
+    responsibility: 'Accountable for technical delivery coordination, implementation planning, operating interfaces, evidence flow, and closeout coordination for accepted work.'
   }
 ];
 ---
@@ -41,6 +43,7 @@ const leaders = [
             <h3>{leader.name}</h3>
             <p class="leader-role">{leader.role}</p>
             <p>{leader.buyer}</p>
+            <p><strong>Accountability:</strong> {leader.responsibility}</p>
             <h4>Engagement focus</h4>
             <ul>{leader.focus.map((item) => <li>{item}</li>)}</ul>
             <p><a href={'mailto:' + leader.email}>{leader.email}</a></p>
@@ -49,10 +52,20 @@ const leaders = [
       </div>
     </Section>
 
+    <Section ariaLabelledby="leadership-delivery-title">
+      <SectionHeader badge="Delivery Context" id="leadership-delivery-title" title="Location, mobilization, and delivery format are confirmed against the actual assignment." />
+      <div class="grid-two">
+        <Card><h3>Service geography</h3><p>Safety Assurance Global is based in Oregon. Work outside the business base is evaluated against project location, travel and site-access requirements, schedule, personnel or partner availability, and any jurisdiction-specific qualification or licensing requirements before commitment.</p></Card>
+        <Card><h3>Delivery format</h3><p>Depending on the work, an engagement may include onsite verification, remote document/evidence review, scheduled working sessions, or a defined combination. The proposal identifies the actual delivery model rather than assuming a universal format.</p></Card>
+        <Card><h3>Mobilization factors</h3><p>Access, onboarding, badging, client systems, site orientation, security requirements, travel, work windows, evidence availability, and required personnel can affect start date and schedule.</p></Card>
+        <Card><h3>What changes price and schedule</h3><p>Scope breadth, location, duration, staffing, travel, access constraints, volume and quality of evidence, reporting requirements, specialized qualifications, and partner needs are evaluated before commercial commitment.</p></Card>
+      </div>
+    </Section>
+
     <Section ariaLabelledby="leadership-qualification-title">
       <SectionHeader badge="Opportunity-Specific Evidence" id="leadership-qualification-title" title="Request the qualifications that matter for the actual scope." />
       <Card>
-        <p>For a defined opportunity, proposal, subcontract, or assignment, Safety Assurance Global can evaluate which personnel qualifications, resumes, experience records, licenses, certifications, availability evidence, or other role-specific documentation are relevant and supportable. Public role descriptions are not a substitute for that opportunity-specific verification.</p>
+        <p>For a defined opportunity, proposal, subcontract, or assignment, Safety Assurance Global evaluates which personnel qualifications, resumes, specifically attributed experience records, licenses, certifications, availability evidence, or other role-specific documentation are relevant and supportable. This public page intentionally does not publish an unverified credential list or unattributed prior-employer project list. Public role descriptions are not a substitute for opportunity-specific verification.</p>
         <div class="ui-actions"><Button href="/request-proposal">Request Qualification Review</Button><Button href="/capabilities" variant="secondary">Review Corporate Capabilities</Button></div>
       </Card>
     </Section>
