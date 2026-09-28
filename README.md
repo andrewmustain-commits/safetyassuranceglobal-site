@@ -102,6 +102,9 @@ npm run validate:publication-routes
 npm run validate:sitemap
 npm run validate:links
 npm run validate:public-ux
+npm run validate:site-assistant
+npm run validate:measurement-privacy
+npm run validate:customer-journeys
 ```
 
 Dependency audits are enforced in CI at moderate severity or higher.
@@ -187,6 +190,9 @@ Pull requests and production pushes are checked through the applicable workflows
 - publication routes
 - sitemap integrity
 - public UX
+- customer decision journeys
+- website-assistant governance
+- measurement privacy
 - CodeQL
 
 Production deployment additionally runs hosted route verification and Lighthouse monitoring.
