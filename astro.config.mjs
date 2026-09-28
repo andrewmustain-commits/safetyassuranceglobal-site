@@ -3,6 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 const sitemapExcludedPaths = new Set([
   '/academy/',
+  '/institute/',
   '/command/',
   '/terms/'
 ]);
