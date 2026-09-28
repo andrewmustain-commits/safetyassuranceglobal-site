@@ -136,6 +136,24 @@ npm run blog:validate
 npm run blog:import -- <path>
 ```
 
+## Customer decision system
+
+The public experience is organized around **Discover → Diagnose → Prove → Scope → Engage**.
+
+Core buyer routes include:
+
+- `/start` — guided preliminary scope builder
+- `/readiness-check` — private browser-only evidence-visibility snapshot
+- `/resources` — practical tools and downloadable working templates
+- `/proof` — Evidence & Results Center
+- `/engagement-examples` — explicitly illustrative engagement scenarios
+- `/leadership` — named leadership accountability
+- `/government` — government acquisition path
+- `/partners` — prime contractor and teaming path
+- `/request-proposal` — governed proposal intake
+
+The customer experience contract is documented in `docs/website/CUSTOMER-EXPERIENCE-ARCHITECTURE.md` and enforced by `npm run validate:customer-journeys`.
+
 ## Inquiry architecture
 
 The public Contact and Proposal forms follow a fail-closed path:

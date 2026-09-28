@@ -29,9 +29,11 @@
   const hasPrefill = ['projectType', 'serviceNeeded', 'anticipatedSchedule', 'briefScope', 'procurementContext']
     .some((key) => params.has(key));
   if (hasPrefill) {
-    const status = form.querySelector('[data-form-status]');
-    if (status && !status.textContent) {
+    form.dataset.prefillApplied = 'true';
+    const status = form.querySelector('[data-prefill-status]');
+    if (status instanceof HTMLElement) {
       status.textContent = 'Preliminary scope details were carried forward. Review and edit them before submitting.';
+      status.hidden = false;
     }
   }
 })();

@@ -31,7 +31,8 @@
     "validate:public-claims": "node scripts/validate-public-claims-governance.mjs",
     "validate:inquiry-hardening": "node scripts/validate-inquiry-hardening.mjs",
     "validate:site-assistant": "node scripts/validate-site-assistant.mjs",
-    "validate:measurement-privacy": "node scripts/validate-measurement-privacy.mjs"
+    "validate:measurement-privacy": "node scripts/validate-measurement-privacy.mjs",
+    "validate:customer-journeys": "node scripts/validate-customer-journeys.mjs"
   },
   "repository": {
     "type": "git",
