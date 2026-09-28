@@ -41,30 +41,77 @@ const requireLink = (route, href) => {
   }
 };
 
+const requireLinkPrefix = (route, hrefPrefix) => {
+  const html = pages[route] ?? readRoute(route);
+  const encoded = hrefPrefix.replace(/&/g, '&amp;');
+  if (!html.includes(`href="${hrefPrefix}`) && !html.includes(`href="${encoded}`)) {
+    failures.push(`${route}: required customer-journey link prefix missing: ${hrefPrefix}`);
+  }
+};
+
 for (const href of ['/start', '/proof', '/resources', '/readiness-check']) requireLink('/', href);
 for (const href of ['/sample-deliverables', '/service-sheets', '/method', '/capabilities', '/engagement-examples', '/leadership']) requireLink('/proof', href);
 for (const href of ['/partners', '/resources', '/capabilities']) requireLink('/government', href);
-for (const href of ['/readiness-check', '/start', '/sample-deliverables', '/service-sheets']) requireLink('/resources', href);
+for (const href of ['/readiness-check', '/start', '/sample-deliverables', '/service-sheets', '/request-proposal']) requireLink('/resources', href);
+for (const href of ['/start', '/proof']) requireLink('/engagement-examples', href);
+for (const href of ['/start', '/partners', '/request-proposal', '/capabilities']) requireLink('/leadership', href);
+for (const href of ['/proof']) requireLink('/partners', href);
+requireLinkPrefix('/partners', '/request-proposal?');
 
 const start = pages['/start'];
 for (const marker of ['data-scope-builder', 'Build Preliminary Scope', 'Continue to Proposal Request']) {
   if (!start.includes(marker)) failures.push(`/start: missing governed scope-builder marker: ${marker}`);
+}
+if (/<input\b|<textarea\b/i.test(start)) {
+  failures.push('/start: scope builder must remain selection-only and must not collect personal or project-sensitive free text');
+}
+
+const scopeRuntime = fs.readFileSync('public/scripts/scope-builder.js', 'utf8');
+for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
+  if (scopeRuntime.includes(forbidden)) failures.push(`scope builder contains forbidden persistence/network behavior: ${forbidden}`);
 }
 
 const readiness = pages['/readiness-check'];
 for (const marker of ['data-readiness-assessment', 'Show My Snapshot', 'informational self-assessment']) {
   if (!readiness.includes(marker)) failures.push(`/readiness-check: missing governed readiness marker: ${marker}`);
 }
-if (/Snapshot index:\s*\d+%/i.test(readiness)) failures.push('/readiness-check: numeric pseudo-precision reintroduced');
+
+const readinessRuntime = fs.readFileSync('public/scripts/readiness-check.js', 'utf8');
+for (const marker of ['Evidence visible', 'Partially visible', 'Material gaps', 'Not yet verified']) {
+  if (!readinessRuntime.includes(marker)) failures.push(`readiness runtime missing qualitative state: ${marker}`);
+}
+for (const forbidden of ['fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'navigator.sendBeacon']) {
+  if (readinessRuntime.includes(forbidden)) failures.push(`readiness snapshot contains forbidden persistence/network behavior: ${forbidden}`);
+}
+if (readinessRuntime.includes('%') || /\b(?:score|rating|percentile|percentage|index)\b/i.test(readinessRuntime)) {
+  failures.push('/readiness-check: runtime numeric pseudo-precision or scoring language reintroduced');
+}
 
 const proposal = pages['/request-proposal'];
 if (!proposal.includes('/scripts/proposal-prefill.js')) failures.push('/request-proposal: scope carry-forward script missing');
+if (!proposal.includes('data-prefill-status')) failures.push('/request-proposal: persistent scope carry-forward notice missing');
+
+const prefillRuntime = fs.readFileSync('public/scripts/proposal-prefill.js', 'utf8');
+for (const marker of [
+  "form.dataset.prefillApplied = 'true'",
+  "form.querySelector('[data-prefill-status]')",
+  'Preliminary scope details were carried forward. Review and edit them before submitting.'
+]) {
+  if (!prefillRuntime.includes(marker)) failures.push(`proposal prefill runtime missing persistence marker: ${marker}`);
+}
 
 const home = pages['/'];
 if (!home.includes('Need help choosing?')) failures.push('/: persistent customer pathfinder trigger missing');
+for (const href of ['/start', '/resources', '/proof', '/government', '/partners', '/request-proposal', '/contact']) requireLink('/', href);
+if (!home.includes('href="https://institute.safetyassuranceglobal.com"')) {
+  failures.push('/: persistent customer pathfinder Institute route missing');
+}
 
 const measurement = fs.readFileSync('public/scripts/site-measurement.js', 'utf8');
-for (const eventName of [
+const expectedEvents = [
+  'service_view',
+  'capability_view',
+  'government_view',
   'scope_view',
   'proof_view',
   'resources_view',
@@ -74,9 +121,43 @@ for (const eventName of [
   'leadership_view',
   'scope_builder_complete',
   'readiness_snapshot_complete',
-  'resource_download'
-]) {
-  if (!measurement.includes(`'${eventName}'`)) failures.push(`measurement allowlist missing customer event: ${eventName}`);
+  'resource_download',
+  'contact_start',
+  'inquiry_start',
+  'inquiry_success',
+  'proposal_start',
+  'proposal_success',
+  'capability_statement_download',
+  'assistant_open',
+  'assistant_handoff'
+];
+
+const allowlistMatch = measurement.match(/const allowedEvents = new Set\(\[([\s\S]*?)\]\);/);
+if (!allowlistMatch) {
+  failures.push('measurement allowlist declaration missing');
+} else {
+  const actualEvents = [...allowlistMatch[1].matchAll(/'([^']+)'/g)].map((match) => match[1]);
+  const expectedSorted = [...expectedEvents].sort();
+  const actualSorted = [...new Set(actualEvents)].sort();
+  if (JSON.stringify(actualSorted) !== JSON.stringify(expectedSorted)) {
+    failures.push(`measurement allowlist drift: expected ${expectedSorted.join(', ')}; found ${actualSorted.join(', ')}`);
+  }
+  if (actualEvents.length !== actualSorted.length) failures.push('measurement allowlist contains duplicate events');
+}
+
+const viewMappings = [
+  ['/government', 'government_view'],
+  ['/start', 'scope_view'],
+  ['/proof', 'proof_view'],
+  ['/resources', 'resources_view'],
+  ['/readiness-check', 'readiness_view'],
+  ['/partners', 'partners_view'],
+  ['/engagement-examples', 'engagement_examples_view'],
+  ['/leadership', 'leadership_view']
+];
+for (const [route, eventName] of viewMappings) {
+  const marker = `if (path === '${route}') emit('${eventName}')`;
+  if (!measurement.includes(marker)) failures.push(`measurement route mapping missing: ${route} -> ${eventName}`);
 }
 
 if (failures.length) {
@@ -85,4 +166,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('Customer journey validation passed: buyer routes, cross-links, guided scope, readiness boundaries, proposal carry-forward, persistent pathfinder, and privacy-safe journey events are intact.');
+console.log('Customer journey validation passed: buyer routes, cross-links, browser-only guided tools, qualitative readiness boundaries, persistent proposal carry-forward, customer pathfinder, and exact privacy-safe measurement contracts are intact.');
