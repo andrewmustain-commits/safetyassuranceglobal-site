@@ -1,0 +1,105 @@
+import fs from 'node:fs';
+
+const failures = [];
+const read = (path) => fs.readFileSync(path, 'utf8');
+const requireText = (source, marker, message) => {
+  if (!source.includes(marker)) failures.push(message);
+};
+
+const accessibility = read('src/styles/accessibility.css');
+const assistant = read('src/components/ui/SiteAssistant.astro');
+const intake = read('public/scripts/intake-form.js');
+const contact = read('src/components/forms/ContactInquiryForm.astro');
+const proposal = read('src/components/forms/ProposalRequestForm.astro');
+const server = read('functions/api/inquiry.ts');
+const headers = read('public/_headers');
+const brand = read('src/config/brand-assets.ts');
+const proof = read('src/pages/proof.astro');
+const completed = read('src/pages/completed-example.astro');
+const government = read('src/pages/government.astro');
+const capabilities = read('src/pages/capabilities.astro');
+const layout = read('src/layouts/BaseLayout.astro');
+const astroConfig = read('astro.config.mjs');
+const category = read('src/pages/insights/category/[category].astro');
+const tag = read('src/pages/insights/tag/[tag].astro');
+const institute = read('src/pages/institute.astro');
+const training = read('src/pages/training.astro');
+const measurement = read('public/scripts/site-measurement.js');
+
+requireText(accessibility, '.primary-nav .mobile-nav-cta .ui-button', 'F01: mobile navigation CTA lacks explicit scoped style.');
+requireText(accessibility, 'background: #f3b33d !important', 'F01: mobile navigation CTA lacks high-contrast background.');
+requireText(accessibility, 'color: #07192a !important', 'F01: mobile navigation CTA lacks explicit contrasting foreground.');
+requireText(accessibility, 'max-width: calc(100% - 5.6rem)', 'F02: mobile header does not reserve menu space.');
+
+requireText(assistant, '@media(max-width:760px){.site-assistant{position:static', 'F03: mobile helper must become inline/static.');
+if (/@media\(max-width:760px\)[\s\S]*?\.site-assistant\{[^}]*position:fixed/.test(assistant)) failures.push('F03: mobile helper reintroduces fixed positioning.');
+
+for (const marker of ['validateSupportedLengths', 'FIELD_LIMITS', 'Your text is still intact']) {
+  requireText(intake, marker, `F04: intake no-truncation control missing: ${marker}`);
+}
+if (/slice\(0,\s*MAX_MESSAGE_LENGTH\)/.test(intake) || intake.includes('truncateForMailto')) {
+  failures.push('F04: silent buyer-text truncation is present.');
+}
+for (const source of [contact, proposal]) {
+  requireText(source, 'data-max-length="3000"', 'F04: long-text field limit is not disclosed in form markup.');
+  requireText(source, 'Your text is never silently shortened.', 'F04: no-truncation notice missing.');
+}
+for (const marker of ['message: 3_000', 'briefScope: 3_000', 'procurementContext: 3_000']) {
+  requireText(server, marker, `F04: server/client long-text contract missing: ${marker}`);
+}
+
+requireText(headers, 'https://static.cloudflareinsights.com', 'F05: CSP does not allow Cloudflare analytics script.');
+requireText(headers, 'https://cloudflareinsights.com', 'F05: CSP does not allow Cloudflare analytics collection.');
+for (const forbidden of ['fetch(', 'XMLHttpRequest', 'navigator.sendBeacon', 'localStorage', 'sessionStorage']) {
+  if (measurement.includes(forbidden)) failures.push(`F05: local funnel hook contains forbidden network/storage path: ${forbidden}`);
+}
+
+requireText(brand, "sagSeal: '/images/brand/image.png'", 'F06: production SAG seal is not using lightweight approved asset.');
+const sealSize = fs.statSync('public/images/brand/image.png').size;
+if (sealSize > 100_000) failures.push(`F06: production seal exceeds 100 KB budget (${sealSize} bytes).`);
+
+for (const marker of ['Synthetic Demonstration', 'Observed condition', 'Supporting evidence', 'Corrective action', 'Closure evidence', 'Disposition']) {
+  requireText(completed, marker, `F07: completed synthetic example missing: ${marker}`);
+}
+requireText(proof, 'href="/completed-example"', 'F07: Proof Center does not expose completed example in one click.');
+
+if (!(contact.indexOf('<ContactInquiryForm />') < contact.indexOf('contact-paths-title'))) {
+  failures.push('F08: contact form is not positioned before explanatory path content.');
+}
+if (!(proposal.indexOf('<ProposalRequestForm />') < proposal.indexOf('proposal-ready-title'))) {
+  failures.push('F08: proposal form is not positioned before explanatory proposal content.');
+}
+requireText(server, "contact: ['name', 'email', 'message', 'privacyAcknowledgement']", 'F08: short contact path is not aligned on the server.');
+requireText(contact, 'Response timing:', 'F08: contact page lacks response-timing guidance.');
+requireText(proposal, 'Response timing:', 'F08: proposal page lacks response-timing guidance.');
+
+if (capabilities.includes('Port of Portland owner-representative safety') || capabilities.includes('Microsoft and Google')) {
+  failures.push('F10: unattributed prior-employer experience list remains public.');
+}
+requireText(capabilities, 'Opportunity-specific experience is attributed before it is used.', 'F10: experience attribution rule missing.');
+
+requireText(layout, "const canonicalPath=normalizedPath==='/'?'/':`${normalizedPath}/`", 'F11: canonical path does not match trailing-slash route policy.');
+requireText(astroConfig, "trailingSlash: 'always'", 'F11: Astro trailing-slash policy is not explicit.');
+requireText(layout, "defaultSocialImage='/images/brand/sag-maritime-hero-2026.jpeg'", 'F12: default raster social image missing.');
+if (layout.includes("sag-social-share.svg")) failures.push('F12: SVG social fallback is still active.');
+
+if (government.includes('dated August 2026 capabilities statement')) failures.push('F13: Government still cites the August statement.');
+requireText(government, 'September 2026 public capability statement', 'F13: Government does not use the current public source revision.');
+requireText(capabilities, 'Website source reconciliation: September 27, 2026', 'F13: capability source reconciliation date missing.');
+
+requireText(category, 'noIndex={true}', 'F14: category archives are still indexable.');
+requireText(tag, 'noIndex={true}', 'F14: tag archives are still indexable.');
+requireText(astroConfig, "pathname.startsWith('/insights/category/')", 'F14: category archives remain in sitemap.');
+requireText(astroConfig, "pathname.startsWith('/insights/tag/')", 'F14: tag archives remain in sitemap.');
+
+requireText(institute, 'noIndex={true}', 'F15: corporate Institute gateway remains a competing indexable destination.');
+requireText(institute, 'What You Can Do Today', 'F15: Institute handoff lacks plain current-action language.');
+requireText(training, 'Current Buyer Path', 'F15: training page lacks plain current-action language.');
+
+if (failures.length) {
+  console.error('September 27 website-audit remediation validation failed:');
+  failures.forEach((failure) => console.error(`- ${failure}`));
+  process.exit(1);
+}
+
+console.log(`September 27 website-audit remediation validation passed. Production seal: ${sealSize} bytes.`);
