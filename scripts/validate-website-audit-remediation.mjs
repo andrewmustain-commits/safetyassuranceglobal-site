@@ -27,6 +27,13 @@ const tag = read('src/pages/insights/tag/[tag].astro');
 const institute = read('src/pages/institute.astro');
 const training = read('src/pages/training.astro');
 const measurement = read('public/scripts/site-measurement.js');
+const scopeRuntime = read('public/scripts/scope-builder.js');
+const readinessRuntime = read('public/scripts/readiness-check.js');
+const startPage = read('src/pages/start.astro');
+const readinessPage = read('src/pages/readiness-check.astro');
+const home = read('src/pages/index.astro');
+const logo = read('src/components/brand/Logo.astro');
+const designSystem = read('src/styles/design-system.css');
 
 requireText(accessibility, '.primary-nav .mobile-nav-cta .ui-button', 'F01: mobile navigation CTA lacks explicit scoped style.');
 requireText(accessibility, 'background: #f3b33d !important', 'F01: mobile navigation CTA lacks high-contrast background.');
@@ -109,6 +116,38 @@ requireText(astroConfig, "pathname.startsWith('/insights/tag/')", 'F14: tag arch
 requireText(institute, 'noIndex={true}', 'F15: corporate Institute gateway remains a competing indexable destination.');
 requireText(institute, 'What You Can Do Today', 'F15: Institute handoff lacks plain current-action language.');
 requireText(training, 'Current Buyer Path', 'F15: training page lacks plain current-action language.');
+
+
+// Final re-audit R01 — stable public scripts must revalidate on every navigation/release.
+requireText(headers, '/scripts/*', 'R01: stable first-party script cache policy is missing.');
+requireText(headers, 'Cache-Control: no-cache, max-age=0, must-revalidate', 'R01: stable first-party scripts can remain fresh across releases without revalidation.');
+
+// Final re-audit R02 — changed inputs must invalidate prior interactive results.
+for (const [source, label, statusMarker] of [
+  [scopeRuntime, 'scope builder', 'data-scope-stale-status'],
+  [readinessRuntime, 'readiness snapshot', 'data-readiness-stale-status']
+]) {
+  requireText(source, 'invalidateResult', `R02: ${label} lacks a shared stale-result invalidation path.`);
+  requireText(source, "addEventListener('change'", `R02: ${label} does not invalidate output when answers change.`);
+  requireText(source, "addEventListener('pageshow'", `R02: ${label} does not guard browser-history restoration.`);
+  const page = label === 'scope builder' ? startPage : readinessPage;
+  requireText(page, statusMarker, `R02: ${label} lacks an accessible stale-result announcement region.`);
+}
+
+// Final re-audit R03 — beginner path must not require assurance taxonomy knowledge.
+requireText(layout, "{ href: '/contact', label: 'Contact' }", 'R03: Contact is not exposed in primary navigation.');
+requireText(home, 'Tell Us What You Need', 'R03: homepage does not expose the short-contact path as the primary action.');
+requireText(home, 'See an Example Report', 'R03: homepage lacks one-click completed example action.');
+requireText(home, 'Help Me Define the Work', 'R03: guided scope is not presented as the optional alternative.');
+if ((startPage.match(/'Not Sure Yet'/g) ?? []).length < 2) failures.push('R03: scope builder must offer Not Sure Yet for both assurance need and desired output.');
+if (!(layout.indexOf('<SiteAssistant />') < layout.indexOf('<main id="main-content"'))) failures.push('R03: mobile customer help is not placed near the top of the document flow.');
+
+// Final re-audit R04 — compact lockup and single desktop navigation treatment.
+requireText(layout, 'className="brand header-brand"', 'R04: shared header is not using the compact brand lockup.');
+requireText(logo, "'is-header': isHeader", 'R04: Logo component lacks compact header state.');
+requireText(accessibility, 'overflow: visible', 'R04: mobile brand can still be clipped by overflow.');
+requireText(accessibility, '@media (min-width: 921px)', 'R04: desktop header lacks an explicit single-navigation treatment.');
+requireText(designSystem, 'min-height:min(84svh,52rem)', 'R04: homepage hero has not been tightened for ordinary laptop first-screen action visibility.');
 
 if (failures.length) {
   console.error('September 27 website-audit remediation validation failed:');
