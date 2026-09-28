@@ -21,7 +21,7 @@
   .brand {
     min-width: 0;
     max-width: calc(100% - 5.6rem);
-    overflow: hidden;
+    overflow: visible;
   }
 
   .brand .sag-logo-link {
@@ -36,15 +36,15 @@
 
   .brand .sag-wordmark {
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .brand .sag-wordmark strong,
   .brand .sag-wordmark > span,
   .brand .sag-wordmark small {
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: clip;
+    overflow: visible;
+    text-overflow: unset;
   }
 
   .nav-toggle {
@@ -246,4 +246,9 @@
     text-decoration: underline;
     text-underline-offset: .2em;
   }
+}
+
+@media (min-width: 921px) {
+  .nav-toggle { display: none !important; }
+  .primary-nav { display: block !important; position: static; }
 }
