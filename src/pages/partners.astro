@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import HeroSection from '../components/ui/HeroSection.astro';
+
+const contributionAreas = [
+  ['Operational readiness', 'Independent review of plans, controls, evidence, actions, and readiness conditions before critical work or transition.'],
+  ['Contractor assurance', 'Structured oversight and evidence review for contractor controls, performance, findings, actions, and closeout.'],
+  ['QA/QC verification', 'Field and record-based review of quality requirements, inspection evidence, nonconformance themes, and corrective action.'],
+  ['Safety & risk', 'Scope-defined safety, risk, control-performance, incident-learning, and corrective-action support.'],
+  ['Program assurance', 'Cross-workstream assurance structure, evidence governance, executive visibility, and action follow-through.'],
+  ['Workforce development', 'Offering-specific professional learning and workforce-development support through the Institute of Assurance.']
+];
+---
+
+<BaseLayout
+  title="Prime Contractor & Teaming"
+  description="Prime contractor, subcontract, capture, and teaming pathway for defined Safety Assurance Global assurance, readiness, QA/QC, safety, risk, and workforce-development support."
+>
+  <Container>
+    <HeroSection
+      id="partners-title"
+      badge="Prime Contractor & Teaming"
+      title="Bring Safety Assurance Global into a defined pursuit or delivery requirement."
+      image="/images/site-2026/government-hero.webp"
+      imagePosition="center 55%"
+    >
+      <p>Prime contractors and delivery partners can use this path to evaluate where Safety Assurance Global may fit, what evidence is available publicly, and what opportunity-specific information is needed before a teaming or subcontract representation is made.</p>
+      <div class="ui-actions">
+        <Button href="/request-proposal?projectType=Government%20or%20Public%20Infrastructure&procurementContext=Prime%20or%20subcontract%20teaming%20requirement%20%E2%80%94%20opportunity%20details%20to%20be%20confirmed.">Start a Teaming Discussion</Button>
+        <Button href="/downloads/safety-assurance-global-capability-statement-2026-09.pdf" variant="secondary">Download Capability Statement</Button>
+      </div>
+    </HeroSection>
+
+    <Section ariaLabelledby="partners-fit-title">
+      <SectionHeader badge="Where We May Fit" id="partners-fit-title" title="Defined assurance capability for capture, subcontract, and project-delivery needs." />
+      <div class="grid-two">
+        {contributionAreas.map(([title, copy]) => <Card><h3>{title}</h3><p>{copy}</p></Card>)}
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="partners-input-title">
+      <SectionHeader badge="What to Bring" id="partners-input-title" title="Give us enough context to evaluate the opportunity responsibly." />
+      <div class="partner-inputs">
+        <div><span>01</span><strong>Agency / customer</strong><p>Identify the buying organization or end customer where known.</p></div>
+        <div><span>02</span><strong>Solicitation / pursuit</strong><p>Provide the opportunity, solicitation, task order, or project context.</p></div>
+        <div><span>03</span><strong>Proposed role</strong><p>Describe the capability gap, work package, or subcontract role being considered.</p></div>
+        <div><span>04</span><strong>Flow-downs</strong><p>Identify mandatory qualifications, clauses, security, insurance, licensing, or supplier requirements.</p></div>
+        <div><span>05</span><strong>Schedule</strong><p>Include proposal due dates, mobilization dates, and critical milestones.</p></div>
+        <div><span>06</span><strong>Evidence needed</strong><p>Tell us what corporate, personnel, technical, or qualification evidence must support the representation.</p></div>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="partners-package-title">
+      <SectionHeader badge="Public Teaming Package" id="partners-package-title" title="Start with published facts; request private qualification evidence only for a defined opportunity." />
+      <div class="grid-two">
+        <Card>
+          <h3>Available publicly</h3>
+          <ul><li>Capability statement</li><li>Corporate capability profile</li><li>Government procurement identifiers</li><li>Service descriptions</li><li>Sample deliverable structures</li><li>Leadership contact information</li></ul>
+          <p><a href="/proof">Review the Evidence & Results Center →</a></p>
+        </Card>
+        <Card>
+          <h3>Opportunity-specific review</h3>
+          <p>Insurance, licensing, personnel qualifications, safety-performance records, financial information, security requirements, availability, staffing, and other qualification records are evaluated against the actual opportunity before they are represented.</p>
+          <p><a href="/request-proposal?projectType=Government%20or%20Public%20Infrastructure&procurementContext=Supplier%20qualification%20or%20teaming%20evidence%20request%20for%20a%20defined%20opportunity.">Request opportunity-specific qualification review →</a></p>
+        </Card>
+      </div>
+    </Section>
+
+    <Section ariaLabelledby="partners-boundary-title">
+      <SectionHeader badge="Teaming Boundary" id="partners-boundary-title" title="A teaming conversation is not a qualification claim." />
+      <Card>
+        <p>Safety Assurance Global does not represent that it satisfies every solicitation, contract vehicle, license, clearance, insurance, staffing, socioeconomic, or technical requirement merely because a capability appears on this site. Opportunity-specific requirements and current evidence control the final representation.</p>
+      </Card>
+    </Section>
+  </Container>
+</BaseLayout>
+
+<style>
+.partner-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.partner-inputs>div{padding:1.15rem;border-top:1px solid rgba(148,163,184,.26)}.partner-inputs span{display:block;margin-bottom:.55rem;color:var(--color-accent);font-size:.72rem;font-weight:900;letter-spacing:.1em}.partner-inputs strong{font-size:1rem;color:#fff}.partner-inputs p{font-size:.9rem;color:var(--color-text-soft)}@media(max-width:820px){.partner-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.partner-inputs{grid-template-columns:1fr}}
+</style>
