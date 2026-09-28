@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 
 const failures = [];
 const read = (path) => fs.readFileSync(path, 'utf8');
@@ -118,18 +119,38 @@ requireText(institute, 'What You Can Do Today', 'F15: Institute handoff lacks pl
 requireText(training, 'Current Buyer Path', 'F15: training page lacks plain current-action language.');
 
 
-// Final re-audit R01 — stable public scripts must revalidate on every navigation/release.
-requireText(headers, '/scripts/*', 'R01: stable first-party script cache policy is missing.');
-requireText(headers, 'Cache-Control: no-cache, max-age=0, must-revalidate', 'R01: stable first-party scripts can remain fresh across releases without revalidation.');
-for (const [source, markerText, label] of [
-  [contact, '/scripts/intake-form.js?v=20260928-final', 'contact intake'],
-  [proposal, '/scripts/intake-form.js?v=20260928-final', 'proposal intake'],
-  [proposal, '/scripts/proposal-prefill.js?v=20260928-final', 'proposal prefill'],
-  [startPage, '/scripts/scope-builder.js?v=20260928-final', 'scope builder'],
-  [readinessPage, '/scripts/readiness-check.js?v=20260928-final', 'readiness snapshot'],
-  [layout, '/scripts/site-measurement.js?v=20260928-final', 'site measurement']
-]) {
-  requireText(source, markerText, `R01: ${label} HTML reference is not release-versioned.`);
+// Final re-audit R01 — changed public scripts are content-addressed in rendered HTML.
+// Stable source filenames remain repository authoring inputs only; public HTML must point at fingerprinted copies.
+const releaseScripts = [
+  [contact, '/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js', 'public/scripts/intake-form.9c71f918392c.js', 'contact intake'],
+  [proposal, '/scripts/intake-form.9c71f918392c.js', 'public/scripts/intake-form.js', 'public/scripts/intake-form.9c71f918392c.js', 'proposal intake'],
+  [proposal, '/scripts/proposal-prefill.764102aac31a.js', 'public/scripts/proposal-prefill.js', 'public/scripts/proposal-prefill.764102aac31a.js', 'proposal prefill'],
+  [startPage, '/scripts/scope-builder.e639faf0074d.js', 'public/scripts/scope-builder.js', 'public/scripts/scope-builder.e639faf0074d.js', 'scope builder'],
+  [readinessPage, '/scripts/readiness-check.1057d906c68b.js', 'public/scripts/readiness-check.js', 'public/scripts/readiness-check.1057d906c68b.js', 'readiness snapshot'],
+  [layout, '/scripts/site-measurement.11122ffd15b8.js', 'public/scripts/site-measurement.js', 'public/scripts/site-measurement.11122ffd15b8.js', 'site measurement']
+];
+const gitBlobSha = (content) =>
+  createHash('sha1')
+    .update(`blob ${Buffer.byteLength(content, 'utf8')}\0`)
+    .update(content)
+    .digest('hex');
+
+for (const [source, markerText, canonicalPath, fingerprintPath, label] of releaseScripts) {
+  requireText(source, markerText, `R01: ${label} HTML reference is not content-fingerprinted.`);
+  if (!fs.existsSync(fingerprintPath)) {
+    failures.push(`R01: ${label} fingerprinted asset is missing: ${fingerprintPath}`);
+    continue;
+  }
+
+  const canonical = read(canonicalPath);
+  const fingerprinted = read(fingerprintPath);
+  if (canonical !== fingerprinted) failures.push(`R01: ${label} fingerprinted asset drifted from its canonical source.`);
+
+  const suffix = fingerprintPath.match(/\.([0-9a-f]{12})\.js$/)?.[1];
+  const expectedSuffix = gitBlobSha(canonical).slice(0, 12);
+  if (!suffix || suffix !== expectedSuffix) {
+    failures.push(`R01: ${label} filename fingerprint ${suffix ?? '(missing)'} does not match canonical Git blob hash prefix ${expectedSuffix}.`);
+  }
 }
 
 // Final re-audit R02 — changed inputs must invalidate prior interactive results.
@@ -157,6 +178,7 @@ requireText(layout, 'className="brand header-brand"', 'R04: shared header is not
 requireText(logo, "'is-header': isHeader", 'R04: Logo component lacks compact header state.');
 requireText(accessibility, 'overflow: visible', 'R04: mobile brand can still be clipped by overflow.');
 requireText(accessibility, '@media (min-width: 921px)', 'R04: desktop header lacks an explicit single-navigation treatment.');
+requireText(accessibility, '.site-header .nav-toggle { display: none !important; }', 'R04: desktop Menu control is not explicitly hidden with sufficient selector specificity.');
 requireText(designSystem, 'min-height:min(84svh,52rem)', 'R04: homepage hero has not been tightened for ordinary laptop first-screen action visibility.');
 
 if (failures.length) {
