@@ -35,7 +35,7 @@ const SERVICE_BINDING_URL = 'https://inquiry-delivery.internal/deliver';
 const fallbackMessage = `Please email ${PRIMARY_FALLBACK_EMAIL}. ${SECONDARY_FALLBACK_EMAIL} is also available.`;
 
 const requiredByType: Record<string, string[]> = {
-  contact: ['name', 'organization', 'email', 'inquiryType', 'serviceInterest', 'message', 'privacyAcknowledgement'],
+  contact: ['name', 'email', 'message', 'privacyAcknowledgement'],
   proposal: [
     'name',
     'organization',
