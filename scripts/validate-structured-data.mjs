@@ -71,8 +71,8 @@ function validateGraph(data, route, errors) {
         errors.push(`${route}: Organization contact point ${contactType} must use ${expectedEmail}`);
       }
     }
-    if (organization.department?.name !== 'Safety Assurance Global Institute of Assurance') {
-      errors.push(`${route}: Institute department relationship missing or changed`);
+    if (organization.department !== undefined) {
+      errors.push(`${route}: unverified Institute department relationship must not be emitted`);
     }
   }
 
