@@ -173,6 +173,20 @@ requireText(home, 'Help Me Define the Work', 'R03: guided scope is not presented
 if ((startPage.match(/'Not Sure Yet'/g) ?? []).length < 2) failures.push('R03: scope builder must offer Not Sure Yet for both assurance need and desired output.');
 if (!(layout.indexOf('<SiteAssistant />') < layout.indexOf('<main id="main-content"'))) failures.push('R03: mobile customer help is not placed near the top of the document flow.');
 
+// Customer value extension — generated result briefs stay local until the visitor chooses a next step.
+for (const [page, runtime, label, pageMarker, filename] of [
+  [startPage, scopeRuntime, 'scope builder', 'data-scope-download', 'safety-assurance-global-preliminary-scope.txt'],
+  [readinessPage, readinessRuntime, 'readiness snapshot', 'data-readiness-download', 'safety-assurance-global-readiness-snapshot.txt']
+]) {
+  requireText(page, pageMarker, `Customer result export missing from ${label} page.`);
+  requireText(runtime, 'downloadTextFile', `Customer result export helper missing from ${label} runtime.`);
+  requireText(runtime, filename, `Customer result export filename missing from ${label} runtime.`);
+  requireText(runtime, "name: 'resource_download'", `Privacy-safe result-download measurement event missing from ${label} runtime.`);
+  for (const forbidden of ['fetch(', 'XMLHttpRequest', 'navigator.sendBeacon', 'localStorage', 'sessionStorage']) {
+    if (runtime.includes(forbidden)) failures.push(`Customer result export for ${label} must remain browser-local; forbidden behavior found: ${forbidden}`);
+  }
+}
+
 // Final re-audit R04 — compact lockup and single desktop navigation treatment.
 requireText(layout, 'className="brand header-brand"', 'R04: shared header is not using the compact brand lockup.');
 requireText(logo, "'is-header': isHeader", 'R04: Logo component lacks compact header state.');
