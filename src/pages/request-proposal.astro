@@ -19,10 +19,15 @@ import ProposalRequestForm from '../components/forms/ProposalRequestForm.astro';
         Maritime is Safety Assurance Global's primary market, with broader support considered where the requested scope is supported by verified capability and evidence.
       </p>
       <div class="ui-actions">
-        <Button href="/contact">Start with a Consultation</Button>
-        <Button href="/capabilities" variant="secondary">Review Capabilities</Button>
+        <Button href="#proposal-form">Start Proposal Intake</Button>
+        <Button href="/contact" variant="secondary">Need a Short Conversation First?</Button>
       </div>
     </HeroSection>
+
+    <Section ariaLabelledby="proposal-lead-title">
+      <ProposalRequestForm />
+      <p class="response-note"><strong>Response timing:</strong> Proposal timing varies with scope and evidence needs. If a solicitation, mobilization date, or internal decision deadline controls the response, include that date in the procurement context so it can be evaluated during intake.</p>
+    </Section>
 
     <Section ariaLabelledby="proposal-ready-title">
       <SectionHeader id="proposal-ready-title" badge="Proposal-Ready Inputs" title="The most useful requests give us enough context to evaluate the work responsibly." />
@@ -41,10 +46,6 @@ import ProposalRequestForm from '../components/forms/ProposalRequestForm.astro';
       </div>
     </Section>
 
-    <Section ariaLabelledby="proposal-lead-title">
-      <ProposalRequestForm />
-    </Section>
-
     <Section ariaLabelledby="proposal-expectations-title">
       <SectionHeader id="proposal-expectations-title" badge="What Happens Next" title="Fit, evidence, scope, then proposal." />
       <div class="proposal-grid">
@@ -60,4 +61,5 @@ import ProposalRequestForm from '../components/forms/ProposalRequestForm.astro';
 <style>
   .proposal-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-2); }
   @media (max-width:760px) { .proposal-grid { grid-template-columns:1fr; } }
+  .response-note{max-width:82ch;margin-top:.8rem;color:var(--color-text-soft);font-size:.88rem;line-height:1.6}
 </style>
