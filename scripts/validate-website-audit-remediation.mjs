@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 
 const failures = [];
 const read = (path) => fs.readFileSync(path, 'utf8');
@@ -128,10 +129,28 @@ const releaseScripts = [
   [readinessPage, '/scripts/readiness-check.1057d906c68b.js', 'public/scripts/readiness-check.js', 'public/scripts/readiness-check.1057d906c68b.js', 'readiness snapshot'],
   [layout, '/scripts/site-measurement.11122ffd15b8.js', 'public/scripts/site-measurement.js', 'public/scripts/site-measurement.11122ffd15b8.js', 'site measurement']
 ];
+const gitBlobSha = (content) =>
+  createHash('sha1')
+    .update(`blob ${Buffer.byteLength(content, 'utf8')}\0`)
+    .update(content)
+    .digest('hex');
+
 for (const [source, markerText, canonicalPath, fingerprintPath, label] of releaseScripts) {
   requireText(source, markerText, `R01: ${label} HTML reference is not content-fingerprinted.`);
-  if (!fs.existsSync(fingerprintPath)) failures.push(`R01: ${label} fingerprinted asset is missing: ${fingerprintPath}`);
-  else if (read(canonicalPath) !== read(fingerprintPath)) failures.push(`R01: ${label} fingerprinted asset drifted from its canonical source.`);
+  if (!fs.existsSync(fingerprintPath)) {
+    failures.push(`R01: ${label} fingerprinted asset is missing: ${fingerprintPath}`);
+    continue;
+  }
+
+  const canonical = read(canonicalPath);
+  const fingerprinted = read(fingerprintPath);
+  if (canonical !== fingerprinted) failures.push(`R01: ${label} fingerprinted asset drifted from its canonical source.`);
+
+  const suffix = fingerprintPath.match(/\.([0-9a-f]{12})\.js$/)?.[1];
+  const expectedSuffix = gitBlobSha(canonical).slice(0, 12);
+  if (!suffix || suffix !== expectedSuffix) {
+    failures.push(`R01: ${label} filename fingerprint ${suffix ?? '(missing)'} does not match canonical Git blob hash prefix ${expectedSuffix}.`);
+  }
 }
 
 // Final re-audit R02 — changed inputs must invalidate prior interactive results.
