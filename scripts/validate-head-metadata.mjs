@@ -106,6 +106,8 @@ for (const file of files) {
       const canonicalUrl = new URL(canonical);
       if (canonicalUrl.origin !== siteOrigin) errors.push(`${route}: canonical must use ${siteOrigin}`);
       if (canonicalUrl.search || canonicalUrl.hash) errors.push(`${route}: canonical must not contain query or fragment`);
+      const expectedPath = route === '/' ? '/' : `${route}/`;
+      if (canonicalUrl.pathname !== expectedPath) errors.push(`${route}: canonical must self-reference served trailing-slash route ${expectedPath}; found ${canonicalUrl.pathname}`);
     } catch {
       errors.push(`${route}: canonical URL is invalid`);
     }
@@ -134,13 +136,13 @@ for (const file of files) {
   const twitterCard = twitterCardTag ? attr(twitterCardTag, 'content')?.trim() : null;
 
   if (ogImage) {
+    if (/\.svg(?:$|[?#])/i.test(ogImage)) errors.push(`${route}: social preview image must be a raster image, not SVG`);
     if (!twitterImage) errors.push(`${route}: og:image requires twitter:image`);
     if (twitterImage && twitterImage !== ogImage) errors.push(`${route}: twitter:image must match og:image`);
     if (twitterCard !== 'summary_large_image') errors.push(`${route}: pages with a social image must use summary_large_image`);
     await validateLocalImage(ogImage, route, errors);
   } else {
-    if (twitterImage) errors.push(`${route}: twitter:image must not be emitted without og:image`);
-    if (twitterCard !== 'summary') errors.push(`${route}: pages without a social image must use summary`);
+    errors.push(`${route}: deliberate og:image is required`);
   }
 }
 
