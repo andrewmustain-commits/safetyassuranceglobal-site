@@ -10,6 +10,7 @@ const sitemapExcludedPaths = new Set([
 export default defineConfig({
   site: 'https://safetyassuranceglobal.com',
   output: 'static',
+  trailingSlash: 'always',
   integrations: [
     sitemap({
       filter: (page) => !sitemapExcludedPaths.has(new URL(page).pathname)
